@@ -1,7 +1,17 @@
 language: cpp
 
+branches:
+  only:
+  - master
+
+git:
+  depth: 1
+
 compiler:
 - clang
+
+install:
+- sudo apt-get install flex
 
 script:
   - make
