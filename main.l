@@ -268,3 +268,4 @@ int main(int, char**) {
     while (lexer.GetNextTokenType() != TT_Eof) {
     }
 }
+
