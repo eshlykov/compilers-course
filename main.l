@@ -23,7 +23,24 @@ enum TTokenType {
     TT_String,
     TT_New,
     TT_Dot,
-    TT_Semicolon
+    TT_Semicolon,
+    TT_Extends,
+    TT_Length,
+    TT_Else,
+    TT_While,
+    TT_Boolean,
+    TT_True,
+    TT_False,
+    TT_This,
+    TT_Int,
+    TT_Bang,
+    TT_And,
+    TT_Less,
+    TT_Plus,
+    TT_Minus,
+    TT_Star,
+    TT_Assignment,
+    TT_Comma
 };
 
 class TFlexLexer : private yyFlexLexer {
@@ -62,7 +79,24 @@ std::unordered_map<TTokenType, std::string, std::hash<int>> TokenNames{
     { TT_String, "String" },
     { TT_New, "New" },
     { TT_Dot, "Dot" },
-    { TT_Semicolon, "Semicolon" }
+    { TT_Semicolon, "Semicolon" },
+    { TT_Extends, "Extends" },
+    { TT_Length, "Length" },
+    { TT_Else, "Else" },
+    { TT_While, "While" },
+    { TT_Boolean, "Boolean" },
+    { TT_True, "True" },
+    { TT_False, "False" },
+    { TT_This, "This" },
+    { TT_Int, "Int" },
+    { TT_Bang, "Bang" },
+    { TT_And, "And" },
+    { TT_Less, "Less" },
+    { TT_Plus, "Plus" },
+    { TT_Minus, "Minus" },
+    { TT_Star, "Star" },
+    { TT_Assignment, "Assignment" },
+    { TT_Comma, "Comma" }
 };
 
 void DoDummyStuff(TTokenType tokenType, int& index) {
@@ -153,6 +187,74 @@ new {
 
 ; {
     DoDummyStuff(TT_Semicolon, current_index);
+}
+
+extends {
+    DoDummyStuff(TT_Extends, current_index);
+}
+
+length {
+    DoDummyStuff(TT_Length, current_index);
+}
+
+else {
+    DoDummyStuff(TT_Else, current_index);
+}
+
+while {
+    DoDummyStuff(TT_While, current_index);
+}
+
+boolean {
+    DoDummyStuff(TT_Boolean, current_index);
+}
+
+true {
+    DoDummyStuff(TT_True, current_index);
+}
+
+false {
+    DoDummyStuff(TT_False, current_index);
+}
+
+this {
+    DoDummyStuff(TT_This, current_index);
+}
+
+int {
+    DoDummyStuff(TT_Int, current_index);
+}
+
+! {
+    DoDummyStuff(TT_Bang, current_index);
+}
+
+&& {
+    DoDummyStuff(TT_And, current_index);
+}
+
+\< {
+    DoDummyStuff(TT_Less, current_index);
+}
+
+\+ {
+    DoDummyStuff(TT_Plus, current_index);
+}
+
+- {
+    DoDummyStuff(TT_Minus, current_index);
+}
+
+\* {
+    DoDummyStuff(TT_Star, current_index);
+}
+
+= {
+    DoDummyStuff(TT_Assignment, current_index);
+}
+
+, {
+    DoDummyStuff(TT_Comma, current_index);
 }
 
 . {
