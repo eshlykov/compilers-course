@@ -1,6 +1,6 @@
 # compilers-course
 
-[![Travis (.org)](https://img.shields.io/travis/eshlykov/compilers-course.svg)](https://api.travis-ci.org/eshlykov/compilers-course.svg)
+[![Travis (.org)](https://img.shields.io/travis/eshlykov/compilers-course.svg)](https://api.travis-ci.org/eshlykov/compilers-course)
 
 ## Ссылки
 
