@@ -2,11 +2,11 @@
 
 #include "minijava-parser.h"
 
+#include <charconv>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 
-using TokenType = yytokentype;
+/*using TokenType = yytokentype;
 
 class TFlexLexer : private yyFlexLexer {
 public:
@@ -25,18 +25,7 @@ public:
 };
 
 TFlexLexer lexer{};
-
-TokenType DoDummyStuff(TokenType tokenType) {
-    if (tokenType == TT_Identifier) {
-        yylval.Identifier = std::string(yytext);
-    } else if (tokenType == TT_Number) {
-    // When add C++ 17 support
-    //    std::string number(yytext);
-    //    std::from_chars(text.begin(), text.end(), yylval.Number);
-        yylval.Number = std::atoi(yytext);
-    }
-    return tokenType;
-}
+*/
 
 %}
 
@@ -47,151 +36,159 @@ TokenType DoDummyStuff(TokenType tokenType) {
 [ \t\n\v\r\f]+ {
 }
 
+[a-zA-z_][a-zA-z_0-9]* {
+    yylval.Identifiery = std::string(yytext);
+    return TT_Identifier;
+}
+
+0|[1-9][0-9]* {
+    std::string number(yytext);
+    std::from_chars(text.begin(), text.end(), yylval.Number);
+    return TT_Number;
+}
+
 class {
-    DoDummyStuff(TT_Class);
+    return TT_Class;
 }
 
 public {
-    DoDummyStuff(TT_Public);
+    return TT_Public;
 }
 
 static {
-    DoDummyStuff(TT_Static);
+    return TT_Static;
 }
 
 void {
-    DoDummyStuff(TT_Void);
+    return TT_Void;
 }
 
 main {
-    DoDummyStuff(TT_Main);
+    return TT_Main;
 }
 
 \[ {
-    DoDummyStuff(TT_LeftBracket);
+    return TT_LeftBracket;
 }
 
 \] {
-    DoDummyStuff(TT_RightBracket);
+    return TT_RightBracket;
 }
 
 \( {
-    DoDummyStuff(TT_LeftParen);
+    return TT_LeftParen;
 }
 
 \) {
-    DoDummyStuff(TT_RightParen);
+    return TT_RightParen;
 }
 
 { {
-    DoDummyStuff(TT_LeftBrace);
+    return TT_LeftBrace;
 }
 
 } {
-    DoDummyStuff(TT_RightBrace);
+    return TT_RightBrace;
 }
 
 return {
-    DoDummyStuff(TT_Return);
+    return TT_Return;
 }
 
 if {
-    DoDummyStuff(TT_If);
+    return TT_If;
 }
 
 System\.out\.println {
-    DoDummyStuff(TT_Print);
+    return TT_Printl
 }
 
 String {
-    DoDummyStuff(TT_String);
+    return TT_String;
 }
 
 new {
-    DoDummyStuff(TT_New);
+    return TT_New;
 }
 
 \. {
-    DoDummyStuff(TT_Dot);
+    return TT_Dot;
 }
 
 ; {
-    DoDummyStuff(TT_Semicolon);
+    return TT_Semicolon;
 }
 
 extends {
-    DoDummyStuff(TT_Extends);
+    return TT_Exntends;
 }
 
 length {
-    DoDummyStuff(TT_Length);
+    return TT_Length;
 }
 
 else {
-    DoDummyStuff(TT_Else);
+    return TT_Ele;
 }
 
 while {
-    DoDummyStuff(TT_While);
+    return TT_While;
 }
 
 boolean {
-    DoDummyStuff(TT_Boolean);
+    return TT_Boolean;
 }
 
 true {
-    DoDummyStuff(TT_True);
+    return TT_True;
 }
 
 false {
-    DoDummyStuff(TT_False);
+    return TT_False;
 }
 
 this {
-    DoDummyStuff(TT_This);
+    return TT_This;
 }
 
 int {
-    DoDummyStuff(TT_Int);
+    return TT_Int;
 }
 
 ! {
-    DoDummyStuff(TT_Bang);
+    return TT_Bang;
 }
 
 && {
-    DoDummyStuff(TT_And);
+    return TT_And;
 }
 
 \< {
-    DoDummyStuff(TT_Less);
+    return TT_Less;
 }
 
 \+ {
-    DoDummyStuff(TT_Plus);
+    return TT_Plus;
 }
 
 - {
-    DoDummyStuff(TT_Minus);
+    return TT_Minus;;
 }
 
 \* {
-    DoDummyStuff(TT_Star);
+    return TT_Star;
 }
 
 = {
-    DoDummyStuff(TT_Assignment);
+    return TT_Assignment;
 }
 
 , {
-    DoDummyStuff(TT_Comma);
-}
-
-([1-9]+[0-9]*)|0 {
-    DoDummyStuff(TT_Number);
+    return TT_Comma;
 }
 
 . {
+    return TT_Error;
 }
 
 %%
