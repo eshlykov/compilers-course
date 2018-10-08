@@ -38,7 +38,7 @@ TFlexLexer lexer{};
 }
 
 [a-zA-z_][a-zA-z_0-9]* {
-    yylval.Identifier = std::string(yytext);
+    yylval.Identifier = yytext;
     return TT_Identifier;
 }
 

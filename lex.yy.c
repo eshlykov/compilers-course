@@ -734,7 +734,7 @@ case 2:
 YY_RULE_SETUP
 #line 40 "main.l"
 {
-    yylval.Identifier = std::string(yytext);
+    yylval.Identifier = yytext;
     return TT_Identifier;
 }
 	YY_BREAK

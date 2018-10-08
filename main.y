@@ -1,7 +1,5 @@
 %{
 
-#include <iostream>
-#include <string>
 using namespace std;
 
 extern int yyparse();
@@ -12,7 +10,7 @@ void yyerror(const char *s);
 
 %union {
     int Number;
-    std::string Identifier;
+    char* Identifier;
 }
 
 %start Input
@@ -105,5 +103,5 @@ int main() {
 }
 
 void yyerror(const char *s) {
-    exit(-1);
+  exit(-1);
 }

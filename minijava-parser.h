@@ -92,10 +92,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "main.y" /* yacc.c:1913  */
+#line 11 "main.y" /* yacc.c:1913  */
 
     int Number;
-    std::string Identifier;
+    char* Identifier;
 
 #line 101 "minijava-parser.h" /* yacc.c:1913  */
 };
