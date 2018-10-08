@@ -82,7 +82,8 @@ extern int yydebug;
     TT_Minus = 292,
     TT_Star = 293,
     TT_Assignment = 294,
-    TT_Comma = 295
+    TT_Comma = 295,
+    TT_Error = 296
   };
 #endif
 
@@ -91,12 +92,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "main.y" /* yacc.c:1913  */
+#line 13 "main.y" /* yacc.c:1913  */
 
-    int Integer;
+    int Number;
     std::string Identifier;
 
-#line 100 "minijava-parser.h" /* yacc.c:1913  */
+#line 101 "minijava-parser.h" /* yacc.c:1913  */
 };
 
 typedef union YYSTYPE YYSTYPE;

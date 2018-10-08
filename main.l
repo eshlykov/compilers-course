@@ -2,9 +2,10 @@
 
 #include "minijava-parser.h"
 
-#include <charconv>
+#include <cstdlib>
 #include <iostream>
 #include <string>
+using namespace std;
 
 /*using TokenType = yytokentype;
 
@@ -37,13 +38,12 @@ TFlexLexer lexer{};
 }
 
 [a-zA-z_][a-zA-z_0-9]* {
-    yylval.Identifiery = std::string(yytext);
+    yylval.Identifier = std::string(yytext);
     return TT_Identifier;
 }
 
 0|[1-9][0-9]* {
-    std::string number(yytext);
-    std::from_chars(text.begin(), text.end(), yylval.Number);
+    yylval.Number = std::atoi(yytext);
     return TT_Number;
 }
 
@@ -100,7 +100,7 @@ if {
 }
 
 System\.out\.println {
-    return TT_Printl
+    return TT_Print;
 }
 
 String {
@@ -120,7 +120,7 @@ new {
 }
 
 extends {
-    return TT_Exntends;
+    return TT_Extends;
 }
 
 length {
@@ -128,7 +128,7 @@ length {
 }
 
 else {
-    return TT_Ele;
+    return TT_Else;
 }
 
 while {

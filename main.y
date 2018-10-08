@@ -2,21 +2,22 @@
 
 #include <iostream>
 #include <string>
+using namespace std;
 
 extern int yyparse();
- 
+
 void yyerror(const char *s);
 
 %}
 
 %union {
-    int Integer;
+    int Number;
     std::string Identifier;
 }
 
 %start Input
 
-%token <Integer> TT_Number
+%token <Number> TT_Number
 %token <Identifier>  TT_Identifier
 %token TT_Eof
 %token TT_Class
