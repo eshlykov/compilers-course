@@ -54,6 +54,7 @@ void yyerror(const char *s);
 %token TT_Star
 %token TT_Assignment
 %token TT_Comma
+%token TT_Error
 
 %%
 
@@ -93,6 +94,7 @@ Input:
     | TT_Star { }
     | TT_Assignment { }
     | TT_Comma { }
+    | TT_Error { }
 ;
 
 %%
