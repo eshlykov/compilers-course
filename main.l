@@ -1,10 +1,8 @@
 %{
 
-#include "minijava-parser.h"
+#include "main.tab.h"
 
 #include <cstdlib>
-#include <iostream>
-#include <string>
 using namespace std;
 
 /*using TokenType = yytokentype;

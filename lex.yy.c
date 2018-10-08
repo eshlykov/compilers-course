@@ -448,11 +448,9 @@ char *yytext;
 #define INITIAL 0
 #line 2 "main.l"
 
-#include "minijava-parser.h"
+#include "main.tab.h"
 
 #include <cstdlib>
-#include <iostream>
-#include <string>
 using namespace std;
 
 /*using TokenType = yytokentype;
@@ -476,7 +474,7 @@ public:
 TFlexLexer lexer{};
 */
 
-#line 480 "lex.yy.c"
+#line 478 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -638,10 +636,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 35 "main.l"
+#line 33 "main.l"
 
 
-#line 645 "lex.yy.c"
+#line 643 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -726,13 +724,13 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 37 "main.l"
+#line 35 "main.l"
 {
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 40 "main.l"
+#line 38 "main.l"
 {
     yylval.Identifier = yytext;
     return TT_Identifier;
@@ -740,7 +738,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 45 "main.l"
+#line 43 "main.l"
 {
     yylval.Number = std::atoi(yytext);
     return TT_Number;
@@ -748,63 +746,63 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 50 "main.l"
+#line 48 "main.l"
 {
     return TT_Class;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 54 "main.l"
+#line 52 "main.l"
 {
     return TT_Public;
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 58 "main.l"
+#line 56 "main.l"
 {
     return TT_Static;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 62 "main.l"
+#line 60 "main.l"
 {
     return TT_Void;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 66 "main.l"
+#line 64 "main.l"
 {
     return TT_Main;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 70 "main.l"
+#line 68 "main.l"
 {
     return TT_LeftBracket;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 74 "main.l"
+#line 72 "main.l"
 {
     return TT_RightBracket;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 78 "main.l"
+#line 76 "main.l"
 {
     return TT_LeftParen;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 82 "main.l"
+#line 80 "main.l"
 {
     return TT_RightParen;
 }
@@ -817,185 +815,185 @@ YY_RULE_SETUP
 }
 case 13:
 YY_RULE_SETUP
-#line 94 "main.l"
+#line 92 "main.l"
 {
     return TT_Return;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 98 "main.l"
+#line 96 "main.l"
 {
     return TT_If;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 102 "main.l"
+#line 100 "main.l"
 {
     return TT_Print;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 106 "main.l"
+#line 104 "main.l"
 {
     return TT_String;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 110 "main.l"
+#line 108 "main.l"
 {
     return TT_New;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 114 "main.l"
+#line 112 "main.l"
 {
     return TT_Dot;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 118 "main.l"
+#line 116 "main.l"
 {
     return TT_Semicolon;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 122 "main.l"
+#line 120 "main.l"
 {
     return TT_Extends;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 126 "main.l"
+#line 124 "main.l"
 {
     return TT_Length;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 130 "main.l"
+#line 128 "main.l"
 {
     return TT_Else;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 134 "main.l"
+#line 132 "main.l"
 {
     return TT_While;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 138 "main.l"
+#line 136 "main.l"
 {
     return TT_Boolean;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 142 "main.l"
+#line 140 "main.l"
 {
     return TT_True;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 146 "main.l"
+#line 144 "main.l"
 {
     return TT_False;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 150 "main.l"
+#line 148 "main.l"
 {
     return TT_This;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 154 "main.l"
+#line 152 "main.l"
 {
     return TT_Int;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 158 "main.l"
+#line 156 "main.l"
 {
     return TT_Bang;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 162 "main.l"
+#line 160 "main.l"
 {
     return TT_And;
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 166 "main.l"
+#line 164 "main.l"
 {
     return TT_Less;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 170 "main.l"
+#line 168 "main.l"
 {
     return TT_Plus;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 174 "main.l"
+#line 172 "main.l"
 {
     return TT_Minus;;
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 178 "main.l"
+#line 176 "main.l"
 {
     return TT_Star;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 182 "main.l"
+#line 180 "main.l"
 {
     return TT_Assignment;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 186 "main.l"
+#line 184 "main.l"
 {
     return TT_Comma;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 190 "main.l"
+#line 188 "main.l"
 {
     return TT_Error;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 194 "main.l"
+#line 192 "main.l"
 ECHO;
 	YY_BREAK
-#line 999 "lex.yy.c"
+#line 997 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1885,5 +1883,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 194 "main.l"
+#line 192 "main.l"
 
