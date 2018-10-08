@@ -3,9 +3,13 @@
 #include <iostream>
 #include <string>
 
+extern int yyparse();
+ 
+void yyerror(const char *s);
+
 %}
 
-%union{
+%union {
     int Integer;
     std::string Identifier;
 }
@@ -95,4 +99,8 @@ Input:
 
 int main() {
     yyparse();
+}
+
+void yyerror(const char *s) {
+    exit(-1);
 }
