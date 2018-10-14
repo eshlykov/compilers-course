@@ -1,5 +1,5 @@
 default:
-	bison -d main.y
-	flex main.l
-	clang++ -std=c++17 lex.yy.c main.tab.c -Wno-register -o main
+	flex minijava-lexer.l
+	bison -d minijava-parser.y
+	clang++ -std=c++17 lex.yy.c minijava-parser.tab.c main.cpp -Wno-register -o main
 	./main < Factorial.java
