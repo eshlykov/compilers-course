@@ -67,13 +67,14 @@ Input:
     | TT_Main { std::cout << "main\n"; }
     | TT_LeftBracket { std::cout << "[\n"; }
     | TT_RightBracket { std::cout << "]\n"; }
-    | TT_LeftParen { std::cout << "[\n"; }
-    | TT_RightParen { std::cout << "]\n"; }
+    | TT_LeftParen { std::cout << "(\n"; }
+    | TT_RightParen { std::cout << ")\n"; }
     | TT_LeftBrace { std::cout << "{\n"; }
     | TT_RightBrace { std::cout << "}\n"; }
     | TT_Return { std::cout << "return\n"; }
     | TT_String { std::cout << "string\n"; }
     | TT_New { std::cout << "new\n"; }
+    | TT_Print { std::cout << "System.out.println\n"; }
     | TT_Dot { std::cout << ".\n"; }
     | TT_Semicolon { std::cout << ";\n"; }
     | TT_Extends { std::cout << "extends\n"; }
@@ -84,6 +85,7 @@ Input:
     | TT_True { std::cout << "true\n"; }
     | TT_False { std::cout << "false\n"; }
     | TT_This { std::cout << "this\n"; }
+    | TT_If { std::cout << "if\n"; }
     | TT_Int { std::cout << "int\n"; }
     | TT_Number { std::cout << $1 << std::endl; }
     | TT_Identifier { std::cout << $1 << std::endl; }

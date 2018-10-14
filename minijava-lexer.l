@@ -54,11 +54,11 @@ main {
     return TT_RightParen;
 }
 
-{ {
+\{ {
     return TT_LeftBrace;
 }
 
-} {
+\} {
     return TT_RightBrace;
 }
 
@@ -135,8 +135,7 @@ int {
 }
 
 \< {
-    return TT_Less;
-}
+    return TT_Less;)}
 
 \+ {
     return TT_Plus;

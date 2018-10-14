@@ -1,0 +1,57 @@
+[1mdiff --git a/minijava-lexer.l b/minijava-lexer.l[m
+[1mindex 9805678..0fe1eae 100644[m
+[1m--- a/minijava-lexer.l[m
+[1m+++ b/minijava-lexer.l[m
+[36m@@ -54,11 +54,11 @@[m [mmain {[m
+     return TT_RightParen;[m
+ }[m
+ [m
+[31m-{ {[m
+[32m+[m[32m\{ {[m
+     return TT_LeftBrace;[m
+ }[m
+ [m
+[31m-} {[m
+[32m+[m[32m\} {[m
+     return TT_RightBrace;[m
+ }[m
+ [m
+[36m@@ -135,8 +135,7 @@[m [mint {[m
+ }[m
+ [m
+ \< {[m
+[31m-    return TT_Less;[m
+[31m-}[m
+[32m+[m[32m    return TT_Less;)}[m
+ [m
+ \+ {[m
+     return TT_Plus;[m
+[1mdiff --git a/minijava-parser.y b/minijava-parser.y[m
+[1mindex 9e050b6..31dfebd 100644[m
+[1m--- a/minijava-parser.y[m
+[1m+++ b/minijava-parser.y[m
+[36m@@ -67,13 +67,14 @@[m [mInput:[m
+     | TT_Main { std::cout << "main\n"; }[m
+     | TT_LeftBracket { std::cout << "[\n"; }[m
+     | TT_RightBracket { std::cout << "]\n"; }[m
+[31m-    | TT_LeftParen { std::cout << "[\n"; }[m
+[31m-    | TT_RightParen { std::cout << "]\n"; }[m
+[32m+[m[32m    | TT_LeftParen { std::cout << "(\n"; }[m
+[32m+[m[32m    | TT_RightParen { std::cout << ")\n"; }[m
+     | TT_LeftBrace { std::cout << "{\n"; }[m
+     | TT_RightBrace { std::cout << "}\n"; }[m
+     | TT_Return { std::cout << "return\n"; }[m
+     | TT_String { std::cout << "string\n"; }[m
+     | TT_New { std::cout << "new\n"; }[m
+[32m+[m[32m    | TT_Print { std::cout << "System.out.println\n"; }[m
+     | TT_Dot { std::cout << ".\n"; }[m
+     | TT_Semicolon { std::cout << ";\n"; }[m
+     | TT_Extends { std::cout << "extends\n"; }[m
+[36m@@ -84,6 +85,7 @@[m [mInput:[m
+     | TT_True { std::cout << "true\n"; }[m
+     | TT_False { std::cout << "false\n"; }[m
+     | TT_This { std::cout << "this\n"; }[m
+[32m+[m[32m    | TT_If { std::cout << "if\n"; }[m
+     | TT_Int { std::cout << "int\n"; }[m
+     | TT_Number { std::cout << $1 << std::endl; }[m
+     | TT_Identifier { std::cout << $1 << std::endl; }[m
