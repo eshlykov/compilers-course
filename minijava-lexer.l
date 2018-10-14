@@ -6,27 +6,6 @@
 using namespace std;
 extern int yylex();
 
-/*using TokenType = yytokentype;
-
-class TFlexLexer : private yyFlexLexer {
-public:
-    template <typename ...Args>
-    TFlexLexer(Args&&... args) :
-        yyFlexLexer(std::forward<Args>(args)...) {
-    }
-
-    TokenType GetNextTokenType() {
-        return static_cast<TokenType>(yylex());
-    }
-
-    int GetTokenLength() {
-        return static_cast<int>(YYLeng());
-    }
-};
-
-TFlexLexer lexer{};
-*/
-
 %}
 
 %option noyywrap

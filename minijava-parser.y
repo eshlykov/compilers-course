@@ -1,7 +1,10 @@
 %{
 
+using namespace std;
+#include <iostream>
+#include <cstdlib>
 extern int yylex();
-void yyerror(const char*) {}
+void yyerror(const char*);
 
 %}
 
@@ -94,3 +97,8 @@ Input:
 ;
 
 %%
+
+void yyerror(const char *s) {
+    std::cout << "Error occured: " << s << std::endl;
+    std::exit(-1);
+}
