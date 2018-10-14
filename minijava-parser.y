@@ -100,6 +100,14 @@ Input:
     | TT_Error { yyerror(":("); }
 ;
 
+VarDeclaration :
+    Type Identifier TT_Semicolon {
+    }
+;
+
+MethodDeclaration :
+    TT_Public Type Identifier TT_LeftBaren Identifier
+
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
     } | TT_Boolean {
