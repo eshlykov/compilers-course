@@ -3,8 +3,6 @@
 #include "minijava-parser.tab.h"
 
 #include <cstdlib>
-using namespace std;
-extern int yylex();
 
 %}
 
