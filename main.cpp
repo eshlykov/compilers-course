@@ -1,6 +1,6 @@
 extern int yyparse();
 
 int main() {
-    while (yyparse() != 0) {
+    while (yyparse() == 0) {
     }
 }

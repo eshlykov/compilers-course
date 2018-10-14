@@ -85,6 +85,7 @@ Input:
     | TT_This { std::cout << "this\n"; }
     | TT_Int { std::cout << "int\n"; }
     | TT_Number { std::cout << $1 << std::endl; }
+    | TT_Identifier { std::cout << $1 << std::endl; }
     | TT_Bang { std::cout << "!\n"; }
     | TT_And { std::cout << "&&\n"; }
     | TT_Less { std::cout << "<\n"; }
