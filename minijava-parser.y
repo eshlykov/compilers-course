@@ -101,8 +101,22 @@ VarDeclaration :
     }
 ;
 
+CommaTypeIdentifierRepeated :
+    %empty {
+    } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
+    }
+;
+
+TypeIdentifierCommaTypeIdentifierRepeatedOptional :
+    %empty {
+    } | Type Identifier CommaTypeIdentifierRepeated {
+    }
+;
+
 MethodDeclaration :
-    TT_Public Type Identifier TT_LeftParen Identifier
+        TT_Public Type Identifier TT_LeftParen TypeIdentifierCommaTypeIdentifierRepeatedOptional TT_RightParen TT_LeftBrace VarDeclarationRepeated StatementRepeated TT_Return Expression TT_Semicolon TT_RightBrace {
+        }
+;
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
