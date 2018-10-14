@@ -57,6 +57,21 @@ void yyerror(const char*);
 
 %%
 
+Goal :
+    MainClass ClassDeclaration ClassDeclaration TT_Eof {
+    }
+;
+
+MainClass :
+    TT_Class Identifier TT_LeftBrace TT_Public TT_Static TT_Void TT_Main TT_LeftParen TT_String TT_LeftBracket TT_RightBracket Identifier TT_RightParen TT_LeftBrace Statement TT_RightBrace TT_RightBrace {
+    }
+;
+
+ClassDeclaration :
+    TT_Class Identifier TT_Extends Identifier TT_LeftBrace VarDeclaration VarDeclaration MethodDeclaration MethodDeclaration TT_RightBrace {
+    }
+;
+
 Input:
     Input Input {}
     | TT_Eof { std::cout << "eof\n"; }
