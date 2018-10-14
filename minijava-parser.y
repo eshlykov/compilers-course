@@ -59,7 +59,7 @@ void yyerror(const char*);
 %%
 
 Goal :
-    MainClass ClassDeclarationRepeated TT_Eof {
+    MainClass ClassDeclarationRepeated {
     }
 ;
 
@@ -137,8 +137,8 @@ Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
-    } | TT_Print TT_LeftParen Statement TT_RightParen TT_Semicolon {
-    } | Identifier TT_Assignment Identifier TT_Semicolon {
+    } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
+    } | Identifier TT_Assignment Expression TT_Semicolon {
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
     }
 ;

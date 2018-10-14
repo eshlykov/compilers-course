@@ -163,6 +163,10 @@ int {
     return TT_Identifier;
 }
 
+<<EOF>> {
+    return TT_Eof;
+}
+
 . {
     return TT_Error;
 }
