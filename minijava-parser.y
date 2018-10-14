@@ -57,6 +57,21 @@ void yyerror(const char*);
 
 %%
 
+Goal :
+    MainClass ClassDeclaration ClassDeclaration TT_Eof {
+    }
+;
+
+MainClass :
+    TT_Class Identifier TT_LeftBrace TT_Public TT_Static TT_Void TT_Main TT_LeftParen TT_String TT_LeftBracket TT_RightBracket Identifier TT_RightParen TT_LeftBrace Statement TT_RightBrace TT_RightBrace {
+    }
+;
+
+ClassDeclaration :
+    TT_Class Identifier TT_Extends Identifier TT_LeftBrace VarDeclaration VarDeclaration MethodDeclaration MethodDeclaration TT_RightBrace {
+    }
+;
+
 Input:
     Input Input {}
     | TT_Eof { std::cout << "eof\n"; }
@@ -100,6 +115,14 @@ Input:
     | TT_Error { yyerror(":("); }
 ;
 
+VarDeclaration :
+    Type Identifier TT_Semicolon {
+    }
+;
+
+MethodDeclaration :
+    TT_Public Type Identifier TT_LeftParen Identifier
+
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
     } | TT_Boolean {
@@ -108,12 +131,31 @@ Type :
     }
 ;
 
+StatementRepeated :
+    %empty {
+    } | StatementRepeated Statement {
+    }
+;
+
 Statement :
-    TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
+    TT_LeftBrace StatementRepeated TT_RightBrace {
+    } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
     } | TT_Print TT_LeftParen Statement TT_RightParen TT_Semicolon {
     } | Identifier TT_Assignment Identifier TT_Semicolon {
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
+    }
+;
+
+CommaExpressionRepeated :
+    %empty {
+    } | CommaExpressionRepeated TT_Comma Expression {
+    }
+;
+
+ExpressionCommaExpressionRepeatedOptional :
+    %empty {
+    } | Expression CommaExpressionRepeated {
     }
 ;
 
@@ -125,6 +167,7 @@ Expression :
     } | Expression TT_Star Expression {
     } | Expression TT_LeftBracket Expression TT_RightBracket {
     } | Expression TT_Dot TT_Length {
+    } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
     } | Number {
     } | TT_True {
     } | TT_False {
