@@ -115,6 +115,14 @@ Input:
     | TT_Error { yyerror(":("); }
 ;
 
+VarDeclaration :
+    Type Identifier TT_Semicolon {
+    }
+;
+
+MethodDeclaration :
+    TT_Public Type Identifier TT_LeftBaren Identifier
+
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
     } | TT_Boolean {
@@ -127,15 +135,15 @@ Statement :
     TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
     } | TT_Print TT_LeftParen Statement TT_RightParen TT_Semicolon {
-    } | Identifier TT_Assignment Identifier TT_Semicilon {
+    } | Identifier TT_Assignment Identifier TT_Semicolon {
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
     }
 ;
 
-Expresion :
+Expression :
     Expression TT_And Expression {
     } | Expression TT_Less Expression {
-    } | Expression TT_Plus Expresion {
+    } | Expression TT_Plus Expression {
     } | Expression TT_Minus Expression {
     } | Expression TT_Star Expression {
     } | Expression TT_LeftBracket Expression TT_RightBracket {
@@ -146,7 +154,7 @@ Expresion :
     } | Identifier {
     } | TT_This {
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
-    } | TT_New Identifier TT_LeftParen TT_RightBaren {
+    } | TT_New Identifier TT_LeftParen TT_RightParen {
     } | TT_Bang Expression {
     } | TT_LeftParen Expression TT_RightParen {
     }
