@@ -135,7 +135,8 @@ int {
 }
 
 \< {
-    return TT_Less;)}
+    return TT_Less;
+}
 
 \+ {
     return TT_Plus;
