@@ -58,7 +58,13 @@ void yyerror(const char*);
 %%
 
 Goal :
-    MainClass ClassDeclaration ClassDeclaration TT_Eof {
+    MainClass ClassDeclarationRepeated TT_Eof {
+    }
+;
+
+ClassDeclarationRepeated :
+    %empty {
+    } | ClassDeclarationRepeated ClassDeclaration {
     }
 ;
 
@@ -67,8 +73,26 @@ MainClass :
     }
 ;
 
+ExtendsIdentifierOptional :
+    %empty {
+    } | TT_Extends Identifier {
+    }
+;
+
+VarDeclarationRepeated :
+    %empty {
+    } | VarDeclarationRepeated VarDeclaration {
+    }
+;
+
+MethodDeclarationRepeated :
+    %empty {
+    } | MethodDeclarationRepeated MethodDeclaration {
+    }
+;
+
 ClassDeclaration :
-    TT_Class Identifier TT_Extends Identifier TT_LeftBrace VarDeclaration VarDeclaration MethodDeclaration MethodDeclaration TT_RightBrace {
+    TT_Class Identifier ExtendsIdentifierOptional TT_LeftBrace VarDeclarationRepeated MethodDeclarationRepeated TT_RightBrace {
     }
 ;
 
