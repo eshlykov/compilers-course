@@ -59,7 +59,7 @@ void yyerror(const char*);
 %%
 
 Goal :
-    MainClass ClassDeclarationRepeated {
+    MainClass ClassDeclarationRepeated TT_Eof {
     }
 ;
 
