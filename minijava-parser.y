@@ -115,8 +115,8 @@ TypeIdentifierCommaTypeIdentifierRepeatedOptional :
 ;
 
 MethodDeclaration :
-        TT_Public Type Identifier TT_LeftParen TypeIdentifierCommaTypeIdentifierRepeatedOptional TT_RightParen TT_LeftBrace VarDeclarationRepeated StatementRepeated TT_Return Expression TT_Semicolon TT_RightBrace {
-        }
+    TT_Public Type Identifier TT_LeftParen TypeIdentifierCommaTypeIdentifierRepeatedOptional TT_RightParen TT_LeftBrace VarDeclarationRepeated StatementRepeated TT_Return Expression TT_Semicolon TT_RightBrace {
+    }
 ;
 
 Type :
