@@ -92,7 +92,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 11 "minijava-parser.y" /* yacc.c:1913  */
+#line 5 "minijava-parser.y" /* yacc.c:1913  */
 
     int Number;
     char* Identifier;

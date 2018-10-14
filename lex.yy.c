@@ -452,6 +452,7 @@ char *yytext;
 
 #include <cstdlib>
 using namespace std;
+extern int yylex();
 
 /*using TokenType = yytokentype;
 
@@ -474,7 +475,7 @@ public:
 TFlexLexer lexer{};
 */
 
-#line 478 "lex.yy.c"
+#line 479 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -636,10 +637,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 33 "minijava-lexer.l"
+#line 34 "minijava-lexer.l"
 
 
-#line 643 "lex.yy.c"
+#line 644 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -724,13 +725,13 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 35 "minijava-lexer.l"
+#line 36 "minijava-lexer.l"
 {
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 38 "minijava-lexer.l"
+#line 39 "minijava-lexer.l"
 {
     yylval.Identifier = yytext;
     return TT_Identifier;
@@ -738,7 +739,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "minijava-lexer.l"
+#line 44 "minijava-lexer.l"
 {
     yylval.Number = std::atoi(yytext);
     return TT_Number;
@@ -746,63 +747,63 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 48 "minijava-lexer.l"
+#line 49 "minijava-lexer.l"
 {
     return TT_Class;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 52 "minijava-lexer.l"
+#line 53 "minijava-lexer.l"
 {
     return TT_Public;
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 56 "minijava-lexer.l"
+#line 57 "minijava-lexer.l"
 {
     return TT_Static;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 60 "minijava-lexer.l"
+#line 61 "minijava-lexer.l"
 {
     return TT_Void;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 64 "minijava-lexer.l"
+#line 65 "minijava-lexer.l"
 {
     return TT_Main;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 68 "minijava-lexer.l"
+#line 69 "minijava-lexer.l"
 {
     return TT_LeftBracket;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 72 "minijava-lexer.l"
+#line 73 "minijava-lexer.l"
 {
     return TT_RightBracket;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 76 "minijava-lexer.l"
+#line 77 "minijava-lexer.l"
 {
     return TT_LeftParen;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 80 "minijava-lexer.l"
+#line 81 "minijava-lexer.l"
 {
     return TT_RightParen;
 }
@@ -815,185 +816,185 @@ YY_RULE_SETUP
 }
 case 13:
 YY_RULE_SETUP
-#line 92 "minijava-lexer.l"
+#line 93 "minijava-lexer.l"
 {
     return TT_Return;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 96 "minijava-lexer.l"
+#line 97 "minijava-lexer.l"
 {
     return TT_If;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 100 "minijava-lexer.l"
+#line 101 "minijava-lexer.l"
 {
     return TT_Print;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 104 "minijava-lexer.l"
+#line 105 "minijava-lexer.l"
 {
     return TT_String;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 108 "minijava-lexer.l"
+#line 109 "minijava-lexer.l"
 {
     return TT_New;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 112 "minijava-lexer.l"
+#line 113 "minijava-lexer.l"
 {
     return TT_Dot;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 116 "minijava-lexer.l"
+#line 117 "minijava-lexer.l"
 {
     return TT_Semicolon;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 120 "minijava-lexer.l"
+#line 121 "minijava-lexer.l"
 {
     return TT_Extends;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 124 "minijava-lexer.l"
+#line 125 "minijava-lexer.l"
 {
     return TT_Length;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 128 "minijava-lexer.l"
+#line 129 "minijava-lexer.l"
 {
     return TT_Else;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 132 "minijava-lexer.l"
+#line 133 "minijava-lexer.l"
 {
     return TT_While;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 136 "minijava-lexer.l"
+#line 137 "minijava-lexer.l"
 {
     return TT_Boolean;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 140 "minijava-lexer.l"
+#line 141 "minijava-lexer.l"
 {
     return TT_True;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 144 "minijava-lexer.l"
+#line 145 "minijava-lexer.l"
 {
     return TT_False;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 148 "minijava-lexer.l"
+#line 149 "minijava-lexer.l"
 {
     return TT_This;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 152 "minijava-lexer.l"
+#line 153 "minijava-lexer.l"
 {
     return TT_Int;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 156 "minijava-lexer.l"
+#line 157 "minijava-lexer.l"
 {
     return TT_Bang;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 160 "minijava-lexer.l"
+#line 161 "minijava-lexer.l"
 {
     return TT_And;
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 164 "minijava-lexer.l"
+#line 165 "minijava-lexer.l"
 {
     return TT_Less;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 168 "minijava-lexer.l"
+#line 169 "minijava-lexer.l"
 {
     return TT_Plus;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 172 "minijava-lexer.l"
+#line 173 "minijava-lexer.l"
 {
     return TT_Minus;;
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 176 "minijava-lexer.l"
+#line 177 "minijava-lexer.l"
 {
     return TT_Star;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 180 "minijava-lexer.l"
+#line 181 "minijava-lexer.l"
 {
     return TT_Assignment;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 184 "minijava-lexer.l"
+#line 185 "minijava-lexer.l"
 {
     return TT_Comma;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 188 "minijava-lexer.l"
+#line 189 "minijava-lexer.l"
 {
     return TT_Error;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 192 "minijava-lexer.l"
+#line 193 "minijava-lexer.l"
 ECHO;
 	YY_BREAK
-#line 997 "lex.yy.c"
+#line 998 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1883,5 +1884,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 192 "minijava-lexer.l"
+#line 193 "minijava-lexer.l"
 

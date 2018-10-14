@@ -1,11 +1,5 @@
 %{
 
-using namespace std;
-
-extern int yyparse();
-
-void yyerror(const char *s);
-
 %}
 
 %union {
@@ -97,11 +91,3 @@ Input:
 ;
 
 %%
-
-int main() {
-    yyparse();
-}
-
-void yyerror(const char *s) {
-  exit(-1);
-}

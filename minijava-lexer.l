@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 using namespace std;
+extern int yylex();
 
 /*using TokenType = yytokentype;
 
