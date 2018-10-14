@@ -80,19 +80,19 @@ Input:
     | TT_While { }
     | TT_Boolean { }
     | TT_True { }
-    | TT_False { }
-    | TT_This { }
-    | TT_Int { }
-    | TT_Number { }
-    | TT_Bang { }
-    | TT_And { }
-    | TT_Less { }
-    | TT_Plus { }
-    | TT_Minus { }
-    | TT_Star { }
-    | TT_Assignment { }
-    | TT_Comma { }
-    | TT_Error { }
+    | TT_False { std::cout << "false\n"; }
+    | TT_This { std::cout << "this\n"; }
+    | TT_Int { std::cout << "int\n"; }
+    | TT_Number { std::cout << $1 << std::endl; }
+    | TT_Bang { std::cout << "!\n"; }
+    | TT_And { std::cout << "&&\n"; }
+    | TT_Less { std::cout << "<\n"; }
+    | TT_Plus { std::cout << "+\n"; }
+    | TT_Minus { std::cout << "-\n"; }
+    | TT_Star { std::cout << "*\n"; }
+    | TT_Assignment { std::cout << ":=\n"; }
+    | TT_Comma { std::cout << ",\n"; }
+    | TT_Error { std::cout << "error\n"; }
 ;
 
 %%
