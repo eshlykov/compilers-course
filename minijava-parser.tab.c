@@ -65,8 +65,11 @@
 #line 1 "minijava-parser.y" /* yacc.c:339  */
 
 
+extern int yylex();
+void yyerror(const char*) {}
 
-#line 70 "minijava-parser.tab.c" /* yacc.c:339  */
+
+#line 73 "minijava-parser.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -148,12 +151,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 5 "minijava-parser.y" /* yacc.c:355  */
+#line 8 "minijava-parser.y" /* yacc.c:355  */
 
     int Number;
     char* Identifier;
 
-#line 157 "minijava-parser.tab.c" /* yacc.c:355  */
+#line 160 "minijava-parser.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -170,7 +173,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 174 "minijava-parser.tab.c" /* yacc.c:358  */
+#line 177 "minijava-parser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -471,10 +474,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    54,    54,    55,    56,    57,    58,    59,    60,    61,
-      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
-      72,    73,    74,    75,    76,    77,    78,    79,    80,    81,
-      82,    83,    84,    85,    86,    87,    88,    89,    90
+       0,    57,    57,    58,    59,    60,    61,    62,    63,    64,
+      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
+      75,    76,    77,    78,    79,    80,    81,    82,    83,    84,
+      85,    86,    87,    88,    89,    90,    91,    92,    93
 };
 #endif
 
@@ -1273,223 +1276,223 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 55 "minijava-parser.y" /* yacc.c:1651  */
+#line 58 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1279 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1282 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 4:
-#line 56 "minijava-parser.y" /* yacc.c:1651  */
+#line 59 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1285 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1288 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 5:
-#line 57 "minijava-parser.y" /* yacc.c:1651  */
+#line 60 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1291 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1294 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 6:
-#line 58 "minijava-parser.y" /* yacc.c:1651  */
+#line 61 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1297 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1300 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 7:
-#line 59 "minijava-parser.y" /* yacc.c:1651  */
+#line 62 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1303 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1306 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 8:
-#line 60 "minijava-parser.y" /* yacc.c:1651  */
+#line 63 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1309 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1312 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 9:
-#line 61 "minijava-parser.y" /* yacc.c:1651  */
+#line 64 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1315 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1318 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 10:
-#line 62 "minijava-parser.y" /* yacc.c:1651  */
+#line 65 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1321 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1324 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 11:
-#line 63 "minijava-parser.y" /* yacc.c:1651  */
+#line 66 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1327 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1330 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 12:
-#line 64 "minijava-parser.y" /* yacc.c:1651  */
+#line 67 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1333 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1336 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 13:
-#line 65 "minijava-parser.y" /* yacc.c:1651  */
+#line 68 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1339 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1342 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 14:
-#line 66 "minijava-parser.y" /* yacc.c:1651  */
+#line 69 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1345 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1348 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 15:
-#line 67 "minijava-parser.y" /* yacc.c:1651  */
+#line 70 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1351 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1354 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 16:
-#line 68 "minijava-parser.y" /* yacc.c:1651  */
+#line 71 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1357 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1360 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 17:
-#line 69 "minijava-parser.y" /* yacc.c:1651  */
+#line 72 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1363 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1366 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 18:
-#line 70 "minijava-parser.y" /* yacc.c:1651  */
+#line 73 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1369 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1372 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 19:
-#line 71 "minijava-parser.y" /* yacc.c:1651  */
+#line 74 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1375 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1378 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 20:
-#line 72 "minijava-parser.y" /* yacc.c:1651  */
+#line 75 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1381 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1384 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 21:
-#line 73 "minijava-parser.y" /* yacc.c:1651  */
+#line 76 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1387 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1390 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 22:
-#line 74 "minijava-parser.y" /* yacc.c:1651  */
+#line 77 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1393 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1396 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 23:
-#line 75 "minijava-parser.y" /* yacc.c:1651  */
+#line 78 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1399 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1402 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 24:
-#line 76 "minijava-parser.y" /* yacc.c:1651  */
+#line 79 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1405 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1408 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 25:
-#line 77 "minijava-parser.y" /* yacc.c:1651  */
+#line 80 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1411 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1414 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 26:
-#line 78 "minijava-parser.y" /* yacc.c:1651  */
+#line 81 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1417 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1420 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 27:
-#line 79 "minijava-parser.y" /* yacc.c:1651  */
+#line 82 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1423 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1426 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 28:
-#line 80 "minijava-parser.y" /* yacc.c:1651  */
+#line 83 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1429 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1432 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 29:
-#line 81 "minijava-parser.y" /* yacc.c:1651  */
+#line 84 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1435 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1438 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 30:
-#line 82 "minijava-parser.y" /* yacc.c:1651  */
+#line 85 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1441 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1444 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 31:
-#line 83 "minijava-parser.y" /* yacc.c:1651  */
+#line 86 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1447 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1450 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 32:
-#line 84 "minijava-parser.y" /* yacc.c:1651  */
+#line 87 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1453 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1456 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 33:
-#line 85 "minijava-parser.y" /* yacc.c:1651  */
+#line 88 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1459 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1462 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 34:
-#line 86 "minijava-parser.y" /* yacc.c:1651  */
+#line 89 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1465 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1468 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 35:
-#line 87 "minijava-parser.y" /* yacc.c:1651  */
+#line 90 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1471 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1474 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 36:
-#line 88 "minijava-parser.y" /* yacc.c:1651  */
+#line 91 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1477 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1480 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 37:
-#line 89 "minijava-parser.y" /* yacc.c:1651  */
+#line 92 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1483 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1486 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
   case 38:
-#line 90 "minijava-parser.y" /* yacc.c:1651  */
+#line 93 "minijava-parser.y" /* yacc.c:1651  */
     { }
-#line 1489 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1492 "minijava-parser.tab.c" /* yacc.c:1651  */
     break;
 
 
-#line 1493 "minijava-parser.tab.c" /* yacc.c:1651  */
+#line 1496 "minijava-parser.tab.c" /* yacc.c:1651  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1717,5 +1720,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 93 "minijava-parser.y" /* yacc.c:1910  */
+#line 96 "minijava-parser.y" /* yacc.c:1910  */
 
