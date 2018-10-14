@@ -58,7 +58,8 @@ void yyerror(const char*);
 %%
 
 Input:
-    TT_Eof { std::cout << "eof\n"; }
+    Input Input {}
+    | TT_Eof { std::cout << "eof\n"; }
     | TT_Class { std::cout << "class\n"; }
     | TT_Public { std::cout << "public\n"; }
     | TT_Static { std::cout << "static\n"; }
@@ -94,7 +95,7 @@ Input:
     | TT_Star { std::cout << "*\n"; }
     | TT_Assignment { std::cout << ":=\n"; }
     | TT_Comma { std::cout << ",\n"; }
-    | TT_Error { std::cout << "error\n"; }
+    | TT_Error { yyerror(":("); }
 ;
 
 %%
