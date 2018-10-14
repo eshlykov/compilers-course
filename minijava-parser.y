@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cstdlib>
+
 extern int yylex();
 void yyerror(const char*);
 
@@ -57,29 +58,29 @@ void yyerror(const char*);
 %%
 
 Input:
-    | TT_Eof { }
-    | TT_Class { }
-    | TT_Public { }
-    | TT_Static { }
-    | TT_Void { }
-    | TT_Main { }
-    | TT_LeftBracket { }
-    | TT_RightBracket { }
-    | TT_LeftParen { }
-    | TT_RightParen { }
-    | TT_LeftBrace { }
-    | TT_RightBrace { }
-    | TT_Return { }
-    | TT_String { }
-    | TT_New { }
-    | TT_Dot { }
-    | TT_Semicolon { }
-    | TT_Extends { }
-    | TT_Length { }
-    | TT_Else { }
-    | TT_While { }
-    | TT_Boolean { }
-    | TT_True { }
+    TT_Eof { std::cout << "eof\n"; }
+    | TT_Class { std::cout << "class\n"; }
+    | TT_Public { std::cout << "public\n"; }
+    | TT_Static { std::cout << "static\n"; }
+    | TT_Void { std::cout << "void\n"; }
+    | TT_Main { std::cout << "main\n"; }
+    | TT_LeftBracket { std::cout << "[\n"; }
+    | TT_RightBracket { std::cout << "]\n"; }
+    | TT_LeftParen { std::cout << "[\n"; }
+    | TT_RightParen { std::cout << "]\n"; }
+    | TT_LeftBrace { std::cout << "{\n"; }
+    | TT_RightBrace { std::cout << "}\n"; }
+    | TT_Return { std::cout << "return\n"; }
+    | TT_String { std::cout << "string\n"; }
+    | TT_New { std::cout << "new\n"; }
+    | TT_Dot { std::cout << ".\n"; }
+    | TT_Semicolon { std::cout << ";\n"; }
+    | TT_Extends { std::cout << "extends\n"; }
+    | TT_Length { std::cout << "length\n"; }
+    | TT_Else { std::cout << "else\n"; }
+    | TT_While { std::cout << "while\n"; }
+    | TT_Boolean { std::cout << "booleand\n"; }
+    | TT_True { std::cout << "true\n"; }
     | TT_False { std::cout << "false\n"; }
     | TT_This { std::cout << "this\n"; }
     | TT_Int { std::cout << "int\n"; }
@@ -97,7 +98,7 @@ Input:
 
 %%
 
-void yyerror(const char *s) {
-    std::cout << "Error occured: " << s << std::endl;
-    std::exit(-1);
+void yyerror(const char *message) {
+    std::cout << "Error occured: " << message << std::endl;
+    std::exit(1);
 }

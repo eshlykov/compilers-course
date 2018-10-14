@@ -13,11 +13,6 @@
 [ \t\n\v\r\f]+ {
 }
 
-[a-zA-z_][a-zA-z_0-9]* {
-    yylval.Identifier = yytext;
-    return TT_Identifier;
-}
-
 0|[1-9][0-9]* {
     yylval.Number = std::atoi(yytext);
     return TT_Number;
@@ -161,6 +156,11 @@ int {
 
 , {
     return TT_Comma;
+}
+
+[a-zA-z_][a-zA-z_0-9]* {
+    yylval.Identifier = yytext;
+    return TT_Identifier;
 }
 
 . {
