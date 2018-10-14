@@ -106,7 +106,7 @@ VarDeclaration :
 ;
 
 MethodDeclaration :
-    TT_Public Type Identifier TT_LeftBaren Identifier
+    TT_Public Type Identifier TT_LeftParen Identifier
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
@@ -116,12 +116,31 @@ Type :
     }
 ;
 
+StatementRepeated :
+    %empty {
+    } | StatementRepeated Statement {
+    }
+;
+
 Statement :
-    TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
+    TT_LeftBrace StatementRepeated TT_RightBrace {
+    } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
     } | TT_Print TT_LeftParen Statement TT_RightParen TT_Semicolon {
     } | Identifier TT_Assignment Identifier TT_Semicolon {
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
+    }
+;
+
+CommaExpressionRepeated :
+    %empty {
+    } | CommaExpressionRepeated TT_Comma Expression {
+    }
+;
+
+ExpressionCommaExpressionRepeatedOptional :
+    %empty {
+    } | Expression CommaExpressionRepeated {
     }
 ;
 
@@ -133,6 +152,7 @@ Expression :
     } | Expression TT_Star Expression {
     } | Expression TT_LeftBracket Expression TT_RightBracket {
     } | Expression TT_Dot TT_Length {
+    } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
     } | Number {
     } | TT_True {
     } | TT_False {
