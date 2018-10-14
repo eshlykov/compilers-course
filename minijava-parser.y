@@ -13,7 +13,7 @@ void yyerror(const char*);
     char* Identifier;
 }
 
-%start Input
+%start Goal
 
 %token <Number> TT_Number
 %token <Identifier>  TT_Identifier
@@ -58,7 +58,13 @@ void yyerror(const char*);
 %%
 
 Goal :
-    MainClass ClassDeclaration ClassDeclaration TT_Eof {
+    MainClass ClassDeclarationRepeated TT_Eof {
+    }
+;
+
+ClassDeclarationRepeated :
+    %empty {
+    } | ClassDeclarationRepeated ClassDeclaration {
     }
 ;
 
@@ -67,52 +73,27 @@ MainClass :
     }
 ;
 
-ClassDeclaration :
-    TT_Class Identifier TT_Extends Identifier TT_LeftBrace VarDeclaration VarDeclaration MethodDeclaration MethodDeclaration TT_RightBrace {
+ExtendsIdentifierOptional :
+    %empty {
+    } | TT_Extends Identifier {
     }
 ;
 
-Input:
-    Input Input {}
-    | TT_Eof { std::cout << "eof\n"; }
-    | TT_Class { std::cout << "class\n"; }
-    | TT_Public { std::cout << "public\n"; }
-    | TT_Static { std::cout << "static\n"; }
-    | TT_Void { std::cout << "void\n"; }
-    | TT_Main { std::cout << "main\n"; }
-    | TT_LeftBracket { std::cout << "[\n"; }
-    | TT_RightBracket { std::cout << "]\n"; }
-    | TT_LeftParen { std::cout << "(\n"; }
-    | TT_RightParen { std::cout << ")\n"; }
-    | TT_LeftBrace { std::cout << "{\n"; }
-    | TT_RightBrace { std::cout << "}\n"; }
-    | TT_Return { std::cout << "return\n"; }
-    | TT_String { std::cout << "string\n"; }
-    | TT_New { std::cout << "new\n"; }
-    | TT_Print { std::cout << "System.out.println\n"; }
-    | TT_Dot { std::cout << ".\n"; }
-    | TT_Semicolon { std::cout << ";\n"; }
-    | TT_Extends { std::cout << "extends\n"; }
-    | TT_Length { std::cout << "length\n"; }
-    | TT_Else { std::cout << "else\n"; }
-    | TT_While { std::cout << "while\n"; }
-    | TT_Boolean { std::cout << "booleand\n"; }
-    | TT_True { std::cout << "true\n"; }
-    | TT_False { std::cout << "false\n"; }
-    | TT_This { std::cout << "this\n"; }
-    | TT_If { std::cout << "if\n"; }
-    | TT_Int { std::cout << "int\n"; }
-    | TT_Number { std::cout << $1 << std::endl; }
-    | TT_Identifier { std::cout << $1 << std::endl; }
-    | TT_Bang { std::cout << "!\n"; }
-    | TT_And { std::cout << "&&\n"; }
-    | TT_Less { std::cout << "<\n"; }
-    | TT_Plus { std::cout << "+\n"; }
-    | TT_Minus { std::cout << "-\n"; }
-    | TT_Star { std::cout << "*\n"; }
-    | TT_Assignment { std::cout << ":=\n"; }
-    | TT_Comma { std::cout << ",\n"; }
-    | TT_Error { yyerror(":("); }
+VarDeclarationRepeated :
+    %empty {
+    } | VarDeclarationRepeated VarDeclaration {
+    }
+;
+
+MethodDeclarationRepeated :
+    %empty {
+    } | MethodDeclarationRepeated MethodDeclaration {
+    }
+;
+
+ClassDeclaration :
+    TT_Class Identifier ExtendsIdentifierOptional TT_LeftBrace VarDeclarationRepeated MethodDeclarationRepeated TT_RightBrace {
+    }
 ;
 
 VarDeclaration :
