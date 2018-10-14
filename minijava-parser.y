@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 extern int yylex();
+extern char* yytext;
 void yyerror(const char*);
 
 %}
@@ -168,13 +169,13 @@ Number :
 
 Identifier :
     TT_Identifier {
-        std::cout << $1 << std::endl;
+        std::cout << "Identifier(" << $1 << ")" << std::endl;
     }
 ;
 
 %%
 
-void yyerror(const char *message) {
-    std::cout << "Error occured: " << message << std::endl;
+void yyerror(const char* message) {
+    std::cout << "Error occured : " << yytext << " : " << message << std::endl;
     std::exit(1);
 }
