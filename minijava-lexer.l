@@ -3,6 +3,7 @@
 #include "minijava-parser.tab.h"
 
 #include <cstdlib>
+#include <iostream>
 
 %}
 
@@ -11,6 +12,7 @@
 %%
 
 [ \t\n\v\r\f]+ {
+    std::cout << "space\n";
 }
 
 0|[1-9][0-9]* {
@@ -59,6 +61,7 @@ main {
 }
 
 \} {
+    std::cout << "brace\n";
     return TT_RightBrace;
 }
 
@@ -87,6 +90,7 @@ new {
 }
 
 ; {
+    std::cout << "semi\n";
     return TT_Semicolon;
 }
 
@@ -168,6 +172,7 @@ int {
 }
 
 . {
+    std::cerr << yytext << " unknow\n";
     return TT_Error;
 }
 

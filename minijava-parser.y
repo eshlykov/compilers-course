@@ -56,10 +56,19 @@ void yyerror(const char*);
 %token TT_Comma
 %token TT_Error
 
+%right TT_Assignment
+%left TT_Dot
+%left TT_Less
+%left TT_And
+%left TT_Plus TT_Minus
+%left TT_Star
+%left TT_Bang
+%right TT_LeftBracket
+
 %%
 
 Goal :
-    MainClass ClassDeclarationRepeated TT_Eof {
+    MainClass ClassDeclarationRepeated {
     }
 ;
 
@@ -129,7 +138,7 @@ Type :
 
 StatementRepeated :
     %empty {
-    } | StatementRepeated Statement {
+    } | Statement StatementRepeated {
     }
 ;
 
