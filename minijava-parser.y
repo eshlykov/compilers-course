@@ -57,24 +57,26 @@ void yyerror(const char*);
 %token TT_Error
 
 %right TT_Assignment
-%left TT_Dot
-%left TT_Less
 %left TT_And
+%left TT_Less
 %left TT_Plus TT_Minus
 %left TT_Star
 %left TT_Bang
-%right TT_LeftBracket
+%left TT_Dot
+%right TTLeftParen TT_LeftBracket
 
 %%
 
 Goal :
-    MainClass ClassDeclarationRepeated {
+    MainClass ClassDeclarationRepeated TT_Eof {
+        std::cout << "Goal" << std::endl;
     }
 ;
 
 ClassDeclarationRepeated :
     %empty {
     } | ClassDeclarationRepeated ClassDeclaration {
+        std::cout << "ClassDeclarationRepeated" << std::endl;
     }
 ;
 
@@ -84,24 +86,28 @@ MainClass :
             Statement
          TT_RightBrace
     TT_RightBrace {
+        std::cout << "MainClass" << std::endl;
     }
 ;
 
 ExtendsIdentifierOptional :
     %empty {
     } | TT_Extends Identifier {
+        std::cout << "ExtendsIdentifierOptional" << std::endl;
     }
 ;
 
 VarDeclarationRepeated :
     %empty {
     } | VarDeclarationRepeated VarDeclaration {
+        std::cout << "VarDecalarationRepeated" << std::endl;
     }
 ;
 
 MethodDeclarationRepeated :
     %empty {
     } | MethodDeclarationRepeated MethodDeclaration {
+        std::cout << "MethodDeclarationRepeated" << std::endl;
     }
 ;
 
@@ -110,23 +116,27 @@ ClassDeclaration :
         VarDeclarationRepeated
         MethodDeclarationRepeated
     TT_RightBrace {
+        std::cout << "ClassDeclaration" << std::endl;
     }
 ;
 
 VarDeclaration :
     Type Identifier TT_Semicolon {
+        std::cout << "VarDeclaration" << std::endl;
     }
 ;
 
 CommaTypeIdentifierRepeated :
     %empty {
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
+        std::cout << "CommaTypeIdentifierRepeated" << std::endl;
     }
 ;
 
 TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     %empty {
     } | Type Identifier CommaTypeIdentifierRepeated {
+        std::cout << "TypeIdentifierCommaTypeIdentifierRepeated" << std::endl;
     }
 ;
 
@@ -136,6 +146,7 @@ MethodDeclaration :
         StatementRepeated
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
+        std::cout << "MethodDeclaration" << std::endl;
     }
 ;
 
@@ -144,12 +155,14 @@ Type :
     } | TT_Boolean {
     } | TT_Int {
     } | Identifier {
+        std::cout << "Type" << std::endl;
     }
 ;
 
 StatementRepeated :
     %empty {
     } | Statement StatementRepeated {
+        std::cout << "StatementRepeated" << std::endl;
     }
 ;
 
@@ -166,12 +179,14 @@ Statement :
 CommaExpressionRepeated :
     %empty {
     } | CommaExpressionRepeated TT_Comma Expression {
+        std::cout << "CommaExpressionRepeated" << std::endl;
     }
 ;
 
 ExpressionCommaExpressionRepeatedOptional :
     %empty {
     } | Expression CommaExpressionRepeated {
+        std::cout << "ExpressionCommaExpressionRepeatedOptional" << std::endl;
     }
 ;
 
@@ -198,6 +213,7 @@ Expression :
 
 Number :
     TT_Number {
+        std::cout << "Number(" << $1 << ")" << std::endl;
     }
 ;
 
