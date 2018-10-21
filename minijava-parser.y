@@ -79,7 +79,11 @@ ClassDeclarationRepeated :
 ;
 
 MainClass :
-    TT_Class Identifier TT_LeftBrace TT_Public TT_Static TT_Void TT_Main TT_LeftParen TT_String TT_LeftBracket TT_RightBracket Identifier TT_RightParen TT_LeftBrace Statement TT_RightBrace TT_RightBrace {
+    TT_Class Identifier TT_LeftBrace
+        TT_Public TT_Static TT_Void TT_Main TT_LeftParen TT_String TT_LeftBracket TT_RightBracket Identifier TT_RightParen TT_LeftBrace
+            Statement
+         TT_RightBrace
+    TT_RightBrace {
     }
 ;
 
@@ -102,7 +106,10 @@ MethodDeclarationRepeated :
 ;
 
 ClassDeclaration :
-    TT_Class Identifier ExtendsIdentifierOptional TT_LeftBrace VarDeclarationRepeated MethodDeclarationRepeated TT_RightBrace {
+    TT_Class Identifier ExtendsIdentifierOptional TT_LeftBrace
+        VarDeclarationRepeated
+        MethodDeclarationRepeated
+    TT_RightBrace {
     }
 ;
 
@@ -124,7 +131,11 @@ TypeIdentifierCommaTypeIdentifierRepeatedOptional :
 ;
 
 MethodDeclaration :
-    TT_Public Type Identifier TT_LeftParen TypeIdentifierCommaTypeIdentifierRepeatedOptional TT_RightParen TT_LeftBrace VarDeclarationRepeated StatementRepeated TT_Return Expression TT_Semicolon TT_RightBrace {
+    TT_Public Type Identifier TT_LeftParen TypeIdentifierCommaTypeIdentifierRepeatedOptional TT_RightParen TT_LeftBrace
+        VarDeclarationRepeated
+        StatementRepeated
+        TT_Return Expression TT_Semicolon
+    TT_RightBrace {
     }
 ;
 
