@@ -201,6 +201,9 @@ int {
     return TT_Identifier;
 }
 
+\/\/.* {
+}
+
 . {
     std::cout << "TT_Error(" << yytext << ")" << std::endl;
     return TT_Error;
