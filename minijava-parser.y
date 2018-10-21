@@ -18,7 +18,6 @@ void yyerror(const char*);
 
 %token <Number> TT_Number
 %token <Identifier>  TT_Identifier
-%token TT_Eof
 %token TT_Class
 %token TT_Public
 %token TT_Static
@@ -68,7 +67,7 @@ void yyerror(const char*);
 %%
 
 Goal :
-    MainClass ClassDeclarationRepeated TT_Eof {
+    MainClass ClassDeclarationRepeated {
         std::cout << "Goal" << std::endl;
     }
 ;

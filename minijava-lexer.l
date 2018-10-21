@@ -201,11 +201,6 @@ int {
     return TT_Identifier;
 }
 
-<<EOF>> {
-    std::cout << "TT_Eof(" << yytext << ")" << std::endl;
-    return TT_Eof;
-}
-
 . {
     std::cout << "TT_Error(" << yytext << ")" << std::endl;
     return TT_Error;
