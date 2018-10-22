@@ -64,6 +64,8 @@ void yyerror(const char*);
 %left TT_Dot
 %right TTLeftParen TT_LeftBracket
 
+%locations
+
 %%
 
 Goal :
@@ -225,6 +227,9 @@ Identifier :
 %%
 
 void yyerror(const char* message) {
-    std::cout << "Error occured : " << yytext << " : " << message << std::endl;
+    std::cout << "Error occured at line: " << yylloc.first_line << std::endl;
+    std::cout << "Columns: [" << yylloc.first_column << ": " << yylloc.last_column << "]" << std::endl;
+    std::cout << "Error: " << yytext << std::endl;
+    std::cout << "Error message: " << message << std::endl;
     std::exit(1);
 }
