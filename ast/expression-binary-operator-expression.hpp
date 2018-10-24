@@ -1,8 +1,7 @@
 #pragma once
 
+#include "expression.h"
 #include <memory>
-
-class Expression;
 
 enum class BinaryOperator {
     BO_And,
