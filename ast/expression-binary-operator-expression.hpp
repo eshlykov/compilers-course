@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expression.h"
+#include "expression.hpp"
 #include <memory>
 
 enum class BinaryOperator {
