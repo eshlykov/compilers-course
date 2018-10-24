@@ -12,5 +12,5 @@ public:
     }
 
 public:
-    std::optional<> commaExpressionRepeated_ = {};
+    std::optional<std::shared_ptr<CommaExpressionRepeated>> commaExpressionRepeated_ = {};
 };
