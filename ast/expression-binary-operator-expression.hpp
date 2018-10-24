@@ -12,7 +12,7 @@ enum class BinaryOperator {
     BO_Star,
 };
 
-class ExpressionBinaryOperatorExpression {
+class ExpressionBinaryOperatorExpression : public Expression {
 public:
     ExpressionBinaryOperatorExpression(std::shared_ptr<Expression> lhs,
         std::shared_ptr<Expression> rhs, BinaryOperator binaryOperator) :
