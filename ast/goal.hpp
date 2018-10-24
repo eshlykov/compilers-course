@@ -12,6 +12,6 @@ public:
     }
 
 public:
-    std::shared_ptr<MainClass> mainClass_ = nullptr;
-    std::shared_ptr<ClassDeclarationRepeated> classDeclarationRepeated_ = nullptr;
+    std::shared_ptr<MainClass> mainClass_ = {};
+    std::shared_ptr<ClassDeclarationRepeated> classDeclarationRepeated_ = {};
 };
