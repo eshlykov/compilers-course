@@ -1,11 +1,12 @@
 #pragma once
 
+#include "type.hpp"
+
 class Identifier;
 
-class TypeIdentifier : Type {
+class TypeIdentifier : public Type {
 public:
-    TypeIdentifier(std::shared_ptr<Identifier> className) : className_(className) {};
-
-public:
-    std::shared_ptr<Identifier> className_ = {};
+    TypeIdentifier(std::shared_ptr<Identifier> className) :
+        Type(className) {
+    };
 };

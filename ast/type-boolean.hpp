@@ -1,4 +1,6 @@
 #pragma once
 
-class TypeBoolean : Type {
+#include "type.hpp"
+
+class TypeBoolean : public Type {
 };

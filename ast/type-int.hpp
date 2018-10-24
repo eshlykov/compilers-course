@@ -1,5 +1,6 @@
 #pragma once
 
-class TypeInt : Type {
+#include "type.hpp"
 
+class TypeInt : public Type {
 };
