@@ -1,4 +1,6 @@
 #pragma once
 
-class TypeIntArray : Type {
+#include "type.hpp"
+
+class TypeIntArray : public Type {
 };

@@ -7,7 +7,7 @@ class ClassDeclaration;
 
 class ClassDeclarationRepeated {
 public:
-    ClassDeclarationRepeated(const std::vector<std::shared_ptr<ClassDeclaration>> classDeclarationRepeated) :
+    ClassDeclarationRepeated(const std::vector<std::shared_ptr<ClassDeclaration>>& classDeclarationRepeated) :
         classDeclarationRepeated_{classDeclarationRepeated} {
     }
 
