@@ -222,7 +222,7 @@ CommaExpressionRepeated :
         auto commaExpressionRepeated = $1->commaExpression_;
         commaExpressionRepeated.push_back($3);
         $$ = new CommaExpressionRepeated{commaExpressionRepeated};
-}
+    }
 ;
 
 ExpressionCommaExpressionRepeatedOptional :
