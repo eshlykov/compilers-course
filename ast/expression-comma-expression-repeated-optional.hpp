@@ -6,7 +6,7 @@ class CommaExpressionRepeated;
 
 class ExpressionCommaExpressionRepeatedOptional {
 public:
-    ExpressionCommaExpressionRepeatedOptional(std::optional<std::shared_ptr<CommaExpressionRepeated>> commaExpressionRepeated) :
+    ExpressionCommaExpressionRepeatedOptional(std::shared_ptr<CommaExpressionRepeated> commaExpressionRepeated) :
         commaExpressionRepeated_{commaExpressionRepeated} {
     }
 
