@@ -2,14 +2,23 @@
 
 class Identifier;
 class ExtendsIdentifierOptional;
+class VarDeclarationRepeated;
+class MethodDeclarationRepeated;
 
 class ClassDeclaration {
 public:
-    ClassDeclaration(Identifier* className, ExtendsIdentifierOptional* baseClass) :
-        className_{className}, baseClass_{baseClass} {
+    ClassDeclaration(
+        Identifier* className, ExtendsIdentifierOptional* baseClass,
+        VarDeclarationRepeated* varDeclarationRepeated,
+        MethodDeclarationRepeated* methodDeclarationRepeated) :
+            className_{className}, baseClass_{baseClass},
+            varDeclarationRepeated_{varDeclarationRepeated},
+            methodDeclarationRepeated_{methodDeclarationRepeated} {
     }
 
 public:
     Identifier* className_ = {};
     ExtendsIdentifierOptional* baseClass_ = {};
+    VarDeclarationRepeated* varDeclarationRepeated_ = {};
+    MethodDeclarationRepeated* methodDeclarationRepeated_ = {};
 };
