@@ -4,9 +4,9 @@
 
 class StatementRepeated;
 
-class StatementStatementRepeated : public Statement {
+class BracedStatementRepeated : public Statement {
 public:
-    StatementStatementRepeated(StatementRepeated* statementRepeated) :
+    BracedStatementRepeated(StatementRepeated* statementRepeated) :
         statementRepeated_(statementRepeated) {
     };
 

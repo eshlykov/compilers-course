@@ -206,11 +206,17 @@ StatementRepeated :
 
 Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
+        $$ = new BracedStatementRepeated{$2};
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
+        $$ = new StatementIfElse{$3, $5, $7};
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
+        $$ = new StatementWhile{$3, $5};
     } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
+        $$ = new StatementPrint{$3};
     } | Identifier TT_Assignment Expression TT_Semicolon {
+        $$ = new StatementAssignment{$1, $3};
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
+        $$ = new StatementAssignmentArray{$1, $3, $6};
     }
 ;
 

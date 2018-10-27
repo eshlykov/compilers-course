@@ -1,0 +1,6 @@
+main
+lex.yy.c
+minijava-parser.tab.c
+minijava-parser.tab.h
+minijava-parser.output
+clion-log.txt
