@@ -1,16 +1,15 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 class CommaTypeIdentifier;
 
 class CommaTypeIdentifierRepeated {
 public:
-    explicit CommaTypeIdentifierRepeated(const std::vector<std::shared_ptr<CommaTypeIdentifier>>& commaTypeIdentifier) :
+    explicit CommaTypeIdentifierRepeated(const std::vector<CommaTypeIdentifier*>& commaTypeIdentifier) :
         commaTypeIdentifier_{commaTypeIdentifier} {
     }
 
 public:
-    std::vector<std::shared_ptr<CommaTypeIdentifier>> commaTypeIdentifier_ = {};
+    std::vector<CommaTypeIdentifier*> commaTypeIdentifier_ = {};
 };

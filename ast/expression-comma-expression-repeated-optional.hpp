@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <optional>
 
 class CommaExpressionRepeated;
@@ -12,5 +11,5 @@ public:
     }
 
 public:
-    std::optional<std::shared_ptr<CommaExpressionRepeated>> commaExpressionRepeated_ = {};
+    std::optional<CommaExpressionRepeated*> commaExpressionRepeated_ = {};
 };

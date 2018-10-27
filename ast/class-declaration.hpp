@@ -1,17 +1,15 @@
 #pragma once
 
-#include <memory>
-
 class Identifier;
 class ExtendsIdentifierOptional;
 
 class ClassDeclaration {
 public:
-    ClassDeclaration(std::shared_ptr<Identifier> className, std::shared_ptr<ExtendsIdentifierOptional> baseClass) :
+    ClassDeclaration(Identifier* className, ExtendsIdentifierOptional* baseClass) :
         className_{className}, baseClass_{baseClass} {
     }
 
 public:
-    std::shared_ptr<Identifier> className_ = {};
-    std::shared_ptr<ExtendsIdentifierOptional> baseClass_ = {};
+    Identifier* className_ = {};
+    ExtendsIdentifierOptional* baseClass_ = {};
 };

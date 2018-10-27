@@ -1,7 +1,6 @@
 #pragma once
 
 #include "expression.hpp"
-#include <memory>
 
 enum class BinaryOperator {
     BO_And,
@@ -13,13 +12,13 @@ enum class BinaryOperator {
 
 class ExpressionBinaryOperatorExpression : public Expression {
 public:
-    ExpressionBinaryOperatorExpression(std::shared_ptr<Expression> lhs,
-        std::shared_ptr<Expression> rhs, BinaryOperator binaryOperator) :
+    ExpressionBinaryOperatorExpression(Expression* lhs,
+        Expression* rhs, BinaryOperator binaryOperator) :
             lhs_{lhs}, rhs_{rhs}, binaryOperator_{binaryOperator} {
     }
 
 public:
-    std::shared_ptr<Expression> lhs_ = {};
-    std::shared_ptr<Expression> rhs_ = {};
+    Expression* lhs_ = {};
+    Expression* rhs_ = {};
     BinaryOperator binaryOperator_ = {};
 };

@@ -1,16 +1,15 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 class ClassDeclaration;
 
 class ClassDeclarationRepeated {
 public:
-    ClassDeclarationRepeated(const std::vector<std::shared_ptr<ClassDeclaration>>& classDeclarationRepeated) :
+    ClassDeclarationRepeated(const std::vector<ClassDeclaration*>& classDeclarationRepeated) :
         classDeclarationRepeated_{classDeclarationRepeated} {
     }
 
 public:
-    std::vector<std::shared_ptr<ClassDeclaration>> classDeclarationRepeated_ = {};
+    std::vector<ClassDeclaration* > classDeclarationRepeated_ = {};
 };

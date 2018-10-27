@@ -1,14 +1,13 @@
 #pragma once
 
 #include "expression.hpp"
-#include <memory>
 
 class ExpressionLength : public Expression {
 public:
-    ExpressionLength(std::shared_ptr<Expression> expression) :
+    ExpressionLength(Expression* expression) :
         expression_{expression} {
     }
 
 public:
-    std::shared_ptr<Expression> expression_ = {};
+    Expression* expression_ = {};
 };

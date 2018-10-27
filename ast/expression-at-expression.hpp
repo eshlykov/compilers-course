@@ -1,15 +1,14 @@
 #pragma once
 
 #include "expression.hpp"
-#include <memory>
 
 class ExpressionAtExpression : public Expression {
 public:
-    ExpressionAtExpression(std::shared_ptr<Expression> lhs, std::shared_ptr<Expression> rhs) :
+    ExpressionAtExpression(Expression* lhs, Expression* rhs) :
         lhs_{lhs}, rhs_{rhs} {
     }
 
 public:
-    std::shared_ptr<Expression> lhs_ = {};
-    std::shared_ptr<Expression> rhs_ = {};
+    Expression* lhs_ = {};
+    Expression* rhs_ = {};
 };
