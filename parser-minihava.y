@@ -71,7 +71,7 @@ void yyerror(const char*);
 Goal :
     MainClass ClassDeclarationRepeated {
         std::cout << "Goal" << std::endl;
-        $$ = new MainClass{$1, $2};
+        $$ = new Goal{$1, $2};
     }
 ;
 
@@ -93,27 +93,38 @@ MainClass :
          TT_RightBrace
     TT_RightBrace {
         std::cout << "MainClass" << std::endl;
+        $$ = new MainClass{$1, $2, $3};
     }
 ;
 
 ExtendsIdentifierOptional :
     %empty {
+        $$ = new ExtendsIdentifierOptional{};
     } | TT_Extends Identifier {
         std::cout << "ExtendsIdentifierOptional" << std::endl;
+        $$ = new ExtendsIdentifierOptional{$1};
     }
 ;
 
 VarDeclarationRepeated :
     %empty {
+        $$ = new VarDeclarationRepeated{};
     } | VarDeclarationRepeated VarDeclaration {
         std::cout << "VarDecalarationRepeated" << std::endl;
+        auto varDeclarationRepeated = $1->varDeclarationRepeated_;
+        varDeclarationRepeated.push_back($2);
+        $$ = new VarDeclarationRepeated{varDeclarationRepeated};
     }
 ;
 
 MethodDeclarationRepeated :
     %empty {
+        $$ = new MethodDeclarationRepeated{};
     } | MethodDeclarationRepeated MethodDeclaration {
         std::cout << "MethodDeclarationRepeated" << std::endl;
+        auto methodDeclarationsRepeard = $1->methodDeclarationRepeated_;
+        methodDeclarationsRepeard.push_back($2);
+        $$ = new MethodDeclarationRepeated(methodDeclarationsRepeard.push_back);
     }
 ;
 
@@ -123,26 +134,36 @@ ClassDeclaration :
         MethodDeclarationRepeated
     TT_RightBrace {
         std::cout << "ClassDeclaration" << std::endl;
+        $$ = new ClassDeclaration{$1, $2, $3, $4};
     }
 ;
 
 VarDeclaration :
     Type Identifier TT_Semicolon {
         std::cout << "VarDeclaration" << std::endl;
+        $$ = new VarDeclaration{$1, $2};
     }
 ;
 
 CommaTypeIdentifierRepeated :
     %empty {
+        $$ = new CommaTypeIdentifierRepeated{};
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
         std::cout << "CommaTypeIdentifierRepeated" << std::endl;
+        auto* commaTypeIdentifier = new CommaTypeIdentifier{$2, $3};
+        auto commaTypeIdentifierRepeated = $1->commaTypeIdentifierRepeated_;
+        commaTypeIdentifierRepeated.push_back(commaTypeIdentifier);
+        $$ = new CommaTypeIdentifierRepeated(commaTypeIdentifierRepeated.push_back);
     }
 ;
 
 TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     %empty {
+        $$ = new TypeIdentifierCommaTypeIdentifierRepeatedOptional{};
     } | Type Identifier CommaTypeIdentifierRepeated {
         std::cout << "TypeIdentifierCommaTypeIdentifierRepeated" << std::endl;
+        auto* typeIdentifierCommaTypeIdentifierRepeated = new TypeIdentifierCommaTypeIdentifierRepeated{$1, $2, $3};
+        $$ = new TypeIdentifierCommaTypeIdentifierRepeatedOptional{typeIdentifierCommaTypeIdentifierRepeated};
     }
 ;
 
@@ -153,23 +174,29 @@ MethodDeclaration :
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
         std::cout << "MethodDeclaration" << std::endl;
+        $$ = new MethodDeclaration{$1, $2, $3, $4, $5};
     }
 ;
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
-        $$ = new Type{};
+        $$ = new TypeIntArray{};
     } | TT_Boolean {
+        $$ = new TypeBoolean{};
     } | TT_Int {
+        $$ = new TypeInt{};
     } | Identifier {
         std::cout << "Type" << std::endl;
+        $$ = new TypeIdentifier{};
     }
 ;
 
 StatementRepeated :
     %empty {
+        $$ = new StatementRepeated{};
     } | Statement StatementRepeated {
         std::cout << "StatementRepeated" << std::endl;
+
     }
 ;
 
