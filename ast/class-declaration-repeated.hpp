@@ -11,5 +11,5 @@ public:
     }
 
 public:
-    std::vector<ClassDeclaration* > classDeclarationRepeated_ = {};
+    std::vector<ClassDeclaration*> classDeclarationRepeated_ = {};
 };

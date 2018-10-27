@@ -8,13 +8,11 @@ class Identifier;
 
 class StatementAssignment : public Statement {
 public:
-    StatementAssignment(std::shared_ptr<Identifier> identifier,
-        std::shared_ptr<Expression> expression) :
-            identifier_(identifier),
-            expression_(expression) {
+    StatementAssignment(Identifier* identifier, Expression* expression) :
+        identifier_(identifier), expression_(expression) {
     }
 
 public:
-    std::shared_ptr<Identifier> identifier_ = {};
-    std::shared_ptr<Expression> expression_ = {};
+    Identifier* identifier_ = {};
+    Expression* expression_ = {};
 };

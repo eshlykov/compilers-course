@@ -8,13 +8,13 @@ class CommaTypeIdentifierRepeated;
 
 class TypeIdentifierCommaTypeIdentifierRepeated {
 public:
-    TypeIdentifierCommaTypeIdentifierRepeated(std::shared_ptr<Type> type, std::shared_ptr<Identifier> identifier,
-        std::shared_ptr<CommaTypeIdentifierRepeated> commaTypeIdenfifierRepeated) :
+    TypeIdentifierCommaTypeIdentifierRepeated(Type* type, Identifier* identifier,
+        CommaTypeIdentifierRepeated* commaTypeIdenfifierRepeated) :
             type_{type}, identifier_{identifier}, commaTypeIdenfifierRepeated_{commaTypeIdenfifierRepeated} {
     }
 
 public:
-    std::shared_ptr<Type> type_= {};
-    std::shared_ptr<Identifier> identifier_= {};
-    std::shared_ptr<CommaTypeIdentifierRepeated> commaTypeIdenfifierRepeated_ = {};
+    Type* type_= {};
+    Identifier* identifier_= {};
+    CommaTypeIdentifierRepeated* commaTypeIdenfifierRepeated_ = {};
 };
