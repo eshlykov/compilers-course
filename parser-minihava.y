@@ -80,7 +80,6 @@ ClassDeclarationRepeated :
         $$ = new ClassDeclarationRepeated{};
     } | ClassDeclarationRepeated ClassDeclaration {
         std::cout << "ClassDeclarationRepeated" << std::endl;
-
         auto classDeclarationRepeated = $1->classDeclarationRepeated_;
         classDeclarationRepeated.push_back($2);
         $$ = new ClassDeclarationRepeated{classDeclarationRepeated};
