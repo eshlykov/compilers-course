@@ -1,9 +1,9 @@
 %{
 
+#include "common.h"
+
 #include <iostream>
 #include <cstdlib>
-
-#include "ast/goal.hpp"
 
 extern int yylex();
 extern char* yytext;
@@ -236,22 +236,39 @@ ExpressionCommaExpressionRepeatedOptional :
 
 Expression :
     Expression TT_And Expression {
+        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_And};
     } | Expression TT_Less Expression {
+        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Less};
     } | Expression TT_Plus Expression {
+        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Plus};
     } | Expression TT_Minus Expression {
+        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Minus};
     } | Expression TT_Star Expression {
+        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Star};
     } | Expression TT_LeftBracket Expression TT_RightBracket {
+        $$ = new ExpressionAtExpression{$1, $2};
     } | Expression TT_Dot TT_Length {
+        $$ = new ExpressionLength{$1};
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
+        $$ = new ExpressionIdentifierExpressionCommaExpressionRepeatedOptional{$1, $2, $3};
     } | Number {
+        $$ = new ExpressionNumber{$1};
     } | TT_True {
+        $$ = new ExpressionTrue{};
     } | TT_False {
+        $$ = new ExpressionFalse{};
     } | Identifier {
+        $$ = new ExpressionIdentifier{$1};
     } | TT_This {
+        $$ = new ExpressionThis{};
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
+        $$ = new ExpressionNewExpression{$1};
     } | TT_New Identifier TT_LeftParen TT_RightParen {
+        $$ = new ExpressionNewIdentifier{$1};
     } | TT_Bang Expression {
+        $$ = new ExpressionBang{$1};
     } | TT_LeftParen Expression TT_RightParen {
+        $$ = new ExpressionParentheses{$1};
     }
 ;
 
