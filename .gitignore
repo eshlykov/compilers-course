@@ -1,6 +1,7 @@
 main
-lex.yy.c
-minijava-parser.tab.c
-minijava-parser.tab.h
-minijava-parser.output
+*.c
+*.tab.*
+*.h
+*.output
 clion-log.txt
+*.swp
