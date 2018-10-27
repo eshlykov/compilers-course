@@ -3,6 +3,7 @@
 #include "statement.hpp"
 
 class Expression;
+class Identifier;
 
 class StatementAssignmentArray : public Statement {
 public:

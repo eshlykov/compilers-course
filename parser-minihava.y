@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "ast/goal.hpp"
+
 extern int yylex();
 extern char* yytext;
 void yyerror(const char*);
