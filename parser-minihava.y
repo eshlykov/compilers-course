@@ -196,7 +196,6 @@ StatementRepeated :
         $$ = new StatementRepeated{};
     } | Statement StatementRepeated {
         std::cout << "StatementRepeated" << std::endl;
-
     }
 ;
 
@@ -212,15 +211,21 @@ Statement :
 
 CommaExpressionRepeated :
     %empty {
+        $$ = new CommaExpressionRepeated{};
     } | CommaExpressionRepeated TT_Comma Expression {
         std::cout << "CommaExpressionRepeated" << std::endl;
-    }
+        auto commaExpressionRepeated = $1->commaExpression_;
+        commaExpressionRepeated.push_back($3);
+        $$ = new CommaExpressionRepeated{commaExpressionRepeated};
+}
 ;
 
 ExpressionCommaExpressionRepeatedOptional :
     %empty {
+        $$ = new ExpressionCommaExpressionRepeatedOptional{};
     } | Expression CommaExpressionRepeated {
         std::cout << "ExpressionCommaExpressionRepeatedOptional" << std::endl;
+        $$ = new ExpressionCommaExpressionRepeatedOptional{$1, $2};
     }
 ;
 
@@ -248,12 +253,14 @@ Expression :
 Number :
     TT_Number {
         std::cout << "Number(" << $1 << ")" << std::endl;
+        $$ = new Number($1);
     }
 ;
 
 Identifier :
     TT_Identifier {
         std::cout << "Identifier(" << $1 << ")" << std::endl;
+        $$ = new Identifier($1);
     }
 ;
 
