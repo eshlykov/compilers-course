@@ -1,17 +1,16 @@
 #pragma once
 
 #include "statement.hpp"
-#include <memory>
 
 class Expression;
 
 class StatementPrint : public Statement {
 public:
-    StatementPrint(std::shared_ptr<Expression> expression) :
+    StatementPrint(Expression* expression) :
         expression_(expression) {
 
     }
 
 public:
-    std::shared_ptr<Expression> expression_ = {};
+    Expression* expression_ = {};
 };

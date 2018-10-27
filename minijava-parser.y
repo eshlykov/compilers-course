@@ -76,8 +76,13 @@ Goal :
 
 ClassDeclarationRepeated :
     %empty {
+        $$ = new ClassDeclarationRepeated{std::vector<ClassDeclaration>{}};
     } | ClassDeclarationRepeated ClassDeclaration {
         std::cout << "ClassDeclarationRepeated" << std::endl;
+
+        auto classDeclarationRepeated = $1->classDeclarationRepeated_;
+        classDeclarationRepeated.push_back(std::make_shared<ClassDeclaration>($2));
+        $$ = new ClassDeclarationRepeated{classDeclarationRepeated};
     }
 ;
 
@@ -153,6 +158,7 @@ MethodDeclaration :
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
+        $$ = new Type{};
     } | TT_Boolean {
     } | TT_Int {
     } | Identifier {

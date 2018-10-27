@@ -6,7 +6,7 @@ class Identifier;
 
 class TypeIdentifier : public Type {
 public:
-    TypeIdentifier(std::shared_ptr<Identifier> className) :
+    TypeIdentifier(Identifier* className) :
         Type(className) {
     };
 };

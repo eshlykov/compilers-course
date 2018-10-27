@@ -1,16 +1,15 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 
 class Statement;
 
 class StatementRepeated {
 public:
-    StatementRepeated(const std::vector<std::shared_ptr<Statement>>& statementRepeated) :
+    StatementRepeated(const std::vector<Statement*>& statementRepeated) :
         statementRepeated_{statementRepeated} {
     }
 
 public:
-    std::vector<std::shared_ptr<Statement>> statementRepeated_ = {};
+    std::vector<Statement*> statementRepeated_ = {};
 };
