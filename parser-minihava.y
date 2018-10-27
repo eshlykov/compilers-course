@@ -71,6 +71,7 @@ void yyerror(const char*);
 Goal :
     MainClass ClassDeclarationRepeated {
         std::cout << "Goal" << std::endl;
+        $$ = new MainClass{$1, $2};
     }
 ;
 
