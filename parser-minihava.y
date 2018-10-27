@@ -198,6 +198,9 @@ StatementRepeated :
         $$ = new StatementRepeated{};
     } | Statement StatementRepeated {
         std::cout << "StatementRepeated" << std::endl;
+        auto statementRepeated = $2->statementRepeated_;
+        statementRepeated.push_back($1);
+        $$ = new StatementRepeated{statementRepeated};
     }
 ;
 
@@ -219,7 +222,7 @@ CommaExpressionRepeated :
         auto commaExpressionRepeated = $1->commaExpression_;
         commaExpressionRepeated.push_back($3);
         $$ = new CommaExpressionRepeated{commaExpressionRepeated};
-}
+    }
 ;
 
 ExpressionCommaExpressionRepeatedOptional :
