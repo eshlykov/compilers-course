@@ -198,6 +198,9 @@ StatementRepeated :
         $$ = new StatementRepeated{};
     } | Statement StatementRepeated {
         std::cout << "StatementRepeated" << std::endl;
+        auto statementRepeated = $2->statementRepeated_;
+        statementRepeated.push_back($1);
+        $$ = new StatementRepeated{statementRepeated};
     }
 ;
 
