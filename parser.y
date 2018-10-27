@@ -1,4 +1,4 @@
-%{
+%code requires {
 
 #include "common.hpp"
 #include <iostream>
@@ -8,17 +8,62 @@ extern int yylex();
 extern char* yytext;
 void yyerror(const char*);
 
-%}
+}
 
 %union {
-    int Number;
-    char* Identifier;
+    int NumberToken_;
+    char* IdentifierToken_;
+
+    BracedStatement* BracedStatement_;
+    ClassDeclaration* ClassDeclaration_;
+    ClassDeclarationRepeated* ClassDeclarationRepeated_;
+    CommaExpression* CommaExpression_;
+    CommaExpressionRepeated* CommaExpressionRepeated_;
+    CommaTypeIdentifier* CommaTypeIdentifier_;
+    CommaTypeIdentifierRepeated* CommaTypeIdentifierRepeated_;
+    ExpressionAtExpression* ExpressionAtExpression_;
+    ExpressionBang* ExpressionBang;
+    ExpressionBinaryOperatorExpression* ExpressionBinaryOperatorExpression_;
+    ExpressionCommaExpressionRepeatedOptional* ExpressionCommaExpressionRepeatedOptional_;
+    ExpressionFalse* ExpressionFalse_;
+    Expression* Expression_;
+    ExpressionIdentifierExpressionCommaExpressionRepeatedOptional* ExpressionIdentifierExpressionCommaExpressionRepeatedOptional_;
+    ExpressionLength* ExpressionLength_;
+    ExpressionNewExpression* ExpressionNewExpression_;
+    ExpressionNewIdentifier* ExpressionNewIdentifier_;
+    ExpressionNumber* ExpressionNumber_;
+    ExpressionParentheses* ExpressionParentheses_;
+    ExpressionThis* ExpressionThis_;
+    ExpressionTrue* ExpressionTrue_;
+    ExtendsIdentifierOptional* ExtendsIdentifierOptional_;
+    Goal* Goal_;
+    Identifier* Identifier_;
+    MainClass* MainClass_;
+    MethodDeclaration* MethodDeclaration_;
+    MethodDeclarationRepeated* MethodDeclarationRepeated_;
+    Number* Number_;
+    StatementAssignmentArray* StatementAssignmentArray_;
+    StatementAssignment* StatementAssignment_;
+    Statement* Statement_;
+    StatementIfElse* StatementIfElse_;
+    StatementPrint* StatementPrint_;
+    StatementRepeated* StatementRepeated_;
+    StatementWhile* StatementWhile_;
+    TypeBoolean* TypeBoolean_;
+    Type* Type_;
+    TypeIdentifierCommaTypeIdentifierRepeated* TypeIdentifierCommaTypeIdentifierRepeated_;
+    TypeIdentifierCommaTypeIdentifierRepeatedOptional* TypeIdentifierCommaTypeIdentifierRepeatedOptional_;
+    TypeIdentifier* TypeIdentifier_;
+    TypeIntArray* TypeIntArray_;
+    TypeInt* TypeInt_;
+    VarDeclaration* VarDeclaration_;
+    VarDeclarationRepeated* VarDeclarationRepeated_;
 }
 
 %start Goal
 
-%token <Number> TT_Number
-%token <Identifier>  TT_Identifier
+%token <NumberToken_> TT_Number
+%token <IdentifierToken_>  TT_Identifier
 %token TT_Class
 %token TT_Public
 %token TT_Static
@@ -65,6 +110,26 @@ void yyerror(const char*);
 %left TT_Dot
 %right TTLeftParen TT_LeftBracket
 
+%type <Goal_> Goal
+%type <ClassDeclarationRepeated_> ClassDeclarationRepeated
+%type <MainClass_> MainClass
+%type <ExtendsIdentifierOptional_> ExtendsIdentifierOptional
+%type <VarDeclarationRepeated_> VarDeclarationRepeated
+%type <MethodDeclarationRepeated_> MethodDeclarationRepeated
+%type <ClassDeclaration_> ClassDeclaration
+%type <VarDeclaration_> VarDeclaration
+%type <CommaTypeIdentifierRepeated_> CommaTypeIdentifierRepeated
+%type <TypeIdentifierCommaTypeIdentifierRepeatedOptional_> TypeIdentifierCommaTypeIdentifierRepeatedOptional
+%type <MethodDeclaration_> MethodDeclaration
+%type <Type_> Type
+%type <StatementRepeated_> StatementRepeated
+%type <Statement_> Statement
+%type <CommaExpressionRepeated_> CommaExpressionRepeated
+%type <ExpressionCommaExpressionRepeatedOptional_> ExpressionCommaExpressionRepeatedOptional
+%type <Expression_> Expression
+%type <Number_> Number
+%type <Identifier_> Identifier
+
 %locations
 
 %%
@@ -94,7 +159,7 @@ MainClass :
          TT_RightBrace
     TT_RightBrace {
         std::cout << "MainClass" << std::endl;
-        $$ = new MainClass{$1, $2, $3};
+        $$ = new MainClass{$2, $12, $15};
     }
 ;
 
@@ -103,7 +168,7 @@ ExtendsIdentifierOptional :
         $$ = new ExtendsIdentifierOptional{};
     } | TT_Extends Identifier {
         std::cout << "ExtendsIdentifierOptional" << std::endl;
-        $$ = new ExtendsIdentifierOptional{$1};
+        $$ = new ExtendsIdentifierOptional{$2};
     }
 ;
 
@@ -123,9 +188,9 @@ MethodDeclarationRepeated :
         $$ = new MethodDeclarationRepeated{};
     } | MethodDeclarationRepeated MethodDeclaration {
         std::cout << "MethodDeclarationRepeated" << std::endl;
-        auto methodDeclarationsRepeard = $1->methodDeclarationRepeated_;
-        methodDeclarationsRepeard.push_back($2);
-        $$ = new MethodDeclarationRepeated(methodDeclarationsRepeard.push_back);
+        auto methodDeclarationRepeated = $1->methodDeclarationRepeated_;
+        methodDeclarationRepeated.push_back($2);
+        $$ = new MethodDeclarationRepeated(methodDeclarationRepeated);
     }
 ;
 
@@ -135,7 +200,7 @@ ClassDeclaration :
         MethodDeclarationRepeated
     TT_RightBrace {
         std::cout << "ClassDeclaration" << std::endl;
-        $$ = new ClassDeclaration{$1, $2, $3, $4};
+        $$ = new ClassDeclaration{$2, $3, $5, $6};
     }
 ;
 
@@ -151,10 +216,10 @@ CommaTypeIdentifierRepeated :
         $$ = new CommaTypeIdentifierRepeated{};
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
         std::cout << "CommaTypeIdentifierRepeated" << std::endl;
-        auto* commaTypeIdentifier = new CommaTypeIdentifier{$2, $3};
+        auto* commaTypeIdentifier = new CommaTypeIdentifier{$3, $4};
         auto commaTypeIdentifierRepeated = $1->commaTypeIdentifierRepeated_;
         commaTypeIdentifierRepeated.push_back(commaTypeIdentifier);
-        $$ = new CommaTypeIdentifierRepeated(commaTypeIdentifierRepeated.push_back);
+        $$ = new CommaTypeIdentifierRepeated(commaTypeIdentifierRepeated);
     }
 ;
 
@@ -175,7 +240,7 @@ MethodDeclaration :
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
         std::cout << "MethodDeclaration" << std::endl;
-        $$ = new MethodDeclaration{$1, $2, $3, $4, $5};
+        $$ = new MethodDeclaration{$2, $3, $5, $8, $9, $11};
     }
 ;
 
@@ -188,7 +253,7 @@ Type :
         $$ = new TypeInt{};
     } | Identifier {
         std::cout << "Type" << std::endl;
-        $$ = new TypeIdentifier{};
+        $$ = new TypeIdentifier{$1};
     }
 ;
 
@@ -205,7 +270,7 @@ StatementRepeated :
 
 Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
-        $$ = new BracedStatementRepeated{$2};
+        $$ = new BracedStatement{$2};
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
         $$ = new StatementIfElse{$3, $5, $7};
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
@@ -225,7 +290,8 @@ CommaExpressionRepeated :
     } | CommaExpressionRepeated TT_Comma Expression {
         std::cout << "CommaExpressionRepeated" << std::endl;
         auto commaExpressionRepeated = $1->commaExpression_;
-        commaExpressionRepeated.push_back($3);
+        auto* commaExpression = new CommaExpression{$3};
+        commaExpressionRepeated.push_back(commaExpression);
         $$ = new CommaExpressionRepeated{commaExpressionRepeated};
     }
 ;
@@ -235,27 +301,28 @@ ExpressionCommaExpressionRepeatedOptional :
         $$ = new ExpressionCommaExpressionRepeatedOptional{};
     } | Expression CommaExpressionRepeated {
         std::cout << "ExpressionCommaExpressionRepeatedOptional" << std::endl;
-        $$ = new ExpressionCommaExpressionRepeatedOptional{$1, $2};
+        auto* expressionCommeExpressionRepeated = new ExpressionCommaExpressionRepeated{$1, $2};
+        $$ = new ExpressionCommaExpressionRepeatedOptional{expressionCommeExpressionRepeated};
     }
 ;
 
 Expression :
     Expression TT_And Expression {
-        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_And};
+        $$ = new ExpressionBinaryOperatorExpression{$1, $3, BinaryOperator::BO_And};
     } | Expression TT_Less Expression {
-        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Less};
+        $$ = new ExpressionBinaryOperatorExpression{$1, $3, BinaryOperator::BO_Less};
     } | Expression TT_Plus Expression {
-        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Plus};
+        $$ = new ExpressionBinaryOperatorExpression{$1, $3, BinaryOperator::BO_Plus};
     } | Expression TT_Minus Expression {
-        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Minus};
+        $$ = new ExpressionBinaryOperatorExpression{$1, $3, BinaryOperator::BO_Minus};
     } | Expression TT_Star Expression {
-        $$ = new ExpressionBinaryOperatorExpression{$1, $2, BinaryOperator::BO_Star};
+        $$ = new ExpressionBinaryOperatorExpression{$1, $3, BinaryOperator::BO_Star};
     } | Expression TT_LeftBracket Expression TT_RightBracket {
-        $$ = new ExpressionAtExpression{$1, $2};
+        $$ = new ExpressionAtExpression{$1, $3};
     } | Expression TT_Dot TT_Length {
         $$ = new ExpressionLength{$1};
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
-        $$ = new ExpressionIdentifierExpressionCommaExpressionRepeatedOptional{$1, $2, $3};
+        $$ = new ExpressionIdentifierExpressionCommaExpressionRepeatedOptional{$1, $3, $5};
     } | Number {
         $$ = new ExpressionNumber{$1};
     } | TT_True {
@@ -263,17 +330,17 @@ Expression :
     } | TT_False {
         $$ = new ExpressionFalse{};
     } | Identifier {
-        $$ = new ExpressionIdentifier{$1};
+        $$ = $1;
     } | TT_This {
         $$ = new ExpressionThis{};
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
-        $$ = new ExpressionNewExpression{$1};
+        $$ = new ExpressionNewExpression{$4};
     } | TT_New Identifier TT_LeftParen TT_RightParen {
-        $$ = new ExpressionNewIdentifier{$1};
+        $$ = new ExpressionNewIdentifier{$2};
     } | TT_Bang Expression {
-        $$ = new ExpressionBang{$1};
+        $$ = new ExpressionBang{$2};
     } | TT_LeftParen Expression TT_RightParen {
-        $$ = new ExpressionParentheses{$1};
+        $$ = new ExpressionParentheses{$2};
     }
 ;
 

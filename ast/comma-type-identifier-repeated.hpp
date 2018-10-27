@@ -6,7 +6,9 @@ class CommaTypeIdentifier;
 
 class CommaTypeIdentifierRepeated {
 public:
-    explicit CommaTypeIdentifierRepeated(const std::vector<CommaTypeIdentifier*>& commaTypeIdentifierRepeated) :
+    CommaTypeIdentifierRepeated() = default;
+
+    CommaTypeIdentifierRepeated(const std::vector<CommaTypeIdentifier*>& commaTypeIdentifierRepeated) :
         commaTypeIdentifierRepeated_{commaTypeIdentifierRepeated} {
     }
 

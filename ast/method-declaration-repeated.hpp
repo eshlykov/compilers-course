@@ -4,6 +4,8 @@ class MethodDeclaration;
 
 class MethodDeclarationRepeated {
 public:
+    MethodDeclarationRepeated() = default;
+
     explicit MethodDeclarationRepeated(const std::vector<MethodDeclaration*>& methodDeclarationRepeated) :
         methodDeclarationRepeated_{methodDeclarationRepeated} {
     }

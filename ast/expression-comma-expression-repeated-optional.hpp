@@ -2,14 +2,16 @@
 
 #include <optional>
 
-class CommaExpressionRepeated;
+class ExpressionCommaExpressionRepeated;
 
 class ExpressionCommaExpressionRepeatedOptional {
 public:
-    ExpressionCommaExpressionRepeatedOptional(CommaExpressionRepeated* commaExpressionRepeated) :
-        commaExpressionRepeated_{commaExpressionRepeated} {
+    ExpressionCommaExpressionRepeatedOptional() = default;
+
+    ExpressionCommaExpressionRepeatedOptional(ExpressionCommaExpressionRepeated* expressionCommaExpressionRepeated) :
+        expressionCommaExpressionRepeated_{expressionCommaExpressionRepeated} {
     }
 
 public:
-    std::optional<CommaExpressionRepeated*> commaExpressionRepeated_ = {};
+    std::optional<ExpressionCommaExpressionRepeated*> expressionCommaExpressionRepeated_ = {};
 };

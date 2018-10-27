@@ -6,6 +6,8 @@ class ClassDeclaration;
 
 class ClassDeclarationRepeated {
 public:
+    ClassDeclarationRepeated() = default;
+
     ClassDeclarationRepeated(const std::vector<ClassDeclaration*>& classDeclarationRepeated) :
         classDeclarationRepeated_{classDeclarationRepeated} {
     }

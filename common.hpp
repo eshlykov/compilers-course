@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ast/braced-statement.hpp"
 #include "ast/class-declaration-repeated.hpp"
 #include "ast/class-declaration.hpp"
 #include "ast/comma-expression-repeated.hpp"
@@ -11,6 +12,7 @@
 #include "ast/expression-binary-operator-expression.hpp"
 #include "ast/expression-binary-operator-expression.hpp"
 #include "ast/expression-comma-expression-repeated-optional.hpp"
+#include "ast/expression-comma-expression-repeated.hpp"
 #include "ast/expression-false.hpp"
 #include "ast/expression-identifier-expression-comma-expression-repeated-optional.hpp"
 #include "ast/expression-length.hpp"
@@ -33,7 +35,6 @@
 #include "ast/statement-if-else.hpp"
 #include "ast/statement-print.hpp"
 #include "ast/statement-repeated.hpp"
-#include "ast/statement-statement-repeated.hpp"
 #include "ast/statement-while.hpp"
 #include "ast/statement.hpp"
 #include "ast/type-boolean.hpp"

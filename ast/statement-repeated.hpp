@@ -6,6 +6,8 @@ class Statement;
 
 class StatementRepeated {
 public:
+    StatementRepeated() = default;
+
     StatementRepeated(const std::vector<Statement*>& statementRepeated) :
         statementRepeated_{statementRepeated} {
     }

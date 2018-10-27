@@ -4,6 +4,8 @@ class Identifier;
 
 class Type {
 public:
+    Type() = default;
+
     Type(Identifier* className) :
         className_(className) {
     };

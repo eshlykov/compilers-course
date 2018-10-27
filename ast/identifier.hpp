@@ -1,8 +1,9 @@
 #pragma once
 
+#include "expression.hpp"
 #include <string>
 
-class Identifier {
+class Identifier : public Expression {
 public:
     Identifier(const std::string& identifier) :
         identifier_(identifier) {

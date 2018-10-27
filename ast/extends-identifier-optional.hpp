@@ -6,6 +6,8 @@ class Idenitifier;
 
 class ExtendsIdentifierOptional {
 public:
+    ExtendsIdentifierOptional() = default;
+
     ExtendsIdentifierOptional(Identifier* className) :
         className_{className} {
     }

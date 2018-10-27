@@ -6,6 +6,8 @@ class TypeIdentifierCommaTypeIdentifierRepeated;
 
 class TypeIdentifierCommaTypeIdentifierRepeatedOptional {
 public:
+    TypeIdentifierCommaTypeIdentifierRepeatedOptional() = default;
+
     TypeIdentifierCommaTypeIdentifierRepeatedOptional(TypeIdentifierCommaTypeIdentifierRepeated* typeIdentifierCommaTypeIdentifierRepeated) :
         typeIdentifierCommaTypeIdentifierRepeated_{typeIdentifierCommaTypeIdentifierRepeated} {
     }

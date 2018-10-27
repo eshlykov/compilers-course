@@ -4,7 +4,9 @@ class VarDeclaration;
 
 class VarDeclarationRepeated {
 public:
-    explicit VarDeclarationRepeated(const std::vector<VarDeclaration*>& varDeclarationRepeated) :
+    VarDeclarationRepeated() = default;
+
+    VarDeclarationRepeated(const std::vector<VarDeclaration*>& varDeclarationRepeated) :
         varDeclarationRepeated_{varDeclarationRepeated} {
     }
 

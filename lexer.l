@@ -22,7 +22,7 @@ int yycolumn = 1;
 }
 
 0|[1-9][0-9]* {
-    yylval.Number = std::atoi(yytext);
+    yylval.NumberToken_ = std::atoi(yytext);
     std::cout << "TT_Number(" << yytext << ")" << std::endl;
     return TT_Number;
 }
@@ -203,7 +203,7 @@ int {
 }
 
 [a-zA-Z_][a-zA-Z_0-9]* {
-    yylval.Identifier = yytext;
+    yylval.IdentifierToken_ = yytext;
     std::cout << "TT_Identifier(" << yytext << ")" << std::endl;
     return TT_Identifier;
 }

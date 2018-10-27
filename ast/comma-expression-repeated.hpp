@@ -6,7 +6,9 @@ class CommaExpression;
 
 class CommaExpressionRepeated {
 public:
-    explicit CommaExpressionRepeated(const std::vector<CommaExpression*>& commaExpression) :
+    CommaExpressionRepeated() = default;
+
+    CommaExpressionRepeated(const std::vector<CommaExpression*>& commaExpression) :
         commaExpression_{commaExpression} {
     }
 
