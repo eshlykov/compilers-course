@@ -1,6 +1,6 @@
 #pragma once
 
-class ClassDeclaration;
+class VarDeclaration;
 
 class VarDeclarationRepeated {
 public:

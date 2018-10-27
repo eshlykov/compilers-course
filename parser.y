@@ -1,7 +1,6 @@
 %{
 
-#include "common.h"
-
+#include "common.hpp"
 #include <iostream>
 #include <cstdlib>
 

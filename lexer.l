@@ -1,6 +1,6 @@
 %{
 
-#include "minijava-parser.tab.h"
+#include "parser.tab.h"
 
 #include <cstdlib>
 #include <iostream>
