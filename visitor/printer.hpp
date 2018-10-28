@@ -180,12 +180,30 @@ public:
     }
 
     virtual void Visit(TypeIdentifier* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->Accept(this);
     }
 
     virtual void Visit(TypeIntArray* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->Accept(this);
     }
 
     virtual void Visit(TypeInt* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->Accept(this);
     }
 
     virtual void Visit(VarDeclaration* node) override {
