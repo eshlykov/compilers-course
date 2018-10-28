@@ -8,7 +8,7 @@ git:
   depth: 1
 
 compiler:
-- clang++
+- clang-7.0
 
 install:
 - sudo apt-get install flex
