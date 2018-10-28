@@ -2,9 +2,14 @@
 
 #include "../ast.hpp"
 #include "visitor.hpp"
+#include <fstream>
 
 class Printer : public Visitor {
 public:
+    Printer(std::string filename) :
+        file_{filename} {
+    }
+
     virtual void Visit(BracedStatement* node) override {
     }
 
@@ -139,4 +144,7 @@ public:
 
     virtual void Visit(VarDeclarationRepeated* node) override {
     }
+
+public:
+    std::ofstream file_;
 };
