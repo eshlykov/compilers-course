@@ -160,6 +160,14 @@ public:
     }
 
     virtual void Visit(VarDeclarationRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"VarDeclarationRepeated\"];" << std::endl;
+
+        for (auto* VarDeclaration: node->varDeclarationRepeated_) {
+            ++nodeNumber_;
+            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+            VarDeclaration->Accept(this);
+        }
     }
 
 public:
