@@ -7,7 +7,13 @@
 class Printer : public Visitor {
 public:
     Printer(const std::string& filename) :
-        file_{filename} {
+        file_{filename}, nodeNumber_{0} {
+            file_ << "strict graph {" << std::endl;
+    }
+
+    ~Printer() {
+        file_ << "}" << std::endl;
+        file_.close();
     }
 
     virtual void Visit(BracedStatement* node) override {
@@ -80,7 +86,13 @@ public:
     }
 
     virtual void Visit(Goal* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"Goal\"];" << std::endl;
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
         node->mainClass_->Accept(this);
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
         node->classDeclarationRepeated_->Accept(this);
     }
 
@@ -88,6 +100,9 @@ public:
     }
 
     virtual void Visit(MainClass* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
+        ++nodeNumber_;
     }
 
     virtual void Visit(MethodDeclaration* node) override {
@@ -149,4 +164,5 @@ public:
 
 public:
     std::ofstream file_;
+    int nodeNumber_;
 };
