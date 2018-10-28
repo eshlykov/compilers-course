@@ -7,7 +7,7 @@ branches:
 git:
   depth: 1
 
-- compiler: clang
+compiler: clang
       addons:
         apt:
           sources:
