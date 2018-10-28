@@ -11,7 +11,7 @@ void yyerror(Goal*, const char*);
 }
 
 %parse-param {
-    Goal* goal
+    Goal*& goal
 }
 
 %union {

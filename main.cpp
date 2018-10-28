@@ -1,6 +1,7 @@
 #include "visitor/printer.hpp"
+#include <iostream>
 
-extern int yyparse(Goal*);
+extern int yyparse(Goal*&);
 
 int main() {
     Goal* goal = nullptr;
