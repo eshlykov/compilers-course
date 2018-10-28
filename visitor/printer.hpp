@@ -6,7 +6,7 @@
 
 class Printer : public Visitor {
 public:
-    Printer(std::string filename) :
+    Printer(const std::string& filename) :
         file_{filename} {
     }
 
