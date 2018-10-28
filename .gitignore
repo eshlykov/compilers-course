@@ -1,7 +1,10 @@
 compiler
+lexer.cpp
+parser.cpp
+parser.hpp
 *.c
-*.tab.*
 *.h
+*.tab.*
 *.output
 *clion*
 *.swp

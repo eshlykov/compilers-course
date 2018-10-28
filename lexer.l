@@ -1,6 +1,6 @@
 %{
 
-#include "parser.tab.h"
+#include "parser.hpp"
 
 #include <cstdlib>
 #include <iostream>
