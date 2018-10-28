@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../visitor.hpp"
 #include <vector>
 
 class CommaTypeIdentifier;

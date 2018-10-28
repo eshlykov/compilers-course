@@ -1,6 +1,6 @@
 %code requires {
 
-#include "common.hpp"
+#include "ast.hpp"
 #include <iostream>
 #include <cstdlib>
 
