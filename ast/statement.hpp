@@ -1,10 +1,6 @@
 #pragma once
 
-#include "../visitor.hpp"
+#include "node.hpp"
 
-class Statement {
-public:
-    void Accept(Visitor* visitor) {
-        visitor->Visit(this);
-    }
+class Statement : public Node {
 };

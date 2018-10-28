@@ -1,13 +1,14 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Identifier;
 class ExtendsIdentifierOptional;
 class VarDeclarationRepeated;
 class MethodDeclarationRepeated;
 
-class ClassDeclaration {
+class ClassDeclaration : public Node {
 public:
     ClassDeclaration(
         Identifier* className, ExtendsIdentifierOptional* baseClass,
@@ -18,7 +19,7 @@ public:
             methodDeclarationRepeated_{methodDeclarationRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

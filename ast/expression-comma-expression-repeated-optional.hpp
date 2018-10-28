@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 #include <optional>
 
 class ExpressionCommaExpressionRepeated;
 
-class ExpressionCommaExpressionRepeatedOptional {
+class ExpressionCommaExpressionRepeatedOptional : public Node {
 public:
     ExpressionCommaExpressionRepeatedOptional() = default;
 
@@ -13,7 +14,7 @@ public:
         expressionCommaExpressionRepeated_{expressionCommaExpressionRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

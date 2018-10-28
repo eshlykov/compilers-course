@@ -1,17 +1,18 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Type;
 class Identifier;
 
-class CommaTypeIdentifier {
+class CommaTypeIdentifier : public Node {
 public:
     CommaTypeIdentifier(Type* type, Identifier* name) :
         type_{type}, name_{name} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

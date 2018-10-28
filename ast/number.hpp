@@ -1,14 +1,15 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "expression.hpp"
 
-class Number {
+class Number : public Expression {
 public:
     Number(int number) :
         number_(number) {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

@@ -11,7 +11,7 @@ public:
         expression_(expression) {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

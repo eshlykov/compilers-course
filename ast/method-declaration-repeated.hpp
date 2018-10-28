@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class MethodDeclaration;
 
-class MethodDeclarationRepeated {
+class MethodDeclarationRepeated : public Node {
 public:
     MethodDeclarationRepeated() = default;
 
@@ -12,7 +13,7 @@ public:
         methodDeclarationRepeated_{methodDeclarationRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

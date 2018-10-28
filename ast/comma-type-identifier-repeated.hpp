@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 #include <vector>
 
 class CommaTypeIdentifier;
 
-class CommaTypeIdentifierRepeated {
+class CommaTypeIdentifierRepeated : public Node {
 public:
     CommaTypeIdentifierRepeated() = default;
 
@@ -13,7 +14,7 @@ public:
         commaTypeIdentifierRepeated_{commaTypeIdentifierRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

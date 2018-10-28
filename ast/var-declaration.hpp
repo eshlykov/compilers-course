@@ -1,17 +1,18 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Type;
 class Identifier;
 
-class VarDeclaration {
+class VarDeclaration : public Node {
 public:
     VarDeclaration(Type* type, Identifier* varName) :
         type_{type}, varName_{varName} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

@@ -5,7 +5,7 @@
 
 class TypeIntArray : public Type {
 public:
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 };

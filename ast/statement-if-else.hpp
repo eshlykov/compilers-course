@@ -11,7 +11,7 @@ public:
         condition_(condition), trueStatement_(trueStatement), falseStatement_(falseStatement) {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

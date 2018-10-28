@@ -18,7 +18,6 @@
 #include "ast/expression-length.hpp"
 #include "ast/expression-new-expression.hpp"
 #include "ast/expression-new-identifier.hpp"
-#include "ast/expression-number.hpp"
 #include "ast/expression-parentheses.hpp"
 #include "ast/expression-this.hpp"
 #include "ast/expression-true.hpp"

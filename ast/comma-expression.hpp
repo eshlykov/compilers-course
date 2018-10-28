@@ -1,16 +1,17 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Expression;
 
-class CommaExpression {
+class CommaExpression : public Node {
 public:
     CommaExpression(Expression* expression) :
         expression_{expression} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

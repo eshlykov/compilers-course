@@ -1,17 +1,18 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Identifier;
 class Statement;
 
-class MainClass {
+class MainClass : public Node {
 public:
     MainClass(Identifier* className, Identifier* mainArgumentName, Statement* mainBody) :
         className_{className}, mainArgumentName_{mainArgumentName}, mainBody_{mainBody} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

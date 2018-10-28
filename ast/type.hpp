@@ -1,12 +1,6 @@
 #pragma once
 
-#include "../visitor.hpp"
+#include "node.hpp"
 
-class Identifier;
-
-class Type {
-public:
-    void Accept(Visitor* visitor) {
-        visitor->Visit(this);
-    }
+class Type : public Node {
 };

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 #include <vector>
 
 class Statement;
 
-class StatementRepeated {
+class StatementRepeated : public Node {
 public:
     StatementRepeated() = default;
 
@@ -13,7 +14,7 @@ public:
         statementRepeated_{statementRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

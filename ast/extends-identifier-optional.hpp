@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 #include <optional>
 
 class Idenitifier;
 
-class ExtendsIdentifierOptional {
+class ExtendsIdentifierOptional : public Node {
 public:
     ExtendsIdentifierOptional() = default;
 
@@ -13,7 +14,7 @@ public:
         className_{className} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

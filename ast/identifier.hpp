@@ -10,7 +10,7 @@ public:
         identifier_(identifier) {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

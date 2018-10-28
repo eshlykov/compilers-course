@@ -12,7 +12,7 @@ public:
         identifier_(identifier), expressionFirst_(expressionFirst), expressionSecond_(expressionSecond) {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

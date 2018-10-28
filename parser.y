@@ -303,7 +303,7 @@ Expression :
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
         $$ = new ExpressionIdentifierExpressionCommaExpressionRepeatedOptional{$1, $3, $5};
     } | Number {
-        $$ = new ExpressionNumber{$1};
+        $$ =  $1;
     } | TT_True {
         $$ = new ExpressionTrue{};
     } | TT_False {

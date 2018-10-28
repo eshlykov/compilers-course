@@ -15,7 +15,7 @@ public:
             expressionCommaExpressionRepeatedOptional_{expressionCommaExpressionRepeatedOptional} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

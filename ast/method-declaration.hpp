@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class Type;
 class Identifier;
@@ -9,7 +10,7 @@ class VarDeclarationRepeated;
 class StatementRepeated;
 class Expression;
 
-class MethodDeclaration {
+class MethodDeclaration : public Node {
 public:
     MethodDeclaration(Type* returnType, Identifier* methodName,
         TypeIdentifierCommaTypeIdentifierRepeatedOptional* arguments,
@@ -19,7 +20,7 @@ public:
             varDeclarations_{varDeclarations}, methodBody_{methodBody}, returnExpression_{returnExpression} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 

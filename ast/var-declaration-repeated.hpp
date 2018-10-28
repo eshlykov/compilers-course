@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "node.hpp"
 
 class VarDeclaration;
 
-class VarDeclarationRepeated {
+class VarDeclarationRepeated : public Node {
 public:
     VarDeclarationRepeated() = default;
 
@@ -12,7 +13,7 @@ public:
         varDeclarationRepeated_{varDeclarationRepeated} {
     }
 
-    void Accept(Visitor* visitor) {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 
