@@ -165,13 +165,23 @@ public:
     }
 
     virtual void Visit(VarDeclaration* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"VarDeclaration\"];" << std::endl;
+
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->type_->Accept(this);
+
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->varName_->Accept(this);
     }
 
     virtual void Visit(VarDeclarationRepeated* node) override {
         auto headNodeNumber = nodeNumber_;
         file_ << headNodeNumber << " [label=\"VarDeclarationRepeated\"];" << std::endl;
 
-        for (auto* VarDeclaration: node->varDeclarationRepeated_) {
+        for (auto* VarDeclaration : node->varDeclarationRepeated_) {
             ++nodeNumber_;
             file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
             VarDeclaration->Accept(this);
