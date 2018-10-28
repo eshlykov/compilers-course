@@ -8,10 +8,13 @@ class Identifier;
 class TypeIdentifier : public Type {
 public:
     TypeIdentifier(Identifier* className) :
-        Type(className) {
+        className_(className) {
     };
 
     void Accept(Visitor* visitor) {
         visitor->Visit(this);
     }
+
+public:
+    Identifier* className_ = {};
 };

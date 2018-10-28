@@ -148,96 +148,175 @@ public:
     }
 
     virtual void Visit(StatementAssignmentArray* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementAssignmentArray");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->identifier_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expressionFirst_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expressionSecond_->Accept(this);
     }
 
     virtual void Visit(StatementAssignment* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementAssignment");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->identifier_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
     }
 
     virtual void Visit(Statement* node) override {
     }
 
     virtual void Visit(StatementIfElse* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementIfElse");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->condition_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->trueStatement_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->falseStatement_->Accept(this);
     }
 
     virtual void Visit(StatementPrint* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementPrint");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
     }
 
     virtual void Visit(StatementRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementRepeated");
+
+        for (auto* statement : node->statementRepeated_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            statement->Accept(this)
+        }
     }
 
     virtual void Visit(StatementWhile* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "StatementWhile");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->condition_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->trueStatement_->Accept(this);
     }
 
     virtual void Visit(TypeBoolean* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
     }
 
     virtual void Visit(Type* node) override {
+
     }
 
     virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->type_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->identifier_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->commaTypeIdenfifierRepeated_->Accept(this);
     }
 
     virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeatedOptional* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
+
+        if (node->typeIdentifierCommaTypeIdentifierRepeated_.has_value()) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            node->typeIdentifierCommaTypeIdentifierRepeated_->Accept(this);
+        }
     }
 
     virtual void Visit(TypeIdentifier* node) override {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber);
+        PrintHead(headNodeNumber, "TypeIdentifier");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->Accept(this);
+        node->className_->Accept(this);
     }
 
     virtual void Visit(TypeIntArray* node) override {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->Accept(this);
+        PrintHead(headNodeNumber, "TypeIntArray");
     }
 
     virtual void Visit(TypeInt* node) override {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->Accept(this);
+        PrintHead(headNodeNumber, "TypeInt");
     }
 
     virtual void Visit(VarDeclaration* node) override {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"VarDeclaration\"];" << std::endl;
+        PrintHead(headNodeNumber, "VarDeclaration");
 
         ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        PrintEdge(headNodeNumber);
         node->type_->Accept(this);
 
         ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        PrintEdge(headNodeNumber);
         node->varName_->Accept(this);
     }
 
     virtual void Visit(VarDeclarationRepeated* node) override {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"VarDeclarationRepeated\"];" << std::endl;
+        PrintHead("VarDeclarationRepeated");
 
-        for (auto* VarDeclaration : node->varDeclarationRepeated_) {
+        for (auto* varDeclaration : node->varDeclarationRepeated_) {
             ++nodeNumber_;
-            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-            VarDeclaration->Accept(this);
+            PrintEdge(headNodeNumber);
+            varDeclaration->Accept(this);
         }
     }
 
 private:
     void PrintHead(int headNodeNumber, const std::string& label) {
-        std::cout << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
+        file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
     }
 
     void PrintEdge(int headNodeNumber) {
-        std::cout << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
     }
 
 private:
