@@ -6,8 +6,12 @@
 
 extern int yylex();
 extern char* yytext;
-void yyerror(const char*);
+void yyerror(Goal*, const char*);
 
+}
+
+%parse-param {
+    Goal* goal
 }
 
 %union {
@@ -112,7 +116,7 @@ void yyerror(const char*);
 Goal :
     MainClass ClassDeclarationRepeated {
         std::cout << "Goal" << std::endl;
-        $$ = new Goal{$1, $2};
+        goal = new Goal{$1, $2};
     }
 ;
 
@@ -335,7 +339,7 @@ Identifier :
 
 %%
 
-void yyerror(const char* message) {
+void yyerror(Goal*, const char* message) {
     std::cout << "Error occured at line: " << yylloc.first_line << std::endl;
     std::cout << "Columns: [" << yylloc.first_column << ": " << yylloc.last_column << "]" << std::endl;
     std::cout << "Error: " << yytext << std::endl;

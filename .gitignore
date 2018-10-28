@@ -3,5 +3,7 @@ main
 *.tab.*
 *.h
 *.output
-clion-log.txt
+*clion*
 *.swp
+*.dot
+*.svg

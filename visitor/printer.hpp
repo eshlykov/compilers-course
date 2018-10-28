@@ -80,6 +80,9 @@ public:
     }
 
     virtual void Visit(Goal* node) override {
+        file_ << "Hi!" << std::endl;
+        node->mainClass_->Accept(this);
+        node->classDeclarationRepeated_->Accept(this);
     }
 
     virtual void Visit(Identifier* node) override {
