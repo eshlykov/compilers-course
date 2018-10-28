@@ -7,11 +7,19 @@ branches:
 git:
   depth: 1
 
-compiler:
-- clang++
+- compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-7.0
+          packages:
+            - clang-7.0
+      env: COMPILER=clang++-7.0
 
 install:
 - sudo apt-get install flex
 - sudo apt-get install bison
 script:
+  - clang++ --version
   - make
