@@ -37,14 +37,23 @@ public:
 
         ++nodeNumber;
         PrintEdge(headNodeNumber);
+        node->baseClass_->Accept(this);
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
+        node->varDeclarationRepeated_->Accept(this);
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
+        node->methodDeclarationRepeated_->Accept(this);
     }
 
     virtual void Visit(ClassDeclarationRepeated* node) override {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"ClassDeclarationRepeated\"];" << std::endl;
+        PrintHead(headNodeNumber, "ClassDeclarationRepeated");
         for (auto* classDeclaration : node->classDeclarationRepeated_) {
             ++nodeNumber_;
-            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+            PrintEdge(headNodeNumber);
             classDeclaration->Accept(this);
         }
     }
@@ -111,12 +120,12 @@ public:
 
     virtual void Visit(Goal* node) override {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"Goal\"];" << std::endl;
+        PrintHead(headNodeNumber, "Goal");
         ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        PrintEdge(headNodeNumber);
         node->mainClass_->Accept(this);
         ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        PrintEdge(headNodeNumber);
         node->classDeclarationRepeated_->Accept(this);
     }
 
@@ -127,14 +136,6 @@ public:
         auto headNodeNumber = nodeNumber_;
         file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
         ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-        node->className_->Accept(this);
-        ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-        node->mainArgumentName_->Accept(this);
-        ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-        node->mainBody_->Accept(this);
     }
 
     virtual void Visit(MethodDeclaration* node) override {
@@ -207,27 +208,9 @@ public:
     }
 
     virtual void Visit(VarDeclaration* node) override {
-        auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"VarDeclaration\"];" << std::endl;
-
-        ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-        node->type_->Accept(this);
-
-        ++nodeNumber_;
-        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-        node->varName_->Accept(this);
     }
 
     virtual void Visit(VarDeclarationRepeated* node) override {
-        auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"VarDeclarationRepeated\"];" << std::endl;
-
-        for (auto* varDeclaration : node->varDeclarationRepeated_) {
-            ++nodeNumber_;
-            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-            varDeclaration->Accept(this);
-        }
     }
 
 private:
@@ -239,7 +222,7 @@ private:
         std::cout << headNodeNumber << " -- " << nodeNumber_ << std::endl;
     }
 
-provate:
+private:
     std::ofstream file_;
     int nodeNumber_;
 };
