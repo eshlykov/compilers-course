@@ -308,7 +308,7 @@ public:
         for (auto* statement : node->statementRepeated_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
-            statement->Accept(this)
+            statement->Accept(this);
         }
     }
 
@@ -331,7 +331,6 @@ public:
     }
 
     virtual void Visit(Type* node) override {
-
     }
 
     virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override {
@@ -358,7 +357,7 @@ public:
         if (node->typeIdentifierCommaTypeIdentifierRepeated_.has_value()) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
-            node->typeIdentifierCommaTypeIdentifierRepeated_->Accept(this);
+            node->typeIdentifierCommaTypeIdentifierRepeated_.value()->Accept(this);
         }
     }
 
@@ -396,7 +395,7 @@ public:
 
     virtual void Visit(VarDeclarationRepeated* node) override {
         auto headNodeNumber = nodeNumber_;
-        PrintHead("VarDeclarationRepeated");
+        PrintHead(headNodeNumber, "VarDeclarationRepeated");
 
         for (auto* varDeclaration : node->varDeclarationRepeated_) {
             ++nodeNumber_;
