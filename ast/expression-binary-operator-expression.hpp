@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../visitor.hpp"
 #include "expression.hpp"
 
 enum class BinaryOperator {
