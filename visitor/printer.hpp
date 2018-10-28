@@ -40,6 +40,13 @@ public:
     }
 
     virtual void Visit(ClassDeclarationRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"ClassDeclarationRepeated\"];" << std::endl;
+        for (auto* classDeclaration : node->classDeclarationRepeated_) {
+            ++nodeNumber_;
+            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+            classDeclaration->Accept(this);
+        }
     }
 
     virtual void Visit(CommaExpression* node) override {
@@ -120,6 +127,14 @@ public:
         auto headNodeNumber = nodeNumber_;
         file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
         ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->className_->Accept(this);
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->mainArgumentName_->Accept(this);
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->mainBody_->Accept(this);
     }
 
     virtual void Visit(MethodDeclaration* node) override {
@@ -174,9 +189,27 @@ public:
     }
 
     virtual void Visit(VarDeclaration* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"VarDeclaration\"];" << std::endl;
+
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->type_->Accept(this);
+
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->varName_->Accept(this);
     }
 
     virtual void Visit(VarDeclarationRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"VarDeclarationRepeated\"];" << std::endl;
+
+        for (auto* varDeclaration : node->varDeclarationRepeated_) {
+            ++nodeNumber_;
+            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+            varDeclaration->Accept(this);
+        }
     }
 
 private:
