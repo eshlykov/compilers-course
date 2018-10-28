@@ -16,7 +16,7 @@ public:
         file_.close();
     }
 
-    virtual void Visit(BracedStatement* node) final {
+    virtual void Visit(BracedStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "BracedStatement");
 
@@ -25,7 +25,7 @@ public:
         node->statementRepeated_->Accept(this);
     }
 
-    virtual void Visit(ClassDeclaration* node) final {
+    virtual void Visit(ClassDeclaration* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ClassDeclaration");
 
@@ -46,7 +46,7 @@ public:
         node->methodDeclarationRepeated_->Accept(this);
     }
 
-    virtual void Visit(ClassDeclarationRepeated* node) final {
+    virtual void Visit(ClassDeclarationRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ClassDeclarationRepeated");
 
@@ -57,19 +57,19 @@ public:
         }
     }
 
-    virtual void Visit(CommaExpression* node) final {
+    virtual void Visit(CommaExpression* node) override final {
     }
 
-    virtual void Visit(CommaExpressionRepeated* node) final {
+    virtual void Visit(CommaExpressionRepeated* node) override final {
     }
 
-    virtual void Visit(CommaTypeIdentifier* node) final {
+    virtual void Visit(CommaTypeIdentifier* node) override final {
     }
 
-    virtual void Visit(CommaTypeIdentifierRepeated* node) final {
+    virtual void Visit(CommaTypeIdentifierRepeated* node) override final {
     }
 
-    virtual void Visit(ExpressionAtExpression* node) final {
+    virtual void Visit(ExpressionAtExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionAtExpression");
 
@@ -82,7 +82,7 @@ public:
         node->rhs_->Accept(this);
     }
 
-    virtual void Visit(ExpressionBang* node) final {
+    virtual void Visit(ExpressionBang* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionBang");
 
@@ -91,7 +91,7 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(ExpressionBinaryOperatorExpression* node) final {
+    virtual void Visit(ExpressionBinaryOperatorExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionBinaryOperatorExpression");
 
@@ -104,7 +104,7 @@ public:
         node->rhs_->Accept(this);
     }
 
-    virtual void Visit(ExpressionCommaExpressionRepeated* node) final {
+    virtual void Visit(ExpressionCommaExpressionRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionCommaExpressionRepeated");
 
@@ -117,7 +117,7 @@ public:
         node->commaExpressionRepeated_->Accept(this);
     }
 
-    virtual void Visit(ExpressionCommaExpressionRepeatedOptional* node) final {
+    virtual void Visit(ExpressionCommaExpressionRepeatedOptional* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionCommaExpressionRepeatedOptional");
 
@@ -128,12 +128,12 @@ public:
         }
     }
 
-    virtual void Visit(ExpressionFalse* node) final {
+    virtual void Visit(ExpressionFalse* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionFalse");
     }
 
-    virtual void Visit(ExpressionIdentifierExpressionCommaExpressionRepeatedOptional* node) final {
+    virtual void Visit(ExpressionIdentifierExpressionCommaExpressionRepeatedOptional* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionIdentifierExpressionCommaExpressionRepeatedOptional");
 
@@ -150,7 +150,7 @@ public:
         node->expressionCommaExpressionRepeatedOptional_->Accept(this);
     }
 
-    virtual void Visit(ExpressionLength* node) final {
+    virtual void Visit(ExpressionLength* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionLength");
 
@@ -159,7 +159,7 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(ExpressionNewExpression* node) final {
+    virtual void Visit(ExpressionNewExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionNewExpression");
 
@@ -168,7 +168,7 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(ExpressionNewIdentifier* node) final {
+    virtual void Visit(ExpressionNewIdentifier* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionNewIdentifier");
 
@@ -177,7 +177,7 @@ public:
         node->identifier_->Accept(this);
     }
 
-    virtual void Visit(ExpressionParentheses* node) final {
+    virtual void Visit(ExpressionParentheses* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionParentheses");
 
@@ -186,20 +186,20 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(ExpressionThis* node) final {
+    virtual void Visit(ExpressionThis* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionParentheses");
     }
 
-    virtual void Visit(ExpressionTrue* node) final {
+    virtual void Visit(ExpressionTrue* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionParentheses");
     }
 
-    virtual void Visit(ExtendsIdentifierOptional* node) final {
+    virtual void Visit(ExtendsIdentifierOptional* node) override final {
     }
 
-    virtual void Visit(Goal* node) final {
+    virtual void Visit(Goal* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "Goal");
 
@@ -212,25 +212,25 @@ public:
         node->classDeclarationRepeated_->Accept(this);
     }
 
-    virtual void Visit(Identifier* node) final {
+    virtual void Visit(Identifier* node) override final {
     }
 
-    virtual void Visit(MainClass* node) final {
+    virtual void Visit(MainClass* node) override final {
         auto headNodeNumber = nodeNumber_;
         file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
         ++nodeNumber_;
     }
 
-    virtual void Visit(MethodDeclaration* node) final {
+    virtual void Visit(MethodDeclaration* node) override final {
     }
 
-    virtual void Visit(MethodDeclarationRepeated* node) final {
+    virtual void Visit(MethodDeclarationRepeated* node) override final {
     }
 
-    virtual void Visit(Number* node) final {
+    virtual void Visit(Number* node) override final {
     }
 
-    virtual void Visit(StatementAssignmentArray* node) final {
+    virtual void Visit(StatementAssignmentArray* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementAssignmentArray");
 
@@ -247,7 +247,7 @@ public:
         node->expressionSecond_->Accept(this);
     }
 
-    virtual void Visit(StatementAssignment* node) final {
+    virtual void Visit(StatementAssignment* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementAssignment");
 
@@ -260,7 +260,7 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(StatementIfElse* node) final {
+    virtual void Visit(StatementIfElse* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementIfElse");
 
@@ -277,7 +277,7 @@ public:
         node->falseStatement_->Accept(this);
     }
 
-    virtual void Visit(StatementPrint* node) final {
+    virtual void Visit(StatementPrint* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementPrint");
 
@@ -286,7 +286,7 @@ public:
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(StatementRepeated* node) final {
+    virtual void Visit(StatementRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementRepeated");
 
@@ -297,7 +297,7 @@ public:
         }
     }
 
-    virtual void Visit(StatementWhile* node) final {
+    virtual void Visit(StatementWhile* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementWhile");
 
@@ -310,12 +310,12 @@ public:
         node->trueStatement_->Accept(this);
     }
 
-    virtual void Visit(TypeBoolean* node) final {
+    virtual void Visit(TypeBoolean* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
     }
 
-    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) final {
+    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
 
@@ -332,7 +332,7 @@ public:
         node->commaTypeIdenfifierRepeated_->Accept(this);
     }
 
-    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeatedOptional* node) final {
+    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeatedOptional* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
 
@@ -343,7 +343,7 @@ public:
         }
     }
 
-    virtual void Visit(TypeIdentifier* node) final {
+    virtual void Visit(TypeIdentifier* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIdentifier");
 
@@ -352,17 +352,17 @@ public:
         node->className_->Accept(this);
     }
 
-    virtual void Visit(TypeIntArray* node) final {
+    virtual void Visit(TypeIntArray* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIntArray");
     }
 
-    virtual void Visit(TypeInt* node) final {
+    virtual void Visit(TypeInt* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeInt");
     }
 
-    virtual void Visit(VarDeclaration* node) final {
+    virtual void Visit(VarDeclaration* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "VarDeclaration");
 
@@ -375,7 +375,7 @@ public:
         node->varName_->Accept(this);
     }
 
-    virtual void Visit(VarDeclarationRepeated* node) final {
+    virtual void Visit(VarDeclarationRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "VarDeclarationRepeated");
 
