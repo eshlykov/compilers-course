@@ -188,12 +188,12 @@ public:
 
     virtual void Visit(ExpressionThis* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionParentheses");
+        PrintHead(headNodeNumber, "ExpressionThis");
     }
 
     virtual void Visit(ExpressionTrue* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionParentheses");
+        PrintHead(headNodeNumber, "ExpressionTrue");
     }
 
     virtual void Visit(ExtendsIdentifierOptional* node) override final {
@@ -312,12 +312,12 @@ public:
 
     virtual void Visit(TypeBoolean* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
+        PrintHead(headNodeNumber, "TypeBoolean");
     }
 
     virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
+        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeated");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
