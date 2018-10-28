@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../visitor.hpp"
+
 class MethodDeclaration;
 
 class MethodDeclarationRepeated {

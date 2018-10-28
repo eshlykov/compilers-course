@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../visitor.hpp"
+
 class Number {
 public:
     Number(int number) :

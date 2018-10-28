@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../visitor.hpp"
+
 class Type;
 class Identifier;
 class TypeIdentifierCommaTypeIdentifierRepeatedOptional;
