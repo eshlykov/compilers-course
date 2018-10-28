@@ -17,9 +17,26 @@ public:
     }
 
     virtual void Visit(BracedStatement* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "BracedStatement");
+
+        for (auto* statement : node->statementRepeated_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            statement->Accept(node);
+        }
     }
 
     virtual void Visit(ClassDeclaration* node) override {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ClassDeclaration");
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
+        node->className_->Accept(this);
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
     }
 
     virtual void Visit(ClassDeclarationRepeated* node) override {
@@ -162,7 +179,16 @@ public:
     virtual void Visit(VarDeclarationRepeated* node) override {
     }
 
-public:
+private:
+    void PrintHead(int headNodeNumber, const std::string& label) {
+        std::cout << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
+    }
+
+    void PrintEdge(int headNodeNumber) {
+        std::cout << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+    }
+
+provate:
     std::ofstream file_;
     int nodeNumber_;
 };
