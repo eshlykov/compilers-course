@@ -1,4 +1,4 @@
-main
+compiler
 *.c
 *.tab.*
 *.h

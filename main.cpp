@@ -1,5 +1,4 @@
 #include "visitor/printer.hpp"
-#include <iostream>
 
 extern int yyparse(Goal*&);
 
