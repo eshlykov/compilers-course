@@ -10,8 +10,8 @@ class CommaExpressionRepeated : public Node {
 public:
     CommaExpressionRepeated() = default;
 
-    CommaExpressionRepeated(const std::vector<CommaExpression*>& commaExpression) :
-        commaExpression_{commaExpression} {
+    CommaExpressionRepeated(const std::vector<CommaExpression*>& commaExpressionRepeated) :
+        commaExpressionRepeated_{commaExpressionRepeated} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -19,5 +19,5 @@ public:
     }
 
 public:
-    std::vector<CommaExpression*> commaExpression_ = {};
+    std::vector<CommaExpression*> commaExpressionRepeated_ = {};
 };

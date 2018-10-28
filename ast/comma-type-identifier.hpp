@@ -16,7 +16,7 @@ public:
         visitor->Visit(this);
     }
 
-private:
+public:
     Type* type_ = {};
     Identifier* name_ = {};
 };

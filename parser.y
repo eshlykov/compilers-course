@@ -268,7 +268,7 @@ CommaExpressionRepeated :
         $$ = new CommaExpressionRepeated{};
     } | CommaExpressionRepeated TT_Comma Expression {
         std::cout << "CommaExpressionRepeated" << std::endl;
-        auto commaExpressionRepeated = $1->commaExpression_;
+        auto commaExpressionRepeated = $1->commaExpressionRepeated_;
         auto* commaExpression = new CommaExpression{$3};
         commaExpressionRepeated.push_back(commaExpression);
         $$ = new CommaExpressionRepeated{commaExpressionRepeated};
