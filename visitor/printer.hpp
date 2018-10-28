@@ -58,15 +58,47 @@ public:
     }
 
     virtual void Visit(CommaExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "CommaExpression");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
     }
 
     virtual void Visit(CommaExpressionRepeated* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "CommaExpressionRepeated");
+
+        for (auto* commaExpression : node->commaExpressionRepeated_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            commaExpression->Accept(this);
+        }
     }
 
     virtual void Visit(CommaTypeIdentifier* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "CommaTypeIdentifier");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->type_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->name_->Accept(this);
     }
 
     virtual void Visit(CommaTypeIdentifierRepeated* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "CommaTypeIdentifierRepeated");
+
+        for (auto* commaTypeIdentifier : node->commaTypeIdentifierRepeated_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            commaTypeIdentifier->Accept(this);
+        }
     }
 
     virtual void Visit(ExpressionAtExpression* node) override final {
@@ -197,6 +229,14 @@ public:
     }
 
     virtual void Visit(ExtendsIdentifierOptional* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ExtendsIdentifierOptional");
+
+        if (node->className_.has_value()) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            node->className_.value()->Accept(this);
+        }
     }
 
     virtual void Visit(Goal* node) override final {
@@ -213,21 +253,70 @@ public:
     }
 
     virtual void Visit(Identifier* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"Identifier : " << node->identifier_ << "\"];" << std::endl;
     }
 
     virtual void Visit(MainClass* node) override final {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
+        PrintHead(headNodeNumber, "MainClass");
+
         ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->className_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->mainArgumentName_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->mainBody_->Accept(this);
     }
 
     virtual void Visit(MethodDeclaration* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "MethodDeclaration");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->returnType_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->methodName_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->arguments_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->varDeclarations_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->methodBody_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->returnExpression_->Accept(this);
     }
 
     virtual void Visit(MethodDeclarationRepeated* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "MethodDeclarationRepeated");
+
+        for (auto* methodDeclaration : node->methodDeclarationRepeated_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            methodDeclaration->Accept(this);
+        }
     }
 
     virtual void Visit(Number* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"Number : " << node->number_ << "\"];" << std::endl;
     }
 
     virtual void Visit(StatementAssignmentArray* node) override final {
