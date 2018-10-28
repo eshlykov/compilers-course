@@ -133,6 +133,9 @@ public:
         PrintHead(headNodeNumber, "ExpressionFalse");
     }
 
+    virtual void Visit(Expression* node) override {
+    }
+
     virtual void Visit(ExpressionIdentifierExpressionCommaExpressionRepeatedOptional* node) override {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ExpressionIdentifierExpressionCommaExpressionRepeatedOptional");
@@ -325,6 +328,9 @@ public:
     virtual void Visit(TypeBoolean* node) override {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
+    }
+
+    virtual void Visit(Type* node) override {
     }
 
     virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override {
