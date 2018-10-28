@@ -11,6 +11,10 @@ public:
         identifier_(identifier), expressionFirst_(expressionFirst), expressionSecond_(expressionSecond) {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Identifier* identifier_ = {};
     Expression* expressionFirst_ = {};

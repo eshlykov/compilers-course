@@ -12,6 +12,10 @@ public:
         statementRepeated_{statementRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::vector<Statement*> statementRepeated_ = {};
 };

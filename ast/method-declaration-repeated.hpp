@@ -10,6 +10,10 @@ public:
         methodDeclarationRepeated_{methodDeclarationRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::vector<MethodDeclaration*> methodDeclarationRepeated_ = {};
 };

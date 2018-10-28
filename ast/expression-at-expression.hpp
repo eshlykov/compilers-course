@@ -8,6 +8,10 @@ public:
         lhs_{lhs}, rhs_{rhs} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Expression* lhs_ = {};
     Expression* rhs_ = {};

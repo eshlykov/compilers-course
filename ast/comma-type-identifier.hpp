@@ -9,6 +9,10 @@ public:
         type_{type}, name_{name} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 private:
     Type* type_ = {};
     Identifier* name_ = {};

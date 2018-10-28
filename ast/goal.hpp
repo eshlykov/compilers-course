@@ -9,6 +9,10 @@ public:
         mainClass_{mainClass}, classDeclarationRepeated_{classDeclarationRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     MainClass* mainClass_ = {};
     ClassDeclarationRepeated* classDeclarationRepeated_ = {};

@@ -9,6 +9,10 @@ public:
         type_{type}, varName_{varName} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Type* type_ = {};
     Identifier* varName_ = {};

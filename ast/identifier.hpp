@@ -9,6 +9,10 @@ public:
         identifier_(identifier) {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::string identifier_;
 };

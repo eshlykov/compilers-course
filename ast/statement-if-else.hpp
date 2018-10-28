@@ -10,6 +10,10 @@ public:
         condition_(condition), trueStatement_(trueStatement), falseStatement_(falseStatement) {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Expression* condition_ = {};
     Statement* trueStatement_ = {};

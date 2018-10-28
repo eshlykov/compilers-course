@@ -12,6 +12,10 @@ public:
         classDeclarationRepeated_{classDeclarationRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::vector<ClassDeclaration*> classDeclarationRepeated_ = {};
 };

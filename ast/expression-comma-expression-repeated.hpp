@@ -11,6 +11,10 @@ public:
         expression_{expression}, commaExpressionRepeated_{commaExpressionRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Expression* expression_ = {};
     CommaExpressionRepeated* commaExpressionRepeated_ = {};

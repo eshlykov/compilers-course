@@ -12,6 +12,10 @@ public:
         className_{className} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::optional<Identifier*> className_ = {};
 };

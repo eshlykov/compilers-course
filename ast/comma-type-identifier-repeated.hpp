@@ -12,6 +12,10 @@ public:
         commaTypeIdentifierRepeated_{commaTypeIdentifierRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::vector<CommaTypeIdentifier*> commaTypeIdentifierRepeated_ = {};
 };

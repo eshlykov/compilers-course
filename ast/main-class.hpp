@@ -9,6 +9,10 @@ public:
         className_{className}, mainArgumentName_{mainArgumentName}, mainBody_{mainBody} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Identifier* className_ = {};
     Identifier* mainArgumentName_ = {};

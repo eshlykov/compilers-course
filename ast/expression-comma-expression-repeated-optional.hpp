@@ -12,6 +12,10 @@ public:
         expressionCommaExpressionRepeated_{expressionCommaExpressionRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::optional<ExpressionCommaExpressionRepeated*> expressionCommaExpressionRepeated_ = {};
 };

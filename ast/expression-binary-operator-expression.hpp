@@ -17,6 +17,10 @@ public:
             lhs_{lhs}, rhs_{rhs}, binaryOperator_{binaryOperator} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Expression* lhs_ = {};
     Expression* rhs_ = {};

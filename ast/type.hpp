@@ -10,6 +10,10 @@ public:
         className_(className) {
     };
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Identifier* className_ = {};
 };

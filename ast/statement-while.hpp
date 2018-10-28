@@ -9,7 +9,10 @@ public:
     StatementWhile(Expression* condition, Statement* trueStatement) :
         condition_(condition),
         trueStatement_(trueStatement) {
+    }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
     }
 
 public:

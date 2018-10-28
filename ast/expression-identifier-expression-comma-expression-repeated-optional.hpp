@@ -14,6 +14,10 @@ public:
             expressionCommaExpressionRepeatedOptional_{expressionCommaExpressionRepeatedOptional} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Expression* expression_ = {};
     Identifier* identifier_ = {};

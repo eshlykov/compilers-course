@@ -17,6 +17,10 @@ public:
             varDeclarations_{varDeclarations}, methodBody_{methodBody}, returnExpression_{returnExpression} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Type* returnType_ = {};
     Identifier* methodName_ = {};

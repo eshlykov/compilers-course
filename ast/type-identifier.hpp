@@ -9,4 +9,8 @@ public:
     TypeIdentifier(Identifier* className) :
         Type(className) {
     };
+
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 };

@@ -13,6 +13,10 @@ public:
             type_{type}, identifier_{identifier}, commaTypeIdenfifierRepeated_{commaTypeIdenfifierRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Type* type_= {};
     Identifier* identifier_= {};

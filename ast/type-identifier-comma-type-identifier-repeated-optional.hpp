@@ -12,6 +12,10 @@ public:
         typeIdentifierCommaTypeIdentifierRepeated_{typeIdentifierCommaTypeIdentifierRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::optional<TypeIdentifierCommaTypeIdentifierRepeated*> typeIdentifierCommaTypeIdentifierRepeated_ = {};
 };

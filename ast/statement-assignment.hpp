@@ -12,6 +12,10 @@ public:
         identifier_(identifier), expression_(expression) {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Identifier* identifier_ = {};
     Expression* expression_ = {};

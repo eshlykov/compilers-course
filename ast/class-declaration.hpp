@@ -16,6 +16,10 @@ public:
             methodDeclarationRepeated_{methodDeclarationRepeated} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     Identifier* className_ = {};
     ExtendsIdentifierOptional* baseClass_ = {};

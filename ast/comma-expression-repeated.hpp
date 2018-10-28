@@ -12,6 +12,10 @@ public:
         commaExpression_{commaExpression} {
     }
 
+    void Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 public:
     std::vector<CommaExpression*> commaExpression_ = {};
 };
