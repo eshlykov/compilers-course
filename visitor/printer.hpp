@@ -23,6 +23,13 @@ public:
     }
 
     virtual void Visit(ClassDeclarationRepeated* node) override {
+        auto headNodeNumber = nodeNumber_;
+        file_ << headNodeNumber << " [label=\"ClassDeclarationRepeated\"];" << std::endl;
+        for (auto* classDeclaration : node->classDeclarationRepeated_) {
+            ++nodeNumber_;
+            file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+            classDeclaration->Accept(this);
+        }
     }
 
     virtual void Visit(CommaExpression* node) override {
