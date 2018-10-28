@@ -103,6 +103,14 @@ public:
         auto headNodeNumber = nodeNumber_;
         file_ << headNodeNumber << " [label=\"MainClass\"];" << std::endl;
         ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->className_->Accept(this);
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->mainArgumentName_->Accept(this);
+        ++nodeNumber_;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+        node->mainBody_->Accept(this);
     }
 
     virtual void Visit(MethodDeclaration* node) override {
