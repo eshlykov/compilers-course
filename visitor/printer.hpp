@@ -3,6 +3,7 @@
 #include "../ast.hpp"
 #include "visitor.hpp"
 #include <fstream>
+#include <string>
 
 class Printer : public Visitor {
 public:
@@ -255,7 +256,7 @@ public:
 
     virtual void Visit(Identifier* node) override final {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"Identifier : " << node->identifier_ << "\"];" << std::endl;
+        PrintHead(headNodeNumber, "Identifier : " + node->identifier_);
     }
 
     virtual void Visit(MainClass* node) override final {
@@ -317,7 +318,7 @@ public:
 
     virtual void Visit(Number* node) override final {
         auto headNodeNumber = nodeNumber_;
-        file_ << headNodeNumber << " [label=\"Number : " << node->number_ << "\"];" << std::endl;
+        PrintHead(headNodeNumber, "Number : " + std::to_string(node->number_));
     }
 
     virtual void Visit(StatementAssignmentArray* node) override final {
