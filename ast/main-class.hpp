@@ -9,7 +9,9 @@ class Statement;
 class MainClass : public Node {
 public:
     MainClass(Identifier* className, Identifier* mainArgumentName, Statement* mainBody) :
-        className_{className}, mainArgumentName_{mainArgumentName}, mainBody_{mainBody} {
+        className_{className},
+        mainArgumentName_{mainArgumentName},
+        mainBody_{mainBody} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

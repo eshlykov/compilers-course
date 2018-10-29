@@ -6,7 +6,8 @@
 class ExpressionAtExpression : public Expression {
 public:
     ExpressionAtExpression(Expression* lhs, Expression* rhs) :
-        lhs_{lhs}, rhs_{rhs} {
+        lhs_{lhs},
+        rhs_{rhs} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

@@ -5,7 +5,8 @@
 
 class ExpressionParentheses : public Expression {
 public:
-    ExpressionParentheses(Expression* expression) : expression_{expression} {
+    ExpressionParentheses(Expression* expression) :
+        expression_{expression} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

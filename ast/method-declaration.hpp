@@ -12,12 +12,13 @@ class Expression;
 
 class MethodDeclaration : public Node {
 public:
-    MethodDeclaration(Type* returnType, Identifier* methodName,
-        TypeIdentifierCommaTypeIdentifierRepeatedOptional* arguments,
-        VarDeclarationRepeated* varDeclarations, StatementRepeated* methodBody,
-        Expression* returnExpression) :
-            returnType_{returnType}, methodName_{methodName}, arguments_{arguments},
-            varDeclarations_{varDeclarations}, methodBody_{methodBody}, returnExpression_{returnExpression} {
+    MethodDeclaration(Type* returnType, Identifier* methodName, TypeIdentifierCommaTypeIdentifierRepeatedOptional* arguments, VarDeclarationRepeated* varDeclarations, StatementRepeated* methodBody, Expression* returnExpression) :
+        returnType_{returnType},
+        methodName_{methodName},
+        arguments_{arguments},
+        varDeclarations_{varDeclarations},
+        methodBody_{methodBody},
+        returnExpression_{returnExpression} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

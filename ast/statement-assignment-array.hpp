@@ -9,7 +9,9 @@ class Identifier;
 class StatementAssignmentArray : public Statement {
 public:
     StatementAssignmentArray(Identifier* identifier, Expression* expressionFirst, Expression* expressionSecond) :
-        identifier_(identifier), expressionFirst_(expressionFirst), expressionSecond_(expressionSecond) {
+        identifier_(identifier),
+        expressionFirst_(expressionFirst),
+        expressionSecond_(expressionSecond) {
     }
 
     virtual void Accept(Visitor* visitor) override final {

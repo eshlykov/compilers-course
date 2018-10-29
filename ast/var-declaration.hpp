@@ -9,7 +9,8 @@ class Identifier;
 class VarDeclaration : public Node {
 public:
     VarDeclaration(Type* type, Identifier* varName) :
-        type_{type}, varName_{varName} {
+        type_{type},
+        varName_{varName} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

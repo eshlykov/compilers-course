@@ -7,8 +7,9 @@
 class Printer : public Visitor {
 public:
     Printer(const std::string& filename) :
-        file_{filename}, nodeNumber_{0} {
-            file_ << "strict graph {" << std::endl;
+        file_{filename},
+        nodeNumber_{0} {
+        file_ << "strict graph {" << std::endl;
     }
 
     ~Printer() {

@@ -14,8 +14,11 @@ enum class BinaryOperator {
 class ExpressionBinaryOperatorExpression : public Expression {
 public:
     ExpressionBinaryOperatorExpression(Expression* lhs,
-        Expression* rhs, BinaryOperator binaryOperator) :
-            lhs_{lhs}, rhs_{rhs}, binaryOperator_{binaryOperator} {
+        Expression* rhs,
+        BinaryOperator binaryOperator) :
+        lhs_{lhs},
+        rhs_{rhs},
+        binaryOperator_{binaryOperator} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

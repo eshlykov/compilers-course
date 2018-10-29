@@ -10,9 +10,10 @@ class CommaTypeIdentifierRepeated;
 
 class TypeIdentifierCommaTypeIdentifierRepeated : public Node {
 public:
-    TypeIdentifierCommaTypeIdentifierRepeated(Type* type, Identifier* identifier,
-        CommaTypeIdentifierRepeated* commaTypeIdenfifierRepeated) :
-            type_{type}, identifier_{identifier}, commaTypeIdenfifierRepeated_{commaTypeIdenfifierRepeated} {
+    TypeIdentifierCommaTypeIdentifierRepeated(Type* type, Identifier* identifier, CommaTypeIdentifierRepeated* commaTypeIdenfifierRepeated) :
+        type_{type},
+        identifier_{identifier},
+        commaTypeIdenfifierRepeated_{commaTypeIdenfifierRepeated} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -20,7 +21,7 @@ public:
     }
 
 public:
-    Type* type_= {};
-    Identifier* identifier_= {};
+    Type* type_ = {};
+    Identifier* identifier_ = {};
     CommaTypeIdentifierRepeated* commaTypeIdenfifierRepeated_ = {};
 };

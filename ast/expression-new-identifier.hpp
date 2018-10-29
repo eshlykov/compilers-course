@@ -7,7 +7,8 @@ class Identifier;
 
 class ExpressionNewIdentifier : public Expression {
 public:
-    ExpressionNewIdentifier(Identifier* identifier) : identifier_{identifier} {
+    ExpressionNewIdentifier(Identifier* identifier) :
+        identifier_{identifier} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

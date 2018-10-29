@@ -8,8 +8,7 @@ class Identifier;
 class TypeIdentifier : public Type {
 public:
     TypeIdentifier(Identifier* className) :
-        className_(className) {
-    };
+        className_(className){};
 
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);

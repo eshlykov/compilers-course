@@ -5,7 +5,8 @@
 
 class ExpressionNewExpression : public Expression {
 public:
-    ExpressionNewExpression(Expression* expression) : expression_{expression} {
+    ExpressionNewExpression(Expression* expression) :
+        expression_{expression} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

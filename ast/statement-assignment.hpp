@@ -10,7 +10,8 @@ class Identifier;
 class StatementAssignment : public Statement {
 public:
     StatementAssignment(Identifier* identifier, Expression* expression) :
-        identifier_(identifier), expression_(expression) {
+        identifier_(identifier),
+        expression_(expression) {
     }
 
     virtual void Accept(Visitor* visitor) override final {

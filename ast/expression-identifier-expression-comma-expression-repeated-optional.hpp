@@ -9,10 +9,12 @@ class ExpressionCommaExpressionRepeatedOptional;
 class ExpressionIdentifierExpressionCommaExpressionRepeatedOptional : public Expression {
 public:
     ExpressionIdentifierExpressionCommaExpressionRepeatedOptional(
-        Expression* expression, Identifier* identifier,
+        Expression* expression,
+        Identifier* identifier,
         ExpressionCommaExpressionRepeatedOptional* expressionCommaExpressionRepeatedOptional) :
-            expression_{expression}, identifier_{identifier},
-            expressionCommaExpressionRepeatedOptional_{expressionCommaExpressionRepeatedOptional} {
+        expression_{expression},
+        identifier_{identifier},
+        expressionCommaExpressionRepeatedOptional_{expressionCommaExpressionRepeatedOptional} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

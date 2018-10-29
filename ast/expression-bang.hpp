@@ -5,7 +5,8 @@
 
 class ExpressionBang : public Expression {
 public:
-    ExpressionBang(Expression* expression) : expression_{expression} {
+    ExpressionBang(Expression* expression) :
+        expression_{expression} {
     }
 
     virtual void Accept(Visitor* visitor) override final {

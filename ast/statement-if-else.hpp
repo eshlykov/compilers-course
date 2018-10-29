@@ -8,7 +8,9 @@ class Expression;
 class StatementIfElse : public Statement {
 public:
     StatementIfElse(Expression* condition, Statement* trueStatement, Statement* falseStatement) :
-        condition_(condition), trueStatement_(trueStatement), falseStatement_(falseStatement) {
+        condition_(condition),
+        trueStatement_(trueStatement),
+        falseStatement_(falseStatement) {
     }
 
     virtual void Accept(Visitor* visitor) override final {
