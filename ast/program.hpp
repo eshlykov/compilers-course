@@ -19,5 +19,5 @@ public:
 
 public:
     MainClass* mainClass_ = {};
-    std::vector<ClassDeclaration*> classDeclarations = {};
+    std::vector<ClassDeclaration*> classDeclarations_ = {};
 };
