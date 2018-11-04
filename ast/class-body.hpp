@@ -2,6 +2,7 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include <vector>
 
 class VarDeclaration;
 class MethodDeclaration;
@@ -13,10 +14,10 @@ public:
     }
 
     virtual void Accept(Visitor* visitor) override final {
-        visitor->Visitor(this);
+        visitor->Visit(this);
     }
 
 public:
-    std::vector<VarDeclaration> variables_ = {};
-    std::vector<MethodDeclaration> methods_ = {};
-}
+    std::vector<VarDeclaration*> variables_ = {};
+    std::vector<MethodDeclaration*> methods_ = {};
+};

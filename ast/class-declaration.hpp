@@ -2,6 +2,7 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include <optional>
 #include <string>
 #include <vector>
 

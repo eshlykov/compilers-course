@@ -4,9 +4,9 @@
 #include "expression.hpp"
 #include <string>
 
-class ConstructorExpression : public Expression {
+class UserTypeConstructorExpression : public Expression {
 public:
-    ConstructorExpression(const std::string& name) :
+    UserTypeConstructorExpression(const std::string& name) :
         name_{name} {
     }
 

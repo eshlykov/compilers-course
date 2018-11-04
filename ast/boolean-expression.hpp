@@ -3,14 +3,14 @@
 #include "../visitor.hpp"
 #include "expression.hpp"
 
-class BoolExpression : public Expression {
+class BooleanExpression : public Expression {
 public:
-    BoolExpression(bool value) :
+    BooleanExpression(bool value) :
         value_{value} {
     }
 
     virtual void Accept(Visitor* visitor) {
-        visitor->Visit(this):
+        visitor->Visit(this);
     }
 
 public:

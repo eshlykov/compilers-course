@@ -3,7 +3,7 @@
 class AssignmentByIndexStatement;
 class AssignmentStatement;
 class BinaryOperatorExpression;
-class BoolExpression;
+class BooleanExpression;
 class ClassBody;
 class ClassDeclaration;
 class ConditionStatement;
@@ -24,7 +24,7 @@ class PrintStatement;
 class Program;
 class ScopeStatement;
 class ThisExpression;
-class ConstructorExpression;
+class UserTypeConstructorExpression;
 class UserType;
 class VarDeclaration;
 
@@ -33,7 +33,7 @@ public:
     virtual void Visit(AssignmentByIndexStatement*) = 0;
     virtual void Visit(AssignmentStatement*) = 0;
     virtual void Visit(BinaryOperatorExpression*) = 0;
-    virtual void Visit(BoolExpression*) = 0;
+    virtual void Visit(BooleanExpression*) = 0;
     virtual void Visit(ClassBody*) = 0;
     virtual void Visit(ClassDeclaration*) = 0;
     virtual void Visit(ConditionStatement*) = 0;
@@ -54,7 +54,7 @@ public:
     virtual void Visit(Program*) = 0;
     virtual void Visit(ScopeStatement*) = 0;
     virtual void Visit(ThisExpression*) = 0;
-    virtual void Visit(ConstructorExpression*) = 0;
+    virtual void Visit(UserTypeConstructorExpression*) = 0;
     virtual void Visit(UserType*) = 0;
     virtual void Visit(VarDeclaration*) = 0;
 };

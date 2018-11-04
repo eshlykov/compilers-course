@@ -2,6 +2,7 @@
 
 #include "../visitor.hpp"
 #include "statement.hpp"
+#include <string>
 
 class Expression;
 

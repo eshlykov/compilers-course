@@ -5,9 +5,9 @@
 
 class ThisExpression : public Expression {
 public:
-    ThisExpression() = default();
+    ThisExpression() = default;
 
     virtual void Accept(Visitor* visitor) override final {
-        vistitor->Visit(this);
+        visitor->Visit(this);
     }
 };

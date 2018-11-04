@@ -8,12 +8,12 @@
 
 extern int yylex();
 extern char* yytext;
-void yyerror(Goal*, const char*);
+void yyerror(Program*&, const char*);
 
 }
 
 %parse-param {
-    Goal*& goal
+    Program*& program
 }
 
 %union {
@@ -23,7 +23,7 @@ void yyerror(Goal*, const char*);
     ClassDeclaration* ClassDeclaration_;
     std::vector<ClassDeclaration*>* ClassDeclarationRepeated_;
     std::vector<Expression*>* CommaExpressionRepeated_;
-    std::vector<VarDeclaration>* CommaTypeIdentifierRepeated_;
+    std::vector<VarDeclaration*>* CommaTypeIdentifierRepeated_;
     Expression* Expression_;
     std::vector<Expression*>* ExpressionCommaExpressionRepeatedOptional_;
     std::optional<std::string>* ExtendsIdentifierOptional_;
@@ -118,7 +118,7 @@ void yyerror(Goal*, const char*);
 Goal :
     MainClass ClassDeclarationRepeated {
         std::cout << "Goal" << std::endl;
-        goal = new Goal{$1, *$2};
+        program = new Program{$1, *$2};
     }
 ;
 
@@ -139,7 +139,7 @@ MainClass :
          TT_RightBrace
     TT_RightBrace {
         std::cout << "MainClass" << std::endl;
-        $$ = new MainClass{$2, $12, $15};
+        $$ = new MainClass{*$2, *$12, $15};
     }
 ;
 
@@ -164,10 +164,10 @@ VarDeclarationRepeated :
 
 MethodDeclarationRepeated :
     %empty {
-        $$ = new std::vector<MethodDeclaration>{};
+        $$ = new std::vector<MethodDeclaration*>{};
     } | MethodDeclarationRepeated MethodDeclaration {
         std::cout << "MethodDeclarationRepeated" << std::endl;
-        $1->push_back($2)
+        $1->push_back($2);
         $$ = $1;
     }
 ;
@@ -178,7 +178,7 @@ ClassDeclaration :
         MethodDeclarationRepeated
     TT_RightBrace {
         std::cout << "ClassDeclaration" << std::endl;
-        $$ = new ClassDeclaration{$2, $3, new ClassBody{$5, $6}};
+        $$ = new ClassDeclaration{*$2, *$3, new ClassBody{*$5, *$6}};
     }
 ;
 
@@ -216,7 +216,7 @@ MethodDeclaration :
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
         std::cout << "MethodDeclaration" << std::endl;
-        $$ = new MethodDeclaration{$2, $3, $5, new MethodBody{$8, $9, $11}};
+        $$ = new MethodDeclaration{$2, *$3, *$5, new MethodBody{*$8, *$9, $11}};
     }
 ;
 
@@ -253,9 +253,9 @@ Statement :
     } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
         $$ = new PrintStatement{$3};
     } | Identifier TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentStatement{$1, $3};
+        $$ = new AssignmentStatement{*$1, $3};
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentByIndex{$1, $3, $6};
+        $$ = new AssignmentByIndexStatement{*$1, $3, $6};
     }
 ;
 
@@ -295,7 +295,7 @@ Expression :
     } | Expression TT_Dot TT_Length {
         $$ = new LengthExpression{$1};
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
-        $$ = new MethodCallExpression{$1, $3, *$5};
+        $$ = new MethodCallExpression{$1, *$3, *$5};
     } | Number {
         $$ =  new NumberExpression{$1};
     } | TT_True {
@@ -309,7 +309,7 @@ Expression :
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
         $$ = new IntArrayConstructorExpression{$4};
     } | TT_New Identifier TT_LeftParen TT_RightParen {
-        $$ = new UserTypeConsructorExpression{$2};
+        $$ = new UserTypeConstructorExpression{*$2};
     } | TT_Bang Expression {
         $$ = new NotExpression{$2};
     } | TT_LeftParen Expression TT_RightParen {
@@ -333,7 +333,7 @@ Identifier :
 
 %%
 
-void yyerror(Goal*, const char* message) {
+void yyerror(Program*&, const char* message) {
     std::cout << "Error occured at line: " << yylloc.first_line << std::endl;
     std::cout << "Columns: [" << yylloc.first_column << ": " << yylloc.last_column << "]" << std::endl;
     std::cout << "Error: " << yytext << std::endl;

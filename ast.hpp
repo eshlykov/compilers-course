@@ -3,7 +3,7 @@
 #include "ast/assignment-by-index-statement.hpp"
 #include "ast/assignment-statement.hpp"
 #include "ast/binary-operator-expression.hpp"
-#include "ast/bool-expression.hpp"
+#include "ast/boolean-expression.hpp"
 #include "ast/class-body.hpp"
 #include "ast/class-declaration.hpp"
 #include "ast/condition-statement.hpp"

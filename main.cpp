@@ -1,11 +1,11 @@
 #include "visitor/printer.hpp"
 
-extern int yyparse(Goal*&);
+extern int yyparse(Program*&);
 
 int main() {
-    Goal* goal = nullptr;
-    yyparse(goal);
+    Program* program = nullptr;
+    yyparse(program);
 
     Printer printer{"ast.dot"};
-    printer.Visit(goal);
+    printer.Visit(program);
 }
