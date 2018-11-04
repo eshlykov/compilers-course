@@ -3,7 +3,7 @@
 #include "../visitor.hpp"
 #include "expression.hpp"
 
-enum class BinaryOperators {
+enum class BinaryOperator {
     BO_And,
     BO_Less,
     BO_Plus,
