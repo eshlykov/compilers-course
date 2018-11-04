@@ -2,22 +2,16 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include <string>
 #include <vector>
 
-class VarDeclaration;
-class MethodDeclaration;
+class ClassBody;
 
 class ClassDeclaration : public Node {
 public:
     ClassDeclaration(
-        const std::string& className,
-        const std::string& extendsForClass,
-        const std::vector<VarDeclaration*>& varDeclarations,
-        const std::vector<MethodDeclaration*>& methodDeclarations) :
-        className_{className},
-        extendsForClass_{extendsForClass},
-        varDeclarations_{varDeclarations},
-        methodDeclarations_{methodDeclarations} {
+        const std::string& className, std::optional<std::string> extendsForClass, ClassBody* classBody) :
+        className_{className}, extendsForClass_{extendsForClass}, classBody_{classBody} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -26,7 +20,6 @@ public:
 
 public:
     std::string className_ = {};
-    std::string extendsForClass_ = {};
-    std::vector<VarDeclaration*> varDeclarations_ = {};
-    std::vector<MethodDeclaration*> methodDeclarations_ = {};
+    std::optional<std::string> extendsForClass_ = {};
+    ClassBody* classBody_ = {};
 };

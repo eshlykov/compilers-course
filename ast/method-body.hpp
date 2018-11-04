@@ -14,7 +14,7 @@ public:
     }
 
     virtual void Accept(Visitor* visitor) override final {
-        visitor->Visitor(this);
+        visitor->Visit(this);
     }
 
 public:
