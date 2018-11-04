@@ -131,6 +131,23 @@ public:
         node->elseStatement_->Accept(this);
     }
 
+    virtual void Visit(IdentifierExpression* node) override final {
+        PrintHead(nodeNumber_, "Identifier : " + node->name_);
+    }
+
+    virtual void Visit(IndexExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "IndexExpression");
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
+        node->lhs_->Accept(this);
+
+        ++nodeNumber;
+        PrintEdge(headNodeNumber);
+        node->rhs_->Accept(this);
+    }
+
     virtual void Visit(IntArrayConstructorExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "IntArrayConstructorExpression");
