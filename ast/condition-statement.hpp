@@ -8,7 +8,7 @@ class Expression;
 class ConditionStatement : public Statement {
 public:
     ConditionStatement(Expression* condition, Statement* ifStatement, Statement* elseStatement) :
-        condition_{condition}, ifStatement_{ifStatement}, elseStatement{elseStatement} {
+        condition_{condition}, ifStatement_{ifStatement}, elseStatement_{elseStatement} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -16,7 +16,7 @@ public:
     }
 
 public:
-    Expression* condtiion = {};
+    Expression* condition_ = {};
     Statement* ifStatement_ = {};
     Statement* elseStatement_ = {};
 };
