@@ -195,16 +195,16 @@ public:
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodBody");
 
-        for (auto* argument : node->variables_) {
+        for (auto* variable : node->variables_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
-            argument->Accept(this);
+            variable->Accept(this);
         }
 
-        for (auto* argument : node->statements_) {
+        for (auto* statement : node->statements_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
-            argument->Accept(this);
+            statement->Accept(this);
         }
 
         ++nodeNumber_;
