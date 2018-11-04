@@ -3,7 +3,9 @@
 #include "../ast.hpp"
 #include "visitor.hpp"
 #include <fstream>
+#include <optional>
 #include <string>
+#include <vector>
 
 class Printer : public Visitor {
 public:
@@ -15,6 +17,101 @@ public:
     ~Printer() {
         file_ << "}" << std::endl;
         file_.close();
+    }
+  
+      virtual void Visit(AssignmentByIndexStatement* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "AssignmentByIndexStatement");
+
+        ++nodeNumber_;
+        PrintLeaf(headNodeNumber, "Array", node->array_);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->index_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+    }
+
+    virtual void Visit(AssignmentStatement* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, ":=");
+
+        ++nodeNumber_;
+        PrintLeaf(headNodeNumber, "Variable", node->variable_);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+    }
+
+    virtual void Visit(BinaryOperatorExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+
+        switch (node->binaryOperator_) {
+        case BO_And:
+            PrintHead(headNodeNumber, "&&");
+            break;
+        case BO_Less:
+            PrintHead(headNodeNumber, "<");
+            break;
+        case BO_Plus:
+            PrintHead(headNodeNumber, "+");
+            break;
+        case BO_Minus:
+            PrintHead(headNodeNumber, "-");
+            break;
+        case BO_Star:
+            PrintHead(headNodeNumber, "*");
+            break;
+        default:
+            break;
+        }
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->lhs_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->rhs_->Accept(this);
+    }
+
+    virtual void Visit(BooleanExpression* node) override final {
+        PrintHead(nodeNumber_, "Boolean : " + node->value_);
+    }
+
+    virtual void Visit(ClassBody* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ClassBody");
+
+        for (auto* variable : node->variables_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            variable->Accept(this);
+        }
+
+        for (auto* method : node->methods_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            method->Accept(this);
+        }
+    }
+
+    virtual void Visit(ClassDeclaration* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ClassDeclaration : " + node->className);
+
+        if (node->extendsForClass_.has_value()) {
+            ++nodeNumber_;
+            PrintLeaf(headNodeNumber, "Extends", node->extendsForClass_.value());
+        }
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->classBody_->Accept(this);
     }
 
     virtual void Visit(ConditionStatement* node) override final {
