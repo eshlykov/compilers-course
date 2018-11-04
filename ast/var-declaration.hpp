@@ -7,8 +7,8 @@ class Type;
 
 class VarDeclaration : public Node {
 public:
-    VarDeclaration(Type* varType, const std::string& varName) :
-        varType_{varType}, varName_{varName} {
+    VarDeclaration(Type* type, const std::string& name) :
+        type_{type}, name_{name} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -16,6 +16,6 @@ public:
     }
 
 public:
-    Type* varType_ = {};
-    std::string varName_ = {};
+    Type* type_ = {};
+    std::string name_ = {};
 };
