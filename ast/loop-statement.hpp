@@ -7,7 +7,7 @@ class Expression;
 
 class LoopStatement : public Statement {
 public:
-    LoopWhile(Expression* condition, Statement* statement) :
+    LoopStatement(Expression* condition, Statement* statement) :
         condition_(condition), statement_(statement) {
     }
 
