@@ -8,8 +8,7 @@
 class Printer : public Visitor {
 public:
     Printer(const std::string& filename) :
-        file_{filename},
-        nodeNumber_{0} {
+        file_{filename}, nodeNumber_{0} {
         file_ << "strict graph {" << std::endl;
     }
 
@@ -18,227 +17,166 @@ public:
         file_.close();
     }
 
-    virtual void Visit(BracedStatement* node) override final {
+    virtual void Visit(ConditionStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "BracedStatement");
+        PrintHead(headNodeNumber, "LoopStatement");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->statementRepeated_->Accept(this);
+        node->condition_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->ifStatement_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->elseStatement_->Accept(this);
     }
 
-    virtual void Visit(ClassDeclaration* node) override final {
+    virtual void Visit(IntArrayConstructorExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ClassDeclaration");
+        PrintHead(headNodeNumber, "IntArrayConstructorExpression");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->className_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->baseClass_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->varDeclarationRepeated_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->methodDeclarationRepeated_->Accept(this);
+        node->expression_->Accept(this);
     }
 
-    virtual void Visit(ClassDeclarationRepeated* node) override final {
+    virtual void Visit(LengthExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ClassDeclarationRepeated");
+        PrintHead(headNodeNumber, "LengthExpression");
 
-        for (auto* classDeclaration : node->classDeclarationRepeated_) {
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+    }
+
+    virtual void Visit(LoopStatement* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "LoopStatement");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->condition_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->statement_->Accept(this);
+    }
+
+    virtual void Visit(MainClass* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "MainClass : " + node->className_);
+
+        ++nodeNumber_;
+        PrintLeaf(headNodeNumber, "Argv", node->argv_);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->mainBody_->Accept(this);
+    }
+
+    virtual void Visit(MethodBody* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "MethodBody");
+
+        for (auto* argument : node->variables_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
-            classDeclaration->Accept(this);
+            argument->Accept(this);
+        }
+
+        for (auto* argument : node->statements_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            argument->Accept(this);
+        }
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->returnExpression_->Accept(this);
+    }
+
+    virtual void Visit(MethodCallExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "MethodCallExpression");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+
+        ++nodeNumber_;
+        PrintLeaf(headNodeNumber, "Name", node->methodName_);
+
+        for (auto* argument : node->argumentsList_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            argument->Accept(this);
         }
     }
 
-    virtual void Visit(CommaExpression* node) override final {
+    virtual void Visit(MethodDeclaration* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "CommaExpression");
+        PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
+
+        for (auto* argument : node->argumentsList_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            argument->Accept(this);
+        }
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->methodBody_->Accept(this);
+    }
+
+    virtual void Visit(NotExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "! Expression");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->expression_->Accept(this);
     }
 
-    virtual void Visit(CommaExpressionRepeated* node) override final {
+    virtual void Visit(NumberExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "CommaExpressionRepeated");
+        PrintHead(headNodeNumber, std::to_string(node->value_));
+    }
 
-        for (auto* commaExpression : node->commaExpressionRepeated_) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            commaExpression->Accept(this);
+    virtual void Visit(ParensExpression* node) override final {
+        auto headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "( Expression )");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+    }
+
+    virtual void Visit(PrimitiveType* node) override final {
+        switch (node->typeKind_) {
+        case TypeKind::TK_IntArray:
+            PrintHead(nodeNumber_, "PrimitiveType : int[]");
+            break;
+        case TypeKind::TK_Boolean:
+            PrintHead(nodeNumber_, "PrimitiveType : boolean");
+            break;
+        case TypeKind::TK_Int:
+            PrintHead(nodeNumber_, "PrimitiveType : int");
+            break;
+        default:
+            break;
         }
     }
 
-    virtual void Visit(CommaTypeIdentifier* node) override final {
+    virtual void Visit(PrintStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "CommaTypeIdentifier");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->type_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->name_->Accept(this);
-    }
-
-    virtual void Visit(CommaTypeIdentifierRepeated* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "CommaTypeIdentifierRepeated");
-
-        for (auto* commaTypeIdentifier : node->commaTypeIdentifierRepeated_) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            commaTypeIdentifier->Accept(this);
-        }
-    }
-
-    virtual void Visit(ExpressionAtExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionAtExpression");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->lhs_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->rhs_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionBang* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionBang");
+        PrintHead(headNodeNumber, "StatementPrint");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->expression_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionBinaryOperatorExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionBinaryOperatorExpression");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->lhs_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->rhs_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionCommaExpressionRepeated* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionCommaExpressionRepeated");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->commaExpressionRepeated_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionCommaExpressionRepeatedOptional* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionCommaExpressionRepeatedOptional");
-
-        if (node->expressionCommaExpressionRepeated_.has_value()) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            node->expressionCommaExpressionRepeated_.value()->Accept(this);
-        }
-    }
-
-    virtual void Visit(ExpressionFalse* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionFalse");
-    }
-
-    virtual void Visit(ExpressionIdentifierExpressionCommaExpressionRepeatedOptional* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionIdentifierExpressionCommaExpressionRepeatedOptional");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->identifier_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expressionCommaExpressionRepeatedOptional_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionLength* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionLength");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionNewExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionNewExpression");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionNewIdentifier* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionNewIdentifier");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->identifier_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionParentheses* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionParentheses");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
-    virtual void Visit(ExpressionThis* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionThis");
-    }
-
-    virtual void Visit(ExpressionTrue* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExpressionTrue");
-    }
-
-    virtual void Visit(ExtendsIdentifierOptional* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ExtendsIdentifierOptional");
-
-        if (node->className_.has_value()) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            node->className_.value()->Accept(this);
-        }
     }
 
     virtual void Visit(Program* node) override final {
@@ -256,222 +194,41 @@ public:
         }
     }
 
-    virtual void Visit(Identifier* node) override final {
+    virtual void Visit(ScopeStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "Identifier : " + node->identifier_);
-    }
+        PrintHead(headNodeNumber, "{ Statement }");
 
-    virtual void Visit(MainClass* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "MainClass : " + node->className_);
-
-        ++nodeNumber_;
-        PrintLeaf(headNodeNumber, "Argv", node->argv_);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->mainBody_->Accept(this);
-    }
-
-    virtual void Visit(MethodDeclaration* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "MethodDeclaration");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->returnType_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->methodName_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->arguments_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->varDeclarations_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->methodBody_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->returnExpression_->Accept(this);
-    }
-
-    virtual void Visit(MethodDeclarationRepeated* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "MethodDeclarationRepeated");
-
-        for (auto* methodDeclaration : node->methodDeclarationRepeated_) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            methodDeclaration->Accept(this);
-        }
-    }
-
-    virtual void Visit(Number* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "Number : " + std::to_string(node->number_));
-    }
-
-    virtual void Visit(StatementAssignmentArray* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementAssignmentArray");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->identifier_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expressionFirst_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expressionSecond_->Accept(this);
-    }
-
-    virtual void Visit(StatementAssignment* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementAssignment");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->identifier_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
-    virtual void Visit(StatementIfElse* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementIfElse");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->condition_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->trueStatement_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->falseStatement_->Accept(this);
-    }
-
-    virtual void Visit(StatementPrint* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementPrint");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
-    virtual void Visit(StatementRepeated* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementRepeated");
-
-        for (auto* statement : node->statementRepeated_) {
+        for (auto* statement : node->statements_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             statement->Accept(this);
         }
     }
 
-    virtual void Visit(StatementWhile* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "StatementWhile");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->condition_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->trueStatement_->Accept(this);
+    virtual void Visit(ThisExpression* node) override final {
+        PrintHead(nodeNumber_, "This");
     }
 
-    virtual void Visit(TypeBoolean* node) override final {
+    virtual void Visit(UserTypeConstructorExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeBoolean");
+        PrintHead(headNodeNumber, "UserTypeConstructorExpression : " + node->name_);
     }
 
-    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeated* node) override final {
+    virtual void Visit(UserType* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeated");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->type_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->identifier_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->commaTypeIdenfifierRepeated_->Accept(this);
-    }
-
-    virtual void Visit(TypeIdentifierCommaTypeIdentifierRepeatedOptional* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIdentifierCommaTypeIdentifierRepeatedOptional");
-
-        if (node->typeIdentifierCommaTypeIdentifierRepeated_.has_value()) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            node->typeIdentifierCommaTypeIdentifierRepeated_.value()->Accept(this);
-        }
-    }
-
-    virtual void Visit(TypeIdentifier* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIdentifier");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->className_->Accept(this);
-    }
-
-    virtual void Visit(TypeIntArray* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeIntArray");
-    }
-
-    virtual void Visit(TypeInt* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "TypeInt");
+        PrintHead(headNodeNumber, "UserType : " + node->className_);
     }
 
     virtual void Visit(VarDeclaration* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "VarDeclaration");
+        PrintHead(headNodeNumber, "Variable");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->type_->Accept(this);
 
         ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->varName_->Accept(this);
-    }
-
-    virtual void Visit(VarDeclarationRepeated* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "VarDeclarationRepeated");
-
-        for (auto* varDeclaration : node->varDeclarationRepeated_) {
-            ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            varDeclaration->Accept(this);
-        }
+        PrintLeaf(headNodeNumber, "Name", node->name_);
     }
 
 private:
