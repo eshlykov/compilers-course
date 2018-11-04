@@ -37,7 +37,7 @@ public:
 
     virtual void Visit(AssignmentStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, ":=");
+        PrintHead(headNodeNumber, "AssignmentStatement");
 
         ++nodeNumber_;
         PrintLeaf(headNodeNumber, "Variable", node->variable_);
@@ -52,19 +52,19 @@ public:
 
         switch (node->binaryOperator_) {
         case BinaryOperator::BO_And:
-            PrintHead(headNodeNumber, "&&");
+            PrintHead(headNodeNumber, "BinaryOperator : &&");
             break;
         case BinaryOperator::BO_Less:
-            PrintHead(headNodeNumber, "<");
+            PrintHead(headNodeNumber, "BinaryOperator : <");
             break;
         case BinaryOperator::BO_Plus:
-            PrintHead(headNodeNumber, "+");
+            PrintHead(headNodeNumber, "BinaryOperator : +");
             break;
         case BinaryOperator::BO_Minus:
-            PrintHead(headNodeNumber, "-");
+            PrintHead(headNodeNumber, "BinaryOperator : -");
             break;
         case BinaryOperator::BO_Star:
-            PrintHead(headNodeNumber, "*");
+            PrintHead(headNodeNumber, "BinaryOperator : *");
             break;
         default:
             break;
@@ -256,7 +256,7 @@ public:
 
     virtual void Visit(NumberExpression* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, std::to_string(node->value_));
+        PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
     }
 
     virtual void Visit(ParensExpression* node) override final {
