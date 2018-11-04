@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "../visitor.hpp"
@@ -13,7 +12,7 @@ public:
         className_{className}, argv_{argv}, mainBody_{mainBody} {
     }
 
-    virtual void Accept(IVisitor* visitor) override final {
+    virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
 
