@@ -18,7 +18,7 @@ public:
         file_ << "}" << std::endl;
         file_.close();
     }
-  
+
       virtual void Visit(AssignmentByIndexStatement* node) override final {
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "AssignmentByIndexStatement");
@@ -51,19 +51,19 @@ public:
         auto headNodeNumber = nodeNumber_;
 
         switch (node->binaryOperator_) {
-        case BO_And:
+        case BinaryOperator::BO_And:
             PrintHead(headNodeNumber, "&&");
             break;
-        case BO_Less:
+        case BinaryOperator::BO_Less:
             PrintHead(headNodeNumber, "<");
             break;
-        case BO_Plus:
+        case BinaryOperator::BO_Plus:
             PrintHead(headNodeNumber, "+");
             break;
-        case BO_Minus:
+        case BinaryOperator::BO_Minus:
             PrintHead(headNodeNumber, "-");
             break;
-        case BO_Star:
+        case BinaryOperator::BO_Star:
             PrintHead(headNodeNumber, "*");
             break;
         default:
@@ -80,7 +80,7 @@ public:
     }
 
     virtual void Visit(BooleanExpression* node) override final {
-        PrintHead(nodeNumber_, "Boolean : " + node->value_);
+        PrintHead(nodeNumber_, "Boolean : " + std::string{node->value_ ? "true" : "false"});
     }
 
     virtual void Visit(ClassBody* node) override final {
@@ -102,7 +102,7 @@ public:
 
     virtual void Visit(ClassDeclaration* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "ClassDeclaration : " + node->className);
+        PrintHead(headNodeNumber, "ClassDeclaration : " + node->className_);
 
         if (node->extendsForClass_.has_value()) {
             ++nodeNumber_;
