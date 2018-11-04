@@ -1,9 +1,9 @@
 %{
 
 #include "parser.hpp"
-
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 int yycolumn = 1;
 
@@ -203,7 +203,7 @@ int {
 }
 
 [a-zA-Z_][a-zA-Z_0-9]* {
-    yylval.IdentifierToken_ = yytext;
+    yylval.IdentifierToken_ = new std::string{yytext};
     std::cout << "TT_Identifier(" << yytext << ")" << std::endl;
     return TT_Identifier;
 }
