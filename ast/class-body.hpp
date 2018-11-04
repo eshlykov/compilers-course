@@ -8,7 +8,7 @@ class MethodDeclaration;
 
 class ClassBody : public Node {
 public:
-    ClassBody(const std::vector<VarDeclaration*> variables, const std::vector<MethodDeclaration*> methods) :
+    ClassBody(const std::vector<VarDeclaration*>& variables, const std::vector<MethodDeclaration*>& methods) :
         variables_{variables}, methods_{methods} {
     }
 
