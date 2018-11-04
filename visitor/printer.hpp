@@ -241,17 +241,19 @@ public:
         }
     }
 
-    virtual void Visit(Goal* node) override final {
+    virtual void Visit(Program* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "Goal");
+        PrintHead(headNodeNumber, "Program");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->mainClass_->Accept(this);
 
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->classDeclarationRepeated_->Accept(this);
+        for (auto* classDeclaration : node->classDeclarations_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            classDeclaration->Accept(this);
+        }
     }
 
     virtual void Visit(Identifier* node) override final {
@@ -261,15 +263,10 @@ public:
 
     virtual void Visit(MainClass* node) override final {
         auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "MainClass");
+        PrintHead(headNodeNumber, "MainClass : " + node->className_);
 
         ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->className_->Accept(this);
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->mainArgumentName_->Accept(this);
+        PrintLeaf(headNodeNumber, "Argv", node->argv_);
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
@@ -483,6 +480,11 @@ private:
     }
 
     void PrintEdge(int headNodeNumber) {
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+    }
+
+    void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name) {
+        file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];" << std::endl;
         file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
     }
 
