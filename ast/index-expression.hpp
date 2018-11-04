@@ -5,8 +5,8 @@
 
 class IndexExpression : public Expression {
 public:
-    IndexExpression(Expression* indexable, Expression* index) :
-        indexable_{indexable}, index_{index} {
+    IndexExpression(Expression* lhs, Expression* rhs) :
+        lhs_{lhs}, rhs_{rhs} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -14,6 +14,6 @@ public:
     }
 
 public:
-    Expression* indexable_ = {};
-    Expression* index_ = {};
+    Expression* lhs_ = {};
+    Expression* rhs_ = {};
 };
