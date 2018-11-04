@@ -139,11 +139,11 @@ public:
         auto headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "IndexExpression");
 
-        ++nodeNumber;
+        ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->lhs_->Accept(this);
 
-        ++nodeNumber;
+        ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->rhs_->Accept(this);
     }
