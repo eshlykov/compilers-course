@@ -5,9 +5,9 @@
 
 class Expression;
 
-class StatementPrint : public Statement {
+class PrintStatement : public Statement {
 public:
-    StatementPrint(Expression* expression) :
+    PrintStatement(Expression* expression) :
         expression_(expression) {
     }
 
