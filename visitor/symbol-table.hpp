@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../ast.hpp"
+#include "../compile-error.hpp"
+#include "visitor.hpp"
 #include <algorithm>
 #include <string>
 #include <unordered_map>
