@@ -89,10 +89,10 @@ public:
     }
 
     virtual void Visit(ClassDeclaration* node) override final {
-        currentClass_ = std::make_pair(node->className, ClassInfo{});
+        currentClass_ = std::make_pair(node->className_, ClassInfo{});
 
         auto& [className, classInfo] = currentClass_;
-        if (classes_.find(name) != classes_.end()) {
+        if (classes_.find(className) != classes_.end()) {
             throw ClassRedefinition{"Class " + className + " has been already defined."};
         }
 
@@ -100,7 +100,7 @@ public:
         node->classBody_->Accept(this);
         classes_[className] = classInfo;
 
-        currentClass = {};
+        currentClass_ = {};
     }
 
     virtual void Visit(ConditionStatement* node) override final {
@@ -131,6 +131,7 @@ public:
     }
 
     virtual void Visit(MethodDeclaration* node) override final {
+        currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
     }
 
     virtual void Visit(NotExpression* node) override final {
@@ -149,7 +150,7 @@ public:
     }
 
     virtual void Visit(Program* node) override final {
-        for (auto* classDeclaration : classDeclarations_) {
+        for (auto* classDeclaration : node->classDeclarations_) {
             classDeclaration->Accept(this);
         }
     }
@@ -167,6 +168,7 @@ public:
     }
 
     virtual void Visit(VarDeclaration* node) override final {
+        currentVariable_ = std::make_pair(node->name_, VariableInfo{});
     }
 
 public:
