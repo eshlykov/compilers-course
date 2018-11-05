@@ -128,6 +128,14 @@ public:
     }
 
     virtual void Visit(MethodBody* node) override final {
+        auto& [methodName, methodInfo] = currentMethod_;
+
+        for (auto* variable : variables_) {
+            variable->Accept(this);
+            auto& [variableName, variableInfo] = currentVariable_;
+            methodInfo.AddVariable(variableName, variableInfo);
+            currentVariable_ = {};
+        }
     }
 
     virtual void Visit(MethodCallExpression* node) override final {
@@ -135,6 +143,18 @@ public:
 
     virtual void Visit(MethodDeclaration* node) override final {
         currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
+
+        auto& [methodName, methodInfo] = currentMethod_;
+        methodInfo.resultType_ = *(node->resultType_);
+
+        for (auto* argument : argumentsList_) {
+            argument->Accept(this);
+            auto& [variableName, variableInfo] = currentVariable_;
+            methodInfo.AddArgument(variableName, variableInfo);
+            currentVariable_ = {};
+        }
+
+        node->methodBody_->Accept(this);
     }
 
     virtual void Visit(NotExpression* node) override final {
@@ -172,6 +192,9 @@ public:
 
     virtual void Visit(VarDeclaration* node) override final {
         currentVariable_ = std::make_pair(node->name_, VariableInfo{});
+
+        auto& [variableName, variableInfo] = currentVariable_;
+        variableInfo.type_ = *(node->type_);
     }
 
 public:
