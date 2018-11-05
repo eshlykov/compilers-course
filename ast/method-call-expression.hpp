@@ -11,6 +11,11 @@ public:
         expression_{expression}, methodName_{methodName}, argumentsList_{argumentsList} {
     }
 
+    ~MethodCallExpression() {
+        delete expression_;
+        FreeVector(argumentsList_);
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

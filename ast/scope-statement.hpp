@@ -10,6 +10,10 @@ public:
         statements_{statements} {
     }
 
+    ~ScopeStatement() {
+        FreeVector(statements_);
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

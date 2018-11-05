@@ -15,6 +15,10 @@ public:
         className_{className}, extendsForClass_{extendsForClass}, classBody_{classBody} {
     }
 
+    ~ClassDeclaration() {
+        delete classBody_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

@@ -12,6 +12,10 @@ public:
         className_{className}, argv_{argv}, mainBody_{mainBody} {
     }
 
+    ~MainClass() {
+        delete mainBody_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

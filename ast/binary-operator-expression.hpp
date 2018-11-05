@@ -17,6 +17,11 @@ public:
         lhs_{lhs}, rhs_{rhs}, binaryOperator_{binaryOperator} {
     }
 
+    ~BinaryOperatorExpression() {
+        delete lhs_;
+        delete rhs_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

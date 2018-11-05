@@ -11,6 +11,10 @@ public:
         type_{type}, name_{name} {
     }
 
+    ~VarDeclaration() {
+        delete type_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

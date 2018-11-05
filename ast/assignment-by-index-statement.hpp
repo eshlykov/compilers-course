@@ -12,6 +12,11 @@ public:
         array_{array}, index_{index}, expression_{expression} {
     }
 
+    ~AssignmentByIndexStatement() {
+        delete index_;
+        delete expression_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

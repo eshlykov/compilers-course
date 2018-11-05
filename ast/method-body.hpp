@@ -13,6 +13,12 @@ public:
         variables_{variables}, statements_{statements}, returnExpression_{returnExpression} {
     }
 
+    ~MethodBody() {
+        FreeVector(variables_);
+        FreeVector(statements_);
+        delete returnExpression_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

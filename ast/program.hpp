@@ -13,6 +13,11 @@ public:
         mainClass_{mainClass}, classDeclarations_{classDeclarations} {
     }
 
+    ~Program() {
+        delete mainClass_;
+        FreeVector(classDeclarations_);
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

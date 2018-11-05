@@ -13,6 +13,11 @@ public:
         variables_{variables}, methods_{methods} {
     }
 
+    ~ClassBody() {
+        FreeVector(variables_);
+        FreeVector(methods_);
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

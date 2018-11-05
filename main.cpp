@@ -9,4 +9,6 @@ int main() {
 
     Printer printer{"ast.dot"};
     printer.Visit(program);
+
+    delete program;
 }

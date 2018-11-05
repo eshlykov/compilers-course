@@ -14,6 +14,12 @@ public:
         resultType_{resultType}, methodName_{methodName}, argumentsList_{argumentsList}, methodBody_{methodBody} {
     }
 
+    ~MethodDeclaration() {
+        delete resultType_;
+        FreeVector(argumentsList_);
+        delete methodBody_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

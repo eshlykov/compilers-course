@@ -11,6 +11,12 @@ public:
         condition_{condition}, ifStatement_{ifStatement}, elseStatement_{elseStatement} {
     }
 
+    ~ConditionStatement() {
+        delete condition_;
+        delete ifStatement_;
+        delete elseStatement_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

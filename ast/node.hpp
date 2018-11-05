@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common.hpp"
+
 class Visitor;
 
 class Node {

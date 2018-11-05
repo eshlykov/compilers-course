@@ -11,6 +11,11 @@ public:
         condition_(condition), statement_(statement) {
     }
 
+    ~LoopStatement() {
+        delete condition_;
+        delete statement_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

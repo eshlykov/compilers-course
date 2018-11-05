@@ -333,10 +333,11 @@ Identifier :
 
 %%
 
-void yyerror(Program*&, const char* message) {
+void yyerror(Program*& program, const char* message) {
     std::cout << "Error occured at line: " << yylloc.first_line << std::endl;
     std::cout << "Columns: [" << yylloc.first_column << ": " << yylloc.last_column << "]" << std::endl;
     std::cout << "Error: " << yytext << std::endl;
     std::cout << "Error message: " << message << std::endl;
+    delete program;
     std::exit(1);
 }

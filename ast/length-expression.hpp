@@ -9,6 +9,10 @@ public:
         expression_{expression} {
     }
 
+    ~LengthExpression() {
+        delete expression_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

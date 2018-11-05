@@ -12,6 +12,10 @@ public:
         variable_{variable}, expression_(expression) {
     }
 
+    ~AssignmentStatement() {
+        delete expression_;
+    }
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
