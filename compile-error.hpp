@@ -1,15 +1,16 @@
 #pragma once
 
 #include <exception>
+#include <string>
 
-class CompileError : public std::exception {
+class CompileError {
 public:
     CompileError(const std::string& message) :
         message_{message} {
     }
 
-    virtual const char* what() override final {
-        return message_.c_str();
+    virtual std::string GetMessage() const final {
+        return message_;
     }
 
 private:
@@ -23,9 +24,9 @@ public:
     }
 };
 
-class VariableRedefition : public CompileError {
+class VariableRedefinition : public CompileError {
 public:
-    VariableRefenition(const std::string& message) :
+    VariableRedefinition(const std::string& message) :
         CompileError(message) {
     }
 };
@@ -37,9 +38,9 @@ public:
     }
 };
 
-class MethodRedefintion : public CompileError {
+class MethodRedefinition : public CompileError {
 public:
-    MethodRedefintion(const std::string& message) :
+    MethodRedefinition(const std::string& message) :
         CompileError(message) {
     }
 };

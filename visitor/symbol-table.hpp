@@ -11,7 +11,7 @@
 
 class VariableInfo {
 public:
-    Type* type = {};
+    Type* type_ = {};
 };
 
 class MethodInfo {
@@ -24,7 +24,7 @@ public:
     }
 
     void AddArgument(const std::string& name, VariableInfo variable) {
-        auto iter = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
+        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& str) { return str.first == name; });
         if (iter != arguments_.end()) {
             throw ArgumentRedefinition{"Argument " + name + " has been already defined."};
         }
@@ -76,14 +76,14 @@ public:
     virtual void Visit(ClassBody* node) override final {
         auto& [className, classInfo] = currentClass_;
 
-        for (auto* variable : variables_) {
+        for (auto* variable : node->variables_) {
             variable->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             classInfo.AddVariable(variableName, variableInfo);
             currentVariable_ = {};
         }
 
-        for (auto* method : methods_) {
+        for (auto* method : node->methods_) {
             method->Accept(this);
             auto& [methodName, methodInfo] = currentMethod_;
             classInfo.AddMethod(methodName, methodInfo);
@@ -99,7 +99,7 @@ public:
             throw ClassRedefinition{"Class " + className + " has been already defined."};
         }
 
-        classInfo.base = node->extendsForClass_;
+        classInfo.base_ = node->extendsForClass_;
         node->classBody_->Accept(this);
         classes_[className] = classInfo;
 
@@ -130,7 +130,7 @@ public:
     virtual void Visit(MethodBody* node) override final {
         auto& [methodName, methodInfo] = currentMethod_;
 
-        for (auto* variable : variables_) {
+        for (auto* variable : node->variables_) {
             variable->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             methodInfo.AddVariable(variableName, variableInfo);
@@ -145,9 +145,9 @@ public:
         currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
 
         auto& [methodName, methodInfo] = currentMethod_;
-        methodInfo.resultType_ = *(node->resultType_);
+        methodInfo.returnType_ = node->resultType_;
 
-        for (auto* argument : argumentsList_) {
+        for (auto* argument : node->argumentsList_) {
             argument->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             methodInfo.AddArgument(variableName, variableInfo);
@@ -194,7 +194,7 @@ public:
         currentVariable_ = std::make_pair(node->name_, VariableInfo{});
 
         auto& [variableName, variableInfo] = currentVariable_;
-        variableInfo.type_ = *(node->type_);
+        variableInfo.type_ = node->type_;
     }
 
 public:
@@ -202,4 +202,4 @@ public:
     std::pair<std::string, VariableInfo> currentVariable_ = {};
     std::pair<std::string, MethodInfo> currentMethod_ = {};
     std::pair<std::string, ClassInfo> currentClass_ = {};
-}
+};

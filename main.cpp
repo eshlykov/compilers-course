@@ -1,6 +1,8 @@
 #include "ast/program.hpp"
 #include "compile-error.hpp"
 #include "visitor/printer.hpp"
+#include "visitor/symbol-table.hpp"
+#include <iostream>
 
 extern int yyparse(Program*&);
 
@@ -15,7 +17,7 @@ int main() {
     try {
         symbolTable.Visit(program);
     } catch (const CompileError& error) {
-        std::cout << error.what() << std::endl;
+        std::cout << error.GetMessage() << std::endl;
         delete program;
         std::exit(1);
     }
