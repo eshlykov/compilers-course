@@ -30,12 +30,12 @@ public:
 
 class MethodInfo {
 public:
-	void AddVariable(const std::string& name, VariableInfo variable) {
+    void AddVariable(const std::string& name, VariableInfo variable) {
         if (variables_.find(name) == variables_.end()) {
             variables_[name] = variable;
         }
     }
-    
+
     void AddArgument(const std::string& name, VariableInfo variable) {
         auto it = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
         if (it == arguments_.end()) {
