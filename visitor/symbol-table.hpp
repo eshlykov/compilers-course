@@ -23,7 +23,7 @@ public:
     void AddArgument(const std::string& name, VariableInfo variable) {
         auto it = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
         if (it != arguments_.end()) {
-            throw VariableRedefinition{"Argument " + name + " has been already defined."};
+            throw ArgumentRedefinition{"Argument " + name + " has been already defined."};
         }
         arguments_.push_back(std::make_pair(name, variable));
     }
