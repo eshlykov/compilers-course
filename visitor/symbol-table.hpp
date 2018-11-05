@@ -35,7 +35,7 @@ public:
             variables_[name] = variable;
         }
     }
-    
+
     void AddArgument(const std::string& name, VariableInfo variable) {
         auto it = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
         if (it == arguments_.end()) {
@@ -69,14 +69,28 @@ public:
     }
 
     virtual void Visit(ClassBody* node) override final {
+        auto& [className, classInfo] = currentClass_;
+        for (auto* variable : variables_) {
+            variable->Accept(this);
+            auto& [variableName, variableInfo] = currentVariable_;
+            classInfo.AddVariable(variableName, variableInfo);
+        }
+        for (auto* method : methods_) {
+            method->Accept(this);
+            auto& [methodName, methodInfo] = currentMethod_;
+            classInfo.AddMethod(methodName, methodInfo);
+        }
     }
 
     virtual void Visit(ClassDeclaration* node) override final {
-        if (classes_.find(node->className_) != classes_.end()) {
-            throw ClassRedefinition{"Class " + node->className_ + " has been already defined."};
+        currentClass_ = std::make_pair(node->className, ClassInfo{});
+        auto& [className, classInfo] = currentClass_;
+        if (classes_.find(name) != classes_.end()) {
+            throw ClassRedefinition{"Class " + className + " has been already defined."};
         }
-        auto& current = classes_[node->className_];
-        current.base = node->extendsForClass_;
+        classInfo.base = node->extendsForClass_;
+        node->classBody_->Accept(this);
+        classes_[className] = classInfo;
     }
 
     virtual void Visit(ConditionStatement* node) override final {
@@ -147,4 +161,7 @@ public:
 
 public:
     std::unordered_map<std::string, ClassInfo> classes_ = {};
+    std::pair<std::string, VariableInfo> currentVariable_ = {};
+    std::pair<std::string, MethodInfo> currentMethod_ = {};
+    std::pair<std::string, ClassInfo> currentClass_ = {};
 }
