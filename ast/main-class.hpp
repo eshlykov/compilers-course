@@ -2,9 +2,8 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include "statement.hpp"
 #include <string>
-
-class Statement;
 
 class MainClass : public Node {
 public:

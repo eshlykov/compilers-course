@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "main-class.hpp"
 #include "node.hpp"
 #include <vector>
 
-class MainClass;
 class ClassDeclaration;
 
 class Program : public Node {

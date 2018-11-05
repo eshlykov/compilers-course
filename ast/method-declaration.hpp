@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "method-body.hpp"
 #include "node.hpp"
+#include "type.hpp"
 #include <string>
 
-class Type;
 class VarDeclaration;
-class MethodBody;
 
 class MethodDeclaration : public Node {
 public:

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../visitor.hpp"
+#include "expression.hpp"
 #include "statement.hpp"
 #include <string>
 
-class Expression;
 
 class AssignmentByIndexStatement : public Statement {
 public:
