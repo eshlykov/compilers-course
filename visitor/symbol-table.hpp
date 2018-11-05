@@ -6,6 +6,34 @@
 #include <utility>
 #include <vector>
 
+class VariableInfo {
+public:
+    Type* type = {};
+};
+
+class MethodInfo {
+public:
+    void AddVariable(const std::string& name, VariableInfo variable) {
+        if (variables_.find(name) != variables_.end()) {
+            throw VariableRedefinition{"Variable " + name + " has been already defined."};
+        }
+        variables_[name] = variable;
+    }
+
+    void AddArgument(const std::string& name, VariableInfo variable) {
+        auto iter = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
+        if (iter != arguments_.end()) {
+            throw ArgumentRedefinition{"Argument " + name + " has been already defined."};
+        }
+        arguments_.emplace_back(name, variable);
+    }
+
+public:
+    Type* returnType_ = {};
+    std::unordered_map<std::string, VariableInfo> variables_ = {};
+    std::vector<std::pair<std::string, VariableInfo>> arguments_ = {};
+};
+
 class ClassInfo {
 public:
     void AddVariable(const std::string& name, VariableInfo variable) {
@@ -28,32 +56,6 @@ public:
     std::unordered_map<std::string, MethodInfo> methods_ = {};
 };
 
-class MethodInfo {
-public:
-	void AddVariable(const std::string& name, VariableInfo variable) {
-        if (variables_.find(name) == variables_.end()) {
-            variables_[name] = variable;
-        }
-    }
-
-    void AddArgument(const std::string& name, VariableInfo variable) {
-        auto it = find_if(arguments_.begin(), arguments_.end(), [] (const auto& str) { return str.first == name; });
-        if (it == arguments_.end()) {
-            arguments_.push_back(std::make_pair(name, variable));
-        }
-    }
-
-public:
-    Type* returnType_ = {};
-    std::unordered_map<std::string, VariableInfo> variables_ = {};
-    std::vector<std::pair<std::string, VariableInfo>> arguments_ = {};
-};
-
-class VariableInfo {
-public:
-    Type* type = {};
-};
-
 class SymbolTable : public Visitor {
 public:
     virtual void Visit(AssignmentByIndexStatement* node) override final {
@@ -70,27 +72,35 @@ public:
 
     virtual void Visit(ClassBody* node) override final {
         auto& [className, classInfo] = currentClass_;
+
         for (auto* variable : variables_) {
             variable->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             classInfo.AddVariable(variableName, variableInfo);
+            currentVariable_ = {};
         }
+
         for (auto* method : methods_) {
             method->Accept(this);
             auto& [methodName, methodInfo] = currentMethod_;
             classInfo.AddMethod(methodName, methodInfo);
+            currentMethod_ = {};
         }
     }
 
     virtual void Visit(ClassDeclaration* node) override final {
         currentClass_ = std::make_pair(node->className, ClassInfo{});
+
         auto& [className, classInfo] = currentClass_;
         if (classes_.find(name) != classes_.end()) {
             throw ClassRedefinition{"Class " + className + " has been already defined."};
         }
+
         classInfo.base = node->extendsForClass_;
         node->classBody_->Accept(this);
         classes_[className] = classInfo;
+
+        currentClass = {};
     }
 
     virtual void Visit(ConditionStatement* node) override final {

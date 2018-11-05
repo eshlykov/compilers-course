@@ -30,6 +30,13 @@ public:
     }
 };
 
+class ArgumentRedefinition : public CompileError {
+public:
+    ArgumentRedefinition(const std::string& message) :
+        CompileError(message) {
+    }
+};
+
 class MethodRedefintion : public CompileError {
 public:
     MethodRedefintion(const std::string& message) :
