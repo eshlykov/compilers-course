@@ -18,9 +18,11 @@ int main() {
         symbolTable.Visit(program);
     } catch (const CompileError& error) {
         std::cout << error.GetMessage() << std::endl;
+
         delete program;
-        std::exit(1);
+        return 1;
     }
 
     delete program;
+    return 0;
 }
