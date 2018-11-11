@@ -9,13 +9,16 @@ branches:
 git:
   depth: 1
 
-before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
+addons:
+  apt:
+    sources:
+    # Clang 7:
+      - llvm-toolchain-trusty-7
+      - ubuntu-toolchain-r-test
+    packages:
+      - clang-7
 
 install:
-  - sudo apt-get install -qq g++-7
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - sudo apt-get install flex
   - sudo apt-get install bison
 
