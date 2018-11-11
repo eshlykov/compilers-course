@@ -20,4 +20,4 @@ install:
   - sudo apt-get install bison
 
 script:
-  - make
+  - make test
