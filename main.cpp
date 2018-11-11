@@ -6,7 +6,7 @@
 
 extern int yyparse(Program*&);
 
-const char* get_drawing_file_name_from_arguments(int argc, char *argv[]) {
+std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
     if (argc == 3) {
         return argv[2];
     }
@@ -23,7 +23,14 @@ int main(int argc, char *argv[]) {
     Program* program = nullptr;
     yyparse(program);
 
-    Printer printer{get_drawing_file_name_from_arguments(argc, argv)};
+    if (program && program->isErroneous_) {
+        delete program;
+        return 1;
+    } else if (!program) {
+        return 1;
+    }
+
+    Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
     printer.Visit(program);
 
     SymbolTable symbolTable{};
@@ -31,9 +38,8 @@ int main(int argc, char *argv[]) {
         symbolTable.Visit(program);
     } catch (const CompileError& error) {
         std::cout << error.GetMessage() << std::endl;
-
         delete program;
-        return -1;
+        return 1;
     }
 
     delete program;

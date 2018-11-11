@@ -5,11 +5,23 @@
 #include <iostream>
 #include <string>
 
-int yycolumn = 1;
+int yycolumnno = 0;
+std::string yyline = {};
 
-#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
-    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
-    yycolumn += yyleng;
+#define YY_USER_ACTION { \
+    if (yylineno != yylloc.first_line) { \
+        yycolumnno = 0; \
+        yyline = {}; \
+    } \
+    \
+    yylloc.first_line = yylineno; \
+    yylloc.last_line = yylineno; \
+    yylloc.first_column = yycolumnno; \
+    yylloc.last_column = yycolumnno + yyleng - 1; \
+    \
+    yycolumnno += yyleng; \
+    yyline += yytext; \
+}
 
 %}
 
@@ -172,10 +184,6 @@ int {
 }
 
 \/\/.* {
-}
-
-. {
-    return TT_Error;
 }
 
 %%
