@@ -1,5 +1,4 @@
 language: cpp
-compiler: gcc
 dist: trusty
 
 branches:
@@ -9,19 +8,20 @@ branches:
 git:
   depth: 1
 
-addons:
-  apt:
-    sources:
-    # Clang 7:
-      - llvm-toolchain-trusty-7
-      - ubuntu-toolchain-r-test
-    packages:
-      - clang-7
-env:
-  - MATRIX_EVAL="CC=clang-7.0 && CXX=clang-7.0"
+os: linux
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty-7
+      packages:
+        - clang-7
+        - libstdc++-7-dev
+  env:
+    - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
 
 before_install:
-- eval "${MATRIX_EVAL}"
+  - eval "${MATRIX_EVAL}"
 
 install:
   - sudo apt-get install flex
