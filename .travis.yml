@@ -6,7 +6,7 @@ branches:
   - master
 
 compiler:
-  - clang++
+  - clang
 
 git:
   depth: 1
