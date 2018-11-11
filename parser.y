@@ -121,26 +121,35 @@ bool isErroneous = false;
 
 %locations
 
-%destructor { delete $$; }
+%destructor {
+    delete $$;
+}
     TT_Identifier
     Goal
-    ClassDeclarationRepeated
     MainClass
     ExtendsIdentifierOptional
-    VarDeclarationRepeated
-    MethodDeclarationRepeated
     ClassDeclaration
     VarDeclaration
-    CommaTypeIdentifierRepeated
-    TypeIdentifierCommaTypeIdentifierRepeatedOptional
     MethodDeclaration
     Type
-    StatementRepeated
     Statement
-    CommaExpressionRepeated
-    ExpressionCommaExpressionRepeatedOptional
     Expression
     Identifier
+
+%destructor {
+    if ($$ != nullptr) {
+        FreeVector(*$$);
+    }
+    delete $$;
+}
+    ClassDeclarationRepeated
+    VarDeclarationRepeated
+    MethodDeclarationRepeated
+    CommaTypeIdentifierRepeated
+    TypeIdentifierCommaTypeIdentifierRepeatedOptional
+    StatementRepeated
+    CommaExpressionRepeated
+    ExpressionCommaExpressionRepeatedOptional
 
 %%
 
