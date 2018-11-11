@@ -1,4 +1,6 @@
 language: cpp
+compiler: gcc
+dist: trusty
 
 branches:
   only:
@@ -7,12 +9,16 @@ branches:
 git:
   depth: 1
 
-compiler: clang
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
 
 install:
-- sudo apt-get install flex
-- sudo apt-get install bison
-script:
-  - clang++ --version
-  - make
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
+  - sudo apt-get install flex
+  - sudo apt-get install bison
 
+script:
+  - make test
+  - make draw

@@ -10,7 +10,7 @@ std::string yyline = {};
 
 #define YY_USER_ACTION { \
     if (yylineno != yylloc.first_line) { \
-        yycolumnno = -1; \
+        yycolumnno = 0; \
         yyline = {}; \
     } \
     \
