@@ -5,7 +5,7 @@ branches:
   only:
   - master
 
-compiler: "clang++"
+compiler: clang++
 
 git:
   depth: 1
