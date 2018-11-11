@@ -10,6 +10,13 @@ int main() {
     Program* program = nullptr;
     yyparse(program);
 
+    if (program && program->isErroneous_) {
+        delete program;
+        return 1;
+    } else if (!program) {
+        return 1;
+    }
+
     Printer printer{"ast.dot"};
     printer.Visit(program);
 

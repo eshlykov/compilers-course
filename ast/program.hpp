@@ -9,8 +9,8 @@ class ClassDeclaration;
 
 class Program : public Node {
 public:
-    Program(MainClass* mainClass, const std::vector<ClassDeclaration*>& classDeclarations) :
-        mainClass_{mainClass}, classDeclarations_{classDeclarations} {
+    Program(MainClass* mainClass, const std::vector<ClassDeclaration*>& classDeclarations, bool isErroneous) :
+        mainClass_{mainClass}, classDeclarations_{classDeclarations}, isErroneous_{isErroneous} {
     }
 
     ~Program() {
@@ -25,4 +25,5 @@ public:
 public:
     MainClass* mainClass_ = {};
     std::vector<ClassDeclaration*> classDeclarations_ = {};
+    bool isErroneous_ = false;
 };

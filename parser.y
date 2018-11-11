@@ -1,6 +1,7 @@
 %code requires {
 
 #include "ast.hpp"
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -9,8 +10,16 @@
 extern int yylex();
 extern char* yytext;
 void yyerror(Program*&, const char*);
+extern std::string yyline;
 
 }
+
+%{
+
+bool isErroneous = false;
+
+%}
+
 
 %parse-param {
     Program*& program
@@ -80,7 +89,6 @@ void yyerror(Program*&, const char*);
 %token TT_Star
 %token TT_Assignment
 %token TT_Comma
-%token TT_Error
 
 %right TT_Assignment
 %left TT_And
@@ -89,7 +97,7 @@ void yyerror(Program*&, const char*);
 %left TT_Star
 %left TT_Bang
 %left TT_Dot
-%right TTLeftParen TT_LeftBracket
+%right TT_LeftParen TT_LeftBracket
 
 %type <Goal_> Goal
 %type <ClassDeclarationRepeated_> ClassDeclarationRepeated
@@ -113,12 +121,33 @@ void yyerror(Program*&, const char*);
 
 %locations
 
+%destructor { delete $$; }
+    TT_Identifier
+    Goal
+    ClassDeclarationRepeated
+    MainClass
+    ExtendsIdentifierOptional
+    VarDeclarationRepeated
+    MethodDeclarationRepeated
+    ClassDeclaration
+    VarDeclaration
+    CommaTypeIdentifierRepeated
+    TypeIdentifierCommaTypeIdentifierRepeatedOptional
+    MethodDeclaration
+    Type
+    StatementRepeated
+    Statement
+    CommaExpressionRepeated
+    ExpressionCommaExpressionRepeatedOptional
+    Expression
+    Identifier
+
 %%
 
 Goal :
     MainClass ClassDeclarationRepeated {
-        std::cout << "Goal" << std::endl;
-        program = new Program{$1, *$2};
+        program = new Program{$1, *$2, isErroneous};
+        $$ = nullptr;
     }
 ;
 
@@ -126,9 +155,11 @@ ClassDeclarationRepeated :
     %empty {
         $$ = new std::vector<ClassDeclaration*>{};
     } | ClassDeclarationRepeated ClassDeclaration {
-        std::cout << "ClassDeclarationRepeated" << std::endl;
         $1->push_back($2);
         $$ = $1;
+    } | ClassDeclarationRepeated TT_RightBrace {
+        $$ = $1;
+        yyerrok;
     }
 ;
 
@@ -138,7 +169,6 @@ MainClass :
             Statement
          TT_RightBrace
     TT_RightBrace {
-        std::cout << "MainClass" << std::endl;
         $$ = new MainClass{*$2, *$12, $15};
     }
 ;
@@ -147,7 +177,6 @@ ExtendsIdentifierOptional :
     %empty {
         $$ = new std::optional<std::string>{};
     } | TT_Extends Identifier {
-        std::cout << "ExtendsIdentifierOptional" << std::endl;
         $$ = new std::optional<std::string>{*$2};
     }
 ;
@@ -156,9 +185,11 @@ VarDeclarationRepeated :
     %empty {
         $$ = new std::vector<VarDeclaration*>{};
     } | VarDeclarationRepeated VarDeclaration {
-        std::cout << "VarDecalarationRepeated" << std::endl;
         $1->push_back($2);
         $$ = $1;
+    } | VarDeclarationRepeated error TT_Semicolon {
+        $$ = $1;
+        yyerrok;
     }
 ;
 
@@ -166,7 +197,6 @@ MethodDeclarationRepeated :
     %empty {
         $$ = new std::vector<MethodDeclaration*>{};
     } | MethodDeclarationRepeated MethodDeclaration {
-        std::cout << "MethodDeclarationRepeated" << std::endl;
         $1->push_back($2);
         $$ = $1;
     }
@@ -177,14 +207,12 @@ ClassDeclaration :
         VarDeclarationRepeated
         MethodDeclarationRepeated
     TT_RightBrace {
-        std::cout << "ClassDeclaration" << std::endl;
         $$ = new ClassDeclaration{*$2, *$3, new ClassBody{*$5, *$6}};
     }
 ;
 
 VarDeclaration :
     Type Identifier TT_Semicolon {
-        std::cout << "VarDeclaration" << std::endl;
         $$ = new VarDeclaration{$1, *$2};
     }
 ;
@@ -193,9 +221,12 @@ CommaTypeIdentifierRepeated :
     %empty {
         $$ = new std::vector<VarDeclaration*>{};
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
-        std::cout << "CommaTypeIdentifierRepeated" << std::endl;
         $1->push_back(new VarDeclaration{$3, *$4});
         $$ = $1;
+    } | CommaTypeIdentifierRepeated error TT_Identifier {
+        $$ = $1;
+        static_cast<void>($3); // remove warning 'unused value'
+        yyerrok;
     }
 ;
 
@@ -203,7 +234,6 @@ TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     %empty {
         $$ = new std::vector<VarDeclaration*>{};
     } | Type Identifier CommaTypeIdentifierRepeated {
-        std::cout << "TypeIdentifierCommaTypeIdentifierRepeated" << std::endl;
         $3->push_back(new VarDeclaration{$1, *$2});
         $$ = $3;
     }
@@ -215,7 +245,6 @@ MethodDeclaration :
         StatementRepeated
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
-        std::cout << "MethodDeclaration" << std::endl;
         $$ = new MethodDeclaration{$2, *$3, *$5, new MethodBody{*$8, *$9, $11}};
     }
 ;
@@ -228,7 +257,6 @@ Type :
     } | TT_Int {
         $$ = new PrimitiveType{TypeKind::TK_Int};
     } | Identifier {
-        std::cout << "Type" << std::endl;
         $$ = new UserType{*$1};
     }
 ;
@@ -237,7 +265,6 @@ StatementRepeated :
     %empty {
         $$ = new std::vector<Statement*>{};
     } | Statement StatementRepeated {
-        std::cout << "StatementRepeated" << std::endl;
         $2->push_back($1);
         $$ = $2;
     }
@@ -263,7 +290,6 @@ CommaExpressionRepeated :
     %empty {
         $$ = new std::vector<Expression*>{};
     } | CommaExpressionRepeated TT_Comma Expression {
-        std::cout << "CommaExpressionRepeated" << std::endl;
         $1->push_back($3);
         $$ = $1;
     }
@@ -273,7 +299,6 @@ ExpressionCommaExpressionRepeatedOptional :
     %empty {
         $$ = new std::vector<Expression*>{};
     } | Expression CommaExpressionRepeated {
-        std::cout << "ExpressionCommaExpressionRepeatedOptional" << std::endl;
         $2->push_back($1);
         $$ = $2;
     }
@@ -319,14 +344,12 @@ Expression :
 
 Number :
     TT_Number {
-        std::cout << "Number(" << $1 << ")" << std::endl;
         $$ = $1;
     }
 ;
 
 Identifier :
     TT_Identifier {
-        std::cout << "Identifier(" << *$1 << ")" << std::endl;
         $$ = $1;
     }
 ;
@@ -334,10 +357,21 @@ Identifier :
 %%
 
 void yyerror(Program*& program, const char* message) {
-    std::cout << "Error occured at line: " << yylloc.first_line << std::endl;
-    std::cout << "Columns: [" << yylloc.first_column << ": " << yylloc.last_column << "]" << std::endl;
-    std::cout << "Error: " << yytext << std::endl;
-    std::cout << "Error message: " << message << std::endl;
-    delete program;
-    std::exit(1);
+    isErroneous = true;
+
+    std::cout << "\033[1;37m:" << yylloc.first_line << ":" << yylloc.first_column;
+    if (yylloc.last_column != yylloc.first_column) {
+        std::cout << "-" << yylloc.last_column;
+    }
+    std::cout << ":\033[0m \033[1;31merror:\033[0m\033[1;37m unexpected token '" << yytext << "'\033[0m" << std::endl;
+
+    auto line = yyline;
+    std::replace(line.begin(), line.end(), '\t', ' ');
+    line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+
+    std::cout << line << std::endl;
+
+    std::cout << std::string(yylloc.first_column - 1, ' ');
+    std::cout << "\033[1;32m^" << std::string(yylloc.last_column - yylloc.first_column, '~') << "\033[0m";
+    std::cout << std::endl;
 }
