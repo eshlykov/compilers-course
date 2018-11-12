@@ -17,7 +17,7 @@ public:
 class MethodInfo {
 public:
     void AddVariable(const std::string& name, VariableInfo variable) {
-        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& str) { return str.first == name; });
+        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const std::string& str) { return str.first == name; });
         if (variables_.find(name) != variables_.end() || iter != arguments_.end()) {
             throw VariableRedefinition{"Variable " + name + " has been already defined."};
         }
@@ -25,7 +25,7 @@ public:
     }
 
     void AddArgument(const std::string& name, VariableInfo variable) {
-        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& str) { return str.first == name; });
+        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const std::string& str) { return str.first == name; });
         if (iter != arguments_.end()) {
             throw ArgumentRedefinition{"Argument " + name + " has been already defined."};
         }
