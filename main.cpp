@@ -7,8 +7,8 @@
 extern int yyparse(Program*&);
 
 std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
-    if (argc == 3) {
-        return argv[2];
+    if (argc == 2) {
+        return argv[1];
     }
 
     return "ast.dot";

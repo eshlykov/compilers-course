@@ -17,7 +17,7 @@ def draw_ast_for_directory(directory):
             print('Drawing {}'.format(file))
 
             test = os.path.abspath(os.path.join(directory, file))
-            return_code = subprocess.call('./{} < {} {}'.format(compiler, test, 'ast_{}.dot'.format(ast_count) ), shell=True)
+            return_code = subprocess.call('./{} {} < {}'.format(compiler,'ast_{}.dot'.format(test), test), shell=True)
 
             if return_code != 0:
                 print('Drawing failed!')
