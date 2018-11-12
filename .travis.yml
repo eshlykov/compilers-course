@@ -1,35 +1,25 @@
+
 language: cpp
+compiler: gcc
 dist: trusty
 
 branches:
   only:
   - master
 
-compiler:
-  - clang
-
 git:
   depth: 1
 
-os: linux
-  addons:
-    apt:
-      sources:
-        - ubuntu-toolchain-r-test
-        - llvm-toolchain-trusty-7
-      packages:
-        - clang-7
-        - libstdc++-7-dev
-  env:
-    - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
-
 before_install:
-  - eval "${MATRIX_EVAL}"
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
 
 install:
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - sudo apt-get install flex
   - sudo apt-get install bison
 
 script:
-  - make test
-  - make draw
+  - make travis_test
+  - make travis_draw
