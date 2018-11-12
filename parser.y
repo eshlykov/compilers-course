@@ -347,7 +347,7 @@ Expression :
     } | TT_Bang Expression {
         $$ = new NotExpression{$2};
     } | TT_LeftParen Expression TT_RightParen {
-        $$ = new ParensExpression{$2};
+        $$ = $2;
     }
 ;
 

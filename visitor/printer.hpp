@@ -259,15 +259,6 @@ public:
         PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
     }
 
-    virtual void Visit(ParensExpression* node) override final {
-        int headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "( Expression )");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
-    }
-
     virtual void Visit(PrimitiveType* node) override final {
         switch (node->typeKind_) {
         case TypeKind::TK_IntArray:

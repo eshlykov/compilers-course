@@ -164,9 +164,6 @@ public:
     virtual void Visit(NumberExpression* node) override final {
     }
 
-    virtual void Visit(ParensExpression* node) override final {
-    }
-
     virtual void Visit(PrimitiveType* node) override final {
     }
 

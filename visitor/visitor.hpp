@@ -18,7 +18,6 @@ class MethodCallExpression;
 class MethodDeclaration;
 class NotExpression;
 class NumberExpression;
-class ParensExpression;
 class PrimitiveType;
 class PrintStatement;
 class Program;
@@ -48,7 +47,6 @@ public:
     virtual void Visit(MethodDeclaration*) = 0;
     virtual void Visit(NotExpression*) = 0;
     virtual void Visit(NumberExpression*) = 0;
-    virtual void Visit(ParensExpression*) = 0;
     virtual void Visit(PrimitiveType*) = 0;
     virtual void Visit(PrintStatement*) = 0;
     virtual void Visit(Program*) = 0;
