@@ -25,8 +25,10 @@ int main(int argc, char *argv[]) {
 
     if (program && program->isErroneous_) {
         delete program;
+        std::cout << "Program is erroneous" << std::endl;
         return 1;
     } else if (!program) {
+        std::cout << "Unexpected error" << std::endl;
         return 1;
     }
 
