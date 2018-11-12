@@ -6,18 +6,34 @@ assert(len(sys.argv) == 2)
 
 compiler = sys.argv[1]
 
+dot_file_names = []
 
-def draw_ast_for_directory(directory):
+# dot -T svg ast.dot -o ast.svg
+
+def draw_svg():
+    for file in os.listdir('.'):
+        if file.endswith('.dot'):
+
+            print('Generate .png for {}'.format(file))
+            return_code = subprocess.call('dot -T svg {} -o {}.png'.format(file, file))
+
+            if return_code != 0:
+                print('Generate failed!')
+                print('')
+                sys.exit(-1)
+
+def draw_dot_for_directory(directory):
 
     ast_count = 0
 
     for file in os.listdir(directory):
         if file.endswith('.java'):
 
-            print('Drawing {}'.format(file))
+            print('Generate .dot for {}'.format(file))
 
             test = os.path.abspath(os.path.join(directory, file))
-            return_code = subprocess.call('./{} {} < {}'.format(compiler,'ast_{}.dot'.format(file), test), shell=True)
+            return_code = subprocess.call('./{} {} < {}'.format(compiler,'ast-{}.dot'.format(file), test), shell=True)
+            dot_file_names.append('ast-{}.dot'.format(file))
 
             if return_code != 0:
                 print('Drawing failed!')
@@ -26,5 +42,5 @@ def draw_ast_for_directory(directory):
 
             ast_count += 1
 
-draw_ast_for_directory('tests/samples-good/')
-
+draw_dot_for_directory('tests/samples-good/')
+draw_svg()
