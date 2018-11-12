@@ -15,7 +15,7 @@ def draw_svg():
         if file.endswith('.dot'):
 
             print('Generate .png for {}'.format(file))
-            return_code = subprocess.call('dot -T svg {} -o {}.png'.format(file, file), shell=True)
+            return_code = subprocess.call('dot -T svg {} -o {}.svg'.format(file, file), shell=True)
 
             if return_code != 0:
                 print('Generate failed!')
