@@ -5,7 +5,7 @@
 
 class ParensExpression : public Expression {
 public:
-    ParensExpression(Expression* expression) :
+    explicit ParensExpression(Expression* expression) :
         expression_{expression} {
     }
 

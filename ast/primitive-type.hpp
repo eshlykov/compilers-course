@@ -11,7 +11,7 @@ enum class TypeKind {
 
 class PrimitiveType : public Type {
 public:
-    PrimitiveType(TypeKind typeKind) :
+    explicit PrimitiveType(TypeKind typeKind) :
         typeKind_{typeKind} {
     }
 
