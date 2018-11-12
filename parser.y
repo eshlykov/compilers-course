@@ -374,7 +374,7 @@ void yyerror(Program*& program, const char* message) {
     }
     std::cout << ":\033[0m \033[1;31merror:\033[0m\033[1;37m unexpected token '" << yytext << "'\033[0m" << std::endl;
 
-    auto line = yyline;
+    std::string line = yyline;
     std::replace(line.begin(), line.end(), '\t', ' ');
     line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
 
