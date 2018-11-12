@@ -8,8 +8,6 @@ compiler = sys.argv[1]
 
 dot_file_names = []
 
-# dot -T svg ast.dot -o ast.svg
-
 def draw_svg():
     for file in os.listdir('.'):
         if file.endswith('.dot'):
