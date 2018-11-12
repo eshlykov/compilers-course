@@ -3,8 +3,9 @@
 #include "visitor/printer.hpp"
 #include "visitor/symbol-table.hpp"
 #include <iostream>
+#include <memory>
 
-extern int yyparse(Program*&);
+extern int yyparse(std::unique_ptr<Program>&);
 
 std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
     if (argc == 2) {
@@ -20,34 +21,35 @@ std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
 int main(int argc, char *argv[]) {
 
 
-    Program* program = nullptr;
-    yyparse(program);
-
-    if (program && program->isErroneous_) {
-        delete program;
-        std::cout << "Program is erroneous" << std::endl;
-        return 1;
-    } else if (!program) {
-        std::cout << "Unexpected error" << std::endl;
+    std::unique_ptr<Program> program = nullptr;
+    if (yyparse(program) != 0) {
+        std::cout << "yyparse failed" << std::endl;
         return 1;
     }
 
-    std::cout << "Arguments:" << std::endl;
-    std::cout << ParseDrawingFilenameFromArguments(argc, argv) << std::endl;
-    std::cout << std::endl;
+    if (program == nullptr) {
+        std::cout << "program is nullptr" << std::endl;
+        return 1;
+    }
+
+    if (program->isErroneous_) {
+        std::cout << "program is erroneous" << std::endl;
+        return 1;
+    }
 
     Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
-    printer.Visit(program);
+    printer.Visit(program.get());
 
     SymbolTable symbolTable{};
     try {
-        symbolTable.Visit(program);
+        symbolTable.Visit(program.get());
     } catch (const CompileError& error) {
         std::cout << error.GetMessage() << std::endl;
-        delete program;
+        return 1;
+    } catch (...) {
+        std::cout << "unexpected error" << std::endl;
         return 1;
     }
 
-    delete program;
     return 0;
 }
