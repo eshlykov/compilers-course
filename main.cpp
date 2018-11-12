@@ -30,7 +30,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    std::cout << "Arguments:" << std::endl;
     std::cout << ParseDrawingFilenameFromArguments(argc, argv) << std::endl;
+    std::cout << std::endl;
+
     Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
     printer.Visit(program);
 
