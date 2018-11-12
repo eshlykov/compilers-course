@@ -14,7 +14,7 @@ def draw_svg():
     for file in os.listdir('.'):
         if file.endswith('.dot'):
 
-            print('Generate .png for {}'.format(file))
+            print('Generate .svg for {}'.format(file))
             return_code = subprocess.call('dot -T svg {} -o {}.svg'.format(file, file), shell=True)
 
             if return_code != 0:
