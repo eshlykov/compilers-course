@@ -5,7 +5,7 @@
 
 class LengthExpression : public Expression {
 public:
-    LengthExpression(Expression* expression) :
+    explicit LengthExpression(Expression* expression) :
         expression_{expression} {
     }
 

@@ -4,12 +4,13 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
 extern int yylex();
 extern char* yytext;
-void yyerror(Program*&, const char*);
+void yyerror(std::unique_ptr<Program>&, const char*);
 extern std::string yyline;
 
 }
@@ -22,7 +23,7 @@ bool isErroneous = false;
 
 
 %parse-param {
-    Program*& program
+    std::unique_ptr<Program>& program
 }
 
 %union {
@@ -36,7 +37,7 @@ bool isErroneous = false;
     Expression* Expression_;
     std::vector<Expression*>* ExpressionCommaExpressionRepeatedOptional_;
     std::optional<std::string>* ExtendsIdentifierOptional_;
-    Program* Goal_;
+    int Goal_;
     std::string* Identifier_;
     MainClass* MainClass_;
     MethodDeclaration* MethodDeclaration_;
@@ -125,7 +126,6 @@ bool isErroneous = false;
     delete $$;
 }
     TT_Identifier
-    Goal
     MainClass
     ExtendsIdentifierOptional
     ClassDeclaration
@@ -155,8 +155,8 @@ bool isErroneous = false;
 
 Goal :
     MainClass ClassDeclarationRepeated {
-        program = new Program{$1, *$2, isErroneous};
-        $$ = nullptr;
+        program = std::make_unique<Program>($1, *$2, isErroneous);
+        $$ = 0;
     }
 ;
 
@@ -347,7 +347,7 @@ Expression :
     } | TT_Bang Expression {
         $$ = new NotExpression{$2};
     } | TT_LeftParen Expression TT_RightParen {
-        $$ = new ParensExpression{$2};
+        $$ = $2;
     }
 ;
 
@@ -365,7 +365,7 @@ Identifier :
 
 %%
 
-void yyerror(Program*& program, const char* message) {
+void yyerror(std::unique_ptr<Program>& program, const char* message) {
     isErroneous = true;
 
     std::cout << "\033[1;37m:" << yylloc.first_line << ":" << yylloc.first_column;
@@ -374,7 +374,7 @@ void yyerror(Program*& program, const char* message) {
     }
     std::cout << ":\033[0m \033[1;31merror:\033[0m\033[1;37m unexpected token '" << yytext << "'\033[0m" << std::endl;
 
-    auto line = yyline;
+    std::string line = yyline;
     std::replace(line.begin(), line.end(), '\t', ' ');
     line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
 

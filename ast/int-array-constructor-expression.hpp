@@ -5,7 +5,7 @@
 
 class IntArrayConstructorExpression : public Expression {
 public:
-    IntArrayConstructorExpression(Expression* expression) :
+    explicit IntArrayConstructorExpression(Expression* expression) :
         expression_{expression} {
     }
 

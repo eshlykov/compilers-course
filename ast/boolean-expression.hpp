@@ -5,7 +5,7 @@
 
 class BooleanExpression : public Expression {
 public:
-    BooleanExpression(bool value) :
+    explicit BooleanExpression(bool value) :
         value_{value} {
     }
 

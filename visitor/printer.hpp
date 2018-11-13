@@ -20,7 +20,7 @@ public:
     }
 
       virtual void Visit(AssignmentByIndexStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "AssignmentByIndexStatement");
 
         ++nodeNumber_;
@@ -36,7 +36,7 @@ public:
     }
 
     virtual void Visit(AssignmentStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "AssignmentStatement");
 
         ++nodeNumber_;
@@ -48,7 +48,7 @@ public:
     }
 
     virtual void Visit(BinaryOperatorExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
 
         switch (node->binaryOperator_) {
         case BinaryOperator::BO_And:
@@ -84,7 +84,7 @@ public:
     }
 
     virtual void Visit(ClassBody* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ClassBody");
 
         for (auto* variable : node->variables_) {
@@ -101,7 +101,7 @@ public:
     }
 
     virtual void Visit(ClassDeclaration* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ClassDeclaration : " + node->className_);
 
         if (node->extendsForClass_.has_value()) {
@@ -115,8 +115,8 @@ public:
     }
 
     virtual void Visit(ConditionStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "LoopStatement");
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ConditionStatement");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
@@ -136,7 +136,7 @@ public:
     }
 
     virtual void Visit(IndexExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "IndexExpression");
 
         ++nodeNumber_;
@@ -149,7 +149,7 @@ public:
     }
 
     virtual void Visit(IntArrayConstructorExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "IntArrayConstructorExpression");
 
         ++nodeNumber_;
@@ -158,7 +158,7 @@ public:
     }
 
     virtual void Visit(LengthExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "LengthExpression");
 
         ++nodeNumber_;
@@ -167,7 +167,7 @@ public:
     }
 
     virtual void Visit(LoopStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "LoopStatement");
 
         ++nodeNumber_;
@@ -180,7 +180,7 @@ public:
     }
 
     virtual void Visit(MainClass* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MainClass : " + node->className_);
 
         ++nodeNumber_;
@@ -192,7 +192,7 @@ public:
     }
 
     virtual void Visit(MethodBody* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodBody");
 
         for (auto* variable : node->variables_) {
@@ -213,7 +213,7 @@ public:
     }
 
     virtual void Visit(MethodCallExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodCallExpression");
 
         ++nodeNumber_;
@@ -231,7 +231,7 @@ public:
     }
 
     virtual void Visit(MethodDeclaration* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
 
         for (auto* argument : node->argumentsList_) {
@@ -246,7 +246,7 @@ public:
     }
 
     virtual void Visit(NotExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "! Expression");
 
         ++nodeNumber_;
@@ -255,17 +255,8 @@ public:
     }
 
     virtual void Visit(NumberExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
-    }
-
-    virtual void Visit(ParensExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "( Expression )");
-
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->expression_->Accept(this);
     }
 
     virtual void Visit(PrimitiveType* node) override final {
@@ -285,7 +276,7 @@ public:
     }
 
     virtual void Visit(PrintStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "StatementPrint");
 
         ++nodeNumber_;
@@ -294,7 +285,7 @@ public:
     }
 
     virtual void Visit(Program* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "Program");
 
         ++nodeNumber_;
@@ -309,7 +300,7 @@ public:
     }
 
     virtual void Visit(ScopeStatement* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "{ Statement }");
 
         for (auto* statement : node->statements_) {
@@ -324,17 +315,17 @@ public:
     }
 
     virtual void Visit(UserTypeConstructorExpression* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "UserTypeConstructorExpression : " + node->name_);
     }
 
     virtual void Visit(UserType* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "UserType : " + node->className_);
     }
 
     virtual void Visit(VarDeclaration* node) override final {
-        auto headNodeNumber = nodeNumber_;
+        int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "Variable");
 
         ++nodeNumber_;

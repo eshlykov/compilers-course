@@ -7,7 +7,7 @@ class Expression;
 
 class PrintStatement : public Statement {
 public:
-    PrintStatement(Expression* expression) :
+    explicit PrintStatement(Expression* expression) :
         expression_(expression) {
     }
 

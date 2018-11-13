@@ -5,7 +5,7 @@
 
 class NotExpression : public Expression {
 public:
-    NotExpression(Expression* expression) :
+    explicit NotExpression(Expression* expression) :
         expression_{expression} {
     }
 

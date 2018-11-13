@@ -5,7 +5,7 @@
 
 class NumberExpression : public Expression {
 public:
-    NumberExpression(int value) :
+    explicit NumberExpression(int value) :
         value_{value} {
     }
 
