@@ -1,7 +1,7 @@
 #include "ast/program.hpp"
 #include "compile-error.hpp"
 #include "visitor/printer.hpp"
-#include "visitor/symbol-table.hpp"
+#include "visitor/symbol-table/symbol-table.hpp"
 #include <iostream>
 #include <memory>
 

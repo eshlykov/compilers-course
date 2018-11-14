@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../ast.hpp"
-#include "../compile-error.hpp"
-#include "visitor.hpp"
+#include "../../ast.hpp"
+#include "../../compile-error.hpp"
+#include "../visitor.hpp"
+#include "method-info.hpp"
 #include <algorithm>
 #include <string>
 #include <unordered_map>
@@ -12,30 +13,6 @@
 class VariableInfo {
 public:
     Type* type_ = {};
-};
-
-class MethodInfo {
-public:
-    void AddVariable(const std::string& name, VariableInfo variable) {
-        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& argument) { return argument.first == name; });
-        if (variables_.find(name) != variables_.end() || iter != arguments_.end()) {
-            throw VariableRedefinition{"Variable " + name + " has been already defined."};
-        }
-        variables_[name] = variable;
-    }
-
-    void AddArgument(const std::string& name, VariableInfo variable) {
-        auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& argument) { return argument.first == name; });
-        if (iter != arguments_.end()) {
-            throw ArgumentRedefinition{"Argument " + name + " has been already defined."};
-        }
-        arguments_.emplace_back(name, variable);
-    }
-
-public:
-    Type* returnType_ = {};
-    std::unordered_map<std::string, VariableInfo> variables_ = {};
-    std::vector<std::pair<std::string, VariableInfo>> arguments_ = {};
 };
 
 class ClassInfo {
