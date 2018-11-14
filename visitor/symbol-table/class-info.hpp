@@ -1,5 +1,9 @@
 #pragma once
 
+#include "variable-info.hpp"
+#include "method-info.hpp"
+#include <unordered_map>
+
 class ClassInfo {
 public:
     void AddVariable(const std::string& name, VariableInfo variable);

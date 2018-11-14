@@ -1,11 +1,12 @@
 #include "printer.hpp"
 
 Printer::Printer(const std::string& filename) :
-        file_{filename}, nodeNumber_{0} {
+        file_{filename},
+        nodeNumber_{0} {
     file_ << "strict graph {" << std::endl;
 }
 
-~Printer::Printer() {
+Printer::~Printer() {
     file_ << "}" << std::endl;
     file_.close();
 }

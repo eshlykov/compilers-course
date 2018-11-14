@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+#include "variable-info.hpp"
 
 class MethodInfo {
 public:
@@ -12,4 +14,3 @@ public:
     std::unordered_map<std::string, VariableInfo> variables_ = {};
     std::vector<std::pair<std::string, VariableInfo>> arguments_ = {};
 };
-

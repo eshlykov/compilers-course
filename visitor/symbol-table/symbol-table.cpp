@@ -132,4 +132,3 @@ virtual void SymbolTable::Visit(VarDeclaration* node) override final {
     auto& [variableName, variableInfo] = currentVariable_;
     variableInfo.type_ = node->type_;
 }
-

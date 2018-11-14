@@ -3,6 +3,7 @@
 #include "../../ast.hpp"
 #include "../../compile-error.hpp"
 #include "../visitor.hpp"
+#include "class-info.hpp"
 #include "method-info.hpp"
 #include "variable-info.hpp"
 #include <algorithm>
