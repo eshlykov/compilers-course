@@ -10,17 +10,12 @@ class Expression;
 
 class MethodBody : public Node {
 public:
-    MethodBody(const std::vector<VarDeclaration*>& variables,
+    MethodBody(std::vector<std::unique_ptr<VarDeclaration>>& variables,
         std::vector<std::unique_ptr<Statement>>& statements,
-        Expression* returnExpression) :
-            variables_{variables},
+        std::unique_ptr<Expression> returnExpression) :
+            variables_{std::move(variables)},
             statements_{std::move(statements)},
-            returnExpression_{returnExpression} {
-    }
-
-    ~MethodBody() {
-        FreeVector(variables_);
-        delete returnExpression_;
+            returnExpression_{std::move(returnExpression)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -28,7 +23,7 @@ public:
     }
 
 public:
-    std::vector<VarDeclaration*> variables_;
+    std::vector<std::unique_ptr<VarDeclaration>> variables_;
     std::vector<std::unique_ptr<Statement>> statements_;
-    Expression* returnExpression_;
+    std::unique_ptr<Expression> returnExpression_;
 };

@@ -3,22 +3,19 @@
 #include "../visitor.hpp"
 #include "node.hpp"
 #include "statement.hpp"
+#include <memory>
 #include <string>
 
 class MainClass : public Node {
 public:
     MainClass(const std::string& className,
         const std::string& argv,
-        Statement* mainBody) :
+        std::unique_ptr<Statement> mainBody) :
             className_{className},
             argv_{argv},
-            mainBody_{mainBody} {
+            mainBody_{std::move(mainBody)} {
     }
-
-    ~MainClass() {
-        delete mainBody_;
-    }
-
+    
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }
@@ -26,5 +23,5 @@ public:
 public:
     const std::string className_;
     const std::string argv_;
-    Statement* mainBody_;
+    std::unique_ptr<Statement> mainBody_;
 };

@@ -87,13 +87,13 @@ public:
         int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "ClassBody");
 
-        for (auto* variable : node->variables_) {
+        for (auto& variable : node->variables_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             variable->Accept(this);
         }
 
-        for (auto* method : node->methods_) {
+        for (auto& method : node->methods_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             method->Accept(this);
@@ -195,7 +195,7 @@ public:
         int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodBody");
 
-        for (auto* variable : node->variables_) {
+        for (auto& variable : node->variables_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             variable->Accept(this);
@@ -234,7 +234,7 @@ public:
         int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
 
-        for (auto* argument : node->argumentsList_) {
+        for (auto& argument : node->argumentsList_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             argument->Accept(this);
@@ -292,7 +292,7 @@ public:
         PrintEdge(headNodeNumber);
         node->mainClass_->Accept(this);
 
-        for (auto* classDeclaration : node->classDeclarations_) {
+        for (auto& classDeclaration : node->classDeclarations_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             classDeclaration->Accept(this);

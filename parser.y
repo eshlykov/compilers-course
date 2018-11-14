@@ -30,25 +30,25 @@ bool isErroneous = false;
     int NumberToken_;
     std::string* IdentifierToken_;
 
-    ClassDeclaration* ClassDeclaration_;
-    std::vector<ClassDeclaration*>* ClassDeclarationRepeated_;
+    std::unique_ptr<ClassDeclaration>* ClassDeclaration_;
+    std::vector<std::unique_ptr<ClassDeclaration>>* ClassDeclarationRepeated_;
     std::vector<std::unique_ptr<Expression>>* CommaExpressionRepeated_;
-    std::vector<VarDeclaration*>* CommaTypeIdentifierRepeated_;
+    std::vector<std::unique_ptr<VarDeclaration>>* CommaTypeIdentifierRepeated_;
     std::unique_ptr<Expression>* Expression_;
     std::vector<std::unique_ptr<Expression>>* ExpressionCommaExpressionRepeatedOptional_;
     std::optional<std::string>* ExtendsIdentifierOptional_;
     int Goal_;
     std::string* Identifier_;
-    MainClass* MainClass_;
-    MethodDeclaration* MethodDeclaration_;
-    std::vector<MethodDeclaration*>* MethodDeclarationRepeated_;
+    std::unique_ptr<MainClass>* MainClass_;
+    std::unique_ptr<MethodDeclaration>* MethodDeclaration_;
+    std::vector<std::unique_ptr<MethodDeclaration>>* MethodDeclarationRepeated_;
     int Number_;
     std::unique_ptr<Statement>* Statement_;
     std::vector<std::unique_ptr<Statement>>* StatementRepeated_;
-    Type* Type_;
-    std::vector<VarDeclaration*>* TypeIdentifierCommaTypeIdentifierRepeatedOptional_;
-    VarDeclaration* VarDeclaration_;
-    std::vector<VarDeclaration*>* VarDeclarationRepeated_;
+    std::unique_ptr<Type>* Type_;
+    std::vector<std::unique_ptr<VarDeclaration>>* TypeIdentifierCommaTypeIdentifierRepeatedOptional_;
+    std::unique_ptr<VarDeclaration>* VarDeclaration_;
+    std::vector<std::unique_ptr<VarDeclaration>>* VarDeclarationRepeated_;
 }
 
 %start Goal
@@ -135,12 +135,6 @@ bool isErroneous = false;
     Statement
     Expression
     Identifier
-
-%destructor {
-    if ($$ != nullptr) {
-    }
-    delete $$;
-}
     ClassDeclarationRepeated
     VarDeclarationRepeated
     MethodDeclarationRepeated
@@ -154,16 +148,16 @@ bool isErroneous = false;
 
 Goal :
     MainClass ClassDeclarationRepeated {
-        program = std::make_unique<Program>($1, *$2, isErroneous);
+        program = std::make_unique<Program>(std::move(*$1), *$2, isErroneous);
         $$ = 0;
     }
 ;
 
 ClassDeclarationRepeated :
     %empty {
-        $$ = new std::vector<ClassDeclaration*>{};
+        $$ = new std::vector<std::unique_ptr<ClassDeclaration>>{};
     } | ClassDeclarationRepeated ClassDeclaration {
-        $1->push_back($2);
+        $1->push_back(std::move(*$2));
         $$ = $1;
     } | ClassDeclarationRepeated TT_RightBrace {
         $$ = $1;
@@ -177,7 +171,7 @@ MainClass :
             Statement
          TT_RightBrace
     TT_RightBrace {
-        $$ = new MainClass{*$2, *$12, $15->get()};
+        $$ = new std::unique_ptr<MainClass>{new MainClass{*$2, *$12, std::move(*$15)}};
     }
 ;
 
@@ -191,9 +185,9 @@ ExtendsIdentifierOptional :
 
 VarDeclarationRepeated :
     %empty {
-        $$ = new std::vector<VarDeclaration*>{};
+        $$ = new std::vector<std::unique_ptr<VarDeclaration>>{};
     } | VarDeclarationRepeated VarDeclaration {
-        $1->push_back($2);
+        $1->push_back(std::move(*$2));
         $$ = $1;
     } | VarDeclarationRepeated error TT_Semicolon {
         $$ = $1;
@@ -203,9 +197,9 @@ VarDeclarationRepeated :
 
 MethodDeclarationRepeated :
     %empty {
-        $$ = new std::vector<MethodDeclaration*>{};
+        $$ = new std::vector<std::unique_ptr<MethodDeclaration>>{};
     } | MethodDeclarationRepeated MethodDeclaration {
-        $1->push_back($2);
+        $1->push_back(std::move(*$2));
         $$ = $1;
     }
 ;
@@ -215,21 +209,21 @@ ClassDeclaration :
         VarDeclarationRepeated
         MethodDeclarationRepeated
     TT_RightBrace {
-        $$ = new ClassDeclaration{*$2, *$3, new ClassBody{*$5, *$6}};
+        $$ = new std::unique_ptr<ClassDeclaration>{new ClassDeclaration{*$2, *$3, std::make_unique<ClassBody>(*$5, *$6)}};
     }
 ;
 
 VarDeclaration :
     Type Identifier TT_Semicolon {
-        $$ = new VarDeclaration{$1, *$2};
+        $$ = new std::unique_ptr<VarDeclaration>{new VarDeclaration{std::move(*$1), *$2}};
     }
 ;
 
 CommaTypeIdentifierRepeated :
     %empty {
-        $$ = new std::vector<VarDeclaration*>{};
+        $$ = new std::vector<std::unique_ptr<VarDeclaration>>{};
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
-        $1->push_back(new VarDeclaration{$3, *$4});
+        $1->push_back(std::make_unique<VarDeclaration>(std::move(*$3), *$4));
         $$ = $1;
     } | CommaTypeIdentifierRepeated error TT_Identifier {
         $$ = $1;
@@ -240,9 +234,9 @@ CommaTypeIdentifierRepeated :
 
 TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     %empty {
-        $$ = new std::vector<VarDeclaration*>{};
+        $$ = new std::vector<std::unique_ptr<VarDeclaration>>{};
     } | Type Identifier CommaTypeIdentifierRepeated {
-        $3->push_back(new VarDeclaration{$1, *$2});
+        $3->push_back(std::make_unique<VarDeclaration>(std::move(*$1), *$2));
         $$ = $3;
     }
 ;
@@ -253,19 +247,19 @@ MethodDeclaration :
         StatementRepeated
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
-        $$ = new MethodDeclaration{$2, *$3, *$5, new MethodBody{*$8, *$9, $11->get()}};
+        $$ = new std::unique_ptr<MethodDeclaration>{new MethodDeclaration{std::move(*$2), *$3, *$5, std::make_unique<MethodBody>(*$8, *$9, std::move(*$11))}};
     }
 ;
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
-        $$ = new PrimitiveType{TypeKind::TK_IntArray};
+        $$ = new std::unique_ptr<Type>{new PrimitiveType{TypeKind::TK_IntArray}};
     } | TT_Boolean {
-        $$ = new PrimitiveType{TypeKind::TK_Boolean};
+        $$ = new std::unique_ptr<Type>{new PrimitiveType{TypeKind::TK_Boolean}};
     } | TT_Int {
-        $$ = new PrimitiveType{TypeKind::TK_Int};
+        $$ = new std::unique_ptr<Type>{new PrimitiveType{TypeKind::TK_Int}};
     } | Identifier {
-        $$ = new UserType{*$1};
+        $$ = new std::unique_ptr<Type>{new UserType{*$1}};
     }
 ;
 

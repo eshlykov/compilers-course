@@ -3,23 +3,19 @@
 #include "../visitor.hpp"
 #include "main-class.hpp"
 #include "node.hpp"
+#include <memory>
 #include <vector>
 
 class ClassDeclaration;
 
 class Program : public Node {
 public:
-    Program(MainClass* mainClass,
-        const std::vector<ClassDeclaration*>& classDeclarations,
+    Program(std::unique_ptr<MainClass> mainClass,
+        std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations,
         bool isErroneous) :
-            mainClass_{mainClass},
-            classDeclarations_{classDeclarations},
+            mainClass_{std::move(mainClass)},
+            classDeclarations_{std::move(classDeclarations)},
             isErroneous_{isErroneous} {
-    }
-
-    ~Program() {
-        delete mainClass_;
-        FreeVector(classDeclarations_);
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -27,7 +23,7 @@ public:
     }
 
 public:
-    MainClass* mainClass_;
-    std::vector<ClassDeclaration*> classDeclarations_;
+    std::unique_ptr<MainClass> mainClass_;
+    std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
     bool isErroneous_ = false;
 };

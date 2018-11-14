@@ -77,14 +77,14 @@ public:
     virtual void Visit(ClassBody* node) override final {
         auto& [className, classInfo] = currentClass_;
 
-        for (auto* variable : node->variables_) {
+        for (auto& variable : node->variables_) {
             variable->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             classInfo.AddVariable(variableName, variableInfo);
             currentVariable_ = {};
         }
 
-        for (auto* method : node->methods_) {
+        for (auto& method : node->methods_) {
             method->Accept(this);
             auto& [methodName, methodInfo] = currentMethod_;
             classInfo.AddMethod(methodName, methodInfo);
@@ -131,7 +131,7 @@ public:
     virtual void Visit(MethodBody* node) override final {
         auto& [methodName, methodInfo] = currentMethod_;
 
-        for (auto* variable : node->variables_) {
+        for (auto& variable : node->variables_) {
             variable->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             methodInfo.AddVariable(variableName, variableInfo);
@@ -146,9 +146,9 @@ public:
         currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
 
         auto& [methodName, methodInfo] = currentMethod_;
-        methodInfo.returnType_ = node->resultType_;
+        methodInfo.returnType_ = node->resultType_.get();
 
-        for (auto* argument : node->argumentsList_) {
+        for (auto& argument : node->argumentsList_) {
             argument->Accept(this);
             auto& [variableName, variableInfo] = currentVariable_;
             methodInfo.AddArgument(variableName, variableInfo);
@@ -171,7 +171,7 @@ public:
     }
 
     virtual void Visit(Program* node) override final {
-        for (auto* classDeclaration : node->classDeclarations_) {
+        for (auto& classDeclaration : node->classDeclarations_) {
             classDeclaration->Accept(this);
         }
     }
@@ -192,7 +192,7 @@ public:
         currentVariable_ = std::make_pair(node->name_, VariableInfo{});
 
         auto& [variableName, variableInfo] = currentVariable_;
-        variableInfo.type_ = node->type_;
+        variableInfo.type_ = node->type_.get();
     }
 
 public:

@@ -2,19 +2,16 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include <memory>
 
 class Type;
 
 class VarDeclaration : public Node {
 public:
-    VarDeclaration(Type* type,
+    VarDeclaration(std::unique_ptr<Type> type,
         const std::string& name) :
-            type_{type},
+            type_{std::move(type)},
             name_{name} {
-    }
-
-    ~VarDeclaration() {
-        delete type_;
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -22,6 +19,6 @@ public:
     }
 
 public:
-    Type* type_;
+    std::unique_ptr<Type> type_;
     const std::string name_;
 };
