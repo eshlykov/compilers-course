@@ -3,21 +3,17 @@
 #include "../visitor.hpp"
 #include "expression.hpp"
 #include "statement.hpp"
+#include <memory>
 #include <string>
 
 class AssignmentByIndexStatement : public Statement {
 public:
     AssignmentByIndexStatement(const std::string& array,
-        Expression* index,
-        Expression* expression) :
+        std::unique_ptr<Expression> index,
+        std::unique_ptr<Expression> expression) :
             array_{array},
-            index_{index},
-            expression_{expression} {
-    }
-
-    ~AssignmentByIndexStatement() {
-        delete index_;
-        delete expression_;
+            index_{std::move(index)},
+            expression_{std::move(expression)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -26,6 +22,6 @@ public:
 
 public:
     const std::string array_;
-    Expression* index_;
-    Expression* expression_;
+    std::unique_ptr<Expression> index_;
+    std::unique_ptr<Expression> expression_;
 };

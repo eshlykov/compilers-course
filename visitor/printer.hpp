@@ -201,7 +201,7 @@ public:
             variable->Accept(this);
         }
 
-        for (auto* statement : node->statements_) {
+        for (auto& statement : node->statements_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             statement->Accept(this);
@@ -303,7 +303,7 @@ public:
         int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "{ Statement }");
 
-        for (auto* statement : node->statements_) {
+        for (auto& statement : node->statements_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             statement->Accept(this);

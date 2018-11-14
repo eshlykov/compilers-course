@@ -2,20 +2,16 @@
 
 #include "../visitor.hpp"
 #include "statement.hpp"
+#include <memory>
 
 class Expression;
 
 class LoopStatement : public Statement {
 public:
-    LoopStatement(Expression* condition,
-        Statement* statement) :
-            condition_(condition),
-            statement_(statement) {
-    }
-
-    ~LoopStatement() {
-        delete condition_;
-        delete statement_;
+    LoopStatement(std::unique_ptr<Expression> condition,
+        std::unique_ptr<Statement> statement) :
+            condition_(std::move(condition)),
+            statement_(std::move(statement)) {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -23,6 +19,6 @@ public:
     }
 
 public:
-    Expression* condition_;
-    Statement* statement_;
+    std::unique_ptr<Expression> condition_;
+    std::unique_ptr<Statement> statement_;
 };

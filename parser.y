@@ -43,8 +43,8 @@ bool isErroneous = false;
     MethodDeclaration* MethodDeclaration_;
     std::vector<MethodDeclaration*>* MethodDeclarationRepeated_;
     int Number_;
-    Statement* Statement_;
-    std::vector<Statement*>* StatementRepeated_;
+    std::unique_ptr<Statement>* Statement_;
+    std::vector<std::unique_ptr<Statement>>* StatementRepeated_;
     Type* Type_;
     std::vector<VarDeclaration*>* TypeIdentifierCommaTypeIdentifierRepeatedOptional_;
     VarDeclaration* VarDeclaration_;
@@ -177,7 +177,7 @@ MainClass :
             Statement
          TT_RightBrace
     TT_RightBrace {
-        $$ = new MainClass{*$2, *$12, $15};
+        $$ = new MainClass{*$2, *$12, $15->get()};
     }
 ;
 
@@ -271,26 +271,26 @@ Type :
 
 StatementRepeated :
     %empty {
-        $$ = new std::vector<Statement*>{};
+        $$ = new std::vector<std::unique_ptr<Statement>>{};
     } | Statement StatementRepeated {
-        $2->push_back($1);
+        $2->push_back(std::move(*$1));
         $$ = $2;
     }
 ;
 
 Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
-        $$ = new ScopeStatement{*$2};
+        $$ = new std::unique_ptr<Statement>{new ScopeStatement{*$2}};
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
-        $$ = new ConditionStatement{$3->get(), $5, $7};
+        $$ = new std::unique_ptr<Statement>{new ConditionStatement{std::move(*$3), std::move(*$5), std::move(*$7)}};
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
-        $$ = new LoopStatement{$3->get(), $5};
+        $$ = new std::unique_ptr<Statement>{new LoopStatement{std::move(*$3), std::move(*$5)}};
     } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
-        $$ = new PrintStatement{$3->get()};
+        $$ = new std::unique_ptr<Statement>{new PrintStatement{std::move(*$3)}};
     } | Identifier TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentStatement{*$1, $3->get()};
+        $$ = new std::unique_ptr<Statement>{new AssignmentStatement{*$1, std::move(*$3)}};
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentByIndexStatement{*$1, $3->get(), $6->get()};
+        $$ = new std::unique_ptr<Statement>{new AssignmentByIndexStatement{*$1, std::move(*$3), std::move(*$6)}};
     }
 ;
 
