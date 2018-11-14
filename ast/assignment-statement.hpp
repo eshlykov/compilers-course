@@ -8,8 +8,10 @@ class Expression;
 
 class AssignmentStatement : public Statement {
 public:
-    AssignmentStatement(const std::string& variable, Expression* expression) :
-        variable_{variable}, expression_(expression) {
+    AssignmentStatement(const std::string& variable,
+        Expression* expression) :
+            variable_{variable},
+            expression_(expression) {
     }
 
     ~AssignmentStatement() {
@@ -21,6 +23,6 @@ public:
     }
 
 public:
-    std::string variable_ = {};
-    Expression* expression_ = {};
+    const std::string variable_;
+    Expression* expression_;
 };

@@ -7,8 +7,12 @@
 
 class MethodCallExpression : public Expression {
 public:
-    MethodCallExpression(Expression* expression, const std::string& methodName, const std::vector<Expression*>& argumentsList) :
-        expression_{expression}, methodName_{methodName}, argumentsList_{argumentsList} {
+    MethodCallExpression(Expression* expression,
+        const std::string& methodName,
+        const std::vector<Expression*>& argumentsList) :
+            expression_{expression},
+            methodName_{methodName},
+            argumentsList_{argumentsList} {
     }
 
     ~MethodCallExpression() {
@@ -21,7 +25,7 @@ public:
     }
 
 public:
-    Expression* expression_ = {};
-    std::string methodName_ = {};
-    std::vector<Expression*> argumentsList_ = {};
+    Expression* expression_;
+    const std::string methodName_;
+    std::vector<Expression*> argumentsList_;
 };

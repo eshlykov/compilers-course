@@ -18,5 +18,5 @@ public:
     }
 
 public:
-    Expression* expression_ = {};
+    Expression* expression_;
 };

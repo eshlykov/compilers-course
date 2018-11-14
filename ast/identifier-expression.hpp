@@ -15,5 +15,5 @@ public:
     }
 
 public:
-    std::string name_ = {};
+    const std::string name_;
 };

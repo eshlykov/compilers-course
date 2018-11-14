@@ -14,5 +14,5 @@ public:
     }
 
 public:
-    int value_ = {};
+    const int value_;
 };

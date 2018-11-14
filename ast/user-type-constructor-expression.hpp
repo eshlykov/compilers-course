@@ -6,7 +6,7 @@
 
 class UserTypeConstructorExpression : public Expression {
 public:
-    UserTypeConstructorExpression(const std::string& name) :
+    explicit UserTypeConstructorExpression(const std::string& name) :
         name_{name} {
     }
 
@@ -15,5 +15,5 @@ public:
     }
 
 public:
-    std::string name_ = {};
+    const std::string name_;
 };

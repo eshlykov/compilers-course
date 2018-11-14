@@ -13,8 +13,12 @@ enum class BinaryOperator {
 
 class BinaryOperatorExpression : public Expression {
 public:
-    BinaryOperatorExpression(Expression* lhs, Expression* rhs, BinaryOperator binaryOperator) :
-        lhs_{lhs}, rhs_{rhs}, binaryOperator_{binaryOperator} {
+    BinaryOperatorExpression(Expression* lhs,
+        Expression* rhs,
+        BinaryOperator binaryOperator) :
+            lhs_{lhs},
+            rhs_{rhs},
+            binaryOperator_{binaryOperator} {
     }
 
     ~BinaryOperatorExpression() {
@@ -27,7 +31,7 @@ public:
     }
 
 public:
-    Expression* lhs_ = {};
-    Expression* rhs_ = {};
-    BinaryOperator binaryOperator_ = {};
+    Expression* lhs_;
+    Expression* rhs_;
+    const BinaryOperator binaryOperator_;
 };

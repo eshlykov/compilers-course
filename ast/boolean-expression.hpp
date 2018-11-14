@@ -14,5 +14,5 @@ public:
     }
 
 public:
-    bool value_ = {};
+    const bool value_;
 };

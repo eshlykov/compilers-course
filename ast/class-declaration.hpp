@@ -10,9 +10,12 @@ class ClassBody;
 
 class ClassDeclaration : public Node {
 public:
-    ClassDeclaration(
-        const std::string& className, std::optional<std::string> extendsForClass, ClassBody* classBody) :
-        className_{className}, extendsForClass_{extendsForClass}, classBody_{classBody} {
+    ClassDeclaration(const std::string& className,
+        std::optional<std::string> extendsForClass,
+        ClassBody* classBody) :
+            className_{className},
+            extendsForClass_{extendsForClass},
+            classBody_{classBody} {
     }
 
     ~ClassDeclaration() {
@@ -24,7 +27,7 @@ public:
     }
 
 public:
-    std::string className_ = {};
-    std::optional<std::string> extendsForClass_ = {};
-    ClassBody* classBody_ = {};
+    const std::string className_;
+    std::optional<std::string> extendsForClass_;
+    ClassBody* classBody_;
 };

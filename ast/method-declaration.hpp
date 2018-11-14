@@ -10,8 +10,14 @@ class VarDeclaration;
 
 class MethodDeclaration : public Node {
 public:
-    MethodDeclaration(Type* resultType, const std::string& methodName, const std::vector<VarDeclaration*>& argumentsList, MethodBody* methodBody) :
-        resultType_{resultType}, methodName_{methodName}, argumentsList_{argumentsList}, methodBody_{methodBody} {
+    MethodDeclaration(Type* resultType,
+        const std::string& methodName,
+        const std::vector<VarDeclaration*>& argumentsList,
+        MethodBody* methodBody) :
+            resultType_{resultType},
+            methodName_{methodName},
+            argumentsList_{argumentsList},
+            methodBody_{methodBody} {
     }
 
     ~MethodDeclaration() {
@@ -25,8 +31,8 @@ public:
     }
 
 public:
-    Type* resultType_ = {};
-    std::string methodName_ = {};
-    std::vector<VarDeclaration*> argumentsList_ = {};
-    MethodBody* methodBody_ = {};
+    Type* resultType_;
+    const std::string methodName_;
+    std::vector<VarDeclaration*> argumentsList_;
+    MethodBody* methodBody_;
 };

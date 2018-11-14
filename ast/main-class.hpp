@@ -7,8 +7,12 @@
 
 class MainClass : public Node {
 public:
-    MainClass(const std::string& className, const std::string& argv, Statement* mainBody) :
-        className_{className}, argv_{argv}, mainBody_{mainBody} {
+    MainClass(const std::string& className,
+        const std::string& argv,
+        Statement* mainBody) :
+            className_{className},
+            argv_{argv},
+            mainBody_{mainBody} {
     }
 
     ~MainClass() {
@@ -20,7 +24,7 @@ public:
     }
 
 public:
-    std::string className_ = {};
-    std::string argv_ = {};
-    Statement* mainBody_ = {};
+    const std::string className_;
+    const std::string argv_;
+    Statement* mainBody_;
 };

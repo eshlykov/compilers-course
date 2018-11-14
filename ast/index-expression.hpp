@@ -5,8 +5,10 @@
 
 class IndexExpression : public Expression {
 public:
-    IndexExpression(Expression* lhs, Expression* rhs) :
-        lhs_{lhs}, rhs_{rhs} {
+    IndexExpression(Expression* lhs,
+        Expression* rhs) :
+            lhs_{lhs},
+            rhs_{rhs} {
     }
 
     ~IndexExpression() {
@@ -19,6 +21,6 @@ public:
     }
 
 public:
-    Expression* lhs_ = {};
-    Expression* rhs_ = {};
+    Expression* lhs_;
+    Expression* rhs_;
 };
