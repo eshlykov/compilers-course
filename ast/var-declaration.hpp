@@ -7,8 +7,10 @@ class Type;
 
 class VarDeclaration : public Node {
 public:
-    VarDeclaration(Type* type, const std::string& name) :
-        type_{type}, name_{name} {
+    VarDeclaration(Type* type,
+        const std::string& name) :
+            type_{type},
+            name_{name} {
     }
 
     ~VarDeclaration() {
@@ -20,6 +22,6 @@ public:
     }
 
 public:
-    Type* type_ = {};
-    std::string name_ = {};
+    Type* type_;
+    const std::string name_;
 };

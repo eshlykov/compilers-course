@@ -7,8 +7,12 @@ class Expression;
 
 class ConditionStatement : public Statement {
 public:
-    ConditionStatement(Expression* condition, Statement* ifStatement, Statement* elseStatement) :
-        condition_{condition}, ifStatement_{ifStatement}, elseStatement_{elseStatement} {
+    ConditionStatement(Expression* condition,
+        Statement* ifStatement,
+        Statement* elseStatement) :
+            condition_{condition},
+            ifStatement_{ifStatement},
+            elseStatement_{elseStatement} {
     }
 
     ~ConditionStatement() {
@@ -22,7 +26,7 @@ public:
     }
 
 public:
-    Expression* condition_ = {};
-    Statement* ifStatement_ = {};
-    Statement* elseStatement_ = {};
+    Expression* condition_;
+    Statement* ifStatement_;
+    Statement* elseStatement_;
 };

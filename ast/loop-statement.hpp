@@ -7,8 +7,10 @@ class Expression;
 
 class LoopStatement : public Statement {
 public:
-    LoopStatement(Expression* condition, Statement* statement) :
-        condition_(condition), statement_(statement) {
+    LoopStatement(Expression* condition,
+        Statement* statement) :
+            condition_(condition),
+            statement_(statement) {
     }
 
     ~LoopStatement() {
@@ -21,6 +23,6 @@ public:
     }
 
 public:
-    Expression* condition_ = {};
-    Statement* statement_ = {};
+    Expression* condition_;
+    Statement* statement_;
 };

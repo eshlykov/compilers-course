@@ -5,11 +5,14 @@
 #include "statement.hpp"
 #include <string>
 
-
 class AssignmentByIndexStatement : public Statement {
 public:
-    AssignmentByIndexStatement(const std::string& array, Expression* index, Expression* expression) :
-        array_{array}, index_{index}, expression_{expression} {
+    AssignmentByIndexStatement(const std::string& array,
+        Expression* index,
+        Expression* expression) :
+            array_{array},
+            index_{index},
+            expression_{expression} {
     }
 
     ~AssignmentByIndexStatement() {
@@ -22,7 +25,7 @@ public:
     }
 
 public:
-    std::string array_ = {};
-    Expression* index_ = {};
-    Expression* expression_ = {};
+    const std::string array_;
+    Expression* index_;
+    Expression* expression_;
 };

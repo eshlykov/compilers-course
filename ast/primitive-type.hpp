@@ -20,5 +20,5 @@ public:
     }
 
 public:
-    TypeKind typeKind_ = {};
+    const TypeKind typeKind_;
 };

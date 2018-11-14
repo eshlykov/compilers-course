@@ -6,7 +6,7 @@
 
 class ScopeStatement : public Statement {
 public:
-    ScopeStatement(const std::vector<Statement*>& statements) :
+    explicit ScopeStatement(const std::vector<Statement*>& statements) :
         statements_{statements} {
     }
 
@@ -19,5 +19,5 @@ public:
     }
 
 public:
-    std::vector<Statement*> statements_ = {};
+    std::vector<Statement*> statements_;
 };

@@ -5,7 +5,7 @@
 
 class UserType : public Type {
 public:
-    UserType(const std::string& className) :
+    explicit UserType(const std::string& className) :
         className_{className} {
     }
 
@@ -14,5 +14,5 @@ public:
     }
 
 public:
-    std::string className_ = {};
+    const std::string className_;
 };
