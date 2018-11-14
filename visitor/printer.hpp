@@ -223,7 +223,7 @@ public:
         ++nodeNumber_;
         PrintLeaf(headNodeNumber, "Name", node->methodName_);
 
-        for (auto* argument : node->argumentsList_) {
+        for (auto& argument : node->argumentsList_) {
             ++nodeNumber_;
             PrintEdge(headNodeNumber);
             argument->Accept(this);

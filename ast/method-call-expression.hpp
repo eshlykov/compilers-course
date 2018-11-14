@@ -2,22 +2,18 @@
 
 #include "../visitor.hpp"
 #include "expression.hpp"
+#include <memory>
 #include <string>
 #include <vector>
 
 class MethodCallExpression : public Expression {
 public:
-    MethodCallExpression(Expression* expression,
+    MethodCallExpression(std::unique_ptr<Expression> expression,
         const std::string& methodName,
-        const std::vector<Expression*>& argumentsList) :
-            expression_{expression},
+        std::vector<std::unique_ptr<Expression>>& argumentsList) :
+            expression_{std::move(expression)},
             methodName_{methodName},
-            argumentsList_{argumentsList} {
-    }
-
-    ~MethodCallExpression() {
-        delete expression_;
-        FreeVector(argumentsList_);
+            argumentsList_{std::move(argumentsList)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -25,7 +21,7 @@ public:
     }
 
 public:
-    Expression* expression_;
+    std::unique_ptr<Expression> expression_;
     const std::string methodName_;
-    std::vector<Expression*> argumentsList_;
+    std::vector<std::unique_ptr<Expression>> argumentsList_;
 };

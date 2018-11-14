@@ -2,6 +2,7 @@
 
 #include "../visitor.hpp"
 #include "expression.hpp"
+#include <memory>
 
 enum class BinaryOperator {
     BO_And,
@@ -13,17 +14,12 @@ enum class BinaryOperator {
 
 class BinaryOperatorExpression : public Expression {
 public:
-    BinaryOperatorExpression(Expression* lhs,
-        Expression* rhs,
+    BinaryOperatorExpression(std::unique_ptr<Expression> lhs,
+        std::unique_ptr<Expression> rhs,
         BinaryOperator binaryOperator) :
-            lhs_{lhs},
-            rhs_{rhs},
+            lhs_{std::move(lhs)},
+            rhs_{std::move(rhs)},
             binaryOperator_{binaryOperator} {
-    }
-
-    ~BinaryOperatorExpression() {
-        delete lhs_;
-        delete rhs_;
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -31,7 +27,7 @@ public:
     }
 
 public:
-    Expression* lhs_;
-    Expression* rhs_;
+    std::unique_ptr<Expression> lhs_;
+    std::unique_ptr<Expression> rhs_;
     const BinaryOperator binaryOperator_;
 };

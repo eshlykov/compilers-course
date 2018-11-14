@@ -32,10 +32,10 @@ bool isErroneous = false;
 
     ClassDeclaration* ClassDeclaration_;
     std::vector<ClassDeclaration*>* ClassDeclarationRepeated_;
-    std::vector<Expression*>* CommaExpressionRepeated_;
+    std::vector<std::unique_ptr<Expression>>* CommaExpressionRepeated_;
     std::vector<VarDeclaration*>* CommaTypeIdentifierRepeated_;
-    Expression* Expression_;
-    std::vector<Expression*>* ExpressionCommaExpressionRepeatedOptional_;
+    std::unique_ptr<Expression>* Expression_;
+    std::vector<std::unique_ptr<Expression>>* ExpressionCommaExpressionRepeatedOptional_;
     std::optional<std::string>* ExtendsIdentifierOptional_;
     int Goal_;
     std::string* Identifier_;
@@ -138,7 +138,6 @@ bool isErroneous = false;
 
 %destructor {
     if ($$ != nullptr) {
-        FreeVector(*$$);
     }
     delete $$;
 }
@@ -254,7 +253,7 @@ MethodDeclaration :
         StatementRepeated
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
-        $$ = new MethodDeclaration{$2, *$3, *$5, new MethodBody{*$8, *$9, $11}};
+        $$ = new MethodDeclaration{$2, *$3, *$5, new MethodBody{*$8, *$9, $11->get()}};
     }
 ;
 
@@ -283,69 +282,69 @@ Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
         $$ = new ScopeStatement{*$2};
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
-        $$ = new ConditionStatement{$3, $5, $7};
+        $$ = new ConditionStatement{$3->get(), $5, $7};
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
-        $$ = new LoopStatement{$3, $5};
+        $$ = new LoopStatement{$3->get(), $5};
     } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
-        $$ = new PrintStatement{$3};
+        $$ = new PrintStatement{$3->get()};
     } | Identifier TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentStatement{*$1, $3};
+        $$ = new AssignmentStatement{*$1, $3->get()};
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
-        $$ = new AssignmentByIndexStatement{*$1, $3, $6};
+        $$ = new AssignmentByIndexStatement{*$1, $3->get(), $6->get()};
     }
 ;
 
 CommaExpressionRepeated :
     %empty {
-        $$ = new std::vector<Expression*>{};
+        $$ = new std::vector<std::unique_ptr<Expression>>{};
     } | CommaExpressionRepeated TT_Comma Expression {
-        $1->push_back($3);
+        $1->push_back(std::move(*$3));
         $$ = $1;
     }
 ;
 
 ExpressionCommaExpressionRepeatedOptional :
     %empty {
-        $$ = new std::vector<Expression*>{};
+        $$ = new std::vector<std::unique_ptr<Expression>>{};
     } | Expression CommaExpressionRepeated {
-        $2->push_back($1);
+        $2->push_back(std::move(*$1));
         $$ = $2;
     }
 ;
 
 Expression :
     Expression TT_And Expression {
-        $$ = new BinaryOperatorExpression{$1, $3, BinaryOperator::BO_And};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{std::move(*$1), std::move(*$3), BinaryOperator::BO_And}};
     } | Expression TT_Less Expression {
-        $$ = new BinaryOperatorExpression{$1, $3, BinaryOperator::BO_Less};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{std::move(*$1), std::move(*$3), BinaryOperator::BO_Less}};
     } | Expression TT_Plus Expression {
-        $$ = new BinaryOperatorExpression{$1, $3, BinaryOperator::BO_Plus};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{std::move(*$1), std::move(*$3), BinaryOperator::BO_Plus}};
     } | Expression TT_Minus Expression {
-        $$ = new BinaryOperatorExpression{$1, $3, BinaryOperator::BO_Minus};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{std::move(*$1), std::move(*$3), BinaryOperator::BO_Minus}};
     } | Expression TT_Star Expression {
-        $$ = new BinaryOperatorExpression{$1, $3, BinaryOperator::BO_Star};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{std::move(*$1), std::move(*$3), BinaryOperator::BO_Star}};
     } | Expression TT_LeftBracket Expression TT_RightBracket {
-        $$ = new IndexExpression{$1, $3};
+        $$ = new std::unique_ptr<Expression>{new IndexExpression{std::move(*$1), std::move(*$3)}};
     } | Expression TT_Dot TT_Length {
-        $$ = new LengthExpression{$1};
+        $$ = new std::unique_ptr<Expression>{new LengthExpression{std::move(*$1)}};
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
-        $$ = new MethodCallExpression{$1, *$3, *$5};
+        $$ = new std::unique_ptr<Expression>{new MethodCallExpression{std::move(*$1), *$3, *$5}};
     } | Number {
-        $$ =  new NumberExpression{$1};
+        $$ = new std::unique_ptr<Expression>{new NumberExpression{$1}};
     } | TT_True {
-        $$ = new BooleanExpression{true};
+        $$ = new std::unique_ptr<Expression>{new BooleanExpression{true}};
     } | TT_False {
-        $$ = new BooleanExpression{false};
+        $$ = new std::unique_ptr<Expression>{new BooleanExpression{false}};
     } | Identifier {
-        $$ = new IdentifierExpression{*$1};
+        $$ = new std::unique_ptr<Expression>{new IdentifierExpression{*$1}};
     } | TT_This {
-        $$ = new ThisExpression{};
+        $$ = new std::unique_ptr<Expression>{new ThisExpression{}};
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
-        $$ = new IntArrayConstructorExpression{$4};
+        $$ = new std::unique_ptr<Expression>{new IntArrayConstructorExpression{std::move(*$4)}};
     } | TT_New Identifier TT_LeftParen TT_RightParen {
-        $$ = new UserTypeConstructorExpression{*$2};
+        $$ = new std::unique_ptr<Expression>{new UserTypeConstructorExpression{std::move(*$2)}};
     } | TT_Bang Expression {
-        $$ = new NotExpression{$2};
+        $$ = new std::unique_ptr<Expression>{new NotExpression{std::move(*$2)}};
     } | TT_LeftParen Expression TT_RightParen {
         $$ = $2;
     }

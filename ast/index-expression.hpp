@@ -2,18 +2,14 @@
 
 #include "../visitor.hpp"
 #include "expression.hpp"
+#include <memory>
 
 class IndexExpression : public Expression {
 public:
-    IndexExpression(Expression* lhs,
-        Expression* rhs) :
-            lhs_{lhs},
-            rhs_{rhs} {
-    }
-
-    ~IndexExpression() {
-        delete lhs_;
-        delete rhs_;
+    IndexExpression(std::unique_ptr<Expression> lhs,
+        std::unique_ptr<Expression> rhs) :
+            lhs_{std::move(lhs)},
+            rhs_{std::move(rhs)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -21,6 +17,6 @@ public:
     }
 
 public:
-    Expression* lhs_;
-    Expression* rhs_;
+    std::unique_ptr<Expression> lhs_;
+    std::unique_ptr<Expression> rhs_;
 };

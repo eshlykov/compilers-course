@@ -2,15 +2,12 @@
 
 #include "../visitor.hpp"
 #include "expression.hpp"
+#include <memory>
 
 class IntArrayConstructorExpression : public Expression {
 public:
-    explicit IntArrayConstructorExpression(Expression* expression) :
-        expression_{expression} {
-    }
-
-    ~IntArrayConstructorExpression() {
-        delete expression_;
+    explicit IntArrayConstructorExpression(std::unique_ptr<Expression> expression) :
+        expression_{std::move(expression)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -18,5 +15,5 @@ public:
     }
 
 public:
-    Expression* expression_;
+    std::unique_ptr<Expression> expression_;
 };
