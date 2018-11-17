@@ -15,14 +15,14 @@ void SymbolTable::Visit(BooleanExpression* node) {
 void SymbolTable::Visit(ClassBody* node) {
     auto& [className, classInfo] = currentClass_;
 
-    for (auto* variable : node->variables_) {
+    for (auto& variable : node->variables_) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         classInfo.AddVariable(variableName, variableInfo);
         currentVariable_ = {};
     }
 
-    for (auto* method : node->methods_) {
+    for (auto& method : node->methods_) {
         method->Accept(this);
         auto& [methodName, methodInfo] = currentMethod_;
         classInfo.AddMethod(methodName, methodInfo);
@@ -69,7 +69,7 @@ void SymbolTable::Visit(MainClass* node) {
 void SymbolTable::Visit(MethodBody* node) {
     auto& [methodName, methodInfo] = currentMethod_;
 
-    for (auto* variable : node->variables_) {
+    for (auto& variable : node->variables_) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         methodInfo.AddVariable(variableName, variableInfo);
@@ -84,9 +84,9 @@ void SymbolTable::Visit(MethodDeclaration* node) {
     currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
 
     auto& [methodName, methodInfo] = currentMethod_;
-    methodInfo.returnType_ = node->resultType_;
+    methodInfo.returnType_ = node->resultType_.get();
 
-    for (auto* argument : node->argumentsList_) {
+    for (auto& argument : node->argumentsList_) {
         argument->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         methodInfo.AddArgument(variableName, variableInfo);
@@ -109,7 +109,7 @@ void SymbolTable::Visit(PrintStatement* node) {
 }
 
 void SymbolTable::Visit(Program* node) {
-    for (auto* classDeclaration : node->classDeclarations_) {
+    for (auto& classDeclaration : node->classDeclarations_) {
         classDeclaration->Accept(this);
     }
 }
@@ -130,5 +130,5 @@ void SymbolTable::Visit(VarDeclaration* node) {
     currentVariable_ = std::make_pair(node->name_, VariableInfo{});
 
     auto& [variableName, variableInfo] = currentVariable_;
-    variableInfo.type_ = node->type_;
+    variableInfo.type_ = node->type_.get();
 }

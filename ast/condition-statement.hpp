@@ -2,23 +2,18 @@
 
 #include "../visitor.hpp"
 #include "statement.hpp"
+#include <memory>
 
 class Expression;
 
 class ConditionStatement : public Statement {
 public:
-    ConditionStatement(Expression* condition,
-        Statement* ifStatement,
-        Statement* elseStatement) :
-            condition_{condition},
-            ifStatement_{ifStatement},
-            elseStatement_{elseStatement} {
-    }
-
-    ~ConditionStatement() {
-        delete condition_;
-        delete ifStatement_;
-        delete elseStatement_;
+    ConditionStatement(std::unique_ptr<Expression> condition,
+        std::unique_ptr<Statement> ifStatement,
+        std::unique_ptr<Statement> elseStatement) :
+            condition_{std::move(condition)},
+            ifStatement_{std::move(ifStatement)},
+            elseStatement_{std::move(elseStatement)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -26,7 +21,7 @@ public:
     }
 
 public:
-    Expression* condition_;
-    Statement* ifStatement_;
-    Statement* elseStatement_;
+    std::unique_ptr<Expression> condition_;
+    std::unique_ptr<Statement> ifStatement_;
+    std::unique_ptr<Statement> elseStatement_;
 };

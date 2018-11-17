@@ -4,26 +4,21 @@
 #include "method-body.hpp"
 #include "node.hpp"
 #include "type.hpp"
+#include <memory>
 #include <string>
 
 class VarDeclaration;
 
 class MethodDeclaration : public Node {
 public:
-    MethodDeclaration(Type* resultType,
+    MethodDeclaration(std::unique_ptr<Type> resultType,
         const std::string& methodName,
-        const std::vector<VarDeclaration*>& argumentsList,
-        MethodBody* methodBody) :
-            resultType_{resultType},
+        std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
+        std::unique_ptr<MethodBody> methodBody) :
+            resultType_{std::move(resultType)},
             methodName_{methodName},
-            argumentsList_{argumentsList},
-            methodBody_{methodBody} {
-    }
-
-    ~MethodDeclaration() {
-        delete resultType_;
-        FreeVector(argumentsList_);
-        delete methodBody_;
+            argumentsList_{std::move(argumentsList)},
+            methodBody_{std::move(methodBody)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -31,8 +26,8 @@ public:
     }
 
 public:
-    Type* resultType_;
+    std::unique_ptr<Type> resultType_;
     const std::string methodName_;
-    std::vector<VarDeclaration*> argumentsList_;
-    MethodBody* methodBody_;
+    std::vector<std::unique_ptr<VarDeclaration>> argumentsList_;
+    std::unique_ptr<MethodBody> methodBody_;
 };

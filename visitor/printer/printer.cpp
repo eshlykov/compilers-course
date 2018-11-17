@@ -79,13 +79,13 @@ void Printer::Visit(ClassBody* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "ClassBody");
 
-    for (auto* variable : node->variables_) {
+    for (auto& variable : node->variables_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         variable->Accept(this);
     }
 
-    for (auto* method : node->methods_) {
+    for (auto& method : node->methods_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         method->Accept(this);
@@ -187,13 +187,13 @@ void Printer::Visit(MethodBody* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MethodBody");
 
-    for (auto* variable : node->variables_) {
+    for (auto& variable : node->variables_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         variable->Accept(this);
     }
 
-    for (auto* statement : node->statements_) {
+    for (auto& statement : node->statements_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         statement->Accept(this);
@@ -215,7 +215,7 @@ void Printer::Visit(MethodCallExpression* node) {
     ++nodeNumber_;
     PrintLeaf(headNodeNumber, "Name", node->methodName_);
 
-    for (auto* argument : node->argumentsList_) {
+    for (auto& argument : node->argumentsList_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         argument->Accept(this);
@@ -226,7 +226,7 @@ void Printer::Visit(MethodDeclaration* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
 
-    for (auto* argument : node->argumentsList_) {
+    for (auto& argument : node->argumentsList_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         argument->Accept(this);
@@ -284,7 +284,7 @@ void Printer::Visit(Program* node) {
     PrintEdge(headNodeNumber);
     node->mainClass_->Accept(this);
 
-    for (auto* classDeclaration : node->classDeclarations_) {
+    for (auto& classDeclaration : node->classDeclarations_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         classDeclaration->Accept(this);
@@ -295,7 +295,7 @@ void Printer::Visit(ScopeStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "{ Statement }");
 
-    for (auto* statement : node->statements_) {
+    for (auto& statement : node->statements_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         statement->Accept(this);

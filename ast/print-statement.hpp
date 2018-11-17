@@ -2,17 +2,14 @@
 
 #include "../visitor.hpp"
 #include "statement.hpp"
+#include <memory>
 
 class Expression;
 
 class PrintStatement : public Statement {
 public:
-    explicit PrintStatement(Expression* expression) :
-        expression_(expression) {
-    }
-
-    ~PrintStatement() {
-        delete expression_;
+    explicit PrintStatement(std::unique_ptr<Expression> expression) :
+        expression_{std::move(expression)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -20,5 +17,5 @@ public:
     }
 
 public:
-    Expression* expression_;
+    std::unique_ptr<Expression> expression_;
 };

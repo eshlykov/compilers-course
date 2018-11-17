@@ -2,16 +2,13 @@
 
 #include "../visitor.hpp"
 #include "statement.hpp"
+#include <memory>
 #include <vector>
 
 class ScopeStatement : public Statement {
 public:
-    explicit ScopeStatement(const std::vector<Statement*>& statements) :
-        statements_{statements} {
-    }
-
-    ~ScopeStatement() {
-        FreeVector(statements_);
+    explicit ScopeStatement(std::vector<std::unique_ptr<Statement>>& statements) :
+        statements_{std::move(statements)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -19,5 +16,5 @@ public:
     }
 
 public:
-    std::vector<Statement*> statements_;
+    std::vector<std::unique_ptr<Statement>> statements_;
 };

@@ -2,6 +2,7 @@
 
 #include "../visitor.hpp"
 #include "node.hpp"
+#include <memory>
 #include <vector>
 
 class VarDeclaration;
@@ -9,15 +10,10 @@ class MethodDeclaration;
 
 class ClassBody : public Node {
 public:
-    ClassBody(const std::vector<VarDeclaration*>& variables,
-        const std::vector<MethodDeclaration*>& methods) :
-            variables_{variables},
-            methods_{methods} {
-    }
-
-    ~ClassBody() {
-        FreeVector(variables_);
-        FreeVector(methods_);
+    ClassBody(std::vector<std::unique_ptr<VarDeclaration>>& variables,
+        std::vector<std::unique_ptr<MethodDeclaration>>& methods) :
+            variables_{std::move(variables)},
+            methods_{std::move(methods)} {
     }
 
     virtual void Accept(Visitor* visitor) override final {
@@ -25,6 +21,6 @@ public:
     }
 
 public:
-    std::vector<VarDeclaration*> variables_;
-    std::vector<MethodDeclaration*> methods_;
+    std::vector<std::unique_ptr<VarDeclaration>> variables_;
+    std::vector<std::unique_ptr<MethodDeclaration>> methods_;
 };

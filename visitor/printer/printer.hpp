@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ast.hpp"
-#include "visitor.hpp"
+#include "../../ast.hpp"
+#include "../visitor.hpp"
 #include <fstream>
 #include <optional>
 #include <string>
