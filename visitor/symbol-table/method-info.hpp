@@ -1,7 +1,8 @@
 #pragma once
 
-#include <unordered_map>
 #include "variable-info.hpp"
+#include <unordered_map>
+#include <vector>
 
 class MethodInfo {
 public:

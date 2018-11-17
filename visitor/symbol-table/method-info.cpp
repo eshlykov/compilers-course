@@ -1,4 +1,6 @@
+#include "../../compile-error.hpp"
 #include "method-info.hpp"
+#include <algorithm>
 
 void MethodInfo::AddVariable(const std::string& name, VariableInfo variable) {
     auto iter = find_if(arguments_.begin(), arguments_.end(), [&] (const auto& argument) { return argument.first == name; });

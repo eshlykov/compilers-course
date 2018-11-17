@@ -14,6 +14,8 @@
 
 class SymbolTable : public Visitor {
 public:
+    virtual ~SymbolTable() = default;
+    
     virtual void Visit(AssignmentByIndexStatement* node) override final;
 
     virtual void Visit(AssignmentStatement* node) override final;
@@ -60,7 +62,7 @@ public:
 
     virtual void Visit(ThisExpression* node) override final;
 
-    virtual void Visit(UserTypeConstructorExpression* node);
+    virtual void Visit(UserTypeConstructorExpression* node) override final;
 
     virtual void Visit(UserType* node) override final;
 

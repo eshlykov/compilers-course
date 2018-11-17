@@ -11,7 +11,7 @@ Printer::~Printer() {
     file_.close();
 }
 
-virtual void Printer::Visit(AssignmentByIndexStatement* node) override final {
+void Printer::Visit(AssignmentByIndexStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "AssignmentByIndexStatement");
 
@@ -27,7 +27,7 @@ virtual void Printer::Visit(AssignmentByIndexStatement* node) override final {
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(AssignmentStatement* node) override final {
+void Printer::Visit(AssignmentStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "AssignmentStatement");
 
@@ -39,7 +39,7 @@ virtual void Printer::Visit(AssignmentStatement* node) override final {
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(BinaryOperatorExpression* node) override final {
+void Printer::Visit(BinaryOperatorExpression* node) {
     int headNodeNumber = nodeNumber_;
 
     switch (node->binaryOperator_) {
@@ -71,11 +71,11 @@ virtual void Printer::Visit(BinaryOperatorExpression* node) override final {
     node->rhs_->Accept(this);
 }
 
-virtual void Visit(BooleanExpression* node) override final {
+void Printer::Visit(BooleanExpression* node) {
     PrintHead(nodeNumber_, "Boolean : " + std::string{node->value_ ? "true" : "false"});
 }
 
-virtual void Visit(ClassBody* node) override final {
+void Printer::Visit(ClassBody* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "ClassBody");
 
@@ -92,7 +92,7 @@ virtual void Visit(ClassBody* node) override final {
     }
 }
 
-virtual void Printer::Visit(ClassDeclaration* node) override final {
+void Printer::Visit(ClassDeclaration* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "ClassDeclaration : " + node->className_);
 
@@ -106,7 +106,7 @@ virtual void Printer::Visit(ClassDeclaration* node) override final {
     node->classBody_->Accept(this);
 }
 
-virtual void Printer::Visit(ConditionStatement* node) override final {
+void Printer::Visit(ConditionStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "ConditionStatement");
 
@@ -123,11 +123,11 @@ virtual void Printer::Visit(ConditionStatement* node) override final {
     node->elseStatement_->Accept(this);
 }
 
-virtual void Printer::Visit(IdentifierExpression* node) override final {
+void Printer::Visit(IdentifierExpression* node) {
     PrintHead(nodeNumber_, "Identifier : " + node->name_);
 }
 
-virtual void Printer::Visit(IndexExpression* node) override final {
+void Printer::Visit(IndexExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "IndexExpression");
 
@@ -140,7 +140,7 @@ virtual void Printer::Visit(IndexExpression* node) override final {
     node->rhs_->Accept(this);
 }
 
-virtual void Printer::Visit(IntArrayConstructorExpression* node) override final {
+void Printer::Visit(IntArrayConstructorExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "IntArrayConstructorExpression");
 
@@ -149,7 +149,7 @@ virtual void Printer::Visit(IntArrayConstructorExpression* node) override final 
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(LengthExpression* node) override final {
+void Printer::Visit(LengthExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "LengthExpression");
 
@@ -158,7 +158,7 @@ virtual void Printer::Visit(LengthExpression* node) override final {
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(LoopStatement* node) override final {
+void Printer::Visit(LoopStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "LoopStatement");
 
@@ -171,7 +171,7 @@ virtual void Printer::Visit(LoopStatement* node) override final {
     node->statement_->Accept(this);
 }
 
-virtual void Printer::Visit(MainClass* node) override final {
+void Printer::Visit(MainClass* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MainClass : " + node->className_);
 
@@ -183,7 +183,7 @@ virtual void Printer::Visit(MainClass* node) override final {
     node->mainBody_->Accept(this);
 }
 
-virtual void Printer::Visit(MethodBody* node) override final {
+void Printer::Visit(MethodBody* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MethodBody");
 
@@ -204,7 +204,7 @@ virtual void Printer::Visit(MethodBody* node) override final {
     node->returnExpression_->Accept(this);
 }
 
-virtual void Printer::Visit(MethodCallExpression* node) override final {
+void Printer::Visit(MethodCallExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MethodCallExpression");
 
@@ -222,7 +222,7 @@ virtual void Printer::Visit(MethodCallExpression* node) override final {
     }
 }
 
-virtual void Printer::Visit(MethodDeclaration* node) override final {
+void Printer::Visit(MethodDeclaration* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
 
@@ -237,7 +237,7 @@ virtual void Printer::Visit(MethodDeclaration* node) override final {
     node->methodBody_->Accept(this);
 }
 
-virtual void Printer::Visit(NotExpression* node) override final {
+void Printer::Visit(NotExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "! Expression");
 
@@ -246,12 +246,12 @@ virtual void Printer::Visit(NotExpression* node) override final {
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(NumberExpression* node) override final {
+void Printer::Visit(NumberExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
 }
 
-virtual void Printer::Visit(PrimitiveType* node) override final {
+void Printer::Visit(PrimitiveType* node) {
     switch (node->typeKind_) {
         case TypeKind::TK_IntArray:
             PrintHead(nodeNumber_, "PrimitiveType : int[]");
@@ -267,7 +267,7 @@ virtual void Printer::Visit(PrimitiveType* node) override final {
     }
 }
 
-virtual void Printer::Visit(PrintStatement* node) override final {
+void Printer::Visit(PrintStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "StatementPrint");
 
@@ -276,7 +276,7 @@ virtual void Printer::Visit(PrintStatement* node) override final {
     node->expression_->Accept(this);
 }
 
-virtual void Printer::Visit(Program* node) override final {
+void Printer::Visit(Program* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Program");
 
@@ -291,7 +291,7 @@ virtual void Printer::Visit(Program* node) override final {
     }
 }
 
-virtual void Printer::Visit(ScopeStatement* node) override final {
+void Printer::Visit(ScopeStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "{ Statement }");
 
@@ -302,21 +302,21 @@ virtual void Printer::Visit(ScopeStatement* node) override final {
     }
 }
 
-virtual void Printer::Visit(ThisExpression* node) override final {
+void Printer::Visit(ThisExpression* node) {
     PrintHead(nodeNumber_, "This");
 }
 
-virtual void Printer::Visit(UserTypeConstructorExpression* node) override final {
+void Printer::Visit(UserTypeConstructorExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "UserTypeConstructorExpression : " + node->name_);
 }
 
-virtual void Printer::Visit(UserType* node) override final {
+void Printer::Visit(UserType* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "UserType : " + node->className_);
 }
 
-virtual void Printer::Visit(VarDeclaration* node) override final {
+void Printer::Visit(VarDeclaration* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Variable");
 

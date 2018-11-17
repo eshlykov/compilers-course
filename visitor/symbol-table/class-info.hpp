@@ -1,7 +1,7 @@
 #pragma once
 
-#include "variable-info.hpp"
 #include "method-info.hpp"
+#include "variable-info.hpp"
 #include <unordered_map>
 
 class ClassInfo {

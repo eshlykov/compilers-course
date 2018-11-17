@@ -1,18 +1,18 @@
 #include "symbol-table.hpp"
 
-virtual void SymbolTable::Visit(AssignmentByIndexStatement* node) override final {
+void SymbolTable::Visit(AssignmentByIndexStatement* node) {
 }
 
-virtual void SymbolTable::Visit(AssignmentStatement* node) override final {
+void SymbolTable::Visit(AssignmentStatement* node) {
 }
 
-virtual void SymbolTable::Visit(BinaryOperatorExpression* node) override final {
+void SymbolTable::Visit(BinaryOperatorExpression* node) {
 }
 
-virtual void SymbolTable::Visit(BooleanExpression* node) override final {
+void SymbolTable::Visit(BooleanExpression* node) {
 }
 
-virtual void SymbolTable::Visit(ClassBody* node) override final {
+void SymbolTable::Visit(ClassBody* node) {
     auto& [className, classInfo] = currentClass_;
 
     for (auto* variable : node->variables_) {
@@ -30,7 +30,7 @@ virtual void SymbolTable::Visit(ClassBody* node) override final {
     }
 }
 
-virtual void SymbolTable::Visit(ClassDeclaration* node) override final {
+void SymbolTable::Visit(ClassDeclaration* node) {
     currentClass_ = std::make_pair(node->className_, ClassInfo{});
 
     auto& [className, classInfo] = currentClass_;
@@ -45,28 +45,28 @@ virtual void SymbolTable::Visit(ClassDeclaration* node) override final {
     currentClass_ = {};
 }
 
-virtual void SymbolTable::Visit(ConditionStatement* node) override final {
+void SymbolTable::Visit(ConditionStatement* node) {
 }
 
-virtual void SymbolTable::Visit(IdentifierExpression* node) override final {
+void SymbolTable::Visit(IdentifierExpression* node) {
 }
 
-virtual void SymbolTable::Visit(IndexExpression* node) override final {
+void SymbolTable::Visit(IndexExpression* node) {
 }
 
-virtual void SymbolTable::Visit(IntArrayConstructorExpression* node) override final {
+void SymbolTable::Visit(IntArrayConstructorExpression* node) {
 }
 
-virtual void SymbolTable::Visit(LengthExpression* node) override final {
+void SymbolTable::Visit(LengthExpression* node) {
 }
 
-virtual void SymbolTable::Visit(LoopStatement* node) override final {
+void SymbolTable::Visit(LoopStatement* node) {
 }
 
-virtual void SymbolTable::Visit(MainClass* node) override final {
+void SymbolTable::Visit(MainClass* node) {
 }
 
-virtual void SymbolTable::Visit(MethodBody* node) override final {
+void SymbolTable::Visit(MethodBody* node) {
     auto& [methodName, methodInfo] = currentMethod_;
 
     for (auto* variable : node->variables_) {
@@ -77,10 +77,10 @@ virtual void SymbolTable::Visit(MethodBody* node) override final {
     }
 }
 
-virtual void SymbolTable::Visit(MethodCallExpression* node) override final {
+void SymbolTable::Visit(MethodCallExpression* node) {
 }
 
-virtual void SymbolTable::Visit(MethodDeclaration* node) override final {
+void SymbolTable::Visit(MethodDeclaration* node) {
     currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
 
     auto& [methodName, methodInfo] = currentMethod_;
@@ -96,37 +96,37 @@ virtual void SymbolTable::Visit(MethodDeclaration* node) override final {
     node->methodBody_->Accept(this);
 }
 
-virtual void SymbolTable::Visit(NotExpression* node) override final {
+void SymbolTable::Visit(NotExpression* node) {
 }
 
-virtual void SymbolTable::Visit(NumberExpression* node) override final {
+void SymbolTable::Visit(NumberExpression* node) {
 }
 
-virtual void SymbolTable::Visit(PrimitiveType* node) override final {
+void SymbolTable::Visit(PrimitiveType* node) {
 }
 
-virtual void SymbolTable::Visit(PrintStatement* node) override final {
+void SymbolTable::Visit(PrintStatement* node) {
 }
 
-virtual void SymbolTable::Visit(Program* node) override final {
+void SymbolTable::Visit(Program* node) {
     for (auto* classDeclaration : node->classDeclarations_) {
         classDeclaration->Accept(this);
     }
 }
 
-virtual void SymbolTable::Visit(ScopeStatement* node) override final {
+void SymbolTable::Visit(ScopeStatement* node) {
 }
 
-virtual void SymbolTable::Visit(ThisExpression* node) override final {
+void SymbolTable::Visit(ThisExpression* node) {
 }
 
-virtual void SymbolTable::Visit(UserTypeConstructorExpression* node) override final {
+void SymbolTable::Visit(UserTypeConstructorExpression* node) {
 }
 
-virtual void SymbolTable::Visit(UserType* node) override final {
+void SymbolTable::Visit(UserType* node) {
 }
 
-virtual void SymbolTable::Visit(VarDeclaration* node) override final {
+void SymbolTable::Visit(VarDeclaration* node) {
     currentVariable_ = std::make_pair(node->name_, VariableInfo{});
 
     auto& [variableName, variableInfo] = currentVariable_;

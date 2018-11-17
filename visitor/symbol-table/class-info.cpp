@@ -1,3 +1,4 @@
+#include "../../compile-error.hpp"
 #include "class-info.hpp"
 
 void ClassInfo::AddVariable(const std::string& name, VariableInfo variable) {
@@ -7,7 +8,7 @@ void ClassInfo::AddVariable(const std::string& name, VariableInfo variable) {
     variables_[name] = variable;
 }
 
-void AddMethod(const std::string& name, MethodInfo method) {
+void ClassInfo::AddMethod(const std::string& name, MethodInfo method) {
     if (methods_.find(name) != methods_.end()) {
         throw MethodRedefinition{"Method " + name + " has been already defined."};
     }
