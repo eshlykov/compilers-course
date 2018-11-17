@@ -1,7 +1,7 @@
 #include "ast/program.hpp"
 #include "compile-error.hpp"
 #include "visitor/printer.hpp"
-#include "visitor/symbol-table.hpp"
+#include "visitor/symbol-table/symbol-table.hpp"
 #include <iostream>
 #include <memory>
 
@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    Printer{"ast.dot"};
+
     Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
     printer.Visit(program.get());
 
@@ -48,6 +50,4 @@ int main(int argc, char *argv[]) {
         std::cout << "unexpected error" << std::endl;
         return 1;
     }
-
-    return 0;
 }

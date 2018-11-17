@@ -1,18 +1,21 @@
 #pragma once
 
-#include "../ast.hpp"
-#include "visitor.hpp"
-#include <fstream>
-#include <optional>
+#include "../../ast.hpp"
+#include "../../compile-error.hpp"
+#include "../visitor.hpp"
+#include "class-info.hpp"
+#include "method-info.hpp"
+#include "variable-info.hpp"
+#include <algorithm>
 #include <string>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
-class Printer : public Visitor {
+class SymbolTable : public Visitor {
 public:
-    Printer(const std::string& filename);
-
-    ~Printer();
-
+    virtual ~SymbolTable() = default;
+    
     virtual void Visit(AssignmentByIndexStatement* node) override final;
 
     virtual void Visit(AssignmentStatement* node) override final;
@@ -65,14 +68,9 @@ public:
 
     virtual void Visit(VarDeclaration* node) override final;
 
-private:
-    void PrintHead(int headNodeNumber, const std::string& label);
-
-    void PrintEdge(int headNodeNumber);
-
-    void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
-
-private:
-    std::ofstream file_;
-    int nodeNumber_;
+public:
+    std::unordered_map<std::string, ClassInfo> classes_ = {};
+    std::pair<std::string, VariableInfo> currentVariable_ = {};
+    std::pair<std::string, MethodInfo> currentMethod_ = {};
+    std::pair<std::string, ClassInfo> currentClass_ = {};
 };
