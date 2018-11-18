@@ -10,15 +10,20 @@
 #include <string>
 #include <vector>
 
-extern int yylex();
 extern char* yytext;
 void yyerror(ParserArgs& parserArgs, const char*);
-extern std::string yyline;
 extern Location location;
 
 }
 
-%parse-param { ParserArgs& parserArgs }
+%param { ParserArgs& parserArgs }
+
+%code provides {
+
+#define YY_DECL int yylex(ParserArgs& parserArgs)
+YY_DECL;
+
+}
 
 %union {
     int NumberToken_;
@@ -352,6 +357,6 @@ Identifier :
 
 %%
 
-void yyerror(ParserArgs& parserArgs, const char* message) {
-    parserArgs.errors_.push_back(CompileError{std::string{} + "unexprected token '" + yytext + "'", location});
+void yyerror(ParserArgs& parserArgs, const char*) {
+    parserArgs.errors_.push_back(CompileError{std::string{} + "unexprected '" + yytext + "'", location});
 }

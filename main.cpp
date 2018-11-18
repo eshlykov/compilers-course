@@ -33,8 +33,18 @@ int main(int argc, char* argv[]) {
 
     yyin = std::fopen(filename.c_str(), "r");
     ParserArgs parserArgs;
-    if (yyparse(parserArgs) != 0) {
-        std::cout << "yyparse failed" << std::endl;
+    bool isParsed = yyparse(parserArgs) == 0;
+
+    std::vector<CompileError> errors = parserArgs.errors_;
+    if (!errors.empty()) {
+        for (auto& error : errors) {
+            std::cout << error.GetMessage(sourceCode) << std::endl;
+        }
+        return 1;
+    }
+
+    if (!isParsed) {
+        std::cout << CompileError{"unxpected parser error", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
         return 1;
     }
 
@@ -45,14 +55,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::vector<CompileError> errors = parserArgs.errors_;
-
-    if (!errors.empty()) {
-        for (auto& error : errors) {
-            std::cout << error.GetMessage(sourceCode) << std::endl;
-        }
-        return 1;
-    }
 
     Printer{"ast.dot"};
 
