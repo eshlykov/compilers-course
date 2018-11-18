@@ -49,8 +49,6 @@ public:
 
     virtual void Visit(NumberExpression* node) override final;
 
-    virtual void Visit(PrimitiveType* node) override final;
-
     virtual void Visit(PrintStatement* node) override final;
 
     virtual void Visit(Program* node) override final;
@@ -59,9 +57,9 @@ public:
 
     virtual void Visit(ThisExpression* node) override final;
 
-    virtual void Visit(UserTypeConstructorExpression* node) override final;
+    virtual void Visit(Type* node) override final;
 
-    virtual void Visit(UserType* node) override final;
+    virtual void Visit(UserTypeConstructorExpression* node) override final;
 
     virtual void Visit(VarDeclaration* node) override final;
 

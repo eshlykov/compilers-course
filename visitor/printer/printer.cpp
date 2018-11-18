@@ -251,22 +251,6 @@ void Printer::Visit(NumberExpression* node) {
     PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
 }
 
-void Printer::Visit(PrimitiveType* node) {
-    switch (node->typeKind_) {
-        case TypeKind::TK_IntArray:
-            PrintHead(nodeNumber_, "PrimitiveType : int[]");
-            break;
-        case TypeKind::TK_Boolean:
-            PrintHead(nodeNumber_, "PrimitiveType : boolean");
-            break;
-        case TypeKind::TK_Int:
-            PrintHead(nodeNumber_, "PrimitiveType : int");
-            break;
-        default:
-            break;
-    }
-}
-
 void Printer::Visit(PrintStatement* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "StatementPrint");
@@ -306,14 +290,29 @@ void Printer::Visit(ThisExpression* node) {
     PrintHead(nodeNumber_, "This");
 }
 
+void Printer::Visit(Type* node) {
+    try {
+        switch (std::get<TypeKind>(node->type_)) {
+        case TypeKind::TK_IntArray:
+            PrintHead(nodeNumber_, "Type : int[]");
+            break;
+        case TypeKind::TK_Boolean:
+            PrintHead(nodeNumber_, "Type : boolean");
+            break;
+        case TypeKind::TK_Int:
+            PrintHead(nodeNumber_, "Type : int");
+            break;
+        default:
+            break;
+        }
+    } catch (const std::bad_variant_access&) {
+        PrintHead(nodeNumber_, "Type : " + std::get<std::string>(node->type_));
+    }
+}
+
 void Printer::Visit(UserTypeConstructorExpression* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "UserTypeConstructorExpression : " + node->name_);
-}
-
-void Printer::Visit(UserType* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "UserType : " + node->className_);
 }
 
 void Printer::Visit(VarDeclaration* node) {

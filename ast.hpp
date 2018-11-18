@@ -20,7 +20,6 @@
 #include "ast/node.hpp"
 #include "ast/not-expression.hpp"
 #include "ast/number-expression.hpp"
-#include "ast/primitive-type.hpp"
 #include "ast/print-statement.hpp"
 #include "ast/program.hpp"
 #include "ast/scope-statement.hpp"
@@ -28,5 +27,4 @@
 #include "ast/this-expression.hpp"
 #include "ast/type.hpp"
 #include "ast/user-type-constructor-expression.hpp"
-#include "ast/user-type.hpp"
 #include "ast/var-declaration.hpp"

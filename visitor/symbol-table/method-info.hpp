@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../ast.hpp"
 #include "../../location.hpp"
 #include "variable-info.hpp"
 #include <unordered_map>
@@ -12,7 +13,7 @@ public:
     void AddArgument(const std::string& name, VariableInfo variable, const Location& location);
 
 public:
-    Type* returnType_;
+    std::variant<TypeKind, std::string> returnType_;
     std::unordered_map<std::string, VariableInfo> variables_;
     std::vector<std::pair<std::string, VariableInfo>> arguments_;
 };
