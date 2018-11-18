@@ -1,17 +1,20 @@
 #include "ast/program.hpp"
 #include "compile-error.hpp"
+#include "source-code.hpp"
 #include "visitor/printer/printer.hpp"
 #include "visitor/symbol-table/symbol-table.hpp"
+#include <cstdio>
 #include <iostream>
+#include <fstream>
 #include <memory>
 
-extern int yyparse(std::unique_ptr<Program>&);
+extern FILE* yyin;
+extern int yyparse(std::unique_ptr<Program>&, const SourceCode&);
 
 std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
-    if (argc == 2) {
-        return argv[1];
+    if (argc == 3) {
+        return argv[2];
     }
-
     return "ast.dot";
 }
 
@@ -19,8 +22,18 @@ std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
  * To use our compiler now you should provide name of .dot file as first argument
  */
 int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        std::cout << "no source filename is given" << std::endl;
+        return 1;
+    }
+
     std::unique_ptr<Program> program = nullptr;
-    if (yyparse(program) != 0) {
+
+    std::string filename = argv[1];
+    SourceCode sourceCode{filename};
+
+    yyin = std::fopen(filename.c_str(), "r");
+    if (yyparse(program, sourceCode) != 0) {
         std::cout << "yyparse failed" << std::endl;
         return 1;
     }
@@ -50,7 +63,7 @@ int main(int argc, char *argv[]) {
 
     if (auto redefinitions = symbolTable.GetErrorList(); !redefinitions.empty()) {
         for (auto& error : redefinitions) {
-            std::cout << error.GetMessage() << std::endl;
+            std::cout << error.GetMessage(sourceCode) << std::endl;
         }
         return 1;
     }

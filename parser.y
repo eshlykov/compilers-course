@@ -1,6 +1,7 @@
 %code requires {
 
 #include "ast.hpp"
+#include "source-code.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -10,7 +11,7 @@
 
 extern int yylex();
 extern char* yytext;
-void yyerror(std::unique_ptr<Program>&, const char*);
+void yyerror(std::unique_ptr<Program>&, const SourceCode&, const char*);
 extern std::string yyline;
 
 }
@@ -22,9 +23,7 @@ bool isErroneous = false;
 %}
 
 
-%parse-param {
-    std::unique_ptr<Program>& program
-}
+%parse-param { std::unique_ptr<Program>& program } { const SourceCode& sourceCode }
 
 %union {
     int NumberToken_;
@@ -358,7 +357,7 @@ Identifier :
 
 %%
 
-void yyerror(std::unique_ptr<Program>& program, const char* message) {
+void yyerror(std::unique_ptr<Program>&, const SourceCode& sourceCode, const char* message) {
     isErroneous = true;
 
     std::cout << "\033[1;37m:" << yylloc.first_line << ":" << yylloc.first_column;
@@ -367,11 +366,7 @@ void yyerror(std::unique_ptr<Program>& program, const char* message) {
     }
     std::cout << ":\033[0m \033[1;31merror:\033[0m\033[1;37m unexpected token '" << yytext << "'\033[0m" << std::endl;
 
-    std::string line = yyline;
-    std::replace(line.begin(), line.end(), '\t', ' ');
-    line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
-
-    std::cout << line << std::endl;
+    std::cout << sourceCode[yylloc.first_line] << std::endl;
 
     std::cout << std::string(yylloc.first_column - 1, ' ');
     std::cout << "\033[1;32m^" << std::string(yylloc.last_column - yylloc.first_column, '~') << "\033[0m";

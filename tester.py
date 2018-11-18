@@ -20,7 +20,7 @@ def run_tests(directory, is_good):
             print('Test: {}'.format(file))
 
             test = os.path.abspath(os.path.join(directory, file))
-            return_code = subprocess.call('./{} < {}'.format(compiler, test), shell=True)
+            return_code = subprocess.call('./{} {}'.format(compiler, test), shell=True)
             if return_code != 0 and is_good or return_code == 0 and not is_good:
 
                 print('State: failed')

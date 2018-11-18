@@ -19,7 +19,7 @@ void SymbolTable::Visit(ClassBody* node) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            classInfo.AddVariable(variableName, variableInfo);
+            classInfo.AddVariable(variableName, variableInfo, variable->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -30,7 +30,7 @@ void SymbolTable::Visit(ClassBody* node) {
         method->Accept(this);
         auto& [methodName, methodInfo] = currentMethod_;
         try {
-            classInfo.AddMethod(methodName, methodInfo);
+            classInfo.AddMethod(methodName, methodInfo, method->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -43,7 +43,7 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
     auto& [className, classInfo] = currentClass_;
     if (classes_.find(className) != classes_.end()) {
-        errors.push_back(ClassRedefinition{"Class " + className + " has been already defined."});
+        errors.push_back(ClassRedefinition{"Class " + className + " has been already defined.", node->location_});
     }
 
     classInfo.base_ = node->extendsForClass_;
@@ -81,7 +81,7 @@ void SymbolTable::Visit(MethodBody* node) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            methodInfo.AddVariable(variableName, variableInfo);
+            methodInfo.AddVariable(variableName, variableInfo, variable->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -102,7 +102,7 @@ void SymbolTable::Visit(MethodDeclaration* node) {
         argument->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            methodInfo.AddArgument(variableName, variableInfo);
+            methodInfo.AddArgument(variableName, variableInfo, argument->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
