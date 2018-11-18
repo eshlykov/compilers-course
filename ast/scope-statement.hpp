@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../visitor.hpp"
 #include "statement.hpp"
 #include <memory>
 #include <vector>

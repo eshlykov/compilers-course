@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../ast.hpp"
-#include "../../compile-error.hpp"
+#include "../../utils/ast.hpp"
+#include "../../utils/compile-error.hpp"
 #include "../visitor.hpp"
 #include "class-info.hpp"
 #include "method-info.hpp"

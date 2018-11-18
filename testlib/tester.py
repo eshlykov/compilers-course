@@ -34,8 +34,8 @@ def run_tests(directory, is_good):
 
     return failures_count
 
-false_negatives_count = run_tests('tests/samples-good/', True)
-false_positives_count = run_tests('tests/samples-bad/', False)
+false_negatives_count = run_tests('testlib/good-samples/', True)
+false_positives_count = run_tests('testlib/bad-samples/', False)
 
 print(false_negatives_count, 'good tests were failed')
 print(false_positives_count, 'bad tests were failed')

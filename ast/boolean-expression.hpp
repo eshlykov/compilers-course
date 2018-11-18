@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../visitor.hpp"
 #include "expression.hpp"
 
 class BooleanExpression : public Expression {

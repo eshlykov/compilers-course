@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../visitor.hpp"
 #include "method-body.hpp"
 #include "node.hpp"
 #include "type.hpp"

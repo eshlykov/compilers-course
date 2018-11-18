@@ -1,4 +1,4 @@
-#include "../../compile-error.hpp"
+#include "../../utils/compile-error.hpp"
 #include "class-info.hpp"
 
 void ClassInfo::AddVariable(const std::string& name, VariableInfo variable, const Location& location) {

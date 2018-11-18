@@ -1,8 +1,8 @@
 %code requires {
 
-#include "ast.hpp"
-#include "parser-args.hpp"
-#include "source-code.hpp"
+#include "utils/ast.hpp"
+#include "utils/parser-args.hpp"
+#include "utils/source-code.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>

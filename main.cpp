@@ -1,7 +1,7 @@
 #include "ast/program.hpp"
-#include "compile-error.hpp"
-#include "parser-args.hpp"
-#include "source-code.hpp"
+#include "utils/compile-error.hpp"
+#include "utils/parser-args.hpp"
+#include "utils/source-code.hpp"
 #include "visitor/printer/printer.hpp"
 #include "visitor/symbol-table/symbol-table.hpp"
 #include <cstdio>

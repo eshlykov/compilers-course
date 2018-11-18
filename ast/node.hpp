@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../location.hpp"
+#include "../utils/location.hpp"
+#include "../utils/visitor.hpp"
 
 enum class TypeKind {
     TK_Undefined,
@@ -8,8 +9,6 @@ enum class TypeKind {
     TK_Boolean,
     TK_Int,
 };
-
-class Visitor;
 
 class Node {
 public:

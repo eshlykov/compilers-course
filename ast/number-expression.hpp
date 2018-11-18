@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../visitor.hpp"
 #include "expression.hpp"
 
 class NumberExpression : public Expression {
