@@ -59,18 +59,19 @@ void SymbolTable::Visit(ClassBody* node) {
 
 void SymbolTable::Visit(ClassDeclaration* node) {
     currentClass_ = {node->className_, classes_.at(node->className_)};
-    
+
     if (currentClass_.second.base_.has_value()) {
-        if (classes_.find(currentClass_.second.base_.value()) != classes_.end()) {
-            errors.push_back(UndeclaredClass{"undeclared class '" + currentClass_.second.base_.value() + "'", node->location_});
+        std::string baseClassName = currentClass_.second.base_.value();
+        if (classes_.find(baseClassName) == classes_.end()) {
+            errors.push_back(UndeclaredClass{"undeclared class '" + baseClassName + "'", node->location_});
             classes_[node->className_].base_ = {};
             currentClass_ = {node->className_, classes_.at(node->className_)};
-        } else if (IsBaseOf(node->className_, currentClass_.second.base_.value())) {
-            errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + currentClass_.second.base_.value() + "' extend each other", node->location_});
-            classes_[currentClass_.second.base_.value()].base_ = {};            
+        } else if (IsBaseOf(node->className_, baseClassName)) {
+            errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->location_});
+            classes_[baseClassName].base_ = {};
         }
     }
-    
+
     node->classBody_->Accept(this);
 
     currentClass_ = {};
@@ -135,24 +136,24 @@ void SymbolTable::Visit(MethodCallExpression* node) {
         errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->location_});
         return;
     }
-    
+
     std::optional<MethodInfo> method = TryLookUpMethod(classes_.at(typeName), node->methodName_, node->location_);
     if (!method.has_value()) {
         errors.push_back(UndeclaredMethod{"undeclared method '" + node->methodName_ + "'", node->location_});
         return;
     }
-    
+
     if (node->argumentsList_.size() != method->arguments_.size()) {
         errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(method->arguments_.size()) +
             " arguments, but it is given " + std::to_string(node->argumentsList_.size()) + " insted", node->location_});
     }
-    
+
     for (int i = 0; i < node->argumentsList_.size(); ++i) {
         auto& argument = node->argumentsList_[i];
         argument->Accept(this);
         CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
     }
-    
+
     node->type_ = method->returnType_;
 }
 
@@ -181,7 +182,7 @@ void SymbolTable::Visit(Program* node) {
     for (auto& classDeclaration : node->classDeclarations_) {
         ForwardVisit(classDeclaration.get());
     }
-    
+
     node->mainClass_->Accept(this);
     for (auto& classDeclaration : node->classDeclarations_) {
         classDeclaration->Accept(this);
@@ -234,7 +235,7 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
     } else {
         classInfo.base_ = node->extendsForClass_;
     }
-    
+
     ForwardVisit(node->classBody_.get());
     classes_[className] = classInfo;
 
@@ -271,7 +272,7 @@ void SymbolTable::ForwardVisit(VarDeclaration* node) {
     currentVariable_ = {node->name_, VariableInfo{}};
 
     auto& [variableName, variableInfo] = currentVariable_;
-    variableInfo.type_ = node->type_->type_; 
+    variableInfo.type_ = node->type_->type_;
 }
 
 void SymbolTable::ForwardVisit(MethodDeclaration* node) {
