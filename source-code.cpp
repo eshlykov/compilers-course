@@ -1,5 +1,6 @@
 #include "source-code.hpp"
 #include <algorithm>
+#include <cctype>
 
 SourceCode::SourceCode(const std::string& filename) :
     filename_{filename} {
@@ -7,7 +8,9 @@ SourceCode::SourceCode(const std::string& filename) :
 
     std::string line;
     while (std::getline(stream, line)) {
-        std::replace(line.begin(), line.end(), '\t', ' ');
+        std::replace_if(line.begin(), line.end(), [] (char symbol) {
+            return std::isspace(static_cast<int>(symbol)) != 0;
+        }, ' ');
         line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
         lines_.push_back(line);
     }
