@@ -18,8 +18,6 @@ extern Location location;
 
 }
 
-
-
 %parse-param { ParserArgs& parserArgs }
 
 %union {
