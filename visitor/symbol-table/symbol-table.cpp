@@ -18,14 +18,22 @@ void SymbolTable::Visit(ClassBody* node) {
     for (auto& variable : node->variables_) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
-        classInfo.AddVariable(variableName, variableInfo);
+        try {
+            classInfo.AddVariable(variableName, variableInfo);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
         currentVariable_ = {};
     }
 
     for (auto& method : node->methods_) {
         method->Accept(this);
         auto& [methodName, methodInfo] = currentMethod_;
-        classInfo.AddMethod(methodName, methodInfo);
+        try {
+            classInfo.AddMethod(methodName, methodInfo);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
         currentMethod_ = {};
     }
 }
@@ -35,7 +43,7 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
     auto& [className, classInfo] = currentClass_;
     if (classes_.find(className) != classes_.end()) {
-        throw ClassRedefinition{"Class " + className + " has been already defined."};
+        errors.push_back(ClassRedefinition{"Class " + className + " has been already defined."});
     }
 
     classInfo.base_ = node->extendsForClass_;
@@ -72,7 +80,11 @@ void SymbolTable::Visit(MethodBody* node) {
     for (auto& variable : node->variables_) {
         variable->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
-        methodInfo.AddVariable(variableName, variableInfo);
+        try {
+            methodInfo.AddVariable(variableName, variableInfo);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
         currentVariable_ = {};
     }
 }
@@ -89,7 +101,11 @@ void SymbolTable::Visit(MethodDeclaration* node) {
     for (auto& argument : node->argumentsList_) {
         argument->Accept(this);
         auto& [variableName, variableInfo] = currentVariable_;
-        methodInfo.AddArgument(variableName, variableInfo);
+        try {
+            methodInfo.AddArgument(variableName, variableInfo);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
         currentVariable_ = {};
     }
 
@@ -131,4 +147,8 @@ void SymbolTable::Visit(VarDeclaration* node) {
 
     auto& [variableName, variableInfo] = currentVariable_;
     variableInfo.type_ = node->type_.get();
+}
+
+std::vector<CompileError> SymbolTable::GetErrorList() const {
+    return errors;
 }

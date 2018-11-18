@@ -15,7 +15,7 @@
 class SymbolTable : public Visitor {
 public:
     virtual ~SymbolTable() = default;
-    
+
     virtual void Visit(AssignmentByIndexStatement* node) override final;
 
     virtual void Visit(AssignmentStatement* node) override final;
@@ -68,9 +68,12 @@ public:
 
     virtual void Visit(VarDeclaration* node) override final;
 
-public:
-    std::unordered_map<std::string, ClassInfo> classes_ = {};
-    std::pair<std::string, VariableInfo> currentVariable_ = {};
-    std::pair<std::string, MethodInfo> currentMethod_ = {};
-    std::pair<std::string, ClassInfo> currentClass_ = {};
+    std::vector<CompileError> GetErrorList() const;
+
+private:
+    std::unordered_map<std::string, ClassInfo> classes_;
+    std::pair<std::string, VariableInfo> currentVariable_;
+    std::pair<std::string, MethodInfo> currentMethod_;
+    std::pair<std::string, ClassInfo> currentClass_;
+    std::vector<CompileError> errors;
 };

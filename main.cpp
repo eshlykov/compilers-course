@@ -43,11 +43,15 @@ int main(int argc, char *argv[]) {
     SymbolTable symbolTable{};
     try {
         symbolTable.Visit(program.get());
-    } catch (const CompileError& error) {
-        std::cout << error.GetMessage() << std::endl;
-        return 1;
     } catch (...) {
         std::cout << "unexpected error" << std::endl;
+        return 1;
+    }
+
+    if (auto redefinitions = symbolTable.GetErrorList(); !redefinitions.empty()) {
+        for (auto& error : redefinitions) {
+            std::cout << error.GetMessage() << std::endl;
+        }
         return 1;
     }
 }
