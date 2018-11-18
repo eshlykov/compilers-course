@@ -40,5 +40,5 @@ def draw_dot_for_directory(directory):
 
             ast_count += 1
 
-draw_dot_for_directory('testlib/samples-good/')
+draw_dot_for_directory('testlib/good-samples/')
 draw_svg()
