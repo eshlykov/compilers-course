@@ -302,6 +302,8 @@ void Printer::Visit(Type* node) {
         case TypeKind::TK_Int:
             PrintHead(nodeNumber_, "Type : int");
             break;
+        default:
+            break;
         }
     } catch (const std::bad_variant_access&) {
         PrintHead(nodeNumber_, "Type : " + std::get<std::string>(node->type_));

@@ -3,6 +3,7 @@
 #include "../location.hpp"
 
 enum class TypeKind {
+	TK_Undefined,
     TK_IntArray,
     TK_Boolean,
     TK_Int,

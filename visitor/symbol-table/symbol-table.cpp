@@ -3,7 +3,7 @@
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->location_, false);
     if (variable.has_value()) {
         CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->location_);
     }
@@ -14,7 +14,7 @@ void SymbolTable::Visit(AssignmentByIndexStatement* node) {
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->variable_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->variable_, node->location_, false);
     if (!variable.has_value()) {
         return;
     }
@@ -62,7 +62,12 @@ void SymbolTable::Visit(ClassDeclaration* node) {
     
     if (currentClass_.second.base_.has_value()) {
         if (classes_.find(currentClass_.second.base_.value()) != classes_.end()) {
-            errors.push_back(UndeclaredClass{"undefined class '" + currentClass_.second.base_.value() + "'", node->location_});
+            errors.push_back(UndeclaredClass{"undeclared class '" + currentClass_.second.base_.value() + "'", node->location_});
+            classes_[node->className_].base_ = {};
+            currentClass_ = {node->className_, classes_.at(node->className_)};
+        } else if (IsBaseOf(node->className_, currentClass_.second.base_.value())) {
+            errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + currentClass_.second.base_.value() + "' extend each other", node->location_});
+            classes_[currentClass_.second.base_.value()].base_ = {};            
         }
     }
     
@@ -79,7 +84,7 @@ void SymbolTable::Visit(ConditionStatement* node) {
 }
 
 void SymbolTable::Visit(IdentifierExpression* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->name_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->name_, node->location_, false);
     if (variable.has_value()) {
         node->type_ = variable->type_;
     }
@@ -126,7 +131,7 @@ void SymbolTable::Visit(MethodCallExpression* node) {
     std::string typeName;
     try {
         typeName = std::get<std::string>(node->expression_->type_);
-    } catch (const std::bad_optional_access&) {
+    } catch (const std::bad_variant_access&) {
         errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->location_});
         return;
     }
@@ -168,7 +173,7 @@ void SymbolTable::Visit(NumberExpression* node) {
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
-    // Нельзя выводить юзер тайп
+    // Будем считать, что у нас принт может вывести все типы (значение, список элементов массива или имя класса)
 }
 
 void SymbolTable::Visit(Program* node) {
@@ -224,7 +229,11 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
         errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
     }
 
-    classInfo.base_ = node->extendsForClass_;
+    if (node->extendsForClass_.has_value() && node->extendsForClass_.value() == node->className_) {
+        errors.push_back(SelfInheritance{"class + '" + className + "' inherits itself", node->location_});
+    } else {
+        classInfo.base_ = node->extendsForClass_;
+    }
     
     ForwardVisit(node->classBody_.get());
     classes_[className] = classInfo;
@@ -305,26 +314,49 @@ std::vector<CompileError> SymbolTable::GetErrorList() const {
 }
 
 void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location) {
-    if (lhs != rhs) {
-        errors.push_back(TypesMismatch{lhs, rhs, location,});
+    if (lhs == rhs) {
+        return;
     }
+    try {
+        std::string derivedClassName = std::get<std::string>(lhs);
+        std::string baseClassName = std::get<std::string>(rhs);
+        if (IsBaseOf(baseClassName, derivedClassName)) {
+            return;
+        }
+    } catch (const std::bad_variant_access&) {
+    }
+    errors.push_back(TypesMismatch{lhs, rhs, location,});
 }
 
-std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location) {
-    if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
-        return currentMethod_.second.variables_.at(name);
+bool SymbolTable::IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const {
+    ClassInfo derivedClass = classes_.at(derivedClassName);
+    if (!derivedClass.base_.has_value()) {
+        return false;
+    }
+    std::string derivedClassBaseName = derivedClass.base_.value();
+    if (baseClassName == derivedClassBaseName) {
+        return true;
+    }
+    return IsBaseOf(baseClassName, derivedClassBaseName);
+}
+
+std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass) {
+    if (!inBaseClass) {
+        if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
+            return currentMethod_.second.variables_.at(name);
+        }
+        auto iter = find_if(currentMethod_.second.arguments_.begin(), currentMethod_.second.arguments_.end(), [&] (const auto& argument) {
+            return argument.first == name;
+        });
+        if (iter != currentMethod_.second.arguments_.end()) {
+            return iter->second;
+        }
     }
     if (currentClass.variables_.find(name) != currentClass.variables_.end()) {
         return currentClass.variables_.at(name);
     }
-    auto iter = find_if(currentMethod_.second.arguments_.begin(), currentMethod_.second.arguments_.end(), [&] (const auto& argument) {
-        return argument.first == name;
-    });
-    if (iter != currentMethod_.second.arguments_.end()) {
-        return iter->second;
-    }
     if (currentClass.base_.has_value()) {
-        return TryLookUpVariable(classes_.at(currentClass.base_.value()), name, location);
+        return TryLookUpVariable(classes_.at(currentClass.base_.value()), name, location, true);
     }
     errors.push_back(UndeclaredVariable{"undeclared variable '" + name + "'", location});
     return {};
