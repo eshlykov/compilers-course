@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../location.hpp"
 #include "method-info.hpp"
 #include "variable-info.hpp"
 #include <unordered_map>
@@ -7,9 +8,9 @@
 
 class ClassInfo {
 public:
-    void AddVariable(const std::string& name, VariableInfo variable);
+    void AddVariable(const std::string& name, VariableInfo variable, const Location& location);
 
-    void AddMethod(const std::string& name, MethodInfo method);
+    void AddMethod(const std::string& name, MethodInfo method, const Location& location);
 
 public:
     std::optional<std::string> base_ = {};

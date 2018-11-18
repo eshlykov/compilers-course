@@ -1,6 +1,7 @@
 %code requires {
 
 #include "ast.hpp"
+#include "parser-args.hpp"
 #include "source-code.hpp"
 #include <algorithm>
 #include <cstdlib>
@@ -11,7 +12,7 @@
 
 extern int yylex();
 extern char* yytext;
-void yyerror(std::unique_ptr<Program>&, const SourceCode&, const char*);
+void yyerror(ParserArgs& parserArgs, const char*);
 extern std::string yyline;
 extern Location location;
 
@@ -24,7 +25,7 @@ bool isErroneous = false;
 %}
 
 
-%parse-param { std::unique_ptr<Program>& program } { const SourceCode& sourceCode }
+%parse-param { ParserArgs& parserArgs }
 
 %union {
     int NumberToken_;
@@ -148,7 +149,7 @@ bool isErroneous = false;
 
 Goal :
     MainClass ClassDeclarationRepeated {
-        program = std::make_unique<Program>(location, std::move(*$1), *$2, isErroneous);
+        parserArgs.program_ = std::make_unique<Program>(location, std::move(*$1), *$2, isErroneous);
         $$ = 0;
     }
 ;
@@ -358,6 +359,6 @@ Identifier :
 
 %%
 
-void yyerror(std::unique_ptr<Program>&, const SourceCode& sourceCode, const char* message) {
-    isErroneous = true;
+void yyerror(ParserArgs& parserArgs, const char* message) {
+    parserArgs.errors_.push_back(CompileError{std::string{} + "unexprected token '" + yytext + "'", location});
 }

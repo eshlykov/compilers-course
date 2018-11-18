@@ -43,7 +43,7 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
     auto& [className, classInfo] = currentClass_;
     if (classes_.find(className) != classes_.end()) {
-        errors.push_back(ClassRedefinition{"Class " + className + " has been already defined.", node->location_});
+        errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
     }
 
     classInfo.base_ = node->extendsForClass_;
