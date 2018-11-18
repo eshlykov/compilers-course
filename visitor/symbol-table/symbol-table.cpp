@@ -152,15 +152,19 @@ void SymbolTable::Visit(MethodCallExpression* node) {
         return;
     }
 
-    if (node->argumentsList_.size() != method->arguments_.size()) {
-        errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(method->arguments_.size()) +
-            " arguments, but it is given " + std::to_string(node->argumentsList_.size()) + " insted", node->location_});
+    int expectedCount = method->arguments_.size();
+    int givenCount = node->argumentsList_.size();
+    if (expectedCount != givenCount) {
+        errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(expectedCount) +
+            " arguments, but it is given " + std::to_string(givenCount) + " instead", node->location_});
     }
 
-    for (int i = 0; i < node->argumentsList_.size(); ++i) {
+    for (int i = 0; i < givenCount; ++i) {
         auto& argument = node->argumentsList_[i];
         argument->Accept(this);
-        CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
+        if (i < expectedCount) {
+            CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
+        }
     }
 
     node->type_ = method->returnType_;
