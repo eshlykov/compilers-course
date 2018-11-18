@@ -139,6 +139,9 @@ void SymbolTable::Visit(MethodCallExpression* node) {
     std::string typeName;
     try {
         typeName = std::get<std::string>(node->expression_->type_);
+        if (classes_.find(typeName) == classes_.end()) {
+            return;
+        }
     } catch (const std::bad_variant_access&) {
         errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->location_});
         return;

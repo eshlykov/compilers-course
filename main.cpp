@@ -62,6 +62,9 @@ int main(int argc, char* argv[]) {
     SymbolTable symbolTable{};
     try {
         symbolTable.Visit(program.get());
+    } catch (const std::exception& exception) {
+        std::cout << exception.what() << std::endl;
+        return 1;
     } catch (...) {
         std::cout << "unexpected error" << std::endl;
         return 1;
