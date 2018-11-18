@@ -1,6 +1,6 @@
 class TestCase {
     public static void main(String[] args) {
-        if (new UserType()) {
+        if (! new UserType()) {
         } else {
         }
     }

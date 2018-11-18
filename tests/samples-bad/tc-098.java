@@ -1,15 +1,15 @@
 class TestCase {
     public static void main(String[] args) {
-        System.out.println(0);
+        System.out.println(new TestCaseAtomic().Test());
     }
 }
 
 class TestCaseAtomic {
     public int Test() {
-        return 1;
-    }
+        int lhs;
 
-    public int Test() {
-        return 0;
+        lhs = true;
+
+        return 1;
     }
 }

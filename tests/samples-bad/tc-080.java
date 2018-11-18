@@ -5,7 +5,7 @@ class TestCase {
 }
 
 class TestCaseAtomic {
-	public int Test() {
+    public int Test() {
         return x;
     }
 }
