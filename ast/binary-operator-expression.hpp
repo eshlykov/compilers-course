@@ -17,16 +17,9 @@ public:
     BinaryOperatorExpression(Location location,
         std::unique_ptr<Expression> lhs,
         std::unique_ptr<Expression> rhs,
-        BinaryOperator binaryOperator) :
-            lhs_{std::move(lhs)},
-            rhs_{std::move(rhs)},
-            binaryOperator_{binaryOperator} {
-        location_ = location;
-    }
+        BinaryOperator binaryOperator);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     std::unique_ptr<Expression> lhs_;

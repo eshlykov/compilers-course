@@ -12,7 +12,7 @@ public:
     void AddArgument(const std::string& name, VariableInfo variable, const Location& location);
 
 public:
-    Type* returnType_ = {};
-    std::unordered_map<std::string, VariableInfo> variables_ = {};
-    std::vector<std::pair<std::string, VariableInfo>> arguments_ = {};
+    Type* returnType_;
+    std::unordered_map<std::string, VariableInfo> variables_;
+    std::vector<std::pair<std::string, VariableInfo>> arguments_;
 };

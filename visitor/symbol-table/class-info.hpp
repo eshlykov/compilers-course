@@ -13,7 +13,7 @@ public:
     void AddMethod(const std::string& name, MethodInfo method, const Location& location);
 
 public:
-    std::optional<std::string> base_ = {};
-    std::unordered_map<std::string, VariableInfo> variables_ = {};
-    std::unordered_map<std::string, MethodInfo> methods_ = {};
+    std::optional<std::string> base_;
+    std::unordered_map<std::string, VariableInfo> variables_;
+    std::unordered_map<std::string, MethodInfo> methods_;
 };

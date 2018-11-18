@@ -27,5 +27,4 @@ public:
 public:
     std::unique_ptr<MainClass> mainClass_;
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
-    bool isErroneous_ = false;
 };

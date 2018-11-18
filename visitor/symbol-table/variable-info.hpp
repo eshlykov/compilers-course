@@ -4,5 +4,5 @@ class Type;
 
 class VariableInfo {
 public:
-    Type* type_ = {};
+    Type* type_;
 };

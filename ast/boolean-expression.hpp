@@ -6,14 +6,9 @@
 class BooleanExpression : public Expression {
 public:
     explicit BooleanExpression(Location location,
-        bool value) :
-            value_{value} {
-        location_ = location;
-    }
+        bool value);
 
-    virtual void Accept(Visitor* visitor) {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     const bool value_;
