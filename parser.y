@@ -1,6 +1,7 @@
 %code requires {
 
 #include "ast.hpp"
+#include "source-code.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -10,7 +11,7 @@
 
 extern int yylex();
 extern char* yytext;
-void yyerror(std::unique_ptr<Program>&, const char*);
+void yyerror(std::unique_ptr<Program>&, const SourceCode&, const char*);
 extern std::string yyline;
 extern Location location;
 
@@ -23,9 +24,7 @@ bool isErroneous = false;
 %}
 
 
-%parse-param {
-    std::unique_ptr<Program>& program
-}
+%parse-param { std::unique_ptr<Program>& program } { const SourceCode& sourceCode }
 
 %union {
     int NumberToken_;
@@ -359,6 +358,6 @@ Identifier :
 
 %%
 
-void yyerror(std::unique_ptr<Program>& program, const char* message) {
+void yyerror(std::unique_ptr<Program>&, const SourceCode& sourceCode, const char* message) {
     isErroneous = true;
 }
