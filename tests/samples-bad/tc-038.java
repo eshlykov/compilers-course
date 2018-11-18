@@ -6,9 +6,6 @@ class TestCase {
 
 class TestCaseAtomic {
     public int Test() {
-        return new UserType() + 1;
+        return new int[3] - 1;
     }
-}
-
-class UserType {
 }

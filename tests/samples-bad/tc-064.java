@@ -1,10 +1,7 @@
 class TestCase {
     public static void main(String[] args) {
-        if (new int[3] < new UserType()) {
+        if (1 && new int[3]) {
         } else {
         }
     }
-}
-
-class UserType {
 }
