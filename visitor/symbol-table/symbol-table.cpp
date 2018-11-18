@@ -243,7 +243,7 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
     }
 
     if (node->extendsForClass_.has_value() && node->extendsForClass_.value() == node->className_) {
-        errors.push_back(SelfInheritance{"class + '" + className + "' inherits itself", node->location_});
+        errors.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->location_});
     } else {
         classInfo.base_ = node->extendsForClass_;
     }
