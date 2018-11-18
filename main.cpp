@@ -33,26 +33,28 @@ int main(int argc, char* argv[]) {
 
     yyin = std::fopen(filename.c_str(), "r");
     ParserArgs parserArgs;
-    if (yyparse(parserArgs) != 0) {
-        std::cout << "yyparse failed" << std::endl;
-        return 1;
-    }
-
-    std::unique_ptr<Program> program = std::move(parserArgs.program_);
-
-    if (program == nullptr) {
-        std::cout << "program is nullptr" << std::endl;
-        return 1;
-    }
+    bool isParsed = yyparse(parserArgs) == 0;
 
     std::vector<CompileError> errors = parserArgs.errors_;
-
     if (!errors.empty()) {
         for (auto& error : errors) {
             std::cout << error.GetMessage(sourceCode) << std::endl;
         }
         return 1;
     }
+
+    if (!isParsed) {
+        std::cout << CompileError{"unxpected parser error", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
+        return 1;
+    }
+
+    std::unique_ptr<Program> program = std::move(parserArgs.program_);
+
+    if (program == nullptr) {
+        std::cout << CompileError{"program is null pointer", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
+        return 1;
+    }
+
 
     Printer{"ast.dot"};
 

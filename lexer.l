@@ -183,4 +183,8 @@ int {
 \/\/.* {
 }
 
+. {
+    yyerror(parserArgs, "");
+}
+
 %%
