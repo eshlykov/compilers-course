@@ -8,17 +8,12 @@
 
 class AssignmentByIndexStatement : public Statement {
 public:
-    AssignmentByIndexStatement(const std::string& array,
+    AssignmentByIndexStatement(Location location,
+        const std::string& array,
         std::unique_ptr<Expression> index,
-        std::unique_ptr<Expression> expression) :
-            array_{array},
-            index_{std::move(index)},
-            expression_{std::move(expression)} {
-    }
+        std::unique_ptr<Expression> expression);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     const std::string array_;

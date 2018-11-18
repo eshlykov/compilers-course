@@ -11,8 +11,10 @@ enum class TypeKind {
 
 class PrimitiveType : public Type {
 public:
-    explicit PrimitiveType(TypeKind typeKind) :
-        typeKind_{typeKind} {
+    explicit PrimitiveType(Location location,
+        TypeKind typeKind) :
+            typeKind_{typeKind} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

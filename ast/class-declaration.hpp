@@ -11,12 +11,14 @@ class ClassBody;
 
 class ClassDeclaration : public Node {
 public:
-    ClassDeclaration(const std::string& className,
+    ClassDeclaration(Location location,
+        const std::string& className,
         std::optional<std::string> extendsForClass,
         std::unique_ptr<ClassBody> classBody) :
             className_{className},
             extendsForClass_{extendsForClass},
             classBody_{std::move(classBody)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

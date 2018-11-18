@@ -8,12 +8,14 @@
 
 class MethodCallExpression : public Expression {
 public:
-    MethodCallExpression(std::unique_ptr<Expression> expression,
+    MethodCallExpression(Location location,
+        std::unique_ptr<Expression> expression,
         const std::string& methodName,
         std::vector<std::unique_ptr<Expression>>& argumentsList) :
             expression_{std::move(expression)},
             methodName_{methodName},
             argumentsList_{std::move(argumentsList)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

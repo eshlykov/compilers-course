@@ -6,8 +6,10 @@
 
 class NotExpression : public Expression {
 public:
-    explicit NotExpression(std::unique_ptr<Expression> expression) :
-        expression_{std::move(expression)} {
+    explicit NotExpression(Location location,
+        std::unique_ptr<Expression> expression) :
+            expression_{std::move(expression)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

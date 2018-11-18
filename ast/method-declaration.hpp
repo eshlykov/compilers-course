@@ -11,7 +11,8 @@ class VarDeclaration;
 
 class MethodDeclaration : public Node {
 public:
-    MethodDeclaration(std::unique_ptr<Type> resultType,
+    MethodDeclaration(Location location,
+        std::unique_ptr<Type> resultType,
         const std::string& methodName,
         std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
         std::unique_ptr<MethodBody> methodBody) :
@@ -19,6 +20,7 @@ public:
             methodName_{methodName},
             argumentsList_{std::move(argumentsList)},
             methodBody_{std::move(methodBody)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

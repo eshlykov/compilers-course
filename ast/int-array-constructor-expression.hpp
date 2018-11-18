@@ -6,8 +6,10 @@
 
 class IntArrayConstructorExpression : public Expression {
 public:
-    explicit IntArrayConstructorExpression(std::unique_ptr<Expression> expression) :
-        expression_{std::move(expression)} {
+    explicit IntArrayConstructorExpression(Location location,
+        std::unique_ptr<Expression> expression) :
+            expression_{std::move(expression)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

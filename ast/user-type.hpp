@@ -5,8 +5,10 @@
 
 class UserType : public Type {
 public:
-    explicit UserType(const std::string& className) :
-        className_{className} {
+    explicit UserType(Location location,
+        const std::string& className) :
+            className_{className} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

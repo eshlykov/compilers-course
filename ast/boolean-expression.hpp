@@ -5,8 +5,10 @@
 
 class BooleanExpression : public Expression {
 public:
-    explicit BooleanExpression(bool value) :
-        value_{value} {
+    explicit BooleanExpression(Location location,
+        bool value) :
+            value_{value} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) {

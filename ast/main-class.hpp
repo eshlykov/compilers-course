@@ -8,12 +8,14 @@
 
 class MainClass : public Node {
 public:
-    MainClass(const std::string& className,
+    MainClass(Location location,
+        const std::string& className,
         const std::string& argv,
         std::unique_ptr<Statement> mainBody) :
             className_{className},
             argv_{argv},
             mainBody_{std::move(mainBody)} {
+        location_ = location;
     }
     
     virtual void Accept(Visitor* visitor) override final {

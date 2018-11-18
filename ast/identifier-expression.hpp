@@ -6,8 +6,10 @@
 
 class IdentifierExpression : public Expression {
 public:
-    IdentifierExpression(const std::string& name) :
-        name_{name} {
+    IdentifierExpression(Location location,
+        const std::string& name) :
+            name_{name} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

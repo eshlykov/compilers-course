@@ -8,10 +8,12 @@ class Expression;
 
 class LoopStatement : public Statement {
 public:
-    LoopStatement(std::unique_ptr<Expression> condition,
+    LoopStatement(Location location,
+        std::unique_ptr<Expression> condition,
         std::unique_ptr<Statement> statement) :
             condition_(std::move(condition)),
             statement_(std::move(statement)) {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

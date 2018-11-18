@@ -10,12 +10,14 @@ class ClassDeclaration;
 
 class Program : public Node {
 public:
-    Program(std::unique_ptr<MainClass> mainClass,
+    Program(Location location,
+        std::unique_ptr<MainClass> mainClass,
         std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations,
         bool isErroneous) :
             mainClass_{std::move(mainClass)},
             classDeclarations_{std::move(classDeclarations)},
             isErroneous_{isErroneous} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

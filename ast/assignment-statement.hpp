@@ -9,10 +9,12 @@ class Expression;
 
 class AssignmentStatement : public Statement {
 public:
-    AssignmentStatement(const std::string& variable,
+    AssignmentStatement(Location location,
+        const std::string& variable,
         std::unique_ptr<Expression> expression) :
             variable_{variable},
             expression_{std::move(expression)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

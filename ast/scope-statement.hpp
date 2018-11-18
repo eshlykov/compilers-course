@@ -7,8 +7,10 @@
 
 class ScopeStatement : public Statement {
 public:
-    explicit ScopeStatement(std::vector<std::unique_ptr<Statement>>& statements) :
-        statements_{std::move(statements)} {
+    explicit ScopeStatement(Location location,
+        std::vector<std::unique_ptr<Statement>>& statements) :
+            statements_{std::move(statements)} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

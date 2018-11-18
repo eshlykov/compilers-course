@@ -5,8 +5,10 @@
 
 class NumberExpression : public Expression {
 public:
-    explicit NumberExpression(int value) :
-        value_{value} {
+    explicit NumberExpression(Location location,
+        int value) :
+            value_{value} {
+        location_ = location;
     }
 
     virtual void Accept(Visitor* visitor) override final {

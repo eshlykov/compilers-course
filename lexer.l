@@ -6,21 +6,18 @@
 #include <string>
 
 int yycolumnno = 0;
-std::string yyline = {};
+Location location;
 
 #define YY_USER_ACTION { \
-    if (yylineno != yylloc.first_line) { \
+    if (yylineno != location.lineNumber_) { \
         yycolumnno = 0; \
-        yyline = {}; \
     } \
     \
-    yylloc.first_line = yylineno; \
-    yylloc.last_line = yylineno; \
-    yylloc.first_column = yycolumnno; \
-    yylloc.last_column = yycolumnno + yyleng - 1; \
+    location.lineNumber_ = yylineno; \
+    location.firstColumn_ = yycolumnno; \
+    location.lastColumn_ = yycolumnno + yyleng - 1; \
     \
     yycolumnno += yyleng; \
-    yyline += yytext; \
 }
 
 %}
