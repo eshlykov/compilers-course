@@ -19,7 +19,7 @@ void SymbolTable::Visit(AssignmentStatement* node) {
         return;
     }
     node->expression_->Accept(this);
-    CompareTypes(variable.value().type_, node->expression_->type_, node->expression_->location_);
+    CompareTypes(node->expression_->type_, variable.value().type_, node->expression_->location_);
 }
 
 void SymbolTable::Visit(BinaryOperatorExpression* node) {
@@ -41,57 +41,29 @@ void SymbolTable::Visit(BooleanExpression* node) {
 }
 
 void SymbolTable::Visit(ClassBody* node) {
-    auto& [className, classInfo] = currentClass_;
-
-    for (auto& variable : node->variables_) {
-        variable->Accept(this);
-        auto& [variableName, variableInfo] = currentVariable_;
-        try {
-            classInfo.AddVariable(variableName, variableInfo, variable->location_);
-        } catch (CompileError& error) {
-            errors.push_back(error);
-        }
-        currentVariable_ = {};
-    }
-
+    // Переменные обработаны в ForwardVisit
     for (auto& method : node->methods_) {
         method->Accept(this);
-        auto& [methodName, methodInfo] = currentMethod_;
-        try {
-            classInfo.AddMethod(methodName, methodInfo, method->location_);
-        } catch (CompileError& error) {
-            errors.push_back(error);
-        }
-        currentMethod_ = {};
     }
 }
 
 void SymbolTable::Visit(ClassDeclaration* node) {
-    currentClass_ = std::make_pair(node->className_, ClassInfo{});
-
-    auto& [className, classInfo] = currentClass_;
-    if (classes_.find(className) != classes_.end()) {
-        errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
-    }
+    currentClass_ = {node->className_, classes_.at(node->className_)};
     
-    if (node->extendsForClass_.has_value()) {
-        std::string base = *node->extendsForClass_;
-        if (classes_.find(base) != classes_.end()) {
-            errors.push_back(UndeclaredClass{"undefined class '" + base + "'", node->location_});
+    if (currentClass_.second.base_.has_value()) {
+        if (classes_.find(currentClass_.second.base_.value()) != classes_.end()) {
+            errors.push_back(UndeclaredClass{"undefined class '" + currentClass_.second.base_.value() + "'", node->location_});
         }
-        classInfo.base_ = base;
     }
     
     node->classBody_->Accept(this);
-    classes_[className] = classInfo;
 
     currentClass_ = {};
 }
 
 void SymbolTable::Visit(ConditionStatement* node) {
-    if (node->condition_->type_ != TypeVariant(TypeKind::TK_Boolean)) {
-        errors.push_back(TypeMismatch{node->condition_->type_, TypeKind::TK_Boolean, node->condition_->location_});
-    }
+    node->condition_->Accept(this);
+    CompareTypes(node->condition_->type_, TypeVariant(TypeKind::TK_Boolean), node->condition_->location_);
     node->ifStatement_->Accept(this);
     node->elseStatement_->Accept(this);
 }
@@ -115,53 +87,40 @@ void SymbolTable::Visit(IntArrayConstructorExpression* node) {
 }
 
 void SymbolTable::Visit(LengthExpression* node) {
+    node->expression_->Accept(this);
+    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_IntArray), node->expression_->location_);
 }
 
 void SymbolTable::Visit(LoopStatement* node) {
+    node->condition_->Accept(this);
+    CompareTypes(node->condition_->type_, TypeVariant(TypeKind::TK_Boolean), node->condition_->location_);
+    node->statement_->Accept(this);
 }
 
 void SymbolTable::Visit(MainClass* node) {
+    // Все сделано в ForwardVisit
 }
 
 void SymbolTable::Visit(MethodBody* node) {
-    auto& [methodName, methodInfo] = currentMethod_;
-
-    for (auto& variable : node->variables_) {
-        variable->Accept(this);
-        auto& [variableName, variableInfo] = currentVariable_;
-        try {
-            methodInfo.AddVariable(variableName, variableInfo, variable->location_);
-        } catch (CompileError& error) {
-            errors.push_back(error);
-        }
-        currentVariable_ = {};
+    for (auto& statement : node->statements_) {
+        statement->Accept(this);
     }
+    node->returnExpression_->Accept(this);
+    CompareTypes(node->returnExpression_->type_, currentMethod_.second.returnType_, node->returnExpression_->location_);
 }
 
 void SymbolTable::Visit(MethodCallExpression* node) {
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
-    currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
-
-    auto& [methodName, methodInfo] = currentMethod_;
-    methodInfo.returnType_ = node->resultType_->type_;
-
-    for (auto& argument : node->argumentsList_) {
-        argument->Accept(this);
-        auto& [variableName, variableInfo] = currentVariable_;
-        try {
-            methodInfo.AddArgument(variableName, variableInfo, argument->location_);
-        } catch (CompileError& error) {
-            errors.push_back(error);
-        }
-        currentVariable_ = {};
-    }
-
+    currentMethod_ = {node->methodName_, currentClass_.second.methods_.at(node->methodName_)};
     node->methodBody_->Accept(this);
+    currentMethod_ = {};
 }
 
 void SymbolTable::Visit(NotExpression* node) {
+    node->expression_->Accept(this);
+    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Boolean), node->expression_->location_);
 }
 
 void SymbolTable::Visit(NumberExpression* node) {
@@ -169,9 +128,16 @@ void SymbolTable::Visit(NumberExpression* node) {
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
+    // Нельзя выводить юзер тайп
 }
 
 void SymbolTable::Visit(Program* node) {
+    ForwardVisit(node->mainClass_.get());
+    for (auto& classDeclaration : node->classDeclarations_) {
+        ForwardVisit(classDeclaration.get());
+    }
+    
+    node->mainClass_->Accept(this);
     for (auto& classDeclaration : node->classDeclarations_) {
         classDeclaration->Accept(this);
     }
@@ -191,10 +157,99 @@ void SymbolTable::Visit(UserTypeConstructorExpression* node) {
 }
 
 void SymbolTable::Visit(VarDeclaration* node) {
-    currentVariable_ = std::make_pair(node->name_, VariableInfo{});
+    // Все уже сделали в ForwardVisit
+}
+
+void SymbolTable::ForwardVisit(MainClass* node) {
+    // Делать ничего не нужно, так как класс нельзя использовать.
+    // Например, будем считать, что метод main нельзя вызвать (даже в наследниках этого класса), поэтому не сохраняем.
+    // Аргумент main'а не используется.
+    // Единственное, от чего надо защититься, - переопределение класса.
+    classes_[node->className_] = {};
+}
+
+void SymbolTable::ForwardVisit(ClassDeclaration* node) {
+    currentClass_ = {node->className_, ClassInfo{}};
+
+    auto& [className, classInfo] = currentClass_;
+    if (classes_.find(className) != classes_.end()) {
+        errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
+    }
+
+    classInfo.base_ = node->extendsForClass_;
+    
+    ForwardVisit(node->classBody_.get());
+    classes_[className] = classInfo;
+
+    currentClass_ = {};
+}
+
+void SymbolTable::ForwardVisit(ClassBody* node) {
+    auto& [className, classInfo] = currentClass_;
+
+    for (auto& variable : node->variables_) {
+        ForwardVisit(variable.get());
+        auto& [variableName, variableInfo] = currentVariable_;
+        try {
+            classInfo.AddVariable(variableName, variableInfo, variable->location_);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
+        currentVariable_ = {};
+    }
+
+    for (auto& method : node->methods_) {
+        ForwardVisit(method.get());
+        auto& [methodName, methodInfo] = currentMethod_;
+        try {
+            classInfo.AddMethod(methodName, methodInfo, method->location_);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
+        currentMethod_ = {};
+    }
+}
+
+void SymbolTable::ForwardVisit(VarDeclaration* node) {
+    currentVariable_ = {node->name_, VariableInfo{}};
 
     auto& [variableName, variableInfo] = currentVariable_;
-    variableInfo.type_ = node->type_->type_;
+    variableInfo.type_ = node->type_->type_; 
+}
+
+void SymbolTable::ForwardVisit(MethodDeclaration* node) {
+    currentMethod_ = {node->methodName_, MethodInfo{}};
+
+    auto& [methodName, methodInfo] = currentMethod_;
+    methodInfo.returnType_ = node->resultType_->type_;
+
+    for (auto& argument : node->argumentsList_) {
+        ForwardVisit(argument.get());
+        auto& [variableName, variableInfo] = currentVariable_;
+        try {
+            methodInfo.AddArgument(variableName, variableInfo, argument->location_);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
+        currentVariable_ = {};
+    }
+
+    ForwardVisit(node->methodBody_.get());
+}
+
+void SymbolTable::ForwardVisit(MethodBody* node) {
+    auto& [methodName, methodInfo] = currentMethod_;
+
+    for (auto& variable : node->variables_) {
+        ForwardVisit(variable.get());
+        auto& [variableName, variableInfo] = currentVariable_;
+        try {
+            methodInfo.AddVariable(variableName, variableInfo, variable->location_);
+        } catch (CompileError& error) {
+            errors.push_back(error);
+        }
+        currentVariable_ = {};
+    }
 }
 
 std::vector<CompileError> SymbolTable::GetErrorList() const {
@@ -203,7 +258,7 @@ std::vector<CompileError> SymbolTable::GetErrorList() const {
 
 void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location) {
     if (lhs != rhs) {
-        errors.push_back(TypeMismatch{lhs, rhs, location,});
+        errors.push_back(TypesMismatch{lhs, rhs, location,});
     }
 }
 

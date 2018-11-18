@@ -70,6 +70,18 @@ public:
     std::vector<CompileError> GetErrorList() const;
 
 private:
+    void ForwardVisit(MainClass* node);
+    
+    void ForwardVisit(ClassDeclaration* node);
+    
+    void ForwardVisit(ClassBody* node);
+    
+    void ForwardVisit(VarDeclaration* node);
+    
+    void ForwardVisit(MethodDeclaration* node);
+    
+    void ForwardVisit(MethodBody* node);
+    
     void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
     
     std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location);

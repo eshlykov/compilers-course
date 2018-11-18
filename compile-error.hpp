@@ -68,11 +68,11 @@ public:
     }
 };
 
-class TypeMismatch : public CompileError {
+class TypesMismatch : public CompileError {
     using TypeVariant = std::variant<TypeKind, std::string>;
 public:
-    TypeMismatch(TypeVariant lhs, TypeVariant rhs, const Location& location) :
-        CompileError("type mismatch: expected " + TypeToString(lhs) + ", found " +  TypeToString(rhs), location) {
+    TypesMismatch(TypeVariant found, TypeVariant expected, const Location& location) :
+        CompileError("types mismatch: expected " + TypeToString(expected) + ", found " +  TypeToString(found), location) {
     }
 
 private:
@@ -80,11 +80,11 @@ private:
         try {
             switch (std::get<TypeKind>(type)) {
             case TypeKind::TK_Int:
-                return "'Int'";
+                return "'int'";
             case TypeKind::TK_Boolean:
-                return "'Boolean'";
+                return "'boolean'";
             case TypeKind::TK_IntArray:
-                return "'Int[]'";
+                return "'int[]'";
             }
         } catch (const std::bad_variant_access&) {
             try {
