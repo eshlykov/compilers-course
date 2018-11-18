@@ -358,5 +358,5 @@ Identifier :
 %%
 
 void yyerror(ParserArgs& parserArgs, const char*) {
-    parserArgs.errors_.push_back(CompileError{std::string{} + "unexprected '" + yytext + "'", location});
+    parserArgs.errors_.push_back(CompileError{std::string{} + "unexpected '" + yytext + "'", location});
 }
