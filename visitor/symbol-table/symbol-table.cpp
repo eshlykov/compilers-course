@@ -117,6 +117,7 @@ void SymbolTable::Visit(LoopStatement* node) {
 
 void SymbolTable::Visit(MainClass* node) {
     // Все сделано в ForwardVisit
+    node->mainBody_->Accept(this);
 }
 
 void SymbolTable::Visit(MethodBody* node) {
