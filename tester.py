@@ -14,7 +14,7 @@ def run_tests(directory, is_good):
 
     failures_count = 0
 
-    for file in os.listdir(directory):
+    for file in sorted(os.listdir(directory)):
         if file.endswith('.java'):
 
             print('Test: {}'.format(file))
