@@ -2,6 +2,12 @@
 
 #include "../location.hpp"
 
+enum class TypeKind {
+    TK_IntArray,
+    TK_Boolean,
+    TK_Int,
+};
+
 class Visitor;
 
 class Node {

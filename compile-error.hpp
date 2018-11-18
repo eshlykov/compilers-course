@@ -1,9 +1,11 @@
 #pragma once
 
+#include "ast.hpp"
 #include "location.hpp"
 #include "source-code.hpp"
 #include <exception>
 #include <string>
+#include <variant>
 
 class CompileError {
 public:
@@ -62,6 +64,41 @@ public:
 class MethodRedefinition : public CompileError {
 public:
     MethodRedefinition(const std::string& message, const Location& location) :
+        CompileError(message, location) {
+    }
+};
+
+class TypeMismatch : public CompileError {
+    using TypeVariant = std::variant<TypeKind, std::string>;
+public:
+    TypeMismatch(TypeVariant lhs, TypeVariant rhs, const Location& location) :
+        CompileError("type mismatch: expected " + TypeToString(lhs) + ", found " +  TypeToString(rhs), location) {
+    }
+
+private:
+    std::string TypeToString(TypeVariant& type) {
+        try {
+            switch (std::get<TypeKind>(type)) {
+            case TypeKind::TK_Int:
+                return "'Int'";
+            case TypeKind::TK_Boolean:
+                return "'Boolean'";
+            case TypeKind::TK_IntArray:
+                return "'Int[]'";
+            }
+        } catch (const std::bad_variant_access&) {
+            try {
+                return "'" + std::get<std::string>(type) + "'";
+            } catch (const std::bad_variant_access&) {
+                return "undeduced type";
+            }
+        }
+    }
+};
+
+class UndeclaredVariable : public CompileError {
+public:
+    UndeclaredVariable(const std::string& message, const Location& location) :
         CompileError(message, location) {
     }
 };

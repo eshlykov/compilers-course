@@ -1,6 +1,16 @@
+#include "../../ast.hpp"
 #include "symbol-table.hpp"
+#include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
+    std::optional<VariableInfo> variable = TryLookUpVariable(node->array_, node->location_);
+    if (variable.has_value()) {
+        CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->location_);
+    }
+    node->index_->Accept(this);
+    CompareTypes(node->index_->type_, TypeVariant(TypeKind::TK_Int), node->index_->location_);
+    node->expression_->Accept(this);
+    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
@@ -10,6 +20,7 @@ void SymbolTable::Visit(BinaryOperatorExpression* node) {
 }
 
 void SymbolTable::Visit(BooleanExpression* node) {
+    node->type_ = TypeKind::TK_Boolean;
 }
 
 void SymbolTable::Visit(ClassBody* node) {
@@ -54,6 +65,9 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 }
 
 void SymbolTable::Visit(ConditionStatement* node) {
+    if (node->condition_->type_ != TypeVariant(TypeKind::TK_Boolean)) {
+        errors.push_back(TypeMismatch{node->condition_->type_, TypeKind::TK_Boolean, node->condition_->location_});
+    }
 }
 
 void SymbolTable::Visit(IdentifierExpression* node) {
@@ -63,6 +77,7 @@ void SymbolTable::Visit(IndexExpression* node) {
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
+    node->type_ = TypeKind::TK_IntArray;
 }
 
 void SymbolTable::Visit(LengthExpression* node) {
@@ -96,7 +111,7 @@ void SymbolTable::Visit(MethodDeclaration* node) {
     currentMethod_ = std::make_pair(node->methodName_, MethodInfo{});
 
     auto& [methodName, methodInfo] = currentMethod_;
-    methodInfo.returnType_ = node->resultType_.get();
+    methodInfo.returnType_ = node->resultType_->type_;
 
     for (auto& argument : node->argumentsList_) {
         argument->Accept(this);
@@ -116,9 +131,7 @@ void SymbolTable::Visit(NotExpression* node) {
 }
 
 void SymbolTable::Visit(NumberExpression* node) {
-}
-
-void SymbolTable::Visit(PrimitiveType* node) {
+    node->type_ = TypeKind::TK_Int;
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
@@ -136,19 +149,43 @@ void SymbolTable::Visit(ScopeStatement* node) {
 void SymbolTable::Visit(ThisExpression* node) {
 }
 
-void SymbolTable::Visit(UserTypeConstructorExpression* node) {
+void SymbolTable::Visit(Type* node) {
 }
 
-void SymbolTable::Visit(UserType* node) {
+void SymbolTable::Visit(UserTypeConstructorExpression* node) {
+    node->type_ = node->name_;
 }
 
 void SymbolTable::Visit(VarDeclaration* node) {
     currentVariable_ = std::make_pair(node->name_, VariableInfo{});
 
     auto& [variableName, variableInfo] = currentVariable_;
-    variableInfo.type_ = node->type_.get();
+    variableInfo.type_ = node->type_->type_;
 }
 
 std::vector<CompileError> SymbolTable::GetErrorList() const {
     return errors;
+}
+
+void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location) {
+    if (lhs != rhs) {
+        errors.push_back(TypeMismatch{lhs, rhs, location,});
+    }
+}
+
+std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const std::string& name, const Location& location) {
+    if (currentClass_.second.variables_.find(name) != currentClass_.second.variables_.end()) {
+        return currentClass_.second.variables_[name];
+    }
+    auto iter = find_if(currentMethod_.second.arguments_.begin(), currentMethod_.second.arguments_.end(), [&] (const auto& argument) {
+        return argument.first == name;
+    });
+    if (iter != currentMethod_.second.arguments_.end()) {
+        return iter->second;
+    }
+    if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
+        return currentMethod_.second.variables_[name];
+    }
+    errors.push_back(UndeclaredVariable{"undefined variable '" + name + "'", location});
+    return {};
 }

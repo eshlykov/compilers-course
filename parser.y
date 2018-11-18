@@ -249,13 +249,13 @@ MethodDeclaration :
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
-        $$ = new std::unique_ptr<Type>{new PrimitiveType{location, TypeKind::TK_IntArray}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_IntArray}};
     } | TT_Boolean {
-        $$ = new std::unique_ptr<Type>{new PrimitiveType{location, TypeKind::TK_Boolean}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_Boolean}};
     } | TT_Int {
-        $$ = new std::unique_ptr<Type>{new PrimitiveType{location, TypeKind::TK_Int}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_Int}};
     } | Identifier {
-        $$ = new std::unique_ptr<Type>{new UserType{location, *$1}};
+        $$ = new std::unique_ptr<Type>{new Type{location, *$1}};
     }
 ;
 

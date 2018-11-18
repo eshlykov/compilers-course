@@ -18,13 +18,12 @@ class MethodCallExpression;
 class MethodDeclaration;
 class NotExpression;
 class NumberExpression;
-class PrimitiveType;
 class PrintStatement;
 class Program;
 class ScopeStatement;
 class ThisExpression;
+class Type;
 class UserTypeConstructorExpression;
-class UserType;
 class VarDeclaration;
 
 class Visitor {
@@ -47,12 +46,11 @@ public:
     virtual void Visit(MethodDeclaration*) = 0;
     virtual void Visit(NotExpression*) = 0;
     virtual void Visit(NumberExpression*) = 0;
-    virtual void Visit(PrimitiveType*) = 0;
     virtual void Visit(PrintStatement*) = 0;
     virtual void Visit(Program*) = 0;
     virtual void Visit(ScopeStatement*) = 0;
     virtual void Visit(ThisExpression*) = 0;
+    virtual void Visit(Type*) = 0;
     virtual void Visit(UserTypeConstructorExpression*) = 0;
-    virtual void Visit(UserType*) = 0;
     virtual void Visit(VarDeclaration*) = 0;
 };
