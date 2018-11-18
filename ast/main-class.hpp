@@ -17,7 +17,7 @@ public:
             mainBody_{std::move(mainBody)} {
         location_ = location;
     }
-    
+
     virtual void Accept(Visitor* visitor) override final {
         visitor->Visit(this);
     }

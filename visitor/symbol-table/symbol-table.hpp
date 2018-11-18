@@ -71,21 +71,21 @@ public:
 
 private:
     void ForwardVisit(MainClass* node);
-    
+
     void ForwardVisit(ClassDeclaration* node);
-    
+
     void ForwardVisit(ClassBody* node);
-    
+
     void ForwardVisit(VarDeclaration* node);
-    
+
     void ForwardVisit(MethodDeclaration* node);
-    
+
     void ForwardVisit(MethodBody* node);
-    
+
     void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
-    
+
     bool IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const;
-    
+
     std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass);
 
     std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);

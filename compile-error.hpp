@@ -70,11 +70,11 @@ public:
 
 class TypesMismatch : public CompileError {
     using TypeVariant = std::variant<TypeKind, std::string>;
-public: 
+public:
     TypesMismatch(const std::string& message, const Location& location) :
         CompileError(message, location) {
     }
-    
+
     TypesMismatch(TypeVariant found, TypeVariant expected, const Location& location) :
         CompileError("types mismatch: expected " + TypeToString(expected) + ", found " +  TypeToString(found), location) {
     }
