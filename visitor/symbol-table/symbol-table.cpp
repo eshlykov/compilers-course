@@ -25,13 +25,23 @@ void SymbolTable::Visit(AssignmentStatement* node) {
 void SymbolTable::Visit(BinaryOperatorExpression* node) {
     node->lhs_->Accept(this);
     node->rhs_->Accept(this);
-    if (node->binaryOperator_ == BinaryOperator::BO_And) {
+
+    switch (node->binaryOperator_) {
+    case BinaryOperator::BO_And:
         CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->lhs_->location_);
         CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->rhs_->location_);
-        node->type_ = TypeKind::TK_Boolean;
-    } else {
+        break;
+    default:
         CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Int), node->lhs_->location_);
         CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
+    }
+
+    switch (node->binaryOperator_) {
+    case BinaryOperator::BO_And:
+    case BinaryOperator::BO_Less:
+        node->type_ = TypeKind::TK_Boolean;
+        break;
+    default:
         node->type_ = TypeKind::TK_Int;
     }
 }
@@ -80,6 +90,7 @@ void SymbolTable::Visit(IndexExpression* node) {
     CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_IntArray), node->lhs_->location_);
     node->rhs_->Accept(this);
     CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
+    node->type_ = TypeKind::TK_Int;
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
@@ -89,6 +100,7 @@ void SymbolTable::Visit(IntArrayConstructorExpression* node) {
 void SymbolTable::Visit(LengthExpression* node) {
     node->expression_->Accept(this);
     CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_IntArray), node->expression_->location_);
+    node->type_ = TypeKind::TK_Int;
 }
 
 void SymbolTable::Visit(LoopStatement* node) {
@@ -135,6 +147,8 @@ void SymbolTable::Visit(MethodCallExpression* node) {
         argument->Accept(this);
         CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
     }
+    
+    node->type_ = method->returnType_;
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
@@ -146,6 +160,7 @@ void SymbolTable::Visit(MethodDeclaration* node) {
 void SymbolTable::Visit(NotExpression* node) {
     node->expression_->Accept(this);
     CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Boolean), node->expression_->location_);
+    node->type_ = TypeKind::TK_Boolean;
 }
 
 void SymbolTable::Visit(NumberExpression* node) {
@@ -183,6 +198,9 @@ void SymbolTable::Visit(Type* node) {
 }
 
 void SymbolTable::Visit(UserTypeConstructorExpression* node) {
+    if (classes_.find(node->name_) == classes_.end()) {
+        errors.push_back(UndeclaredClass{"undeclared class '" + node->name_ + "'", node->location_});
+    }
     node->type_ = node->name_;
 }
 
