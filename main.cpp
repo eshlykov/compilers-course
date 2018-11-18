@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<Program> program = std::move(parserArgs.program_);
 
     if (program == nullptr) {
-        std::cout << "program is nullptr" << std::endl;
+        std::cout << CompileError{"program is null pointer", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
         return 1;
     }
 
