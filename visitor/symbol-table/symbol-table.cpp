@@ -110,6 +110,31 @@ void SymbolTable::Visit(MethodBody* node) {
 }
 
 void SymbolTable::Visit(MethodCallExpression* node) {
+    node->expression_->Accept(this);
+    std::string typeName;
+    try {
+        typeName = std::get<std::string>(node->expression_->type_);
+    } catch (const std::bad_optional_access&) {
+        errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->location_});
+        return;
+    }
+    
+    std::optional<MethodInfo> method = TryLookUpMethod(classes_.at(typeName), node->methodName_, node->location_);
+    if (!method.has_value()) {
+        errors.push_back(UndeclaredMethod{"undeclared method '" + node->methodName_ + "'", node->location_});
+        return;
+    }
+    
+    if (node->argumentsList_.size() != method->arguments_.size()) {
+        errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(method->arguments_.size()) +
+            " arguments, but it is given " + std::to_string(node->argumentsList_.size()) + " insted", node->location_});
+    }
+    
+    for (int i = 0; i < node->argumentsList_.size(); ++i) {
+        auto& argument = node->argumentsList_[i];
+        argument->Accept(this);
+        CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
+    }
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
@@ -144,12 +169,17 @@ void SymbolTable::Visit(Program* node) {
 }
 
 void SymbolTable::Visit(ScopeStatement* node) {
+    for (auto& statement : node->statements_) {
+        statement->Accept(this);
+    }
 }
 
 void SymbolTable::Visit(ThisExpression* node) {
+    node->type_ = currentClass_.first;
 }
 
 void SymbolTable::Visit(Type* node) {
+    // Ничего делать не надо
 }
 
 void SymbolTable::Visit(UserTypeConstructorExpression* node) {
@@ -164,7 +194,7 @@ void SymbolTable::ForwardVisit(MainClass* node) {
     // Делать ничего не нужно, так как класс нельзя использовать.
     // Например, будем считать, что метод main нельзя вызвать (даже в наследниках этого класса), поэтому не сохраняем.
     // Аргумент main'а не используется.
-    // Единственное, от чего надо защититься, - переопределение класса.
+    // Единственное, от чего надо защититься, - переопределение класса
     classes_[node->className_] = {};
 }
 
@@ -278,6 +308,17 @@ std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const ClassInfo& curr
     if (currentClass.base_.has_value()) {
         return TryLookUpVariable(classes_.at(currentClass.base_.value()), name, location);
     }
-    errors.push_back(UndeclaredVariable{"undefined variable '" + name + "'", location});
+    errors.push_back(UndeclaredVariable{"undeclared variable '" + name + "'", location});
+    return {};
+}
+
+std::optional<MethodInfo> SymbolTable::TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location) {
+    if (currentClass.methods_.find(name) != currentClass.methods_.end()) {
+        return currentClass.methods_.at(name);
+    }
+    if (currentClass.base_.has_value()) {
+        return TryLookUpMethod(classes_.at(currentClass.base_.value()), name, location);
+    }
+    errors.push_back(UndeclaredMethod{"undeclared method '" + name + "'", location});
     return {};
 }

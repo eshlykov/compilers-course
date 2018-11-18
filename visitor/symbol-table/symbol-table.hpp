@@ -86,6 +86,8 @@ private:
     
     std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location);
 
+    std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
+
 private:
     std::unordered_map<std::string, ClassInfo> classes_;
     std::pair<std::string, VariableInfo> currentVariable_;

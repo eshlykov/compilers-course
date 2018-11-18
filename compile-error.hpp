@@ -70,7 +70,11 @@ public:
 
 class TypesMismatch : public CompileError {
     using TypeVariant = std::variant<TypeKind, std::string>;
-public:
+public: 
+    TypesMismatch(const std::string& message, const Location& location) :
+        CompileError(message, location) {
+    }
+    
     TypesMismatch(TypeVariant found, TypeVariant expected, const Location& location) :
         CompileError("types mismatch: expected " + TypeToString(expected) + ", found " +  TypeToString(found), location) {
     }
@@ -106,6 +110,20 @@ public:
 class UndeclaredClass : public CompileError {
 public:
     UndeclaredClass(const std::string& message, const Location& location) :
+        CompileError(message, location) {
+    }
+};
+
+class UndeclaredMethod : public CompileError {
+public:
+    UndeclaredMethod(const std::string& message, const Location& location) :
+        CompileError(message, location) {
+    }
+};
+
+class ArgumentsCountMismatch : public CompileError {
+public:
+    ArgumentsCountMismatch(const std::string& message, const Location& location) :
         CompileError(message, location) {
     }
 };
