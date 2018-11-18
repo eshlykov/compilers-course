@@ -72,7 +72,7 @@ public:
 private:
     void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
     
-    std::optional<VariableInfo> TryLookUpVariable(const std::string&, const Location& location);
+    std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location);
 
 private:
     std::unordered_map<std::string, ClassInfo> classes_;

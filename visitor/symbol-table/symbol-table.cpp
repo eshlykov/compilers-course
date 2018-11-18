@@ -3,7 +3,7 @@
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(node->array_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->location_);
     if (variable.has_value()) {
         CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->location_);
     }
@@ -14,7 +14,7 @@ void SymbolTable::Visit(AssignmentByIndexStatement* node) {
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(node->variable_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->variable_, node->location_);
     if (!variable.has_value()) {
         return;
     }
@@ -97,7 +97,7 @@ void SymbolTable::Visit(ConditionStatement* node) {
 }
 
 void SymbolTable::Visit(IdentifierExpression* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(node->name_, node->location_);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->name_, node->location_);
     if (variable.has_value()) {
         node->type_ = variable->type_;
     }
@@ -207,9 +207,12 @@ void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location&
     }
 }
 
-std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const std::string& name, const Location& location) {
-    if (currentClass_.second.variables_.find(name) != currentClass_.second.variables_.end()) {
-        return currentClass_.second.variables_[name];
+std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location) {
+    if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
+        return currentMethod_.second.variables_.at(name);
+    }
+    if (currentClass.variables_.find(name) != currentClass.variables_.end()) {
+        return currentClass.variables_.at(name);
     }
     auto iter = find_if(currentMethod_.second.arguments_.begin(), currentMethod_.second.arguments_.end(), [&] (const auto& argument) {
         return argument.first == name;
@@ -217,8 +220,8 @@ std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const std::string& na
     if (iter != currentMethod_.second.arguments_.end()) {
         return iter->second;
     }
-    if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
-        return currentMethod_.second.variables_[name];
+    if (currentClass.base_.has_value()) {
+        return TryLookUpVariable(classes_.at(currentClass.base_.value()), name, location);
     }
     errors.push_back(UndeclaredVariable{"undefined variable '" + name + "'", location});
     return {};
