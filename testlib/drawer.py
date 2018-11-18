@@ -30,7 +30,7 @@ def draw_dot_for_directory(directory):
             print('Generate .dot for {}'.format(file))
 
             test = os.path.abspath(os.path.join(directory, file))
-            return_code = subprocess.call('./{} {} < {}'.format(compiler,'ast-{}.dot'.format(file), test), shell=True)
+            return_code = subprocess.call('./{} {} {}'.format(compiler, test, 'ast-{}.dot'.format(file)), shell=True)
             dot_file_names.append('ast-{}.dot'.format(file))
 
             if return_code != 0:
