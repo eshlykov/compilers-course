@@ -73,8 +73,15 @@ void SymbolTable::Visit(ClassDeclaration* node) {
     if (classes_.find(className) != classes_.end()) {
         errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
     }
-
-    classInfo.base_ = node->extendsForClass_;
+    
+    if (node->extendsForClass_.has_value()) {
+        std::string base = *node->extendsForClass_;
+        if (classes_.find(base) != classes_.end()) {
+            errors.push_back(UndeclaredClass{"undefined class '" + base + "'", node->location_});
+        }
+        classInfo.base_ = base;
+    }
+    
     node->classBody_->Accept(this);
     classes_[className] = classInfo;
 
@@ -85,12 +92,22 @@ void SymbolTable::Visit(ConditionStatement* node) {
     if (node->condition_->type_ != TypeVariant(TypeKind::TK_Boolean)) {
         errors.push_back(TypeMismatch{node->condition_->type_, TypeKind::TK_Boolean, node->condition_->location_});
     }
+    node->ifStatement_->Accept(this);
+    node->elseStatement_->Accept(this);
 }
 
 void SymbolTable::Visit(IdentifierExpression* node) {
+    std::optional<VariableInfo> variable = TryLookUpVariable(node->name_, node->location_);
+    if (variable.has_value()) {
+        node->type_ = variable->type_;
+    }
 }
 
 void SymbolTable::Visit(IndexExpression* node) {
+    node->lhs_->Accept(this);
+    CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_IntArray), node->lhs_->location_);
+    node->rhs_->Accept(this);
+    CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
