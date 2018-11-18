@@ -187,8 +187,8 @@ void SymbolTable::Visit(NumberExpression* node) {
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
-    // Будем считать, что у нас принт может вывести все типы (значение, список элементов массива или имя класса)
     node->expression_->Accept(this);
+    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
 }
 
 void SymbolTable::Visit(Program* node) {
