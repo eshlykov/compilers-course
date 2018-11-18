@@ -51,7 +51,9 @@ void SymbolTable::Visit(BooleanExpression* node) {
 }
 
 void SymbolTable::Visit(ClassBody* node) {
-    // Переменные обработаны в ForwardVisit
+    for (auto& variable : node->variables_) {
+        variable->Accept(this);
+    }
     for (auto& method : node->methods_) {
         method->Accept(this);
     }
@@ -62,8 +64,7 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
     if (currentClass_.second.base_.has_value()) {
         std::string baseClassName = currentClass_.second.base_.value();
-        if (classes_.find(baseClassName) == classes_.end()) {
-            errors.push_back(UndeclaredClass{"undeclared class '" + baseClassName + "'", node->location_});
+        if (CheckIfUndeclared(TypeVariant(baseClassName), node->location_)) {
             classes_[node->className_].base_ = {};
             currentClass_ = {node->className_, classes_.at(node->className_)};
         } else if (IsBaseOf(node->className_, baseClassName)) {
@@ -100,6 +101,8 @@ void SymbolTable::Visit(IndexExpression* node) {
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
+    node->expression_->Accept(this);
+    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
     node->type_ = TypeKind::TK_IntArray;
 }
 
@@ -121,6 +124,9 @@ void SymbolTable::Visit(MainClass* node) {
 }
 
 void SymbolTable::Visit(MethodBody* node) {
+    for (auto& variable : node->variables_) {
+        variable->Accept(this);
+    }
     for (auto& statement : node->statements_) {
         statement->Accept(this);
     }
@@ -140,7 +146,6 @@ void SymbolTable::Visit(MethodCallExpression* node) {
 
     std::optional<MethodInfo> method = TryLookUpMethod(classes_.at(typeName), node->methodName_, node->location_);
     if (!method.has_value()) {
-        errors.push_back(UndeclaredMethod{"undeclared method '" + node->methodName_ + "'", node->location_});
         return;
     }
 
@@ -160,6 +165,10 @@ void SymbolTable::Visit(MethodCallExpression* node) {
 
 void SymbolTable::Visit(MethodDeclaration* node) {
     currentMethod_ = {node->methodName_, currentClass_.second.methods_.at(node->methodName_)};
+    node->resultType_->Accept(this);
+    for (auto& argument : node->argumentsList_) {
+        argument->Accept(this);
+    }
     node->methodBody_->Accept(this);
     currentMethod_ = {};
 }
@@ -176,6 +185,7 @@ void SymbolTable::Visit(NumberExpression* node) {
 
 void SymbolTable::Visit(PrintStatement* node) {
     // Будем считать, что у нас принт может вывести все типы (значение, список элементов массива или имя класса)
+    node->expression_->Accept(this);
 }
 
 void SymbolTable::Visit(Program* node) {
@@ -201,18 +211,16 @@ void SymbolTable::Visit(ThisExpression* node) {
 }
 
 void SymbolTable::Visit(Type* node) {
-    // Ничего делать не надо
+    CheckIfUndeclared(node->type_, node->location_);
 }
 
 void SymbolTable::Visit(UserTypeConstructorExpression* node) {
-    if (classes_.find(node->name_) == classes_.end()) {
-        errors.push_back(UndeclaredClass{"undeclared class '" + node->name_ + "'", node->location_});
-    }
+    CheckIfUndeclared(TypeVariant(node->name_), node->location_);
     node->type_ = node->name_;
 }
 
 void SymbolTable::Visit(VarDeclaration* node) {
-    // Все уже сделали в ForwardVisit
+     node->type_->Accept(this);
 }
 
 void SymbolTable::ForwardVisit(MainClass* node) {
@@ -327,7 +335,7 @@ void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location&
         }
     } catch (const std::bad_variant_access&) {
     }
-    errors.push_back(TypesMismatch{lhs, rhs, location,});
+    errors.push_back(TypesMismatch{lhs, rhs, location});
 }
 
 bool SymbolTable::IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const {
@@ -373,4 +381,16 @@ std::optional<MethodInfo> SymbolTable::TryLookUpMethod(const ClassInfo& currentC
     }
     errors.push_back(UndeclaredMethod{"undeclared method '" + name + "'", location});
     return {};
+}
+
+bool SymbolTable::CheckIfUndeclared(TypeVariant type, const Location& location) {
+    try {
+        std::string typeName = std::get<std::string>(type);
+        if (classes_.find(typeName) == classes_.end()) {
+            errors.push_back(UndeclaredClass{"undeclared class '" + typeName + "'", location});
+            return true;
+        }
+    } catch (const std::bad_variant_access&) {
+    }
+    return false;
 }

@@ -89,6 +89,8 @@ private:
     std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass);
 
     std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
+    
+    bool CheckIfUndeclared(TypeVariant type, const Location& location);
 
 private:
     std::unordered_map<std::string, ClassInfo> classes_;
