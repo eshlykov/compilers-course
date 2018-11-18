@@ -14,9 +14,26 @@ void SymbolTable::Visit(AssignmentByIndexStatement* node) {
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
+    std::optional<VariableInfo> variable = TryLookUpVariable(node->variable_, node->location_);
+    if (!variable.has_value()) {
+        return;
+    }
+    node->expression_->Accept(this);
+    CompareTypes(variable.value().type_, node->expression_->type_, node->expression_->location_);
 }
 
 void SymbolTable::Visit(BinaryOperatorExpression* node) {
+    node->lhs_->Accept(this);
+    node->rhs_->Accept(this);
+    if (node->binaryOperator_ == BinaryOperator::BO_And) {
+        CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->lhs_->location_);
+        CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->rhs_->location_);
+        node->type_ = TypeKind::TK_Boolean;
+    } else {
+        CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Int), node->lhs_->location_);
+        CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
+        node->type_ = TypeKind::TK_Int;
+    }
 }
 
 void SymbolTable::Visit(BooleanExpression* node) {
