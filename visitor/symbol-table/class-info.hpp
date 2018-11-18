@@ -3,6 +3,7 @@
 #include "method-info.hpp"
 #include "variable-info.hpp"
 #include <unordered_map>
+#include <optional>
 
 class ClassInfo {
 public:
