@@ -18,11 +18,6 @@ extern Location location;
 
 }
 
-%{
-
-bool isErroneous = false;
-
-%}
 
 
 %parse-param { ParserArgs& parserArgs }
@@ -149,7 +144,7 @@ bool isErroneous = false;
 
 Goal :
     MainClass ClassDeclarationRepeated {
-        parserArgs.program_ = std::make_unique<Program>(location, std::move(*$1), *$2, isErroneous);
+        parserArgs.program_ = std::make_unique<Program>(location, std::move(*$1), *$2);
         $$ = 0;
     }
 ;

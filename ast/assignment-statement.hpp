@@ -11,9 +11,15 @@ class AssignmentStatement : public Statement {
 public:
     AssignmentStatement(Location location,
         const std::string& variable,
-        std::unique_ptr<Expression> expression);
+        std::unique_ptr<Expression> expression) :
+            variable_{variable},
+            expression_{std::move(expression)} {
+        location_ = location;
+    }
 
-    virtual void Accept(Visitor* visitor) override final;
+    virtual void Accept(Visitor* visitor) override final {
+        visitor->Visit(this);
+    }
 
 public:
     const std::string variable_;
