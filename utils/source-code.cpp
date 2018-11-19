@@ -14,6 +14,7 @@ SourceCode::SourceCode(const std::string& filename) :
         line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
         lines_.push_back(line);
     }
+    lines_.push_back(" ");
 
     stream.close();
 }
