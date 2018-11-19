@@ -20,7 +20,7 @@ public:
     virtual std::string GetMessage(const SourceCode& sourceCode) const final {
         std::string message = "\033[1;37m";
         message += sourceCode.GetFilename();
-        message += ":" + std::to_string(location_.lineNumber_ + 1) + ":" + std::to_string(location_.firstColumn_ + 1);
+        message += ":" + std::to_string(location_.lineNumber_) + ":" + std::to_string(location_.firstColumn_ + 1);
         if (location_.lastColumn_ != location_.firstColumn_) {
             message += "-" + std::to_string(location_.lastColumn_ + 1);
         }
