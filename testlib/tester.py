@@ -13,9 +13,11 @@ def run_tests(directory, is_good):
     print()
 
     failures_count = 0
+    total_count = 0
 
     for file in sorted(os.listdir(directory)):
         if file.endswith('.java'):
+            total_count += 1
 
             print('Test: {}'.format(file))
 
@@ -32,10 +34,10 @@ def run_tests(directory, is_good):
             print('State: passed')
             print('')
 
-    return failures_count
+    return failures_count, total_count
 
-false_negatives_count = run_tests('testlib/good-samples/', True)
-false_positives_count = run_tests('testlib/bad-samples/', False)
+false_negatives_count, total_good_tests_count = run_tests('testlib/good-samples/', True)
+false_positives_count, total_bad_tests_count = run_tests('testlib/bad-samples/', False)
 
-print(false_negatives_count, 'good tests were failed')
-print(false_positives_count, 'bad tests were failed')
+print('{} out of {} good tests were failed'.format(false_negatives_count, total_good_tests_count))
+print('{} out of {} bad tests were failed'.format(false_positives_count, total_bad_tests_count))
