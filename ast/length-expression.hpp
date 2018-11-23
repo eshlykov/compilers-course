@@ -6,14 +6,9 @@
 class LengthExpression : public Expression {
 public:
     explicit LengthExpression(Location location,
-        std::unique_ptr<Expression> expression) :
-            expression_{std::move(expression)} {
-        location_ = location;
-    }
+        std::unique_ptr<Expression> expression);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor);
 
 public:
     std::unique_ptr<Expression> expression_;
