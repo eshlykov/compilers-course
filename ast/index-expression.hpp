@@ -7,15 +7,9 @@ class IndexExpression : public Expression {
 public:
     IndexExpression(Location location,
         std::unique_ptr<Expression> lhs,
-        std::unique_ptr<Expression> rhs) :
-            lhs_{std::move(lhs)},
-            rhs_{std::move(rhs)} {
-        location_ = location;
-    }
+        std::unique_ptr<Expression> rhs);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     std::unique_ptr<Expression> lhs_;

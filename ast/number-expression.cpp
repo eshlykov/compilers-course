@@ -6,6 +6,6 @@ NumberExpression::NumberExpression(Location location,
     location_ = location;
 }
 
-void NumverExpression::Accept(Visitor* visitor) {
+void NumberExpression::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }
