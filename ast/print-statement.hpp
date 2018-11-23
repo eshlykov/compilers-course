@@ -7,14 +7,9 @@
 class PrintStatement : public Statement {
 public:
     explicit PrintStatement(Location location,
-        std::unique_ptr<Expression> expression) :
-            expression_{std::move(expression)} {
-        location_ = location;
-    }
+        std::unique_ptr<Expression> expression);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     std::unique_ptr<Expression> expression_;
