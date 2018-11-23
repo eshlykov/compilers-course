@@ -4,6 +4,6 @@ ThisExpression::ThisExpression(Location location) {
     location_ = location;
 }
 
-virtual void ThisExpression::Accept(Visitor* visitor) override final {
+void ThisExpression::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }

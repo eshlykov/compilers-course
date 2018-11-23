@@ -10,6 +10,6 @@ Type::Type(Location location, TypeKind typeKind) :
     location_ = location;
 }
 
-virtual void Type::Accept(Visitor* visitor) override final {
+void Type::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }

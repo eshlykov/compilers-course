@@ -7,6 +7,6 @@ VarDeclaration::VarDeclaration(Location location,
         name_{name} {
     location_ = location;
 }
-virtual void VarDeclaration::Accept(Visitor* visitor) override final {
+void VarDeclaration::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }

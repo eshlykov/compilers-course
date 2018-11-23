@@ -1,11 +1,11 @@
 #include "user-type-constructor-expression.hpp"
 
-explicit UserTypeConstructorExpression::UserTypeConstructorExpression(Location location,
+UserTypeConstructorExpression::UserTypeConstructorExpression(Location location,
     const std::string& name) :
         name_{name} {
     location_ = location;
 }
 
-virtual void UserTypeConstructorExpression::Accept(Visitor* visitor) override final {
+void UserTypeConstructorExpression::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }
