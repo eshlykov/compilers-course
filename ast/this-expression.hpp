@@ -4,11 +4,7 @@
 
 class ThisExpression : public Expression {
 public:
-    ThisExpression(Location location) {
-        location_ = location;
-    }
+    ThisExpression(Location location);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 };
