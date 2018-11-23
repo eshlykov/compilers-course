@@ -1,5 +1,7 @@
 #include "this-expression.hpp"
 
+class Type;
+
 ThisExpression::ThisExpression(Location location) {
     location_ = location;
 }

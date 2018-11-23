@@ -6,6 +6,6 @@ ScopeStatement::ScopeStatement(Location location,
     location_ = location;
 }
 
-void ScopeStatment::Accept(Visitor* visitor) {
+void ScopeStatement::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }

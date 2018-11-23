@@ -1,9 +1,8 @@
 #pragma once
 
 #include "statement.hpp"
+#include "expression.hpp"
 #include <memory>
-
-class Expression;
 
 class ConditionStatement : public Statement {
 public:

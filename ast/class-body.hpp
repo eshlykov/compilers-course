@@ -1,11 +1,10 @@
 #pragma once
 
 #include "node.hpp"
+#include "var-declaration.hpp"
+#include "method-declaration.hpp"
 #include <memory>
 #include <vector>
-
-class VarDeclaration;
-class MethodDeclaration;
 
 class ClassBody : public Node {
 public:

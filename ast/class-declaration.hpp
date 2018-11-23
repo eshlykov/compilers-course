@@ -1,12 +1,11 @@
 #pragma once
 
 #include "node.hpp"
+#include "class-body.hpp"
 #include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-
-class ClassBody;
 
 class ClassDeclaration : public Node {
 public:

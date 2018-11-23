@@ -1,12 +1,13 @@
 #pragma once
 
 #include "method-body.hpp"
+#include "var-declaration.hpp"
+#include "method-body.hpp"
 #include "node.hpp"
 #include "type.hpp"
 #include <memory>
 #include <string>
-
-class VarDeclaration;
+#include <vector>
 
 class MethodDeclaration : public Node {
 public:
