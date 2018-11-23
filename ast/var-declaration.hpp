@@ -9,15 +9,9 @@ class VarDeclaration : public Node {
 public:
     VarDeclaration(Location location,
         std::unique_ptr<Type> type,
-        const std::string& name) :
-            type_{std::move(type)},
-            name_{name} {
-        location_ = location;
-    }
+        const std::string& name);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     std::unique_ptr<Type> type_;
