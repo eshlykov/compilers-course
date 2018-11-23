@@ -12,16 +12,9 @@ public:
     ClassDeclaration(Location location,
         const std::string& className,
         std::optional<std::string> extendsForClass,
-        std::unique_ptr<ClassBody> classBody) :
-            className_{className},
-            extendsForClass_{extendsForClass},
-            classBody_{std::move(classBody)} {
-        location_ = location;
-    }
+        std::unique_ptr<ClassBody> classBody);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     const std::string className_;
