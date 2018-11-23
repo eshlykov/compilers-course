@@ -9,16 +9,9 @@ public:
     ConditionStatement(Location location,
         std::unique_ptr<Expression> condition,
         std::unique_ptr<Statement> ifStatement,
-        std::unique_ptr<Statement> elseStatement) :
-            condition_{std::move(condition)},
-            ifStatement_{std::move(ifStatement)},
-            elseStatement_{std::move(elseStatement)} {
-        location_ = location;
-    }
+        std::unique_ptr<Statement> elseStatement);
 
-    virtual void Accept(Visitor* visitor) override final {
-        visitor->Visit(this);
-    }
+    virtual void Accept(Visitor* visitor) override final;
 
 public:
     std::unique_ptr<Expression> condition_;
