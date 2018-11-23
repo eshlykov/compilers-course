@@ -13,6 +13,6 @@ MethodDeclaration::MethodDeclaration(Location location,
 }
 
 
-void MethodDeclaration::Accept(Visitor* visitor) override final {
+void MethodDeclaration::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }

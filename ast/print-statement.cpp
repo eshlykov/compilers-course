@@ -6,6 +6,6 @@ PrintStatement::PrintStatement(Location location,
     location_ = location;
 }
 
-void PrintStatement::Accept(Visitor* visitor) override final {
+void PrintStatement::Accept(Visitor* visitor) {
     visitor->Visit(this);
 }
