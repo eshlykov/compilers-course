@@ -1,5 +1,5 @@
 #include "ast/program.hpp"
-#include "utils/compile-error.hpp"
+#include "utils/compile-error/compile-error.hpp"
 #include "utils/parser-args.hpp"
 #include "utils/source-code.hpp"
 #include "visitor/printer/printer.hpp"

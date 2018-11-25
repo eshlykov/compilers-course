@@ -1,6 +1,7 @@
-#include "../../utils/ast.hpp"
 #include "symbol-table.hpp"
-#include "../../utils/class-redefenition.hpp"
+#include "../../utils/ast.hpp"
+#include "../../utils/compile-error/class-redefenition.hpp"
+#include "../../utils/compile-error/type-mismatch.hpp"
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {

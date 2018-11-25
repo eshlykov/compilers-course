@@ -1,6 +1,6 @@
 #pragma once
 
-#include "compile-error.hpp"
+#include "compile-error/compile-error.hpp"
 
 class Program;
 
