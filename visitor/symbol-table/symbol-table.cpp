@@ -2,6 +2,8 @@
 #include "../../utils/ast.hpp"
 #include "../../utils/compile-error/class-redefenition.hpp"
 #include "../../utils/compile-error/type-mismatch.hpp"
+#include "../../utils/compile-error/undeclared-class.hpp"
+#include "../../utils/compile-error/undeclared-variable.hpp"
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
