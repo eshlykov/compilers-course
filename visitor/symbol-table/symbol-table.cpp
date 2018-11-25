@@ -1,13 +1,6 @@
 #include "symbol-table.hpp"
 #include "../../utils/ast.hpp"
-#include "../../utils/compile-error/class-redefenition.hpp"
-#include "../../utils/compile-error/type-mismatch.hpp"
-#include "../../utils/compile-error/undeclared-class.hpp"
-#include "../../utils/compile-error/undeclared-variable.hpp"
-#include "../../utils/compile-error/mutual-inheritance.hpp"
-#include "../../utils/compile-error/arguments-count-mismatch.hpp"
-#include "../../utils/compile-error/self-inheritance.hpp"
-#include "../../utils/compile-error/undeclared-method.hpp"
+#include "../../utils/compile-error/compile-errors.hpp"
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
