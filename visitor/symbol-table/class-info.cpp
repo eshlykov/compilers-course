@@ -1,5 +1,6 @@
 #include "../../utils/compile-error.hpp"
 #include "class-info.hpp"
+#include "../../utils/variable-redefinition.hpp"
 
 void ClassInfo::AddVariable(const std::string& name, VariableInfo variable, const Location& location) {
     if (variables_.find(name) != variables_.end()) {

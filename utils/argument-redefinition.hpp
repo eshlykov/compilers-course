@@ -2,6 +2,7 @@
 
 #include "ast.hpp"
 #include "location.hpp"
+#include "compile-error.hpp"
 #include <string>
 
 class ArgumentRedefinition : public CompileError {

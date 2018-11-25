@@ -1,4 +1,6 @@
 #include "../../utils/compile-error.hpp"
+#include "../../utils/variable-redefinition.hpp"
+#include "../../utils/argument-redefinition.hpp"
 #include "method-info.hpp"
 #include <algorithm>
 
