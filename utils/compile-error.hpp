@@ -22,20 +22,6 @@ private:
     Location location_ = {};
 };
 
-class VariableRedefinition : public CompileError {
-public:
-    VariableRedefinition(const std::string& message, const Location& location) :
-        CompileError(message, location) {
-    }
-};
-
-class ArgumentRedefinition : public CompileError {
-public:
-    ArgumentRedefinition(const std::string& message, const Location& location) :
-        CompileError(message, location) {
-    }
-};
-
 class MethodRedefinition : public CompileError {
 public:
     MethodRedefinition(const std::string& message, const Location& location) :
