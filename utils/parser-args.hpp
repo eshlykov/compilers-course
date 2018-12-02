@@ -4,8 +4,7 @@
 
 class Program;
 
-class ParserArgs {
-public:
+struct ParserArgs {
     std::unique_ptr<Program> program_;
     std::vector<CompileError> errors_;
 };
