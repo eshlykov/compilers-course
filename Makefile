@@ -1,15 +1,16 @@
+CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
 
 default:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	clang++ $(CPP) -std=c++17 -stdlib=libc++ -Wno-register -Wno-deprecated -o compiler
+	$(CC) $(CPP) -o compiler
 	python3 testlib/tester.py compiler
 
 compile:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	clang++ $(CPP) -std=c++17 -stdlib=libc++ -Wno-register -Wno-deprecated -o compiler
+	$(CC) $(CPP) -o compiler
 
 travis:
 	flex -olexer.cpp lexer.l
@@ -36,11 +37,11 @@ travis_cppcheck:
 test:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	clang++ $(CPP) -std=c++17 -stdlib=libc++ -Wno-register -Wno-deprecated -o compiler
+	$(CC) $(CPP) -o compiler
 	python3 testlib/tester.py compiler
 
 draw:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	clang++ $(CPP) -std=c++17 -stdlib=libc++ -Wno-register -Wno-deprecated -o compiler
+	$(CC) $(CPP) -o compiler
 	python3 testlib/drawer.py compiler
