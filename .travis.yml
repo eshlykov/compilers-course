@@ -25,3 +25,4 @@ install:
 script:
   - make travis_test
   - make travis_draw
+  - make travis_cppcheck
