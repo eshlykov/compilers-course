@@ -1,5 +1,6 @@
 #include "symbol-table.hpp"
 #include "../../utils/ast.hpp"
+#include "../../utils/switcher.hpp"
 #include "../../utils/compile-error/compile-errors.hpp"
 #include <variant>
 
@@ -61,13 +62,14 @@ void SymbolTable::Visit(ClassBody* node) {
 }
 
 void SymbolTable::Visit(ClassDeclaration* node) {
-    currentClass_ = {node->className_, classes_.at(node->className_)};
+    Switcher currentClass{currentClass_, {}};
+    *currentClass = {node->className_, classes_.at(node->className_)};
 
-    if (currentClass_.second.base_.has_value()) {
-        std::string baseClassName = currentClass_.second.base_.value();
+    if (currentClass->second.base_.has_value()) {
+        std::string baseClassName = currentClass->second.base_.value();
         if (CheckIfUndeclared(TypeVariant(baseClassName), node->location_)) {
             classes_[node->className_].base_ = {};
-            currentClass_ = {node->className_, classes_.at(node->className_)};
+            *currentClass = {node->className_, classes_.at(node->className_)};
         } else if (IsBaseOf(node->className_, baseClassName)) {
             errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->location_});
             classes_[baseClassName].base_ = {};
@@ -75,8 +77,6 @@ void SymbolTable::Visit(ClassDeclaration* node) {
     }
 
     node->classBody_->Accept(this);
-
-    currentClass_ = {};
 }
 
 void SymbolTable::Visit(ConditionStatement* node) {
@@ -172,13 +172,13 @@ void SymbolTable::Visit(MethodCallExpression* node) {
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
-    currentMethod_ = {node->methodName_, currentClass_.second.methods_.at(node->methodName_)};
+    Switcher currentMethod{currentMethod_, {}};
+    *currentMethod = {node->methodName_, currentClass_.second.methods_.at(node->methodName_)};
     node->resultType_->Accept(this);
     for (auto& argument : node->argumentsList_) {
         argument->Accept(this);
     }
     node->methodBody_->Accept(this);
-    currentMethod_ = {};
 }
 
 void SymbolTable::Visit(NotExpression* node) {
@@ -240,9 +240,10 @@ void SymbolTable::ForwardVisit(MainClass* node) {
 }
 
 void SymbolTable::ForwardVisit(ClassDeclaration* node) {
-    currentClass_ = {node->className_, ClassInfo{}};
+    Switcher currentClass{currentClass_, {}};
+    *currentClass = {node->className_, ClassInfo{}};
 
-    auto& [className, classInfo] = currentClass_;
+    auto& [className, classInfo] = *currentClass;
     if (classes_.find(className) != classes_.end()) {
         errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
     }
@@ -255,8 +256,6 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
 
     ForwardVisit(node->classBody_.get());
     classes_[className] = classInfo;
-
-    currentClass_ = {};
 }
 
 void SymbolTable::ForwardVisit(ClassBody* node) {
@@ -264,24 +263,24 @@ void SymbolTable::ForwardVisit(ClassBody* node) {
 
     for (auto& variable : node->variables_) {
         ForwardVisit(variable.get());
-        auto& [variableName, variableInfo] = currentVariable_;
+        Switcher currentVariable{currentVariable_, {}};
+        auto& [variableName, variableInfo] = *currentVariable;
         try {
             classInfo.AddVariable(variableName, variableInfo, variable->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
-        currentVariable_ = {};
     }
 
     for (auto& method : node->methods_) {
         ForwardVisit(method.get());
-        auto& [methodName, methodInfo] = currentMethod_;
+        Switcher currentMethod{currentMethod_, {}};
+        auto& [methodName, methodInfo] = *currentMethod;
         try {
             classInfo.AddMethod(methodName, methodInfo, method->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
-        currentMethod_ = {};
     }
 }
 
@@ -300,13 +299,13 @@ void SymbolTable::ForwardVisit(MethodDeclaration* node) {
 
     for (auto& argument : node->argumentsList_) {
         ForwardVisit(argument.get());
-        auto& [variableName, variableInfo] = currentVariable_;
+        Switcher currentVariable{currentVariable_, {}};
+        auto& [variableName, variableInfo] = *currentVariable;
         try {
             methodInfo.AddArgument(variableName, variableInfo, argument->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
-        currentVariable_ = {};
     }
 
     ForwardVisit(node->methodBody_.get());
@@ -317,13 +316,13 @@ void SymbolTable::ForwardVisit(MethodBody* node) {
 
     for (auto& variable : node->variables_) {
         ForwardVisit(variable.get());
-        auto& [variableName, variableInfo] = currentVariable_;
+        Switcher currentVariable{currentVariable_, {}};
+        auto& [variableName, variableInfo] = *currentVariable;
         try {
             methodInfo.AddVariable(variableName, variableInfo, variable->location_);
         } catch (CompileError& error) {
             errors.push_back(error);
         }
-        currentVariable_ = {};
     }
 }
 
