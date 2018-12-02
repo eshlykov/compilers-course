@@ -8,6 +8,7 @@ MethodCallExpression::MethodCallExpression(Location location,
         methodName_{methodName},
         argumentsList_{std::move(argumentsList)} {
     SetLocation(location);
+    assert(expresson_ != nullptr);
 }
 
 void MethodCallExpression::Accept(Visitor* visitor) {

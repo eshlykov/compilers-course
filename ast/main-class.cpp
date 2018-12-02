@@ -8,6 +8,7 @@ MainClass::MainClass(Location location,
         argv_{argv},
         mainBody_{std::move(mainBody)} {
     SetLocation(location);
+    assert(mainBody_ != nullptr);
 }
 
 void MainClass::Accept(Visitor* visitor) {

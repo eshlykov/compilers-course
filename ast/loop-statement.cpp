@@ -6,6 +6,8 @@ LoopStatement::LoopStatement(Location location,
         condition_(std::move(condition)),
         statement_(std::move(statement)) {
     SetLocation(location);
+    assert(condition_ != nullptr);
+    assert(statement_ != nullptr);
 }
 
 void LoopStatement::Accept(Visitor* visitor) {

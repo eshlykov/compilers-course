@@ -6,6 +6,9 @@ IndexExpression::IndexExpression(Location location,
         lhs_{std::move(lhs)},
         rhs_{std::move(rhs)} {
     SetLocation(location);
+    assert(lhs_ != nullptr);
+    assert(rhs_ != nullptr);
+
 }
 
 void IndexExpression::Accept(Visitor* visitor) {
