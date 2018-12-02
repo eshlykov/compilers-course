@@ -6,6 +6,7 @@ Program::Program(Location location,
         mainClass_{std::move(mainClass)},
         classDeclarations_{std::move(classDeclarations)} {
     SetLocation(location);
+    assert(mainClass_ != nullptr);
 }
 
 void Program::Accept(Visitor* visitor) {

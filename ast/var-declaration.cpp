@@ -6,6 +6,7 @@ VarDeclaration::VarDeclaration(Location location,
         type_{std::move(type)},
         name_{name} {
     SetLocation(location);
+    assert(type_ != nullptr);
 }
 void VarDeclaration::Accept(Visitor* visitor) {
     visitor->Visit(this);
