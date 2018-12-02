@@ -13,7 +13,7 @@ def draw_svg(directory):
         if file.endswith('.dot'):
 
             print('Generate .svg for {}'.format(file))
-            return_code = subprocess.call('dot -T svg {}{} -o test_results/svg/{}.svg'.format(directory, file, file), shell=True)
+            return_code = subprocess.call('dot -T svg {}{} -o test-results/svg/{}.svg'.format(directory, file, file), shell=True)
 
             if return_code != 0:
                 print('Generate failed!')
@@ -30,7 +30,7 @@ def draw_dot_for_directory(directory):
             print('Generate .dot for {}'.format(file))
 
             test = os.path.abspath(os.path.join(directory, file))
-            return_code = subprocess.call('./{} {} {}'.format(compiler, test, 'test_results/dot/' + 'ast-{}.dot'.format(file)), shell=True)
+            return_code = subprocess.call('./{} {} {}'.format(compiler, test, 'test-results/dot/' + 'ast-{}.dot'.format(file)), shell=True)
             dot_file_names.append('ast-{}.dot'.format(file))
 
             if return_code != 0:
@@ -41,4 +41,4 @@ def draw_dot_for_directory(directory):
             ast_count += 1
 
 draw_dot_for_directory('testlib/good-samples/')
-draw_svg('test_results/dot/')
+draw_svg('test-results/dot/')

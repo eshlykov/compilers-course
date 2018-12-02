@@ -24,6 +24,7 @@ travis_test:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
 	g++ $(CPP) -std=c++17 -Wno-register -Wno-deprecated -o compiler
+	./testlib/test-folder-creation.sh
 	python3 testlib/tester.py compiler
 
 travis_draw:
