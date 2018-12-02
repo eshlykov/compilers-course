@@ -33,10 +33,12 @@ travis_draw:
 	python3 testlib/drawer.py compiler
 
 travis_cppcheck:
+	git clean -fdx > /dev/null
 	cppcheck --enable=all -f $(PP)
 
 
 cppcheck:
+	git clean -fdx > /dev/null
 	cppcheck --enable=all -f $(PP)
 
 test:
