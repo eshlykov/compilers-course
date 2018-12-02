@@ -9,7 +9,7 @@
 
 class Printer : public Visitor {
 public:
-    Printer(const std::string& filename);
+    explicit Printer(const std::string& filename);
 
     ~Printer();
 
