@@ -3,7 +3,7 @@
 BooleanExpression::BooleanExpression(Location location,
     bool value) :
         value_{value} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void BooleanExpression::Accept(Visitor* visitor) {

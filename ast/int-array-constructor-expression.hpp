@@ -9,6 +9,7 @@ public:
         std::unique_ptr<Expression> expression);
 
     virtual void Accept(Visitor* visitor) override final;
+
 public:
-    std::unique_ptr<Expression> expression_;
+    const std::unique_ptr<Expression> expression_;
 };

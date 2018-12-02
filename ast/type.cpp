@@ -2,12 +2,12 @@
 
 Type::Type(Location location, const std::string& className) :
     type_{className} {
-    location_ = location;
+    SetLocation(location);
 }
 
 Type::Type(Location location, TypeKind typeKind) :
     type_{typeKind} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void Type::Accept(Visitor* visitor) {

@@ -7,7 +7,10 @@ ConditionStatement::ConditionStatement(Location location,
         condition_{std::move(condition)},
         ifStatement_{std::move(ifStatement)},
         elseStatement_{std::move(elseStatement)} {
-    location_ = location;
+    SetLocation(location);
+    assert(condition_ != nullptr);
+    assert(ifStatement_ != nullptr);
+    assert(elseStatement_ != nullptr);
 }
 
 void ConditionStatement::Accept(Visitor* visitor) {

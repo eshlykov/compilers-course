@@ -13,5 +13,5 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::vector<std::unique_ptr<Statement>> statements_;
+    const std::vector<std::unique_ptr<Statement>> statements_;
 };

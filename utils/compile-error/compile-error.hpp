@@ -18,6 +18,6 @@ public:
     virtual std::string GetMessage(const SourceCode& sourceCode) const final;
 
 private:
-    std::string message_ = {};
-    Location location_ = {};
+    std::string message_;
+    Location location_;
 };

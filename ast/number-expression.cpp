@@ -3,7 +3,7 @@
 NumberExpression::NumberExpression(Location location,
     int value) :
         value_{value} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void NumberExpression::Accept(Visitor* visitor) {

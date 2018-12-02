@@ -4,7 +4,6 @@
 #include <string>
 #include <variant>
 
-class VariableInfo {
-public:
+struct VariableInfo {
     std::variant<TypeKind, std::string> type_;
 };

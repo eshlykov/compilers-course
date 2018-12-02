@@ -3,7 +3,7 @@
 ScopeStatement::ScopeStatement(Location location,
     std::vector<std::unique_ptr<Statement>>& statements) :
         statements_{std::move(statements)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void ScopeStatement::Accept(Visitor* visitor) {

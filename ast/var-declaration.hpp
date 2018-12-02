@@ -15,6 +15,6 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::unique_ptr<Type> type_;
+    const std::unique_ptr<Type> type_;
     const std::string name_;
 };

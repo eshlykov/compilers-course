@@ -7,7 +7,9 @@ BinaryOperatorExpression::BinaryOperatorExpression(Location location,
         lhs_{std::move(lhs)},
         rhs_{std::move(rhs)},
         binaryOperator_{binaryOperator} {
-    location_ = location;
+    SetLocation(location);
+    assert(lhs_ != nullptr);
+    assert(rhs_ != nullptr);
 }
 
 void BinaryOperatorExpression::Accept(Visitor* visitor) {

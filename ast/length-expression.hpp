@@ -11,5 +11,5 @@ public:
     virtual void Accept(Visitor* visitor);
 
 public:
-    std::unique_ptr<Expression> expression_;
+    const std::unique_ptr<Expression> expression_;
 };

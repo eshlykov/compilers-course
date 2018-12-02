@@ -12,6 +12,6 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::unique_ptr<Expression> lhs_;
-    std::unique_ptr<Expression> rhs_;
+    const std::unique_ptr<Expression> lhs_;
+    const std::unique_ptr<Expression> rhs_;
 };

@@ -3,7 +3,7 @@
 UserTypeConstructorExpression::UserTypeConstructorExpression(Location location,
     const std::string& name) :
         name_{name} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void UserTypeConstructorExpression::Accept(Visitor* visitor) {

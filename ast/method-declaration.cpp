@@ -9,7 +9,9 @@ MethodDeclaration::MethodDeclaration(Location location,
         methodName_{methodName},
         argumentsList_{std::move(argumentsList)},
         methodBody_{std::move(methodBody)} {
-    location_ = location;
+    SetLocation(location);
+    assert(resultType_ != nullptr);
+    assert(methodBody_ != nullptr);
 }
 
 

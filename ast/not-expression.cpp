@@ -3,7 +3,8 @@
 NotExpression::NotExpression(Location location,
     std::unique_ptr<Expression> expression) :
         expression_{std::move(expression)} {
-    location_ = location;
+    SetLocation(location);
+    assert(expression_ != nullptr);
 }
 
 void NotExpression::Accept(Visitor* visitor) {

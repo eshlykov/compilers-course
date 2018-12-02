@@ -2,6 +2,7 @@
 
 #include "../utils/location.hpp"
 #include "../utils/visitor.hpp"
+#include <cassert>
 
 enum class TypeKind {
     TK_Undefined,
@@ -16,6 +17,10 @@ public:
 
     virtual void Accept(Visitor*) = 0;
 
-public:
+    void SetLocation(const Location& location);
+
+    Location GetLocation() const;
+
+private:
     Location location_;
 };

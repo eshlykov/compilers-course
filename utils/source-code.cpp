@@ -11,7 +11,6 @@ SourceCode::SourceCode(const std::string& filename) :
         std::replace_if(line.begin(), line.end(), [] (char symbol) {
             return std::isspace(static_cast<int>(symbol)) != 0;
         }, ' ');
-        line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
         lines_.push_back(line);
     }
     lines_.push_back(" ");

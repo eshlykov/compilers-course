@@ -17,5 +17,5 @@ public:
 
 public:
     const std::string variable_;
-    std::unique_ptr<Expression> expression_;
+    const std::unique_ptr<Expression> expression_;
 };
