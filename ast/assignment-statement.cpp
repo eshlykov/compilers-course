@@ -6,6 +6,7 @@ AssignmentStatement::AssignmentStatement(Location location,
         variable_{variable},
         expression_{std::move(expression)} {
     SetLocation(location);
+    assert(expression_ != nullptr);
 }
 
 void AssignmentStatement::Accept(Visitor* visitor) {

@@ -8,6 +8,8 @@ AssignmentByIndexStatement::AssignmentByIndexStatement(Location location,
         index_{std::move(index)},
         expression_{std::move(expression)} {
     SetLocation(location);
+    assert(index_ != nullptr);
+    assert(expression_ != nullptr);
 }
 
 void AssignmentByIndexStatement::Accept(Visitor* visitor) {

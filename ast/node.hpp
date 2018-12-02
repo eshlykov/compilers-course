@@ -2,6 +2,7 @@
 
 #include "../utils/location.hpp"
 #include "../utils/visitor.hpp"
+#include <cassert>
 
 enum class TypeKind {
     TK_Undefined,
