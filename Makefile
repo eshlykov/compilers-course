@@ -1,5 +1,6 @@
 CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
+PP = `find . -name "*pp"`
 
 default:
 	flex -olexer.cpp lexer.l
@@ -34,7 +35,6 @@ travis_draw:
 travis_cppcheck:
 	git clean -fdx > /dev/null
 	cppcheck --enable=all -f $(PP)
-
 
 cppcheck:
 	git clean -fdx > /dev/null
