@@ -8,6 +8,7 @@ ClassDeclaration::ClassDeclaration(Location location,
         extendsForClass_{extendsForClass},
         classBody_{std::move(classBody)} {
     SetLocation(location);
+    assert(classBody_ != nullptr);
 }
 
 void ClassDeclaration::Accept(Visitor* visitor) {

@@ -8,6 +8,7 @@ MethodBody::MethodBody(Location location,
         statements_{std::move(statements)},
         returnExpression_{std::move(returnExpression)} {
     SetLocation(location);
+    assert(expresson_ != nullptr);
 }
 
 void MethodBody::Accept(Visitor* visitor) {
