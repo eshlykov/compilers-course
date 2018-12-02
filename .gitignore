@@ -10,3 +10,4 @@ parser.hpp
 *.swp
 *.dot
 *.svg
+*.log
