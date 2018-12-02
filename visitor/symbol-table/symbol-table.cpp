@@ -4,23 +4,23 @@
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->location_, false);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->GetLocation(), false);
     if (variable.has_value()) {
-        CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->location_);
+        CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->GetLocation());
     }
     node->index_->Accept(this);
-    CompareTypes(node->index_->type_, TypeVariant(TypeKind::TK_Int), node->index_->location_);
+    CompareTypes(node->index_->GetType(), TypeVariant(TypeKind::TK_Int), node->index_->GetLocation());
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->variable_, node->location_, false);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->variable_, node->GetLocation(), false);
     if (!variable.has_value()) {
         return;
     }
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, variable.value().type_, node->expression_->location_);
+    CompareTypes(node->expression_->GetType(), variable.value().type_, node->expression_->GetLocation());
 }
 
 void SymbolTable::Visit(BinaryOperatorExpression* node) {
@@ -29,26 +29,26 @@ void SymbolTable::Visit(BinaryOperatorExpression* node) {
 
     switch (node->binaryOperator_) {
     case BinaryOperator::BO_And:
-        CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->lhs_->location_);
-        CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Boolean), node->rhs_->location_);
+        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->lhs_->GetLocation());
+        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->rhs_->GetLocation());
         break;
     default:
-        CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_Int), node->lhs_->location_);
-        CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
+        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->lhs_->GetLocation());
+        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->rhs_->GetLocation());
     }
 
     switch (node->binaryOperator_) {
     case BinaryOperator::BO_And:
     case BinaryOperator::BO_Less:
-        node->type_ = TypeKind::TK_Boolean;
+        node->SetType(TypeKind::TK_Boolean);
         break;
     default:
-        node->type_ = TypeKind::TK_Int;
+        node->SetType(TypeKind::TK_Int);
     }
 }
 
 void SymbolTable::Visit(BooleanExpression* node) {
-    node->type_ = TypeKind::TK_Boolean;
+    node->SetType(TypeKind::TK_Boolean);
 }
 
 void SymbolTable::Visit(ClassBody* node) {
@@ -65,11 +65,11 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
     if (currentClass_.second.base_.has_value()) {
         std::string baseClassName = currentClass_.second.base_.value();
-        if (CheckIfUndeclared(TypeVariant(baseClassName), node->location_)) {
+        if (CheckIfUndeclared(TypeVariant(baseClassName), node->GetLocation())) {
             classes_[node->className_].base_ = {};
             currentClass_ = {node->className_, classes_.at(node->className_)};
         } else if (IsBaseOf(node->className_, baseClassName)) {
-            errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->location_});
+            errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->GetLocation()});
             classes_[baseClassName].base_ = {};
         }
     }
@@ -81,41 +81,41 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
 void SymbolTable::Visit(ConditionStatement* node) {
     node->condition_->Accept(this);
-    CompareTypes(node->condition_->type_, TypeVariant(TypeKind::TK_Boolean), node->condition_->location_);
+    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->condition_->GetLocation());
     node->ifStatement_->Accept(this);
     node->elseStatement_->Accept(this);
 }
 
 void SymbolTable::Visit(IdentifierExpression* node) {
-    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->name_, node->location_, false);
+    std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->name_, node->GetLocation(), false);
     if (variable.has_value()) {
-        node->type_ = variable->type_;
+        node->SetType(variable->type_);
     }
 }
 
 void SymbolTable::Visit(IndexExpression* node) {
     node->lhs_->Accept(this);
-    CompareTypes(node->lhs_->type_, TypeVariant(TypeKind::TK_IntArray), node->lhs_->location_);
+    CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_IntArray), node->lhs_->GetLocation());
     node->rhs_->Accept(this);
-    CompareTypes(node->rhs_->type_, TypeVariant(TypeKind::TK_Int), node->rhs_->location_);
-    node->type_ = TypeKind::TK_Int;
+    CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->rhs_->GetLocation());
+    node->SetType(TypeKind::TK_Int);
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
-    node->type_ = TypeKind::TK_IntArray;
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
+    node->SetType(TypeKind::TK_IntArray);
 }
 
 void SymbolTable::Visit(LengthExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_IntArray), node->expression_->location_);
-    node->type_ = TypeKind::TK_Int;
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_IntArray), node->expression_->GetLocation());
+    node->SetType(TypeKind::TK_Int);
 }
 
 void SymbolTable::Visit(LoopStatement* node) {
     node->condition_->Accept(this);
-    CompareTypes(node->condition_->type_, TypeVariant(TypeKind::TK_Boolean), node->condition_->location_);
+    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->condition_->GetLocation());
     node->statement_->Accept(this);
 }
 
@@ -132,23 +132,23 @@ void SymbolTable::Visit(MethodBody* node) {
         statement->Accept(this);
     }
     node->returnExpression_->Accept(this);
-    CompareTypes(node->returnExpression_->type_, currentMethod_.second.returnType_, node->returnExpression_->location_);
+    CompareTypes(node->returnExpression_->GetType(), currentMethod_.second.returnType_, node->returnExpression_->GetLocation());
 }
 
 void SymbolTable::Visit(MethodCallExpression* node) {
     node->expression_->Accept(this);
     std::string typeName;
     try {
-        typeName = std::get<std::string>(node->expression_->type_);
+        typeName = std::get<std::string>(node->expression_->GetType());
         if (classes_.find(typeName) == classes_.end()) {
             return;
         }
     } catch (const std::bad_variant_access&) {
-        errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->location_});
+        errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->GetLocation()});
         return;
     }
 
-    std::optional<MethodInfo> method = TryLookUpMethod(classes_.at(typeName), node->methodName_, node->location_);
+    std::optional<MethodInfo> method = TryLookUpMethod(classes_.at(typeName), node->methodName_, node->GetLocation());
     if (!method.has_value()) {
         return;
     }
@@ -157,18 +157,18 @@ void SymbolTable::Visit(MethodCallExpression* node) {
     int givenCount = node->argumentsList_.size();
     if (expectedCount != givenCount) {
         errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(expectedCount) +
-            " arguments, but it is given " + std::to_string(givenCount) + " instead", node->location_});
+            " arguments, but it is given " + std::to_string(givenCount) + " instead", node->GetLocation()});
     }
 
     for (int i = 0; i < givenCount; ++i) {
         auto& argument = node->argumentsList_[i];
         argument->Accept(this);
         if (i < expectedCount) {
-            CompareTypes(argument->type_, method->arguments_[i].second.type_, argument->location_);
+            CompareTypes(argument->GetType(), method->arguments_[i].second.type_, argument->GetLocation());
         }
     }
 
-    node->type_ = method->returnType_;
+    node->SetType(method->returnType_);
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
@@ -183,17 +183,17 @@ void SymbolTable::Visit(MethodDeclaration* node) {
 
 void SymbolTable::Visit(NotExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Boolean), node->expression_->location_);
-    node->type_ = TypeKind::TK_Boolean;
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->expression_->GetLocation());
+    node->SetType(TypeKind::TK_Boolean);
 }
 
 void SymbolTable::Visit(NumberExpression* node) {
-    node->type_ = TypeKind::TK_Int;
+    node->SetType(TypeKind::TK_Int);
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->type_, TypeVariant(TypeKind::TK_Int), node->expression_->location_);
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
 }
 
 void SymbolTable::Visit(Program* node) {
@@ -215,16 +215,16 @@ void SymbolTable::Visit(ScopeStatement* node) {
 }
 
 void SymbolTable::Visit(ThisExpression* node) {
-    node->type_ = currentClass_.first;
+    node->SetType(currentClass_.first);
 }
 
 void SymbolTable::Visit(Type* node) {
-    CheckIfUndeclared(node->type_, node->location_);
+    CheckIfUndeclared(node->type_, node->GetLocation());
 }
 
 void SymbolTable::Visit(UserTypeConstructorExpression* node) {
-    CheckIfUndeclared(TypeVariant(node->name_), node->location_);
-    node->type_ = node->name_;
+    CheckIfUndeclared(TypeVariant(node->name_), node->GetLocation());
+    node->SetType(node->name_);
 }
 
 void SymbolTable::Visit(VarDeclaration* node) {
@@ -244,11 +244,11 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
 
     auto& [className, classInfo] = currentClass_;
     if (classes_.find(className) != classes_.end()) {
-        errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->location_});
+        errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->GetLocation()});
     }
 
     if (node->extendsForClass_.has_value() && node->extendsForClass_.value() == node->className_) {
-        errors.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->location_});
+        errors.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->GetLocation()});
     } else {
         classInfo.base_ = node->extendsForClass_;
     }
@@ -266,7 +266,7 @@ void SymbolTable::ForwardVisit(ClassBody* node) {
         ForwardVisit(variable.get());
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            classInfo.AddVariable(variableName, variableInfo, variable->location_);
+            classInfo.AddVariable(variableName, variableInfo, variable->GetLocation());
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -277,7 +277,7 @@ void SymbolTable::ForwardVisit(ClassBody* node) {
         ForwardVisit(method.get());
         auto& [methodName, methodInfo] = currentMethod_;
         try {
-            classInfo.AddMethod(methodName, methodInfo, method->location_);
+            classInfo.AddMethod(methodName, methodInfo, method->GetLocation());
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -302,7 +302,7 @@ void SymbolTable::ForwardVisit(MethodDeclaration* node) {
         ForwardVisit(argument.get());
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            methodInfo.AddArgument(variableName, variableInfo, argument->location_);
+            methodInfo.AddArgument(variableName, variableInfo, argument->GetLocation());
         } catch (CompileError& error) {
             errors.push_back(error);
         }
@@ -319,7 +319,7 @@ void SymbolTable::ForwardVisit(MethodBody* node) {
         ForwardVisit(variable.get());
         auto& [variableName, variableInfo] = currentVariable_;
         try {
-            methodInfo.AddVariable(variableName, variableInfo, variable->location_);
+            methodInfo.AddVariable(variableName, variableInfo, variable->GetLocation());
         } catch (CompileError& error) {
             errors.push_back(error);
         }

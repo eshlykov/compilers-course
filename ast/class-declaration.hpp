@@ -18,6 +18,6 @@ public:
 
 public:
     const std::string className_;
-    std::optional<std::string> extendsForClass_;
-    std::unique_ptr<ClassBody> classBody_;
+    const std::optional<std::string> extendsForClass_;
+    const std::unique_ptr<ClassBody> classBody_;
 };

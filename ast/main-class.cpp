@@ -7,7 +7,7 @@ MainClass::MainClass(Location location,
         className_{className},
         argv_{argv},
         mainBody_{std::move(mainBody)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void MainClass::Accept(Visitor* visitor) {

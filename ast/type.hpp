@@ -13,5 +13,5 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::variant<TypeKind, std::string> type_;
+    const std::variant<TypeKind, std::string> type_;
 };

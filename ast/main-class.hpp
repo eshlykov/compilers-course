@@ -17,5 +17,5 @@ public:
 public:
     const std::string className_;
     const std::string argv_;
-    std::unique_ptr<Statement> mainBody_;
+    const std::unique_ptr<Statement> mainBody_;
 };

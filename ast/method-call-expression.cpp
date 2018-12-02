@@ -7,7 +7,7 @@ MethodCallExpression::MethodCallExpression(Location location,
         expression_{std::move(expression)},
         methodName_{methodName},
         argumentsList_{std::move(argumentsList)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void MethodCallExpression::Accept(Visitor* visitor) {

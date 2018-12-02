@@ -17,6 +17,6 @@ public:
 
 public:
     const std::string array_;
-    std::unique_ptr<Expression> index_;
-    std::unique_ptr<Expression> expression_;
+    const std::unique_ptr<Expression> index_;
+    const std::unique_ptr<Expression> expression_;
 };

@@ -7,7 +7,7 @@ MethodBody::MethodBody(Location location,
         variables_{std::move(variables)},
         statements_{std::move(statements)},
         returnExpression_{std::move(returnExpression)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void MethodBody::Accept(Visitor* visitor) {

@@ -3,7 +3,7 @@
 class Type;
 
 ThisExpression::ThisExpression(Location location) {
-    location_ = location;
+    SetLocation(location);
 }
 
 void ThisExpression::Accept(Visitor* visitor) {

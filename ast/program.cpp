@@ -5,7 +5,7 @@ Program::Program(Location location,
     std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations) :
         mainClass_{std::move(mainClass)},
         classDeclarations_{std::move(classDeclarations)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void Program::Accept(Visitor* visitor) {

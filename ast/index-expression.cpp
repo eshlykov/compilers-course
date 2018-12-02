@@ -5,7 +5,7 @@ IndexExpression::IndexExpression(Location location,
     std::unique_ptr<Expression> rhs) :
         lhs_{std::move(lhs)},
         rhs_{std::move(rhs)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void IndexExpression::Accept(Visitor* visitor) {

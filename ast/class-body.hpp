@@ -15,6 +15,6 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::vector<std::unique_ptr<VarDeclaration>> variables_;
-    std::vector<std::unique_ptr<MethodDeclaration>> methods_;
+    const std::vector<std::unique_ptr<VarDeclaration>> variables_;
+    const std::vector<std::unique_ptr<MethodDeclaration>> methods_;
 };

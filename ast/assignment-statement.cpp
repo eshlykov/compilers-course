@@ -5,7 +5,7 @@ AssignmentStatement::AssignmentStatement(Location location,
     std::unique_ptr<Expression> expression) :
         variable_{variable},
         expression_{std::move(expression)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void AssignmentStatement::Accept(Visitor* visitor) {

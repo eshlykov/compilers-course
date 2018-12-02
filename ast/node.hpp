@@ -16,6 +16,10 @@ public:
 
     virtual void Accept(Visitor*) = 0;
 
-public:
+    void SetLocation(const Location& location);
+
+    Location GetLocation() const;
+
+private:
     Location location_;
 };

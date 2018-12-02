@@ -7,7 +7,7 @@ ClassDeclaration::ClassDeclaration(Location location,
         className_{className},
         extendsForClass_{extendsForClass},
         classBody_{std::move(classBody)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void ClassDeclaration::Accept(Visitor* visitor) {

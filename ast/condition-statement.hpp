@@ -14,7 +14,7 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::unique_ptr<Expression> condition_;
-    std::unique_ptr<Statement> ifStatement_;
-    std::unique_ptr<Statement> elseStatement_;
+    const std::unique_ptr<Expression> condition_;
+    const std::unique_ptr<Statement> ifStatement_;
+    const std::unique_ptr<Statement> elseStatement_;
 };

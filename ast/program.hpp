@@ -16,6 +16,6 @@ public:
     virtual void Accept(Visitor* visitor) override final;
 
 public:
-    std::unique_ptr<MainClass> mainClass_;
-    std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
+    const std::unique_ptr<MainClass> mainClass_;
+    const std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
 };

@@ -9,7 +9,7 @@ MethodDeclaration::MethodDeclaration(Location location,
         methodName_{methodName},
         argumentsList_{std::move(argumentsList)},
         methodBody_{std::move(methodBody)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 

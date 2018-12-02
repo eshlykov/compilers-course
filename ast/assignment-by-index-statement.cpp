@@ -7,7 +7,7 @@ AssignmentByIndexStatement::AssignmentByIndexStatement(Location location,
         array_{array},
         index_{std::move(index)},
         expression_{std::move(expression)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void AssignmentByIndexStatement::Accept(Visitor* visitor) {

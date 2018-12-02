@@ -3,7 +3,7 @@
 IntArrayConstructorExpression::IntArrayConstructorExpression(Location location,
     std::unique_ptr<Expression> expression) :
         expression_{std::move(expression)} {
-    location_ = location;
+    SetLocation(location);
 }
 
 void IntArrayConstructorExpression::Accept(Visitor* visitor) {
