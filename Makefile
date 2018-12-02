@@ -50,4 +50,5 @@ draw:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
 	$(CC) $(CPP) -o compiler
+	./test_folder_creation.sh
 	python3 testlib/drawer.py compiler
