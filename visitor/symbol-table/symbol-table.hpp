@@ -14,6 +14,7 @@
 
 class SymbolTable : public Visitor {
     using TypeVariant = std::variant<TypeKind, std::string>;
+
 public:
     virtual ~SymbolTable() = default;
 

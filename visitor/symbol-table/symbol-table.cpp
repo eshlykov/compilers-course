@@ -65,14 +65,14 @@ void SymbolTable::Visit(ClassDeclaration* node) {
     Switcher currentClass{currentClass_, {}};
     *currentClass = {node->className_, classes_.at(node->className_)};
 
-    if (currentClass->second.base_.has_value()) {
-        std::string baseClassName = currentClass->second.base_.value();
+    if (currentClass->second.GetBase().has_value()) {
+        std::string baseClassName = currentClass->second.GetBase().value();
         if (CheckIfUndeclared(TypeVariant(baseClassName), node->GetLocation())) {
-            classes_[node->className_].base_ = {};
+            classes_[node->className_].SetBase({});
             *currentClass = {node->className_, classes_.at(node->className_)};
         } else if (IsBaseOf(node->className_, baseClassName)) {
             errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->GetLocation()});
-            classes_[baseClassName].base_ = {};
+            classes_[baseClassName].SetBase({});
         }
     }
 
@@ -132,7 +132,7 @@ void SymbolTable::Visit(MethodBody* node) {
         statement->Accept(this);
     }
     node->returnExpression_->Accept(this);
-    CompareTypes(node->returnExpression_->GetType(), currentMethod_.second.returnType_, node->returnExpression_->GetLocation());
+    CompareTypes(node->returnExpression_->GetType(), currentMethod_.second.GetReturnType(), node->returnExpression_->GetLocation());
 }
 
 void SymbolTable::Visit(MethodCallExpression* node) {
@@ -153,7 +153,7 @@ void SymbolTable::Visit(MethodCallExpression* node) {
         return;
     }
 
-    int expectedCount = method->arguments_.size();
+    int expectedCount = method->GetArguments().size();
     int givenCount = node->argumentsList_.size();
     if (expectedCount != givenCount) {
         errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(expectedCount) +
@@ -164,16 +164,16 @@ void SymbolTable::Visit(MethodCallExpression* node) {
         auto& argument = node->argumentsList_[i];
         argument->Accept(this);
         if (i < expectedCount) {
-            CompareTypes(argument->GetType(), method->arguments_[i].second.type_, argument->GetLocation());
+            CompareTypes(argument->GetType(), method->GetArguments()[i].second.type_, argument->GetLocation());
         }
     }
 
-    node->SetType(method->returnType_);
+    node->SetType(method->GetReturnType());
 }
 
 void SymbolTable::Visit(MethodDeclaration* node) {
     Switcher currentMethod{currentMethod_, {}};
-    *currentMethod = {node->methodName_, currentClass_.second.methods_.at(node->methodName_)};
+    *currentMethod = {node->methodName_, currentClass_.second.GetMethods().at(node->methodName_)};
     node->resultType_->Accept(this);
     for (auto& argument : node->argumentsList_) {
         argument->Accept(this);
@@ -250,8 +250,8 @@ void SymbolTable::ForwardVisit(ClassDeclaration* node) {
 
     if (node->extendsForClass_.has_value() && node->extendsForClass_.value() == node->className_) {
         errors.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->GetLocation()});
-    } else {
-        classInfo.base_ = node->extendsForClass_;
+    } else if (node->extendsForClass_.has_value()) {
+        classInfo.SetBase(node->extendsForClass_.value());
     }
 
     ForwardVisit(node->classBody_.get());
@@ -295,7 +295,7 @@ void SymbolTable::ForwardVisit(MethodDeclaration* node) {
     currentMethod_ = {node->methodName_, MethodInfo{}};
 
     auto& [methodName, methodInfo] = currentMethod_;
-    methodInfo.returnType_ = node->resultType_->type_;
+    methodInfo.SetReturnType(node->resultType_->type_);
 
     for (auto& argument : node->argumentsList_) {
         ForwardVisit(argument.get());
@@ -347,10 +347,10 @@ void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location&
 
 bool SymbolTable::IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const {
     ClassInfo derivedClass = classes_.at(derivedClassName);
-    if (!derivedClass.base_.has_value()) {
+    if (!derivedClass.GetBase().has_value()) {
         return false;
     }
-    std::string derivedClassBaseName = derivedClass.base_.value();
+    std::string derivedClassBaseName = derivedClass.GetBase().value();
     if (baseClassName == derivedClassBaseName) {
         return true;
     }
@@ -359,32 +359,32 @@ bool SymbolTable::IsBaseOf(const std::string& baseClassName, const std::string& 
 
 std::optional<VariableInfo> SymbolTable::TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass) {
     if (!inBaseClass) {
-        if (currentMethod_.second.variables_.find(name) != currentMethod_.second.variables_.end()) {
-            return currentMethod_.second.variables_.at(name);
+        if (currentMethod_.second.GetVariables().find(name) != currentMethod_.second.GetVariables().end()) {
+            return currentMethod_.second.GetVariables().at(name);
         }
-        auto iter = find_if(currentMethod_.second.arguments_.begin(), currentMethod_.second.arguments_.end(), [&] (const auto& argument) {
+        auto iter = find_if(currentMethod_.second.GetArguments().begin(), currentMethod_.second.GetArguments().end(), [&] (const auto& argument) {
             return argument.first == name;
         });
-        if (iter != currentMethod_.second.arguments_.end()) {
+        if (iter != currentMethod_.second.GetArguments().end()) {
             return iter->second;
         }
     }
-    if (currentClass.variables_.find(name) != currentClass.variables_.end()) {
-        return currentClass.variables_.at(name);
+    if (currentClass.GetVariables().find(name) != currentClass.GetVariables().end()) {
+        return currentClass.GetVariables().at(name);
     }
-    if (currentClass.base_.has_value()) {
-        return TryLookUpVariable(classes_.at(currentClass.base_.value()), name, location, true);
+    if (currentClass.GetBase().has_value()) {
+        return TryLookUpVariable(classes_.at(currentClass.GetBase().value()), name, location, true);
     }
     errors.push_back(UndeclaredVariable{"undeclared variable '" + name + "'", location});
     return {};
 }
 
 std::optional<MethodInfo> SymbolTable::TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location) {
-    if (currentClass.methods_.find(name) != currentClass.methods_.end()) {
-        return currentClass.methods_.at(name);
+    if (currentClass.GetMethods().find(name) != currentClass.GetMethods().end()) {
+        return currentClass.GetMethods().at(name);
     }
-    if (currentClass.base_.has_value()) {
-        return TryLookUpMethod(classes_.at(currentClass.base_.value()), name, location);
+    if (currentClass.GetBase().has_value()) {
+        return TryLookUpMethod(classes_.at(currentClass.GetBase().value()), name, location);
     }
     errors.push_back(UndeclaredMethod{"undeclared method '" + name + "'", location});
     return {};

@@ -17,3 +17,19 @@ void ClassInfo::AddMethod(const std::string& name, MethodInfo method, const Loca
     }
     methods_[name] = method;
 }
+
+const std::optional<std::string>& ClassInfo::GetBase() const {
+    return base_;
+}
+
+const std::unordered_map<std::string, VariableInfo>& ClassInfo::GetVariables() const {
+    return variables_;
+}
+
+const std::unordered_map<std::string, MethodInfo>& ClassInfo::GetMethods() const {
+    return methods_;
+}
+
+void ClassInfo::SetBase(std::string base) {
+    base_ = base;
+}
