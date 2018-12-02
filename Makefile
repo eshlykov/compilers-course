@@ -1,5 +1,6 @@
-CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
+CC = clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
+PP = `find . -name "*pp"`
 
 default:
 	flex -olexer.cpp lexer.l
@@ -32,7 +33,11 @@ travis_draw:
 	python3 testlib/drawer.py compiler
 
 travis_cppcheck:
-	cppcheck --enable=all $(CPP)
+	cppcheck --enable=all $(PP)
+
+
+cppcheck:
+	cppcheck --enable=all $(PP)
 
 test:
 	flex -olexer.cpp lexer.l
