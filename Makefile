@@ -33,11 +33,11 @@ travis_draw:
 	python3 testlib/drawer.py compiler
 
 travis_cppcheck:
-	cppcheck --enable=all $(PP)
+	cppcheck --enable=all -f $(PP)
 
 
 cppcheck:
-	cppcheck --enable=all $(PP)
+	cppcheck --enable=all -f $(PP)
 
 test:
 	flex -olexer.cpp lexer.l
