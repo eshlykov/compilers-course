@@ -2,16 +2,13 @@ CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
 PP = `find . -name "*pp"`
 
-default:
+compile:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
 	$(CC) $(CPP) -o compiler
-	python3 testlib/tester.py compiler
 
-compile: compile
-	flex -olexer.cpp lexer.l
-	bison -o parser.cpp -d parser.y --report=all
-	$(CC) $(CPP) -o compiler
+default: compile
+	python3 testlib/tester.py compiler
 
 test: compile
 	python3 testlib/tester.py compiler
