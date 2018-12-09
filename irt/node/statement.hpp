@@ -2,5 +2,9 @@
 
 #include "node.hpp"
 
-class Statement : public Node {
-};
+namespace Irt {
+
+    class Statement : public Node {
+    };
+
+}

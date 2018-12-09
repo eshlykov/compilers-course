@@ -1,151 +1,155 @@
 #include "printer.hpp"
 
-Printer::Printer(const std::string& filename) :
-        file_{filename},
-        nodeNumber_{0} {
-    file_ << "strict graph {" << std::endl;
-}
+namespace Irt {
 
-Printer::~Printer() {
-    file_ << "}" << std::endl;
-    file_.close();
-}
-
-void Printer::Visit(BinaryOperator* node) {
-    int headNodeNumber = nodeNumber_;
-
-    switch (node->arithmeticOperator_) {
-        case ArithmeticOperator::Plus:
-            PrintHead(headNodeNumber, "ArithmeticOperator : +");
-            break;
-        case ArithmeticOperator::Minus:
-            PrintHead(headNodeNumber, "ArithmeticOperator : -");
-            break;
-        case ArithmeticOperator::Multiplication:
-            PrintHead(headNodeNumber, "ArithmeticOperator : *");
-            break;
-        default:
-            break;
+    Printer::Printer(const std::string& filename) :
+            file_{filename},
+            nodeNumber_{0} {
+        file_ << "strict graph {" << std::endl;
     }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->left_->Accept(this);
+    Printer::~Printer() {
+        file_ << "}" << std::endl;
+        file_.close();
+    }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->right_->Accept(this);
-}
+    void Printer::Visit(BinaryOperator* node) {
+        int headNodeNumber = nodeNumber_;
 
-void Printer::Visit(Call* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Call");
+        switch (node->arithmeticOperator_) {
+            case ArithmeticOperator::Plus:
+                PrintHead(headNodeNumber, "ArithmeticOperator : +");
+                break;
+            case ArithmeticOperator::Minus:
+                PrintHead(headNodeNumber, "ArithmeticOperator : -");
+                break;
+            case ArithmeticOperator::Multiplication:
+                PrintHead(headNodeNumber, "ArithmeticOperator : *");
+                break;
+            default:
+                break;
+        }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->expression_->Accept(this);
-
-    for (auto& expression : node->expressionList_) {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        expression->Accept(this);
-    }
-}
+        node->left_->Accept(this);
 
-void Printer::Visit(Constant* node) {
-    PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
-}
-
-void Printer::Visit(Jump* node) {
-    int headNodeNumber = nodeNumber_;
-
-    switch (node->logicalOperator_) {
-        case LogicalOperator::And:
-            PrintHead(headNodeNumber, "LogicalOperator : &&");
-            break;
-        case LogicalOperator::Less:
-            PrintHead(headNodeNumber, "LogicalOperator : <");
-            break;
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->right_->Accept(this);
     }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->expressionLeft_->Accept(this);
+    void Printer::Visit(Call* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Call");
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->expressionRight_->Accept(this);
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->labelIf_->Accept(this);
+        for (auto& expression : node->expressionList_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            expression->Accept(this);
+        }
+    }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->labelElse_->Accept(this);
-}
+    void Printer::Visit(Constant* node) {
+        PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
+    }
 
-void Printer::Visit(Label* node) {
-    PrintHead(nodeNumber_, "Label : " + node->label_);
-}
+    void Printer::Visit(Jump* node) {
+        int headNodeNumber = nodeNumber_;
 
-void Printer::Visit(Memory* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Memory");
+        switch (node->logicalOperator_) {
+            case LogicalOperator::And:
+                PrintHead(headNodeNumber, "LogicalOperator : &&");
+                break;
+            case LogicalOperator::Less:
+                PrintHead(headNodeNumber, "LogicalOperator : <");
+                break;
+        }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->expression_->Accept(this);
-}
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expressionLeft_->Accept(this);
 
-void Printer::Visit(Move* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Move");
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expressionRight_->Accept(this);
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->destination_->Accept(this);
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->labelIf_->Accept(this);
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->source_->Accept(this);
-}
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->labelElse_->Accept(this);
+    }
 
-void Printer::Visit(Name* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Name");
+    void Printer::Visit(Label* node) {
+        PrintHead(nodeNumber_, "Label : " + node->label_);
+    }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->label_->Accept(this);
-}
+    void Printer::Visit(Memory* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Memory");
 
-void Printer::Visit(Sequence* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Sequence");
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
+    }
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->leftStatement_->Accept(this);
+    void Printer::Visit(Move* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Move");
 
-    ++nodeNumber_;
-    PrintEdge(headNodeNumber);
-    node->rightStatement_->Accept(this);
-}
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->destination_->Accept(this);
 
-void Printer::Visit(Temporary* node) {
-    PrintHead(nodeNumber_, "Temporary : " + node->temporary_);
-}
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->source_->Accept(this);
+    }
 
-void Printer::PrintHead(int headNodeNumber, const std::string& label) {
-    file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
-}
+    void Printer::Visit(Name* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Name");
 
-void Printer::PrintEdge(int headNodeNumber) {
-    file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
-}
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->label_->Accept(this);
+    }
 
-void Printer::PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name) {
-    file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];" << std::endl;
-    file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+    void Printer::Visit(Sequence* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Sequence");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->leftStatement_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->rightStatement_->Accept(this);
+    }
+
+    void Printer::Visit(Temporary* node) {
+        PrintHead(nodeNumber_, "Temporary : " + node->temporary_);
+    }
+
+    void Printer::PrintHead(int headNodeNumber, const std::string& label) {
+        file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
+    }
+
+    void Printer::PrintEdge(int headNodeNumber) {
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+    }
+
+    void Printer::PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name) {
+        file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];" << std::endl;
+        file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
+    }
+
 }

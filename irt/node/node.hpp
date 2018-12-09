@@ -3,11 +3,15 @@
 #include "../visitor/visitor.hpp"
 #include <cassert>
 
-class Node {
-public:
-    Node() = default;
+namespace Irt {
 
-    virtual ~Node() = default;
+    class Node {
+    public:
+        Node() = default;
 
-    virtual void Accept(Visitor*) = 0;
-};
+        virtual ~Node() = default;
+
+        virtual void Accept(Visitor*) = 0;
+    };
+
+}

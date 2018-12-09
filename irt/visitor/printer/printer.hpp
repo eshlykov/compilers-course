@@ -5,40 +5,44 @@
 #include <fstream>
 #include <string>
 
-class Printer : public Visitor {
-public:
-    explicit Printer(const std::string& filename);
+namespace Irt {
 
-    ~Printer();
+    class Printer : public Visitor {
+    public:
+        explicit Printer(const std::string& filename);
 
-    virtual void Visit(BinaryOperator*) override final;
+        ~Printer();
 
-    virtual void Visit(Call*) override final;
+        virtual void Visit(BinaryOperator*) override final;
 
-    virtual void Visit(Constant*) override final;
+        virtual void Visit(Call*) override final;
 
-    virtual void Visit(Jump*) override final;
+        virtual void Visit(Constant*) override final;
 
-    virtual void Visit(Label*) override final;
+        virtual void Visit(Jump*) override final;
 
-    virtual void Visit(Memory*) override final;
+        virtual void Visit(Label*) override final;
 
-    virtual void Visit(Move*) override final;
+        virtual void Visit(Memory*) override final;
 
-    virtual void Visit(Name*) override final;
+        virtual void Visit(Move*) override final;
 
-    virtual void Visit(Sequence*) override final;
+        virtual void Visit(Name*) override final;
 
-    virtual void Visit(Temporary*) override final;
+        virtual void Visit(Sequence*) override final;
 
-private:
-    void PrintHead(int headNodeNumber, const std::string& label);
+        virtual void Visit(Temporary*) override final;
 
-    void PrintEdge(int headNodeNumber);
+    private:
+        void PrintHead(int headNodeNumber, const std::string& label);
 
-    void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
+        void PrintEdge(int headNodeNumber);
 
-private:
-    std::ofstream file_;
-    int nodeNumber_;
-};
+        void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
+
+    private:
+        std::ofstream file_;
+        int nodeNumber_;
+    };
+
+}

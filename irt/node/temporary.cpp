@@ -1,9 +1,13 @@
 #include "temporary.hpp"
 
-Temporary::Temporary(const std::string& temporary) :
-    temporary_(temporary) {
-}
+namespace Irt {
 
-void Temporary::Accept(Visitor* visitor) {
+    Temporary::Temporary(const std::string& temporary) :
+        temporary_(temporary) {
+    }
+
+    void Temporary::Accept(Visitor* visitor) {
+
+    }
 
 }

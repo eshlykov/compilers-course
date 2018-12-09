@@ -2,12 +2,16 @@
 
 #include "expression.hpp"
 
-class Constant : public Expression {
-public:
-    explicit Constant(int value);
+namespace Irt {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Constant : public Expression {
+    public:
+        explicit Constant(int value);
 
-public:
-    const int value_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const int value_;
+    };
+
+}

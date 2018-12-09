@@ -3,28 +3,32 @@
 #include "statement.hpp"
 #include <memory>
 
-class Expression;
-class Label;
+namespace Irt {
 
-enum class LogicalOperator {
-    And,
-    Less
-};
+    class Expression;
+    class Label;
 
-class Jump : public Statement {
-public:
-    Jump(LogicalOperator logicalOperator,
-        std::shared_ptr<Expression> expressionLeft,
-        std::shared_ptr<Expression> expressionRight,
-        std::shared_ptr<Label> labelIf,
-        std::shared_ptr<Label> labelElse);
+    enum class LogicalOperator {
+        And,
+        Less
+    };
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Jump : public Statement {
+    public:
+        Jump(LogicalOperator logicalOperator,
+            std::shared_ptr<Expression> expressionLeft,
+            std::shared_ptr<Expression> expressionRight,
+            std::shared_ptr<Label> labelIf,
+            std::shared_ptr<Label> labelElse);
 
-public:
-    const LogicalOperator logicalOperator_;
-    const std::shared_ptr<Expression> expressionLeft_;
-    const std::shared_ptr<Expression> expressionRight_;
-    const std::shared_ptr<Label> labelIf_;
-    const std::shared_ptr<Label> labelElse_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const LogicalOperator logicalOperator_;
+        const std::shared_ptr<Expression> expressionLeft_;
+        const std::shared_ptr<Expression> expressionRight_;
+        const std::shared_ptr<Label> labelIf_;
+        const std::shared_ptr<Label> labelElse_;
+    };
+
+}

@@ -1,9 +1,13 @@
 #include "memory.hpp"
 
-Memory::Memory(std::shared_ptr<Expression> expression) :
-    expression_{expression} {
-}
+namespace Irt {
 
-void Memory::Accept(Visitor* visitor) {
-    visitor->Visit(this);
+    Memory::Memory(std::shared_ptr<Expression> expression) :
+        expression_{expression} {
+    }
+
+    void Memory::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 }

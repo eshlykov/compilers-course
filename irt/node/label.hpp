@@ -4,12 +4,16 @@
 #include <memory>
 #include <string>
 
-class Label : public Statement {
-public:
-    explicit Label(const std::string& label);
+namespace Irt {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Label : public Statement {
+    public:
+        explicit Label(const std::string& label);
 
-public:
-    const std::string label_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::string label_;
+    };
+
+}

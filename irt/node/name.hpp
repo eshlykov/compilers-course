@@ -3,14 +3,18 @@
 #include "expression.hpp"
 #include <memory>
 
-class Label;
+namespace Irt {
 
-class Name : public Expression {
-public:
-    explicit Name(std::shared_ptr<Label> label);
+    class Label;
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Name : public Expression {
+    public:
+        explicit Name(std::shared_ptr<Label> label);
 
-public:
-    const std::shared_ptr<Label> label_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::shared_ptr<Label> label_;
+    };
+
+}

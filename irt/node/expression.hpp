@@ -2,5 +2,9 @@
 
 #include "node.hpp"
 
-class Expression : public Node {
-};
+namespace Irt {
+
+    class Expression : public Node {
+    };
+
+}

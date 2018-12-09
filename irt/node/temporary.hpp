@@ -4,12 +4,16 @@
 #include <memory>
 #include <string>
 
-class Temporary : public Expression {
-public:
-    explicit Temporary(const std::string& temporary);
+namespace Irt {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Temporary : public Expression {
+    public:
+        explicit Temporary(const std::string& temporary);
 
-public:
-    const std::string temporary_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::string temporary_;
+    };
+
+}

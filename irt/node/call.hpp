@@ -4,14 +4,18 @@
 #include <memory>
 #include <vector>
 
-class Call : public Expression {
-public:
-    Call(std::shared_ptr<Expression> expression,
-        const std::vector<std::shared_ptr<Expression>>& expressionList);
+namespace Irt {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Call : public Expression {
+    public:
+        Call(std::shared_ptr<Expression> expression,
+            const std::vector<std::shared_ptr<Expression>>& expressionList);
 
-public:
-    const std::shared_ptr<Expression> expression_;
-    const std::vector<std::shared_ptr<Expression>> expressionList_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::shared_ptr<Expression> expression_;
+        const std::vector<std::shared_ptr<Expression>> expressionList_;
+    };
+
+}

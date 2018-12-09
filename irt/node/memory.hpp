@@ -3,12 +3,16 @@
 #include "expression.hpp"
 #include <memory>
 
-class Memory: public Expression {
-public:
-    explicit Memory(std::shared_ptr<Expression> expression);
+namespace Irt {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class Memory: public Expression {
+    public:
+        explicit Memory(std::shared_ptr<Expression> expression);
 
-public:
-    const std::shared_ptr<Expression> expression_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::shared_ptr<Expression> expression_;
+    };
+
+}
