@@ -1,27 +1,27 @@
-#include "ir-printer.hpp"
+#include "printer.hpp"
 
-IrPrinter::IrPrinter(const std::string& filename) :
+Printer::Printer(const std::string& filename) :
         file_{filename},
         nodeNumber_{0} {
     file_ << "strict graph {" << std::endl;
 }
 
-IrPrinter::~IrPrinter() {
+Printer::~Printer() {
     file_ << "}" << std::endl;
     file_.close();
 }
 
-void IrPrinter::Visit(IrBinaryOperator* node) {
+void Printer::Visit(BinaryOperator* node) {
     int headNodeNumber = nodeNumber_;
 
     switch (node->arithmeticOperator_) {
-        case IrArithmeticOperator::Plus:
+        case ArithmeticOperator::Plus:
             PrintHead(headNodeNumber, "ArithmeticOperator : +");
             break;
-        case IrArithmeticOperator::Minus:
+        case ArithmeticOperator::Minus:
             PrintHead(headNodeNumber, "ArithmeticOperator : -");
             break;
-        case IrArithmeticOperator::Multiplication:
+        case ArithmeticOperator::Multiplication:
             PrintHead(headNodeNumber, "ArithmeticOperator : *");
             break;
         default:
@@ -37,7 +37,7 @@ void IrPrinter::Visit(IrBinaryOperator* node) {
     node->right_->Accept(this);
 }
 
-void IrPrinter::Visit(IrCall* node) {
+void Printer::Visit(Call* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Call");
 
@@ -52,14 +52,18 @@ void IrPrinter::Visit(IrCall* node) {
     }
 }
 
-void IrPrinter::Visit(IrConditionalJump* node) {
+void Printer::Visit(Constant* node) {
+    PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
+}
+
+void Printer::Visit(Jump* node) {
     int headNodeNumber = nodeNumber_;
 
     switch (node->logicalOperator_) {
-        case IrLogicalOperator::And:
+        case LogicalOperator::And:
             PrintHead(headNodeNumber, "LogicalOperator : &&");
             break;
-        case IrLogicalOperator::Less:
+        case LogicalOperator::Less:
             PrintHead(headNodeNumber, "LogicalOperator : <");
             break;
     }
@@ -81,26 +85,11 @@ void IrPrinter::Visit(IrConditionalJump* node) {
     node->labelElse_->Accept(this);
 }
 
-void IrPrinter::Visit(IrConstant* node) {
-    PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
-}
-
-void IrPrinter::Visit(IrJump* node) {
-    int headNodeNumber = nodeNumber_;
-    PrintHead(headNodeNumber, "Jump");
-
-    for (auto& label : node->labels_) {
-        ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        label->Accept(this);
-    }
-}
-
-void IrPrinter::Visit(IrLabel* node) {
+void Printer::Visit(Label* node) {
     PrintHead(nodeNumber_, "Label : " + node->label_);
 }
 
-void IrPrinter::Visit(IrMemory* node) {
+void Printer::Visit(Memory* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Memory");
 
@@ -109,7 +98,7 @@ void IrPrinter::Visit(IrMemory* node) {
     node->expression_->Accept(this);
 }
 
-void IrPrinter::Visit(IrMove* node) {
+void Printer::Visit(Move* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Move");
 
@@ -122,7 +111,7 @@ void IrPrinter::Visit(IrMove* node) {
     node->source_->Accept(this);
 }
 
-void IrPrinter::Visit(IrName* node) {
+void Printer::Visit(Name* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Name");
 
@@ -131,7 +120,7 @@ void IrPrinter::Visit(IrName* node) {
     node->label_->Accept(this);
 }
 
-void IrPrinter::Visit(IrSequence* node) {
+void Printer::Visit(Sequence* node) {
     int headNodeNumber = nodeNumber_;
     PrintHead(headNodeNumber, "Sequence");
 
@@ -144,19 +133,19 @@ void IrPrinter::Visit(IrSequence* node) {
     node->rightStatement_->Accept(this);
 }
 
-void IrPrinter::Visit(IrTemporary* node) {
+void Printer::Visit(Temporary* node) {
     PrintHead(nodeNumber_, "Temporary : " + node->temporary_);
 }
 
-void IrPrinter::PrintHead(int headNodeNumber, const std::string& label) {
+void Printer::PrintHead(int headNodeNumber, const std::string& label) {
     file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
 }
 
-void IrPrinter::PrintEdge(int headNodeNumber) {
+void Printer::PrintEdge(int headNodeNumber) {
     file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
 }
 
-void IrPrinter::PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name) {
+void Printer::PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name) {
     file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];" << std::endl;
     file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
 }
