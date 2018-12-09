@@ -1,22 +1,17 @@
 #pragma once
 
-#include "../../utils/ast.hpp"
-#include "../../utils/compile-error/compile-error.hpp"
+#include "../../../utils/ast.hpp"
 #include "../visitor.hpp"
-#include "class-info.hpp"
-#include "method-info.hpp"
-#include "variable-info.hpp"
-#include <algorithm>
+#include <fstream>
+#include <optional>
 #include <string>
-#include <unordered_map>
-#include <utility>
 #include <vector>
 
-class SymbolTable : public Visitor {
-    using TypeVariant = std::variant<TypeKind, std::string>;
-
+class Printer : public Visitor {
 public:
-    virtual ~SymbolTable() = default;
+    explicit Printer(const std::string& filename);
+
+    ~Printer();
 
     virtual void Visit(AssignmentByIndexStatement* node) override final;
 
@@ -68,35 +63,14 @@ public:
 
     virtual void Visit(VarDeclaration* node) override final;
 
-    std::vector<CompileError> GetErrorList() const;
+private:
+    void PrintHead(int headNodeNumber, const std::string& label);
+
+    void PrintEdge(int headNodeNumber);
+
+    void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
 
 private:
-    void ForwardVisit(MainClass* node);
-
-    void ForwardVisit(ClassDeclaration* node);
-
-    void ForwardVisit(ClassBody* node);
-
-    void ForwardVisit(VarDeclaration* node);
-
-    void ForwardVisit(MethodDeclaration* node);
-
-    void ForwardVisit(MethodBody* node);
-
-    void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
-
-    bool IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const;
-
-    std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass);
-
-    std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
-
-    bool CheckIfUndeclared(TypeVariant type, const Location& location);
-
-private:
-    std::unordered_map<std::string, ClassInfo> classes_;
-    std::pair<std::string, VariableInfo> currentVariable_;
-    std::pair<std::string, MethodInfo> currentMethod_;
-    std::pair<std::string, ClassInfo> currentClass_;
-    std::vector<CompileError> errors;
+    std::ofstream file_;
+    int nodeNumber_;
 };

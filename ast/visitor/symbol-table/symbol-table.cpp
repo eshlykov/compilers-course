@@ -1,7 +1,7 @@
 #include "symbol-table.hpp"
-#include "../../utils/ast.hpp"
-#include "../../utils/switcher.hpp"
-#include "../../utils/compile-error/compile-errors.hpp"
+#include "../../../utils/ast.hpp"
+#include "../../../utils/switcher.hpp"
+#include "../../../utils/compile-error/compile-errors.hpp"
 #include <variant>
 
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {

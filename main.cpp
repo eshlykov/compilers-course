@@ -1,9 +1,9 @@
-#include "ast/program.hpp"
+#include "ast/node/program.hpp"
 #include "utils/compile-error/compile-error.hpp"
 #include "utils/parser-args.hpp"
 #include "utils/source-code.hpp"
-#include "visitor/printer/printer.hpp"
-#include "visitor/symbol-table/symbol-table.hpp"
+#include "ast/visitor/printer/printer.hpp"
+#include "ast/visitor/symbol-table/symbol-table.hpp"
 #include <cstdio>
 #include <iostream>
 #include <fstream>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utils/ir-visitor.hpp"
+#include "../visitor/ir-visitor.hpp"
 #include <cassert>
 
 class IrNode {

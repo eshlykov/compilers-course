@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../utils/location.hpp"
-#include "../utils/visitor.hpp"
+#include "../../utils/location.hpp"
+#include "../visitor/visitor.hpp"
 #include <cassert>
 
 enum class TypeKind {

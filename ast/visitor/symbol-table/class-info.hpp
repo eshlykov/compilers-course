@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../utils/location.hpp"
+#include "../../../utils/location.hpp"
 #include "method-info.hpp"
 #include "variable-info.hpp"
 #include <unordered_map>

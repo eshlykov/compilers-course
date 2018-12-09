@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../utils/ast.hpp"
-#include "../../utils/location.hpp"
+#include "../../../utils/ast.hpp"
+#include "../../../utils/location.hpp"
 #include "variable-info.hpp"
 #include <unordered_map>
 #include <vector>
