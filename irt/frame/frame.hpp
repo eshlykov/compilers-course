@@ -31,7 +31,7 @@ namespace Irt {
         std::vector<KeyType> formalParameters_;
         std::vector<KeyType> localVariables_;
 
-        static constexpr int ptrSize_ = sizeof(nullptr);
+        static constexpr int variableSize_ = sizeof(nullptr);
     };
 
 }

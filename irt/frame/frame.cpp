@@ -31,7 +31,7 @@ namespace Irt {
         });
         assert(iter != storage.end());
         storage.emplace_back(name, std::make_shared<const InFrameAccess>(size_));
-        size_ += ptrSize_;
+        size_ += variableSize_;
     }
 
     std::shared_ptr<const Access> Frame::FindInStorage(const std::string& name, const std::vector<KeyType>& storage) const {
