@@ -1,6 +1,6 @@
 #include "ir-conditional-jump.hpp"
 
-IrCondtitionalJump::IrCondtitionalJump(IrLogicalOperator logicalOperator,
+IrConditionalJump::IrConditionalJump(IrLogicalOperator logicalOperator,
     std::shared_ptr<IrExpression> expressionLeft,
     std::shared_ptr<IrExpression> expressionRight,
     std::shared_ptr<IrLabel> labelIf,
@@ -16,6 +16,6 @@ IrCondtitionalJump::IrCondtitionalJump(IrLogicalOperator logicalOperator,
     assert(labelElse_ != nullptr);
 }
 
-void IrJump::Accept(IrVisitor* visitor) {
+void IrConditionalJump::Accept(IrVisitor* visitor) {
     visitor->Visit(this);
 }
