@@ -1,5 +1,6 @@
 #pragma once
 
+class IrSequence;
 class IrLabel;
 class IrConditionalJump;
 class IrConstant;
@@ -10,6 +11,7 @@ class IrTemporary;
 
 class IrVisitor {
 public:
+    virtual void Visit(IrSequence*) = 0;
     virtual void Visit(IrLabel*) = 0;
     virtual void Visit(IrConstant*) = 0;
     virtual void Visit(IrConditionalJump*) = 0;

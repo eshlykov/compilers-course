@@ -6,7 +6,7 @@
 
 class IrLabel : public IrStatement {
 public:
-    IrLabel(const std::string& label);
+    explicit IrLabel(const std::string& label);
 
     virtual void Accept(IrVisitor* visitor) override final;
 
