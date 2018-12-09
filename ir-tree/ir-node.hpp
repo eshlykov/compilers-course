@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utils/visitor.hpp"
+#include "../utils/ir-visitor.hpp"
 #include <cassert>
 
 class IrNode {
@@ -9,5 +9,5 @@ public:
 
     virtual ~IrNode() = default;
 
-    virtual void Accept(Visitor*) = 0;
+    virtual void Accept(IrVisitor*) = 0;
 };
