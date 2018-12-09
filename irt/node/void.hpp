@@ -9,7 +9,7 @@ namespace Irt {
 
     class Void : public Statement {
     public:
-        explicit Void(std::shared_ptr<Expression>);
+        explicit Void(std::shared_ptr<Expression> expression);
 
         virtual void Accept(Visitor* visitor) override final;
 

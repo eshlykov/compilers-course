@@ -3,9 +3,6 @@
 #include "converter.hpp"
 #include <memory>
 
-class Expression;
-class Statement;
-
 namespace Irt {
 
     class ExpressionConverter : public Converter {
@@ -16,10 +13,11 @@ namespace Irt {
 
         virtual std::shared_ptr<Statement> ToStatement() const override final;
 
-        virtual std::shared_ptr<Statement> ToConditionalJump() const override final;
+        virtual std::shared_ptr<Statement> ToConditionalJump(std::shared_ptr<Label> labelIf,
+            std::shared_ptr<Label> labelElse) const override final;
 
-    public:
-        const std::shared_ptr<Expression> expression_;
+    private:
+        std::shared_ptr<Expression> expression_;
     };
 
 }

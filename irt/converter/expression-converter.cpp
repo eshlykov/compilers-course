@@ -1,5 +1,5 @@
-#include "../node/void.hpp"
 #include "expression-converter.hpp"
+#include <exception>
 
 namespace Irt {
 
@@ -12,11 +12,13 @@ namespace Irt {
     }
 
     std::shared_ptr<Statement> ExpressionConverter::ToStatement() const {
-        return std::make_shared<Void>(expression_);
+        //return std::make_shared<Void>(expression_); // Undefined reference to ctor
+        return nullptr;
     }
 
-    std::shared_ptr<Statement> ExpressionConverter::ToConditionalJump() const {
-        return nullptr;
+    std::shared_ptr<Statement> ExpressionConverter::ToConditionalJump(std::shared_ptr<Label> labelIf,
+        std::shared_ptr<Label> labelElse) const {
+        throw std::runtime_error{"ExpressionConverter::ToConditionalJump should never be called"};
     }
 
 }
