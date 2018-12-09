@@ -5,7 +5,7 @@
 
 class IrMemory: public IrExpression {
 public:
-    IrMemory(std::shared_ptr<IrExpression> expression);
+    explicit IrMemory(std::shared_ptr<IrExpression> expression);
 
     virtual void Accept(IrVisitor* visitor) override final;
 

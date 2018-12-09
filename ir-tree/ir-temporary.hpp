@@ -6,7 +6,7 @@
 
 class IrTemporary : public IrExpression {
 public:
-    IrTemporary(const std::string& temporary);
+    explicit IrTemporary(const std::string& temporary);
 
     virtual void Accept(IrVisitor* visitor) override final;
 
