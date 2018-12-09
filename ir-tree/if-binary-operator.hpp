@@ -4,9 +4,10 @@
 #include <memory>
 
 enum class IrArithmeticOperator {
-    Plus, Minus, Multiplication
+    Plus,
+    Minus,
+    Multiplication
 };
-
 
 class IrBinaryOperator : public IrExpression {
 public:
