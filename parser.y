@@ -252,11 +252,11 @@ MethodDeclaration :
 
 Type :
     TT_Int TT_LeftBracket TT_RightBracket {
-        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_IntArray}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::IntArray}};
     } | TT_Boolean {
-        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_Boolean}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::Boolean}};
     } | TT_Int {
-        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::TK_Int}};
+        $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::Int}};
     } | Identifier {
         $$ = new std::unique_ptr<Type>{new Type{location, *$1}};
     }
@@ -307,15 +307,15 @@ ExpressionCommaExpressionRepeatedOptional :
 
 Expression :
     Expression TT_And Expression {
-        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::BO_And}};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::And}};
     } | Expression TT_Less Expression {
-        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::BO_Less}};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Less}};
     } | Expression TT_Plus Expression {
-        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::BO_Plus}};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Plus}};
     } | Expression TT_Minus Expression {
-        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::BO_Minus}};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Minus}};
     } | Expression TT_Star Expression {
-        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::BO_Star}};
+        $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Star}};
     } | Expression TT_LeftBracket Expression TT_RightBracket {
         $$ = new std::unique_ptr<Expression>{new IndexExpression{location, std::move(*$1), std::move(*$3)}};
     } | Expression TT_Dot TT_Length {

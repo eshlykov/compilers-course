@@ -17,13 +17,13 @@ TypesMismatch::TypesMismatch(TypeVariant found, TypeVariant expected, const Loca
 std::string TypesMismatch::TypeToString(TypeVariant& type) {
     try {
         switch (std::get<TypeKind>(type)) {
-            case TypeKind::TK_Undefined:
+            case TypeKind::Undefined:
                 return "type is undefined";
-            case TypeKind::TK_IntArray:
+            case TypeKind::IntArray:
                 return "'int[]'";
-            case TypeKind::TK_Int:
+            case TypeKind::Int:
                 return "'int'";
-            case TypeKind::TK_Boolean:
+            case TypeKind::Boolean:
                 return "'boolean'";
         }
     } catch (const std::bad_variant_access&) {

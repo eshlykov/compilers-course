@@ -7,12 +7,12 @@
 void SymbolTable::Visit(AssignmentByIndexStatement* node) {
     std::optional<VariableInfo> variable = TryLookUpVariable(currentClass_.second, node->array_, node->GetLocation(), false);
     if (variable.has_value()) {
-        CompareTypes(variable->type_, TypeVariant(TypeKind::TK_IntArray), node->GetLocation());
+        CompareTypes(variable->type_, TypeVariant(TypeKind::IntArray), node->GetLocation());
     }
     node->index_->Accept(this);
-    CompareTypes(node->index_->GetType(), TypeVariant(TypeKind::TK_Int), node->index_->GetLocation());
+    CompareTypes(node->index_->GetType(), TypeVariant(TypeKind::Int), node->index_->GetLocation());
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::Int), node->expression_->GetLocation());
 }
 
 void SymbolTable::Visit(AssignmentStatement* node) {
@@ -29,27 +29,27 @@ void SymbolTable::Visit(BinaryOperatorExpression* node) {
     node->rhs_->Accept(this);
 
     switch (node->binaryOperator_) {
-    case BinaryOperator::BO_And:
-        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->lhs_->GetLocation());
-        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->rhs_->GetLocation());
+    case BinaryOperator::And:
+        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::Boolean), node->lhs_->GetLocation());
+        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::Boolean), node->rhs_->GetLocation());
         break;
     default:
-        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->lhs_->GetLocation());
-        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->rhs_->GetLocation());
+        CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::Int), node->lhs_->GetLocation());
+        CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::Int), node->rhs_->GetLocation());
     }
 
     switch (node->binaryOperator_) {
-    case BinaryOperator::BO_And:
-    case BinaryOperator::BO_Less:
-        node->SetType(TypeKind::TK_Boolean);
+    case BinaryOperator::And:
+    case BinaryOperator::Less:
+        node->SetType(TypeKind::Boolean);
         break;
     default:
-        node->SetType(TypeKind::TK_Int);
+        node->SetType(TypeKind::Int);
     }
 }
 
 void SymbolTable::Visit(BooleanExpression* node) {
-    node->SetType(TypeKind::TK_Boolean);
+    node->SetType(TypeKind::Boolean);
 }
 
 void SymbolTable::Visit(ClassBody* node) {
@@ -81,7 +81,7 @@ void SymbolTable::Visit(ClassDeclaration* node) {
 
 void SymbolTable::Visit(ConditionStatement* node) {
     node->condition_->Accept(this);
-    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->condition_->GetLocation());
+    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::Boolean), node->condition_->GetLocation());
     node->ifStatement_->Accept(this);
     node->elseStatement_->Accept(this);
 }
@@ -95,27 +95,27 @@ void SymbolTable::Visit(IdentifierExpression* node) {
 
 void SymbolTable::Visit(IndexExpression* node) {
     node->lhs_->Accept(this);
-    CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::TK_IntArray), node->lhs_->GetLocation());
+    CompareTypes(node->lhs_->GetType(), TypeVariant(TypeKind::IntArray), node->lhs_->GetLocation());
     node->rhs_->Accept(this);
-    CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::TK_Int), node->rhs_->GetLocation());
-    node->SetType(TypeKind::TK_Int);
+    CompareTypes(node->rhs_->GetType(), TypeVariant(TypeKind::Int), node->rhs_->GetLocation());
+    node->SetType(TypeKind::Int);
 }
 
 void SymbolTable::Visit(IntArrayConstructorExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
-    node->SetType(TypeKind::TK_IntArray);
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::Int), node->expression_->GetLocation());
+    node->SetType(TypeKind::IntArray);
 }
 
 void SymbolTable::Visit(LengthExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_IntArray), node->expression_->GetLocation());
-    node->SetType(TypeKind::TK_Int);
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::IntArray), node->expression_->GetLocation());
+    node->SetType(TypeKind::Int);
 }
 
 void SymbolTable::Visit(LoopStatement* node) {
     node->condition_->Accept(this);
-    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->condition_->GetLocation());
+    CompareTypes(node->condition_->GetType(), TypeVariant(TypeKind::Boolean), node->condition_->GetLocation());
     node->statement_->Accept(this);
 }
 
@@ -183,17 +183,17 @@ void SymbolTable::Visit(MethodDeclaration* node) {
 
 void SymbolTable::Visit(NotExpression* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Boolean), node->expression_->GetLocation());
-    node->SetType(TypeKind::TK_Boolean);
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::Boolean), node->expression_->GetLocation());
+    node->SetType(TypeKind::Boolean);
 }
 
 void SymbolTable::Visit(NumberExpression* node) {
-    node->SetType(TypeKind::TK_Int);
+    node->SetType(TypeKind::Int);
 }
 
 void SymbolTable::Visit(PrintStatement* node) {
     node->expression_->Accept(this);
-    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::TK_Int), node->expression_->GetLocation());
+    CompareTypes(node->expression_->GetType(), TypeVariant(TypeKind::Int), node->expression_->GetLocation());
 }
 
 void SymbolTable::Visit(Program* node) {

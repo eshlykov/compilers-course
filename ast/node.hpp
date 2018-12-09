@@ -5,10 +5,10 @@
 #include <cassert>
 
 enum class TypeKind {
-    TK_Undefined,
-    TK_IntArray,
-    TK_Boolean,
-    TK_Int,
+    Undefined,
+    IntArray,
+    Boolean,
+    Int,
 };
 
 class Node {

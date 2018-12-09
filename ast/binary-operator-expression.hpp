@@ -4,11 +4,11 @@
 #include <memory>
 
 enum class BinaryOperator {
-    BO_And,
-    BO_Less,
-    BO_Plus,
-    BO_Minus,
-    BO_Star,
+    And,
+    Less,
+    Plus,
+    Minus,
+    Star,
 };
 
 class BinaryOperatorExpression : public Expression {

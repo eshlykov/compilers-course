@@ -43,19 +43,19 @@ void Printer::Visit(BinaryOperatorExpression* node) {
     int headNodeNumber = nodeNumber_;
 
     switch (node->binaryOperator_) {
-        case BinaryOperator::BO_And:
+        case BinaryOperator::And:
             PrintHead(headNodeNumber, "BinaryOperator : &&");
             break;
-        case BinaryOperator::BO_Less:
+        case BinaryOperator::Less:
             PrintHead(headNodeNumber, "BinaryOperator : <");
             break;
-        case BinaryOperator::BO_Plus:
+        case BinaryOperator::Plus:
             PrintHead(headNodeNumber, "BinaryOperator : +");
             break;
-        case BinaryOperator::BO_Minus:
+        case BinaryOperator::Minus:
             PrintHead(headNodeNumber, "BinaryOperator : -");
             break;
-        case BinaryOperator::BO_Star:
+        case BinaryOperator::Star:
             PrintHead(headNodeNumber, "BinaryOperator : *");
             break;
         default:
@@ -293,13 +293,13 @@ void Printer::Visit(ThisExpression* node) {
 void Printer::Visit(Type* node) {
     try {
         switch (std::get<TypeKind>(node->type_)) {
-        case TypeKind::TK_IntArray:
+        case TypeKind::IntArray:
             PrintHead(nodeNumber_, "Type : int[]");
             break;
-        case TypeKind::TK_Boolean:
+        case TypeKind::Boolean:
             PrintHead(nodeNumber_, "Type : boolean");
             break;
-        case TypeKind::TK_Int:
+        case TypeKind::Int:
             PrintHead(nodeNumber_, "Type : int");
             break;
         default:
