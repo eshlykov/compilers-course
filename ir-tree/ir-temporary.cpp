@@ -1,6 +1,6 @@
 #include "ir-temporary.hpp"
 
-IrTemporary::IrTemporary(const std::string &temporary) :
+IrTemporary::IrTemporary(const std::string& temporary) :
     temporary_(temporary) {
 }
 
