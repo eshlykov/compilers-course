@@ -2,20 +2,11 @@
 
 namespace Irt {
 
-    Jump::Jump(LogicalOperator logicalOperator,
-        std::shared_ptr<Expression> expressionLeft,
-        std::shared_ptr<Expression> expressionRight,
-        std::shared_ptr<Label> labelIf,
-        std::shared_ptr<Label> labelElse) :
-            logicalOperator_{logicalOperator},
-            expressionLeft_{expressionLeft},
-            expressionRight_{expressionRight},
-            labelIf_{labelIf},
-            labelElse_{labelElse} {
-        assert(expressionLeft_ != nullptr);
-        assert(expressionRight_ != nullptr);
-        assert(labelIf_ != nullptr);
-        assert(labelElse_ != nullptr);
+    Jump::Jump(std::shared_ptr<Expression> expression,
+        const std::vector<std::shared_ptr<Label>>& labels) :
+            expression_{expression},
+            labels_{labels} {
+        assert(expression_ != nullptr);
     }
 
     void Jump::Accept(Visitor* visitor) {

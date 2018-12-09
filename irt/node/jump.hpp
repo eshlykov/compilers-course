@@ -2,33 +2,23 @@
 
 #include "statement.hpp"
 #include <memory>
+#include <vector>
 
 namespace Irt {
 
     class Expression;
     class Label;
 
-    enum class LogicalOperator {
-        And,
-        Less
-    };
-
     class Jump : public Statement {
     public:
-        Jump(LogicalOperator logicalOperator,
-            std::shared_ptr<Expression> expressionLeft,
-            std::shared_ptr<Expression> expressionRight,
-            std::shared_ptr<Label> labelIf,
-            std::shared_ptr<Label> labelElse);
+        Jump(std::shared_ptr<Expression> expression,
+            const std::vector<std::shared_ptr<Label>>& labels);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
-        const LogicalOperator logicalOperator_;
-        const std::shared_ptr<Expression> expressionLeft_;
-        const std::shared_ptr<Expression> expressionRight_;
-        const std::shared_ptr<Label> labelIf_;
-        const std::shared_ptr<Label> labelElse_;
+        const std::shared_ptr<Expression> expression_;
+        const std::vector<std::shared_ptr<Label>> labels_;
     };
 
 }

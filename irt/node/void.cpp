@@ -1,13 +1,13 @@
-#include "memory.hpp"
+#include "void.hpp"
 
 namespace Irt {
 
-    Memory::Memory(std::shared_ptr<Expression> expression) :
+    Void::Void(std::shared_ptr<Expression> expression) :
         expression_{expression} {
         assert(expression_ != nullptr);
     }
 
-    void Memory::Accept(Visitor* visitor) {
+    void Void::Accept(Visitor* visitor) {
         visitor->Visit(this);
     }
 

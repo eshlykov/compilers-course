@@ -13,25 +13,31 @@ namespace Irt {
 
         ~Printer();
 
-        virtual void Visit(BinaryOperator*) override final;
+        virtual void Visit(BinaryOperator* node) override final;
 
-        virtual void Visit(Call*) override final;
+        virtual void Visit(Call* node) override final;
 
-        virtual void Visit(Constant*) override final;
+        virtual void Visit(ConditionalJump*) override final;
 
-        virtual void Visit(Jump*) override final;
+        virtual void Visit(Constant* node) override final;
 
-        virtual void Visit(Label*) override final;
+        virtual void Visit(ExpressionSequence*) override final;
 
-        virtual void Visit(Memory*) override final;
+        virtual void Visit(Jump* node) override final;
 
-        virtual void Visit(Move*) override final;
+        virtual void Visit(Label* node) override final;
 
-        virtual void Visit(Name*) override final;
+        virtual void Visit(Memory* node) override final;
 
-        virtual void Visit(Sequence*) override final;
+        virtual void Visit(Move* node) override final;
 
-        virtual void Visit(Temporary*) override final;
+        virtual void Visit(Name* node) override final;
+
+        virtual void Visit(StatementSequence* node) override final;
+
+        virtual void Visit(Temporary* node) override final;
+
+        virtual void Visit(Void* node) override final;
 
     private:
         void PrintHead(int headNodeNumber, const std::string& label);

@@ -1,18 +1,16 @@
-#include "binary-operator.hpp"
+#include "expression-sequence.hpp"
 
 namespace Irt {
 
-    BinaryOperator::BinaryOperator(ArithmeticOperator arithmeticOperator,
-        std::shared_ptr<Expression> leftExpression,
+    ExpressionSequence::ExpressionSequence(std::shared_ptr<Expression> leftExpression,
         std::shared_ptr<Expression> rightExpression) :
-            arithmeticOperator_{arithmeticOperator},
             leftExpression_{leftExpression},
             rightExpression_{rightExpression} {
         assert(leftExpression_ != nullptr);
         assert(rightExpression_ != nullptr);
     }
 
-    void BinaryOperator::Accept(Visitor* visitor) {
+    void ExpressionSequence::Accept(Visitor* visitor) {
         visitor->Visit(this);
     }
 

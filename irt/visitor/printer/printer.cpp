@@ -32,11 +32,11 @@ namespace Irt {
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->left_->Accept(this);
+        node->leftExpression_->Accept(this);
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->right_->Accept(this);
+        node->rightExpression_->Accept(this);
     }
 
     void Printer::Visit(Call* node) {
@@ -54,11 +54,7 @@ namespace Irt {
         }
     }
 
-    void Printer::Visit(Constant* node) {
-        PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
-    }
-
-    void Printer::Visit(Jump* node) {
+    void Printer::Visit(ConditionalJump* node) {
         int headNodeNumber = nodeNumber_;
 
         switch (node->logicalOperator_) {
@@ -85,6 +81,34 @@ namespace Irt {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->labelElse_->Accept(this);
+    }
+
+    void Printer::Visit(Constant* node) {
+        PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
+    }
+
+    void Printer::Visit(ExpressionSequence* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ExpressionSequence");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->leftExpression_->Accept(this);
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->rightExpression_->Accept(this);
+    }
+
+    void Printer::Visit(Jump* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Jump");
+
+        for (auto& label : node->labels_) {
+            ++nodeNumber_;
+            PrintEdge(headNodeNumber);
+            label->Accept(this);
+        }
     }
 
     void Printer::Visit(Label* node) {
@@ -122,9 +146,9 @@ namespace Irt {
         node->label_->Accept(this);
     }
 
-    void Printer::Visit(Sequence* node) {
+    void Printer::Visit(StatementSequence* node) {
         int headNodeNumber = nodeNumber_;
-        PrintHead(headNodeNumber, "Sequence");
+        PrintHead(headNodeNumber, "StatementSequence");
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
@@ -137,6 +161,15 @@ namespace Irt {
 
     void Printer::Visit(Temporary* node) {
         PrintHead(nodeNumber_, "Temporary : " + node->temporary_);
+    }
+
+    void Printer::Visit(Void* node) {
+        int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "Void");
+
+        ++nodeNumber_;
+        PrintEdge(headNodeNumber);
+        node->expression_->Accept(this);
     }
 
     void Printer::PrintHead(int headNodeNumber, const std::string& label) {

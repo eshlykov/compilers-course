@@ -5,9 +5,9 @@
 
 namespace Irt {
 
-    class Sequence : public Statement {
+    class StatementSequence : public Statement {
     public:
-        Sequence(std::shared_ptr<Statement> leftStatement,
+        StatementSequence(std::shared_ptr<Statement> leftStatement,
             std::shared_ptr<Statement> rightStatement);
 
         virtual void Accept(Visitor* visitor) override final;

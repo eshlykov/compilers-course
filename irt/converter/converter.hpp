@@ -11,11 +11,11 @@ namespace Irt {
     public:
         virtual ~Converter() = default;
 
-        virtual std::shared_ptr<const Expression> ToExpression() const = 0;
+        virtual std::shared_ptr<Expression> ToExpression() const = 0;
 
-        virtual std::shared_ptr<const Statement> ToStatement() const = 0;
+        virtual std::shared_ptr<Statement> ToStatement() const = 0;
 
-        virtual std::shared_ptr<const Statement> ToJump() const = 0;
+        virtual std::shared_ptr<Statement> ToConditionalJump() const = 0;
     };
 
 }

@@ -9,7 +9,8 @@ namespace Irt {
 
     class Move : public Statement {
     public:
-        Move(std::shared_ptr<Expression> destination, std::shared_ptr<Expression> source);
+        Move(std::shared_ptr<Expression> destination,
+            std::shared_ptr<Expression> source);
 
         virtual void Accept(Visitor* visitor) override final;
 
