@@ -1,6 +1,6 @@
 #include "ir-memory.hpp"
 
-IrMemory::IrMemory(std::shared_ptr <IrExpression> expression) :
+IrMemory::IrMemory(std::shared_ptr<IrExpression> expression) :
     expression_{expression} {
 }
 
