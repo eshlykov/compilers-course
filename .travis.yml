@@ -24,6 +24,4 @@ install:
   - sudo apt-get install -qq cppcheck
 
 script:
-  - make travis_test
-  - make travis_draw
-  - make travis_cppcheck
+  - make travis_all_checks
