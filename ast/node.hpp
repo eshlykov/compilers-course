@@ -13,13 +13,15 @@ enum class TypeKind {
 
 class Node {
 public:
+    Node() = default;
+
     virtual ~Node() = default;
 
     virtual void Accept(Visitor*) = 0;
 
     void SetLocation(const Location& location);
 
-    Location GetLocation() const;
+    const Location& GetLocation() const;
 
 private:
     Location location_;
