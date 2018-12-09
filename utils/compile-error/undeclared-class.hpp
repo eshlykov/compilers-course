@@ -1,7 +1,7 @@
 #pragma once
 
-#include "compile-error.hpp"
 #include "../location.hpp"
+#include "compile-error.hpp"
 #include <string>
 
 class UndeclaredClass : public CompileError {

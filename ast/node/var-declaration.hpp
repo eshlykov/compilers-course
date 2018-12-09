@@ -4,17 +4,19 @@
 #include "type.hpp"
 #include <memory>
 
-class Type;
+namespace Ast {
 
-class VarDeclaration : public Node {
-public:
-    VarDeclaration(Location location,
-        std::unique_ptr<Type> type,
-        const std::string& name);
+    class VarDeclaration : public Node {
+    public:
+        VarDeclaration(Location location,
+            std::unique_ptr<Type> type,
+            const std::string& name);
 
-    virtual void Accept(Visitor* visitor) override final;
+        virtual void Accept(Visitor* visitor) override final;
 
-public:
-    const std::unique_ptr<Type> type_;
-    const std::string name_;
-};
+    public:
+        const std::unique_ptr<Type> type_;
+        const std::string name_;
+    };
+
+}

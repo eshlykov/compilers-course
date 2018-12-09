@@ -4,25 +4,29 @@
 #include "../visitor/visitor.hpp"
 #include <cassert>
 
-enum class TypeKind {
-    Undefined,
-    IntArray,
-    Boolean,
-    Int,
-};
+namespace Ast {
 
-class Node {
-public:
-    Node() = default;
+    enum class TypeKind {
+        Undefined,
+        IntArray,
+        Boolean,
+        Int,
+    };
 
-    virtual ~Node() = default;
+    class Node {
+    public:
+        Node() = default;
 
-    virtual void Accept(Visitor*) = 0;
+        virtual ~Node() = default;
 
-    void SetLocation(const Location& location);
+        virtual void Accept(Visitor*) = 0;
 
-    const Location& GetLocation() const;
+        void SetLocation(const Location& location);
 
-private:
-    Location location_;
-};
+        const Location& GetLocation() const;
+
+    private:
+        Location location_;
+    };
+
+}

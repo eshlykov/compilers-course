@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../ast.hpp"
 #include "../location.hpp"
 #include "compile-error.hpp"
 #include <string>

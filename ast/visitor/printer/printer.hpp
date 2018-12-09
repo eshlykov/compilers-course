@@ -7,70 +7,74 @@
 #include <string>
 #include <vector>
 
-class Printer : public Visitor {
-public:
-    explicit Printer(const std::string& filename);
+namespace Ast {
 
-    ~Printer();
+    class Printer : public Visitor {
+    public:
+        explicit Printer(const std::string& filename);
 
-    virtual void Visit(AssignmentByIndexStatement* node) override final;
+        ~Printer();
 
-    virtual void Visit(AssignmentStatement* node) override final;
+        virtual void Visit(AssignmentByIndexStatement* node) override final;
 
-    virtual void Visit(BinaryOperatorExpression* node) override final;
+        virtual void Visit(AssignmentStatement* node) override final;
 
-    virtual void Visit(BooleanExpression* node) override final;
+        virtual void Visit(BinaryOperatorExpression* node) override final;
 
-    virtual void Visit(ClassBody* node) override final;
+        virtual void Visit(BooleanExpression* node) override final;
 
-    virtual void Visit(ClassDeclaration* node) override final;
+        virtual void Visit(ClassBody* node) override final;
 
-    virtual void Visit(ConditionStatement* node) override final;
+        virtual void Visit(ClassDeclaration* node) override final;
 
-    virtual void Visit(IdentifierExpression* node) override final;
+        virtual void Visit(ConditionStatement* node) override final;
 
-    virtual void Visit(IndexExpression* node) override final;
+        virtual void Visit(IdentifierExpression* node) override final;
 
-    virtual void Visit(IntArrayConstructorExpression* node) override final;
+        virtual void Visit(IndexExpression* node) override final;
 
-    virtual void Visit(LengthExpression* node) override final;
+        virtual void Visit(IntArrayConstructorExpression* node) override final;
 
-    virtual void Visit(LoopStatement* node) override final;
+        virtual void Visit(LengthExpression* node) override final;
 
-    virtual void Visit(MainClass* node) override final;
+        virtual void Visit(LoopStatement* node) override final;
 
-    virtual void Visit(MethodBody* node) override final;
+        virtual void Visit(MainClass* node) override final;
 
-    virtual void Visit(MethodCallExpression* node) override final;
+        virtual void Visit(MethodBody* node) override final;
 
-    virtual void Visit(MethodDeclaration* node) override final;
+        virtual void Visit(MethodCallExpression* node) override final;
 
-    virtual void Visit(NotExpression* node) override final;
+        virtual void Visit(MethodDeclaration* node) override final;
 
-    virtual void Visit(NumberExpression* node) override final;
+        virtual void Visit(NotExpression* node) override final;
 
-    virtual void Visit(PrintStatement* node) override final;
+        virtual void Visit(NumberExpression* node) override final;
 
-    virtual void Visit(Program* node) override final;
+        virtual void Visit(PrintStatement* node) override final;
 
-    virtual void Visit(ScopeStatement* node) override final;
+        virtual void Visit(Program* node) override final;
 
-    virtual void Visit(ThisExpression* node) override final;
+        virtual void Visit(ScopeStatement* node) override final;
 
-    virtual void Visit(Type* node) override final;
+        virtual void Visit(ThisExpression* node) override final;
 
-    virtual void Visit(UserTypeConstructorExpression* node) override final;
+        virtual void Visit(Type* node) override final;
 
-    virtual void Visit(VarDeclaration* node) override final;
+        virtual void Visit(UserTypeConstructorExpression* node) override final;
 
-private:
-    void PrintHead(int headNodeNumber, const std::string& label);
+        virtual void Visit(VarDeclaration* node) override final;
 
-    void PrintEdge(int headNodeNumber);
+    private:
+        void PrintHead(int headNodeNumber, const std::string& label);
 
-    void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
+        void PrintEdge(int headNodeNumber);
 
-private:
-    std::ofstream file_;
-    int nodeNumber_;
-};
+        void PrintLeaf(int headNodeNumber, const std::string& label, const std::string& name);
+
+    private:
+        std::ofstream file_;
+        int nodeNumber_;
+    };
+
+}

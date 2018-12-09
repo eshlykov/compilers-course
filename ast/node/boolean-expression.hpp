@@ -2,13 +2,17 @@
 
 #include "expression.hpp"
 
-class BooleanExpression : public Expression {
-public:
-    explicit BooleanExpression(Location location,
-        bool value);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class BooleanExpression : public Expression {
+    public:
+        explicit BooleanExpression(Location location,
+            bool value);
 
-public:
-    const bool value_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const bool value_;
+    };
+
+}

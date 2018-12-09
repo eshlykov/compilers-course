@@ -1,15 +1,19 @@
 #include "type.hpp"
 
-Type::Type(Location location, const std::string& className) :
-    type_{className} {
-    SetLocation(location);
-}
+namespace Ast {
 
-Type::Type(Location location, TypeKind typeKind) :
-    type_{typeKind} {
-    SetLocation(location);
-}
+    Type::Type(Location location, const std::string& className) :
+        type_{className} {
+        SetLocation(location);
+    }
 
-void Type::Accept(Visitor* visitor) {
-    visitor->Visit(this);
+    Type::Type(Location location, TypeKind typeKind) :
+        type_{typeKind} {
+        SetLocation(location);
+    }
+
+    void Type::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 }

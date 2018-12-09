@@ -2,10 +2,14 @@
 
 class Type;
 
-ThisExpression::ThisExpression(Location location) {
-    SetLocation(location);
-}
+namespace Ast {
 
-void ThisExpression::Accept(Visitor* visitor) {
-    visitor->Visit(this);
+    ThisExpression::ThisExpression(Location location) {
+        SetLocation(location);
+    }
+
+    void ThisExpression::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
+
 }

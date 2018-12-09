@@ -4,14 +4,18 @@
 #include <string>
 #include <variant>
 
-class Type : public Node {
-public:
-    Type(Location location, const std::string& className);
+namespace Ast {
 
-    Type(Location location, TypeKind typeKind);
+    class Type : public Node {
+    public:
+        Type(Location location, const std::string& className);
 
-    virtual void Accept(Visitor* visitor) override final;
+        Type(Location location, TypeKind typeKind);
 
-public:
-    const std::variant<TypeKind, std::string> type_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::variant<TypeKind, std::string> type_;
+    };
+
+}

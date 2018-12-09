@@ -9,7 +9,7 @@
 #include <variant>
 
 class TypesMismatch : public CompileError {
-    using TypeVariant = std::variant<TypeKind, std::string>;
+    using TypeVariant = std::variant<Ast::TypeKind, std::string>;
 public:
     TypesMismatch(const std::string& message, const Location& location);
 

@@ -2,13 +2,17 @@
 
 #include "expression.hpp"
 
-class NumberExpression : public Expression {
-public:
-    explicit NumberExpression(Location location,
-        int value);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class NumberExpression : public Expression {
+    public:
+        explicit NumberExpression(Location location,
+            int value);
 
-public:
-    const int value_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const int value_;
+    };
+
+}

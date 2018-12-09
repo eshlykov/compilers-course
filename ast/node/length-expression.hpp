@@ -3,13 +3,17 @@
 #include "expression.hpp"
 #include <memory>
 
-class LengthExpression : public Expression {
-public:
-    explicit LengthExpression(Location location,
-        std::unique_ptr<Expression> expression);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor);
+    class LengthExpression : public Expression {
+    public:
+        explicit LengthExpression(Location location,
+            std::unique_ptr<Expression> expression);
 
-public:
-    const std::unique_ptr<Expression> expression_;
-};
+        virtual void Accept(Visitor* visitor);
+
+    public:
+        const std::unique_ptr<Expression> expression_;
+    };
+
+}

@@ -1,13 +1,10 @@
 #pragma once
 
-#include "../ast.hpp"
 #include "../location.hpp"
 #include "../source-code.hpp"
 #include <exception>
 #include <string>
 #include <variant>
-
-#include <iostream>
 
 class CompileError {
 public:

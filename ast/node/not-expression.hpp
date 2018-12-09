@@ -3,13 +3,17 @@
 #include "expression.hpp"
 #include <memory>
 
-class NotExpression : public Expression {
-public:
-    explicit NotExpression(Location location,
-        std::unique_ptr<Expression> expression);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class NotExpression : public Expression {
+    public:
+        explicit NotExpression(Location location,
+            std::unique_ptr<Expression> expression);
 
-public:
-    const std::unique_ptr<Expression> expression_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::unique_ptr<Expression> expression_;
+    };
+
+}

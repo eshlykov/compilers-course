@@ -6,22 +6,26 @@
 #include <unordered_map>
 #include <optional>
 
-class ClassInfo {
-public:
-    void AddVariable(const std::string& name, VariableInfo variable, const Location& location);
+namespace Ast {
 
-    void AddMethod(const std::string& name, MethodInfo method, const Location& location);
+    class ClassInfo {
+    public:
+        void AddVariable(const std::string& name, VariableInfo variable, const Location& location);
 
-    const std::optional<std::string>& GetBase() const;
+        void AddMethod(const std::string& name, MethodInfo method, const Location& location);
 
-    const std::unordered_map<std::string, VariableInfo>& GetVariables() const;
+        const std::optional<std::string>& GetBase() const;
 
-    const std::unordered_map<std::string, MethodInfo>& GetMethods() const;
+        const std::unordered_map<std::string, VariableInfo>& GetVariables() const;
 
-    void SetBase(std::string base);
+        const std::unordered_map<std::string, MethodInfo>& GetMethods() const;
 
-private:
-    std::optional<std::string> base_;
-    std::unordered_map<std::string, VariableInfo> variables_;
-    std::unordered_map<std::string, MethodInfo> methods_;
-};
+        void SetBase(std::string base);
+
+    private:
+        std::optional<std::string> base_;
+        std::unordered_map<std::string, VariableInfo> variables_;
+        std::unordered_map<std::string, MethodInfo> methods_;
+    };
+
+}

@@ -4,12 +4,16 @@
 #include <string>
 #include <variant>
 
-class Expression : public Node {
-public:
-    void SetType(const std::variant<TypeKind, std::string>& type);
+namespace Ast {
 
-    std::variant<TypeKind, std::string> GetType() const;
+    class Expression : public Node {
+    public:
+        void SetType(const std::variant<TypeKind, std::string>& type);
 
-private:
-    std::variant<TypeKind, std::string> type_;
-};
+        std::variant<TypeKind, std::string> GetType() const;
+
+    private:
+        std::variant<TypeKind, std::string> type_;
+    };
+
+}

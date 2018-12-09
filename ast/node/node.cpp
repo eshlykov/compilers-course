@@ -1,9 +1,13 @@
 #include "node.hpp"
 
-void Node::SetLocation(const Location& location) {
-    location_ = location;
-}
+namespace Ast {
 
-const Location& Node::GetLocation() const {
-    return location_;
+    void Node::SetLocation(const Location& location) {
+        location_ = location;
+    }
+
+    const Location& Node::GetLocation() const {
+        return location_;
+    }
+
 }

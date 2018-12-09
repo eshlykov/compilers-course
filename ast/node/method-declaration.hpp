@@ -9,19 +9,23 @@
 #include <string>
 #include <vector>
 
-class MethodDeclaration : public Node {
-public:
-    MethodDeclaration(Location location,
-        std::unique_ptr<Type> resultType,
-        const std::string& methodName,
-        std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
-        std::unique_ptr<MethodBody> methodBody);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class MethodDeclaration : public Node {
+    public:
+        MethodDeclaration(Location location,
+            std::unique_ptr<Type> resultType,
+            const std::string& methodName,
+            std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
+            std::unique_ptr<MethodBody> methodBody);
 
-public:
-    const std::unique_ptr<Type> resultType_;
-    const std::string methodName_;
-    const std::vector<std::unique_ptr<VarDeclaration>> argumentsList_;
-    const std::unique_ptr<MethodBody> methodBody_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::unique_ptr<Type> resultType_;
+        const std::string methodName_;
+        const std::vector<std::unique_ptr<VarDeclaration>> argumentsList_;
+        const std::unique_ptr<MethodBody> methodBody_;
+    };
+
+}

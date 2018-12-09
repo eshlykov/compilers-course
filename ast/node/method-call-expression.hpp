@@ -5,17 +5,21 @@
 #include <string>
 #include <vector>
 
-class MethodCallExpression : public Expression {
-public:
-    MethodCallExpression(Location location,
-        std::unique_ptr<Expression> expression,
-        const std::string& methodName,
-        std::vector<std::unique_ptr<Expression>>& argumentsList);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class MethodCallExpression : public Expression {
+    public:
+        MethodCallExpression(Location location,
+            std::unique_ptr<Expression> expression,
+            const std::string& methodName,
+            std::vector<std::unique_ptr<Expression>>& argumentsList);
 
-public:
-    const std::unique_ptr<Expression> expression_;
-    const std::string methodName_;
-    const std::vector<std::unique_ptr<Expression>> argumentsList_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::unique_ptr<Expression> expression_;
+        const std::string methodName_;
+        const std::vector<std::unique_ptr<Expression>> argumentsList_;
+    };
+
+}

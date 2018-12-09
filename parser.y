@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+using namespace Ast;
+
 extern char* yytext;
 void yyerror(ParserArgs& parserArgs, const char*);
 extern Location location;

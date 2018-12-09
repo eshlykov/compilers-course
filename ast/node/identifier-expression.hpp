@@ -3,14 +3,18 @@
 #include "expression.hpp"
 #include <string>
 
-class IdentifierExpression : public Expression {
-public:
-    IdentifierExpression(Location location,
-        const std::string& name);
+namespace Ast {
+
+    class IdentifierExpression : public Expression {
+    public:
+        IdentifierExpression(Location location,
+            const std::string& name);
 
 
-    virtual void Accept(Visitor* visitor) override final;
+        virtual void Accept(Visitor* visitor) override final;
 
-public:
-    const std::string name_;
-};
+    public:
+        const std::string name_;
+    };
+
+}

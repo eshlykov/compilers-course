@@ -2,5 +2,9 @@
 
 #include "node.hpp"
 
-class Statement : public Node {
-};
+namespace Ast {
+
+    class Statement : public Node {
+    };
+
+}

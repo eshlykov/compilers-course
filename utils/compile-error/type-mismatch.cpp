@@ -1,10 +1,4 @@
 #include "type-mismatch.hpp"
-#include "../ast.hpp"
-#include "../location.hpp"
-#include "compile-error.hpp"
-#include <exception>
-#include <string>
-#include <variant>
 
 TypesMismatch::TypesMismatch(const std::string& message, const Location& location) :
     CompileError(message, location) {
@@ -16,14 +10,14 @@ TypesMismatch::TypesMismatch(TypeVariant found, TypeVariant expected, const Loca
 
 std::string TypesMismatch::TypeToString(TypeVariant& type) {
     try {
-        switch (std::get<TypeKind>(type)) {
-            case TypeKind::Undefined:
+        switch (std::get<Ast::TypeKind>(type)) {
+            case Ast::TypeKind::Undefined:
                 return "type is undefined";
-            case TypeKind::IntArray:
+            case Ast::TypeKind::IntArray:
                 return "'int[]'";
-            case TypeKind::Int:
+            case Ast::TypeKind::Int:
                 return "'int'";
-            case TypeKind::Boolean:
+            case Ast::TypeKind::Boolean:
                 return "'boolean'";
         }
     } catch (const std::bad_variant_access&) {

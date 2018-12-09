@@ -5,17 +5,21 @@
 #include <memory>
 #include <string>
 
-class MainClass : public Node {
-public:
-    MainClass(Location location,
-        const std::string& className,
-        const std::string& argv,
-        std::unique_ptr<Statement> mainBody);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class MainClass : public Node {
+    public:
+        MainClass(Location location,
+            const std::string& className,
+            const std::string& argv,
+            std::unique_ptr<Statement> mainBody);
 
-public:
-    const std::string className_;
-    const std::string argv_;
-    const std::unique_ptr<Statement> mainBody_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::string className_;
+        const std::string argv_;
+        const std::unique_ptr<Statement> mainBody_;
+    };
+
+}

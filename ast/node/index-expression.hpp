@@ -3,15 +3,19 @@
 #include "expression.hpp"
 #include <memory>
 
-class IndexExpression : public Expression {
-public:
-    IndexExpression(Location location,
-        std::unique_ptr<Expression> lhs,
-        std::unique_ptr<Expression> rhs);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class IndexExpression : public Expression {
+    public:
+        IndexExpression(Location location,
+            std::unique_ptr<Expression> lhs,
+            std::unique_ptr<Expression> rhs);
 
-public:
-    const std::unique_ptr<Expression> lhs_;
-    const std::unique_ptr<Expression> rhs_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::unique_ptr<Expression> lhs_;
+        const std::unique_ptr<Expression> rhs_;
+    };
+
+}

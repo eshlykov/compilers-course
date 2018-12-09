@@ -4,15 +4,19 @@
 #include "expression.hpp"
 #include <memory>
 
-class LoopStatement : public Statement {
-public:
-    LoopStatement(Location location,
-        std::unique_ptr<Expression> condition,
-        std::unique_ptr<Statement> statement);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class LoopStatement : public Statement {
+    public:
+        LoopStatement(Location location,
+            std::unique_ptr<Expression> condition,
+            std::unique_ptr<Statement> statement);
 
-public:
-    const std::unique_ptr<Expression> condition_;
-    const std::unique_ptr<Statement> statement_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::unique_ptr<Expression> condition_;
+        const std::unique_ptr<Statement> statement_;
+    };
+
+}

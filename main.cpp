@@ -48,20 +48,17 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::unique_ptr<Program> program = std::move(parserArgs.program_);
+    std::unique_ptr<Ast::Program> program = std::move(parserArgs.program_);
 
     if (program == nullptr) {
         std::cout << CompileError{"program is null pointer", {}}.GetMessage(sourceCode) << std::endl;
         return 1;
     }
 
-
-    Printer{"ast.dot"};
-
-    Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
+    Ast::Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
     printer.Visit(program.get());
 
-    SymbolTable symbolTable{};
+    Ast::SymbolTable symbolTable{};
     try {
         symbolTable.Visit(program.get());
     } catch (const std::exception& exception) {

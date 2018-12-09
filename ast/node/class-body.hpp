@@ -6,15 +6,19 @@
 #include <memory>
 #include <vector>
 
-class ClassBody : public Node {
-public:
-    ClassBody(Location location,
-        std::vector<std::unique_ptr<VarDeclaration>>& variables,
-        std::vector<std::unique_ptr<MethodDeclaration>>& methods);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
+    class ClassBody : public Node {
+    public:
+        ClassBody(Location location,
+            std::vector<std::unique_ptr<VarDeclaration>>& variables,
+            std::vector<std::unique_ptr<MethodDeclaration>>& methods);
 
-public:
-    const std::vector<std::unique_ptr<VarDeclaration>> variables_;
-    const std::vector<std::unique_ptr<MethodDeclaration>> methods_;
-};
+        virtual void Accept(Visitor* visitor) override final;
+
+    public:
+        const std::vector<std::unique_ptr<VarDeclaration>> variables_;
+        const std::vector<std::unique_ptr<MethodDeclaration>> methods_;
+    };
+
+}

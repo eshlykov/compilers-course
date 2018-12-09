@@ -2,9 +2,13 @@
 
 #include "expression.hpp"
 
-class ThisExpression : public Expression {
-public:
-    explicit ThisExpression(Location location);
+namespace Ast {
 
-    virtual void Accept(Visitor* visitor) override final;
-};
+    class ThisExpression : public Expression {
+    public:
+        explicit ThisExpression(Location location);
+
+        virtual void Accept(Visitor* visitor) override final;
+    };
+
+}

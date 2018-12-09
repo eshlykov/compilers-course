@@ -12,91 +12,95 @@
 #include <utility>
 #include <vector>
 
-class SymbolTable : public Visitor {
-    using TypeVariant = std::variant<TypeKind, std::string>;
+namespace Ast {
 
-public:
-    virtual ~SymbolTable() = default;
+    class SymbolTable : public Visitor {
+        using TypeVariant = std::variant<TypeKind, std::string>;
 
-    virtual void Visit(AssignmentByIndexStatement* node) override final;
+    public:
+        virtual ~SymbolTable() = default;
 
-    virtual void Visit(AssignmentStatement* node) override final;
+        virtual void Visit(AssignmentByIndexStatement* node) override final;
 
-    virtual void Visit(BinaryOperatorExpression* node) override final;
+        virtual void Visit(AssignmentStatement* node) override final;
 
-    virtual void Visit(BooleanExpression* node) override final;
+        virtual void Visit(BinaryOperatorExpression* node) override final;
 
-    virtual void Visit(ClassBody* node) override final;
+        virtual void Visit(BooleanExpression* node) override final;
 
-    virtual void Visit(ClassDeclaration* node) override final;
+        virtual void Visit(ClassBody* node) override final;
 
-    virtual void Visit(ConditionStatement* node) override final;
+        virtual void Visit(ClassDeclaration* node) override final;
 
-    virtual void Visit(IdentifierExpression* node) override final;
+        virtual void Visit(ConditionStatement* node) override final;
 
-    virtual void Visit(IndexExpression* node) override final;
+        virtual void Visit(IdentifierExpression* node) override final;
 
-    virtual void Visit(IntArrayConstructorExpression* node) override final;
+        virtual void Visit(IndexExpression* node) override final;
 
-    virtual void Visit(LengthExpression* node) override final;
+        virtual void Visit(IntArrayConstructorExpression* node) override final;
 
-    virtual void Visit(LoopStatement* node) override final;
+        virtual void Visit(LengthExpression* node) override final;
 
-    virtual void Visit(MainClass* node) override final;
+        virtual void Visit(LoopStatement* node) override final;
 
-    virtual void Visit(MethodBody* node) override final;
+        virtual void Visit(MainClass* node) override final;
 
-    virtual void Visit(MethodCallExpression* node) override final;
+        virtual void Visit(MethodBody* node) override final;
 
-    virtual void Visit(MethodDeclaration* node) override final;
+        virtual void Visit(MethodCallExpression* node) override final;
 
-    virtual void Visit(NotExpression* node) override final;
+        virtual void Visit(MethodDeclaration* node) override final;
 
-    virtual void Visit(NumberExpression* node) override final;
+        virtual void Visit(NotExpression* node) override final;
 
-    virtual void Visit(PrintStatement* node) override final;
+        virtual void Visit(NumberExpression* node) override final;
 
-    virtual void Visit(Program* node) override final;
+        virtual void Visit(PrintStatement* node) override final;
 
-    virtual void Visit(ScopeStatement* node) override final;
+        virtual void Visit(Program* node) override final;
 
-    virtual void Visit(ThisExpression* node) override final;
+        virtual void Visit(ScopeStatement* node) override final;
 
-    virtual void Visit(Type* node) override final;
+        virtual void Visit(ThisExpression* node) override final;
 
-    virtual void Visit(UserTypeConstructorExpression* node) override final;
+        virtual void Visit(Type* node) override final;
 
-    virtual void Visit(VarDeclaration* node) override final;
+        virtual void Visit(UserTypeConstructorExpression* node) override final;
 
-    std::vector<CompileError> GetErrorList() const;
+        virtual void Visit(VarDeclaration* node) override final;
 
-private:
-    void ForwardVisit(MainClass* node);
+        std::vector<CompileError> GetErrorList() const;
 
-    void ForwardVisit(ClassDeclaration* node);
+    private:
+        void ForwardVisit(MainClass* node);
 
-    void ForwardVisit(ClassBody* node);
+        void ForwardVisit(ClassDeclaration* node);
 
-    void ForwardVisit(VarDeclaration* node);
+        void ForwardVisit(ClassBody* node);
 
-    void ForwardVisit(MethodDeclaration* node);
+        void ForwardVisit(VarDeclaration* node);
 
-    void ForwardVisit(MethodBody* node);
+        void ForwardVisit(MethodDeclaration* node);
 
-    void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
+        void ForwardVisit(MethodBody* node);
 
-    bool IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const;
+        void CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location);
 
-    std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass);
+        bool IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const;
 
-    std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
+        std::optional<VariableInfo> TryLookUpVariable(const ClassInfo& currentClass, const std::string& name, const Location& location, bool inBaseClass);
 
-    bool CheckIfUndeclared(TypeVariant type, const Location& location);
+        std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
 
-private:
-    std::unordered_map<std::string, ClassInfo> classes_;
-    std::pair<std::string, VariableInfo> currentVariable_;
-    std::pair<std::string, MethodInfo> currentMethod_;
-    std::pair<std::string, ClassInfo> currentClass_;
-    std::vector<CompileError> errors;
-};
+        bool CheckIfUndeclared(TypeVariant type, const Location& location);
+
+    private:
+        std::unordered_map<std::string, ClassInfo> classes_;
+        std::pair<std::string, VariableInfo> currentVariable_;
+        std::pair<std::string, MethodInfo> currentMethod_;
+        std::pair<std::string, ClassInfo> currentClass_;
+        std::vector<CompileError> errors;
+    };
+
+}
