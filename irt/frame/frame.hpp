@@ -6,28 +6,32 @@
 #include <utility>
 #include <vector>
 
-class Frame {
-public:
-    explicit Frame(const std::string& name);
+namespace Irt {
 
-    void AddFormalParameter(const std::string& name);
+    class Frame {
+    public:
+        explicit Frame(const std::string& name);
 
-    void AddLocalVariable(const std::string& name);
+        void AddFormalParameter(const std::string& name);
 
-    std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(const std::string& name) const;
+        void AddLocalVariable(const std::string& name);
 
-private:
-    using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
+        std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(const std::string& name) const;
 
-    void AddInStorage(const std::string& name, std::vector<KeyType>& storage);
+    private:
+        using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
 
-    std::shared_ptr<const Access> FindInStorage(const std::string& name, const std::vector<KeyType>& storage) const;
+        void AddInStorage(const std::string& name, std::vector<KeyType>& storage);
 
-private:
-    const std::string name_;
-    int size_;
-    std::vector<KeyType> formalParameters_;
-    std::vector<KeyType> localVariables_;
+        std::shared_ptr<const Access> FindInStorage(const std::string& name, const std::vector<KeyType>& storage) const;
 
-    static constexpr int ptrSize_ = sizeof(nullptr);
-};
+    private:
+        const std::string name_;
+        int size_;
+        std::vector<KeyType> formalParameters_;
+        std::vector<KeyType> localVariables_;
+
+        static constexpr int ptrSize_ = sizeof(nullptr);
+    };
+
+}

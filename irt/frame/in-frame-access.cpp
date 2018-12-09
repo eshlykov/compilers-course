@@ -1,5 +1,9 @@
 #include "in-frame-access.hpp"
 
-InFrameAccess::InFrameAccess(int offset) :
-    offset_{offset} {
+namespace Irt {
+
+    InFrameAccess::InFrameAccess(int offset) :
+        offset_{offset} {
+    }
+
 }

@@ -1,6 +1,10 @@
 #pragma once
 
-class Access {
-public:
-    virtual ~Access() = default;
-};
+namespace Irt {
+
+    class Access {
+    public:
+        virtual ~Access() = default;
+    };
+
+}

@@ -2,10 +2,14 @@
 
 #include "access.hpp"
 
-class InFrameAccess : public Access {
-public:
-    explicit InFrameAccess(int offset);
+namespace Irt {
 
-private:
-    int offset_;
-};
+    class InFrameAccess : public Access {
+    public:
+        explicit InFrameAccess(int offset);
+
+    private:
+        int offset_;
+    };
+
+}
