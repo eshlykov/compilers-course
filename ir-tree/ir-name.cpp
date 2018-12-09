@@ -1,6 +1,6 @@
 #include "ir-name.hpp"
 
-IrName::IrName(std::shared_ptr <IrLabel> label) :
+IrName::IrName(std::shared_ptr<IrLabel> label) :
     label_{label} {
 }
 
