@@ -12,5 +12,5 @@ public:
     virtual void Accept(IrVisitor* visitor) override final;
 
 public:
-    std::shared_ptr<IrLabel> label_;
+    const std::shared_ptr<IrLabel> label_;
 };

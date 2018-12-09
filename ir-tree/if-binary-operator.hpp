@@ -18,6 +18,6 @@ public:
 
 public:
     const IrArithmeticOperator arithmeticOperator_;
-    std::shared_ptr<IrExpression> left_;
-    std::shared_ptr<IrExpression> right_;
+    const std::shared_ptr<IrExpression> left_;
+    const std::shared_ptr<IrExpression> right_;
 };
