@@ -4,6 +4,6 @@ IrConstant::IrConstant(int value) :
     value_(value) {
 }
 
-void IrConstant::Accept(IrVisitor *visitor) {
+void IrConstant::Accept(IrVisitor* visitor) {
     visitor->Visit(this);
 }
