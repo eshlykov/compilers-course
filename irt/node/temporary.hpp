@@ -8,12 +8,12 @@ namespace Irt {
 
     class Temporary : public Expression {
     public:
-        explicit Temporary(const std::string& temporary);
+        explicit Temporary(Register temporary);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
-        const std::string temporary_;
+        const Register temporary_;
     };
 
 }

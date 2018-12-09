@@ -75,12 +75,10 @@ namespace Irt {
         node->expressionRight_->Accept(this);
 
         ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->labelIf_->Accept(this);
+        PrintLeaf(headNodeNumber, "LabelIf", node->labelIf_.ToString());
 
         ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->labelElse_->Accept(this);
+        PrintLeaf(headNodeNumber, "LabelElse", node->labelElse_.ToString());
     }
 
     void Printer::Visit(Constant* node) {
@@ -93,11 +91,11 @@ namespace Irt {
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->leftExpression_->Accept(this);
+        node->statement_->Accept(this);
 
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
-        node->rightExpression_->Accept(this);
+        node->expression_->Accept(this);
     }
 
     void Printer::Visit(Jump* node) {
@@ -106,8 +104,7 @@ namespace Irt {
 
         for (auto& label : node->labels_) {
             ++nodeNumber_;
-            PrintEdge(headNodeNumber);
-            label->Accept(this);
+            PrintLeaf(headNodeNumber, "Label", label.ToString());
         }
     }
 
@@ -142,8 +139,7 @@ namespace Irt {
         PrintHead(headNodeNumber, "Name");
 
         ++nodeNumber_;
-        PrintEdge(headNodeNumber);
-        node->label_->Accept(this);
+        PrintLeaf(headNodeNumber, "Label", node->label_.ToString());
     }
 
     void Printer::Visit(StatementSequence* node) {
@@ -160,7 +156,7 @@ namespace Irt {
     }
 
     void Printer::Visit(Temporary* node) {
-        PrintHead(nodeNumber_, "Temporary : " + node->temporary_);
+        PrintHead(nodeNumber_, "Temporary : " + node->temporary_.ToString());
     }
 
     void Printer::Visit(Void* node) {

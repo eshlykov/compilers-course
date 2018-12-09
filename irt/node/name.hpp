@@ -5,16 +5,14 @@
 
 namespace Irt {
 
-    class Label;
-
     class Name : public Expression {
     public:
-        explicit Name(std::shared_ptr<Label> label);
+        explicit Name(Address label);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
-        const std::shared_ptr<Label> label_;
+        const Address label_;
     };
 
 }

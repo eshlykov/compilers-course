@@ -2,12 +2,12 @@
 
 namespace Irt {
 
-    ExpressionSequence::ExpressionSequence(std::shared_ptr<Expression> leftExpression,
-        std::shared_ptr<Expression> rightExpression) :
-            leftExpression_{leftExpression},
-            rightExpression_{rightExpression} {
-        assert(leftExpression_ != nullptr);
-        assert(rightExpression_ != nullptr);
+    ExpressionSequence::ExpressionSequence(std::shared_ptr<Statement> statement,
+        std::shared_ptr<Expression> expression) :
+            statement_{statement},
+            expression_{expression} {
+        assert(statement_ != nullptr);
+        assert(expression_ != nullptr);
     }
 
     void ExpressionSequence::Accept(Visitor* visitor) {

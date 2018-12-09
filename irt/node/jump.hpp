@@ -7,18 +7,17 @@
 namespace Irt {
 
     class Expression;
-    class Label;
 
     class Jump : public Statement {
     public:
         Jump(std::shared_ptr<Expression> expression,
-            const std::vector<std::shared_ptr<Label>>& labels);
+            const std::vector<Address>& labels);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
         const std::shared_ptr<Expression> expression_;
-        const std::vector<std::shared_ptr<Label>> labels_;
+        const std::vector<Address> labels_;
     };
 
 }

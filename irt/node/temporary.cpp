@@ -2,7 +2,7 @@
 
 namespace Irt {
 
-    Temporary::Temporary(const std::string& temporary) :
+    Temporary::Temporary(Register temporary) :
         temporary_(temporary) {
     }
 

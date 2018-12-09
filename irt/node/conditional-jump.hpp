@@ -6,7 +6,6 @@
 namespace Irt {
 
     class Expression;
-    class Label;
 
     enum class LogicalOperator {
         And,
@@ -18,8 +17,8 @@ namespace Irt {
         ConditionalJump(LogicalOperator logicalOperator,
             std::shared_ptr<Expression> expressionLeft,
             std::shared_ptr<Expression> expressionRight,
-            std::shared_ptr<Label> labelIf,
-            std::shared_ptr<Label> labelElse);
+            Address labelIf,
+            Address labelElse);
 
         virtual void Accept(Visitor* visitor) override final;
 
@@ -27,8 +26,8 @@ namespace Irt {
         const LogicalOperator logicalOperator_;
         const std::shared_ptr<Expression> expressionLeft_;
         const std::shared_ptr<Expression> expressionRight_;
-        const std::shared_ptr<Label> labelIf_;
-        const std::shared_ptr<Label> labelElse_;
+        const Address labelIf_;
+        const Address labelElse_;
     };
 
 }

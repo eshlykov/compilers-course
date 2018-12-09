@@ -3,7 +3,7 @@
 namespace Irt {
 
     Jump::Jump(std::shared_ptr<Expression> expression,
-        const std::vector<std::shared_ptr<Label>>& labels) :
+        const std::vector<Address>& labels) :
             expression_{expression},
             labels_{labels} {
         assert(expression_ != nullptr);

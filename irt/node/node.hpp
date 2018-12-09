@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../visitor/visitor.hpp"
+#include "../utils/address.hpp"
+#include "../utils/register.hpp"
 #include <cassert>
 
 namespace Irt {
