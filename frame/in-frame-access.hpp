@@ -4,7 +4,7 @@
 
 class InFrameAccess : public Access {
 public:
-    InFrameAccess(int offset);
+    explicit InFrameAccess(int offset);
 
 private:
     int offset_;

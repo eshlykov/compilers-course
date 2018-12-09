@@ -8,7 +8,7 @@
 
 class Frame {
 public:
-    Frame(const std::string& name);
+    explicit Frame(const std::string& name);
 
     void AddFormalParameter(const std::string& name);
 
