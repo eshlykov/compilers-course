@@ -7,7 +7,7 @@
 class IrCall : public IrExpression {
 public:
     IrCall(std::shared_ptr<IrExpression> expression,
-        const std::vector<std::shared_ptr<IrExpression>> expressionList);
+        const std::vector<std::shared_ptr<IrExpression>>& expressionList);
 
     virtual void Accept(IrVisitor* visitor) override final;
 
