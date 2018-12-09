@@ -1,4 +1,4 @@
-#include "if-binary-operator.hpp"
+#include "ir-binary-operator.hpp"
 
 IrBinaryOperator::IrBinaryOperator(IrArithmeticOperator arithmeticOperator,
     std::shared_ptr<IrExpression> left,
