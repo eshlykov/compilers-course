@@ -8,6 +8,8 @@ class IrJump;
 class IrName;
 class IrMove;
 class IrTemporary;
+class IrBinaryOperator;
+class IrMemory;
 
 class IrVisitor {
 public:
@@ -19,4 +21,6 @@ public:
     virtual void Visit(IrMove*) = 0;
     virtual void Visit(IrName*) = 0;
     virtual void Visit(IrTemporary*) = 0;
+    virtual void Visit(IrBinaryOperator*) = 0;
+    virtual void Visit(IrMemory*) = 0;
 };
