@@ -1,0 +1,21 @@
+#pragma once
+
+#include "../utils/location.hpp"
+#include "../utils/visitor.hpp"
+#include <cassert>
+
+class Node {
+public:
+    Node() = default;
+
+    virtual ~Node() = default;
+
+    virtual void Accept(Visitor*) = 0;
+
+    void SetLocation(const Location& location);
+
+    const Location& GetLocation() const;
+
+private:
+    Location location_;
+};
