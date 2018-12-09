@@ -2,15 +2,14 @@
 
 #include "ir-expression.hpp"
 #include <memory>
+#include <string>
 
-class IrLabel;
-
-class IrName : public IrExpression {
+class IrTemporary : public IrExpression {
 public:
-    IrName(std::shared_ptr<IrLabel> label);
+    IrTemporary(const std::string& temporary);
 
     virtual void Accept(IrVisitor* visitor) override final;
 
 public:
-    std::shared_ptr<IrLabel> label_;
+    const std::string temporary_;
 };
