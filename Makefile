@@ -1,6 +1,5 @@
 CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
-PP = `find . -name "*pp"`
 
 compile:
 	flex -olexer.cpp lexer.l
@@ -22,7 +21,7 @@ leaks_check: compile
 
 cppcheck:
 	git clean -fdx > /dev/null
-	cppcheck --enable=all -f $(PP)
+	cppcheck --enable=all -f $(CPP)
 
 travis_compile:
 	flex -olexer.cpp lexer.l
@@ -42,7 +41,7 @@ travis_draw: travis_compile
 
 travis_cppcheck:
 	git clean -fdx > /dev/null
-	cppcheck --enable=all -f $(PP)
+	cppcheck --enable=all -f $(CPP)
 
 travis_leaks_check: compile
 	python3 testlib/memory_leak_checker.py compiler
