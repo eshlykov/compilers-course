@@ -11,3 +11,4 @@ parser.hpp
 *.dot
 *.svg
 *.log
+.editorconfig
