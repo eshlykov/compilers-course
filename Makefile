@@ -48,6 +48,6 @@ travis_cppcheck:
 	cppcheck --enable=all -f $(PP)
 
 travis_leaks_check: compile
-    python3 testlib/memory_leak_checker.py compiler
+	python3 testlib/memory_leak_checker.py compiler
 
 travis_all_checks: travis_test travis_draw travis_cppcheck travis_leaks_check
