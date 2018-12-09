@@ -9,7 +9,7 @@ class IrPrinter : public IrVisitor {
 public:
     explicit IrPrinter(const std::string& filename);
 
-    ~Printer();
+    ~IrPrinter();
 
     virtual void Visit(IrBinaryOperator*) override final;
 

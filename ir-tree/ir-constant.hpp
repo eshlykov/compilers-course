@@ -8,6 +8,6 @@ public:
 
     virtual void Accept(IrVisitor* visitor) override final;
 
-private:
+public:
     const int value_;
 };

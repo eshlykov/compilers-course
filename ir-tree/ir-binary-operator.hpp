@@ -11,7 +11,7 @@ enum class IrArithmeticOperator {
 
 class IrBinaryOperator : public IrExpression {
 public:
-    IrBinaryOperator(IrArithmeticOperator binaryOperator,
+    IrBinaryOperator(IrArithmeticOperator arithmeticOperator,
         std::shared_ptr<IrExpression> left,
         std::shared_ptr<IrExpression> right);
 
