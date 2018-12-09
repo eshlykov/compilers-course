@@ -1,7 +1,7 @@
 #include "location.hpp"
 
 Location::Location() :
-    lineNumber_{0},
-    firstNumber_{0},
-    lastNumber_{0} {
+    lineNumber_{1},
+    firstColumn_{1},
+    lastColumn_{1} {
 }

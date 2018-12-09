@@ -44,14 +44,14 @@ int main(int argc, char* argv[]) {
     }
 
     if (!isParsed) {
-        std::cout << CompileError{"unxpected parser error", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
+        std::cout << CompileError{"unxpected parser error", {}}.GetMessage(sourceCode) << std::endl;
         return 1;
     }
 
     std::unique_ptr<Program> program = std::move(parserArgs.program_);
 
     if (program == nullptr) {
-        std::cout << CompileError{"program is null pointer", {1, 1, 1}}.GetMessage(sourceCode) << std::endl;
+        std::cout << CompileError{"program is null pointer", {}}.GetMessage(sourceCode) << std::endl;
         return 1;
     }
 
