@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../utils/irt.hpp"
+#include "../utils/address.hpp"
+#include "../utils/register.hpp"
 #include <memory>
 
 namespace Irt {
@@ -13,8 +15,7 @@ namespace Irt {
 
         virtual std::shared_ptr<Statement> ToStatement() const = 0;
 
-        virtual std::shared_ptr<Statement> ToConditionalJump(std::shared_ptr<Label>,
-            std::shared_ptr<Label>) const = 0;
+        virtual std::shared_ptr<Statement> ToConditionalJump(Address, Address) const = 0;
     };
 
 }

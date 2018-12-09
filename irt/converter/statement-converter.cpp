@@ -15,8 +15,7 @@ namespace Irt {
         return statement_;
     }
 
-    std::shared_ptr<Statement> StatementConverter::ToConditionalJump(std::shared_ptr<Label> labelIf,
-        std::shared_ptr<Label> labelElse) const {
+    std::shared_ptr<Statement> StatementConverter::ToConditionalJump(Address, Address) const {
         throw std::runtime_error{"StatementConverter::ToConditionalJump should never be called"};
     }
 

@@ -1,4 +1,5 @@
 #include "address.hpp"
+#include <cassert>
 
 namespace Irt {
 

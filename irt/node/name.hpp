@@ -7,7 +7,7 @@ namespace Irt {
 
     class Name : public Expression {
     public:
-        explicit Name(Address label);
+        explicit Name(const Address& label);
 
         virtual void Accept(Visitor* visitor) override final;
 

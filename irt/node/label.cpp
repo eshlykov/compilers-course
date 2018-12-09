@@ -2,7 +2,7 @@
 
 namespace Irt {
 
-    Label::Label(const std::string& label) :
+    Label::Label(const Address& label) :
         label_{label} {
     }
 

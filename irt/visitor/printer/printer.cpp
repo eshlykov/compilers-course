@@ -109,7 +109,7 @@ namespace Irt {
     }
 
     void Printer::Visit(Label* node) {
-        PrintHead(nodeNumber_, "Label : " + node->label_);
+        PrintHead(nodeNumber_, "Label : " + node->label_.ToString());
     }
 
     void Printer::Visit(Memory* node) {

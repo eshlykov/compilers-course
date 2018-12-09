@@ -8,30 +8,31 @@ namespace Irt {
     }
 
     std::shared_ptr<Expression> ConditionalJumpConverter::ToExpression() const {
-        /*Register temporary;
+        Register temporary;
         Address labelIf;
         Address labelElse;
         return std::make_shared<ExpressionSequence>(
-            std::make_shared<Move>(
-                std::make_shared<Temporary>(labelIf),
-                std::make_shared<Constant>(1)
-            ),
             std::make_shared<StatementSequence>(
-                ToConditionalJump(labelIf, labelFalse),
+                std::make_shared<Move>(
+                    std::make_shared<Temporary>(temporary),
+                    std::make_shared<Constant>(1)
+                ),
                 std::make_shared<StatementSequence>(
-                    std::make_shared<Label>(labelElse),
+                    ToConditionalJump(labelIf, labelElse),
                     std::make_shared<StatementSequence>(
-                        std::make_shared<Move>(
-                            std::make_shared<Temporary>(labelIf),
-                            std::make_shared<Constant>(0)
-                        ),
-                        std::make_shared<Label>(labelIf)
-                    ),
-                    std::make_shared<Temporary>(labelIf)
+                        std::make_shared<Label>(labelElse),
+                        std::make_shared<StatementSequence>(
+                            std::make_shared<Move>(
+                                std::make_shared<Temporary>(temporary),
+                                std::make_shared<Constant>(0)
+                            ),
+                            std::make_shared<Label>(labelIf)
+                        )
+                    )
                 )
-            )
-        );*/
-        return nullptr;
+            ),
+            std::make_shared<Temporary>(temporary)
+        );
     }
 
     std::shared_ptr<Statement> ConditionalJumpConverter::ToStatement() const {

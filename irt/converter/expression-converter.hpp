@@ -13,8 +13,7 @@ namespace Irt {
 
         virtual std::shared_ptr<Statement> ToStatement() const override final;
 
-        virtual std::shared_ptr<Statement> ToConditionalJump(std::shared_ptr<Label> labelIf,
-            std::shared_ptr<Label> labelElse) const override final;
+        virtual std::shared_ptr<Statement> ToConditionalJump(Address, Address) const override final;
 
     private:
         std::shared_ptr<Expression> expression_;

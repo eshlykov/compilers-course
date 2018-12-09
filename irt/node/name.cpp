@@ -2,7 +2,7 @@
 
 namespace Irt {
 
-    Name::Name(Address label) :
+    Name::Name(const Address& label) :
         label_{label} {
     }
 

@@ -5,8 +5,8 @@ namespace Irt {
     ConditionalJump::ConditionalJump(LogicalOperator logicalOperator,
         std::shared_ptr<Expression> expressionLeft,
         std::shared_ptr<Expression> expressionRight,
-        Address labelIf,
-        Address labelElse) :
+        const Address& labelIf,
+        const Address& labelElse) :
             logicalOperator_{logicalOperator},
             expressionLeft_{expressionLeft},
             expressionRight_{expressionRight},
