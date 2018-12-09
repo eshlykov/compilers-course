@@ -1,13 +1,9 @@
-#include "conditional-jump-converter.hpp"
+#include "condition-converter.hpp"
 #include <exception>
 
 namespace Irt {
 
-    ConditionalJumpConverter::ConditionalJumpConverter(std::shared_ptr<Statement> statement) :
-        statement_{statement} {
-    }
-
-    std::shared_ptr<Expression> ConditionalJumpConverter::ToExpression() const {
+    std::shared_ptr<Expression> ConditionConverter::ToExpression() const {
         Register temporary;
         Address labelIf;
         Address labelElse;
@@ -35,8 +31,8 @@ namespace Irt {
         );
     }
 
-    std::shared_ptr<Statement> ConditionalJumpConverter::ToStatement() const {
-        throw std::runtime_error{"ConditionalJumpConverter::ToStatement should never be called"};
+    std::shared_ptr<Statement> ConditionConverter::ToStatement() const {
+        return nullptr;
     }
 
 }
