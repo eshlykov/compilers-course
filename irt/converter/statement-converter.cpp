@@ -8,7 +8,7 @@ namespace Irt {
     }
 
     std::shared_ptr<Expression> StatementConverter::ToExpression() const {
-        throw std::runtime_error{"StatementConverter::ToExpression should never be called"};
+        return std::make_shared<ExpressionSequence>(statement, std::make_shared<Constant>(0));
     }
 
     std::shared_ptr<Statement> StatementConverter::ToStatement() const {
