@@ -10,7 +10,7 @@ namespace Irt {
             rightExpression_{rightExpression} {
     }
 
-    std::shared_ptr<Expression> ComparisonOperatorWrapper::ToRvalue() const {
+    std::shared_ptr<Expression> ComparisonOperatorWrapper::ToRValue() const {
         Register temp;
         Address ifTrue;
         Address ifFalse;

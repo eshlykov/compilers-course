@@ -6,7 +6,7 @@ namespace Irt {
         expression_{expression} {
     }
 
-    std::shared_ptr<Expression> ExpressionWrapper::ToRvalue() const {
+    std::shared_ptr<Expression> ExpressionWrapper::ToRValue() const {
         return expression_;
     }
 

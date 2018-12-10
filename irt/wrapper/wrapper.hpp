@@ -11,7 +11,7 @@ namespace Irt {
     public:
         virtual ~Wrapper() = default;
 
-        virtual std::shared_ptr<Expression> ToRvalue() const = 0;
+        virtual std::shared_ptr<Expression> ToRValue() const = 0;
 
         virtual std::shared_ptr<Statement> ToCondition(Address ifTrue, Address ifFalse) const = 0;
     };
