@@ -4,15 +4,15 @@
 namespace Irt {
 
     Jump::Jump(std::shared_ptr<Expression> expression,
-        const std::vector<Address>& labels) :
+        const std::vector<Address>& addresses) :
             expression_{expression},
-            labels_{labels} {
+            addresses_{addresses} {
         assert(expression_ != nullptr);
     }
 
-    Jump::Jump(const Address& label) :
-            expression_{std::make_shared<Name>(label)},
-            labels_{label} {
+    Jump::Jump(const Address& address) :
+            expression_{std::make_shared<Name>(address)},
+            addresses_{address} {
         assert(expression_ != nullptr);
     }
 

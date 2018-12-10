@@ -8,7 +8,7 @@ namespace Irt {
     public:
         Address();
 
-        explicit Address(const std::string& label);
+        explicit Address(const std::string& address);
 
         std::string ToString() const;
 

@@ -13,7 +13,7 @@ namespace Irt {
 
         virtual std::shared_ptr<Expression> ToRValue() const = 0;
 
-        virtual std::shared_ptr<Statement> ToCondition(Address ifTrue, Address ifFalse) const = 0;
+        virtual std::shared_ptr<Statement> ToCondition(Address addressIf, Address addressElse) const = 0;
     };
 
 }

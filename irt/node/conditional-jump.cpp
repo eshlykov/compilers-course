@@ -5,13 +5,13 @@ namespace Irt {
     ConditionalJump::ConditionalJump(LogicalOperator logicalOperator,
         std::shared_ptr<Expression> expressionLeft,
         std::shared_ptr<Expression> expressionRight,
-        const Address& labelIf,
-        const Address& labelElse) :
+        const Address& addressIf,
+        const Address& addressElse) :
             logicalOperator_{logicalOperator},
             expressionLeft_{expressionLeft},
             expressionRight_{expressionRight},
-            labelIf_{labelIf},
-            labelElse_{labelElse} {
+            addressIf_{addressIf},
+            addressElse_{addressElse} {
         assert(expressionLeft_ != nullptr);
         assert(expressionRight_ != nullptr);
     }

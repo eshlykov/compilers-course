@@ -12,14 +12,14 @@ namespace Irt {
 
     std::shared_ptr<Expression> ComparisonOperatorWrapper::ToRValue() const {
         Register temp;
-        Address ifTrue;
-        Address ifFalse;
+        Address addressIf;
+        Address addressElse;
         Address end;
         return std::make_shared<ExpressionSequence>(
-            ToCondition(ifTrue, ifFalse),
+            ToCondition(addressIf, addressElse),
             std::make_shared<ExpressionSequence>(
                 std::make_shared<StatementSequence>(
-                    std::make_shared<Label>(ifTrue),
+                    std::make_shared<Label>(addressIf),
                     std::make_shared<StatementSequence>(
                         std::make_shared<Move>(
                             std::make_shared<Temporary>(temp),
@@ -28,7 +28,7 @@ namespace Irt {
                         std::make_shared<StatementSequence>(
                             std::make_shared<Jump>(end),
                             std::make_shared<StatementSequence>(
-                                std::make_shared<Label>(ifFalse),
+                                std::make_shared<Label>(addressElse),
                                 std::make_shared<StatementSequence>(
                                     std::make_shared<Move>(
                                         std::make_shared<Temporary>(temp),
@@ -45,13 +45,13 @@ namespace Irt {
         );
     }
 
-    std::shared_ptr<Statement> ComparisonOperatorWrapper::ToCondition(Address ifTrue, Address ifFalse) const {
+    std::shared_ptr<Statement> ComparisonOperatorWrapper::ToCondition(Address addressIf, Address addressElse) const {
         return std::make_shared<ConditionalJump>(
             logicalOperator_,
             leftExpression_,
             rightExpression_,
-            ifTrue,
-            ifFalse
+            addressIf,
+            addressElse
         );
     }
 

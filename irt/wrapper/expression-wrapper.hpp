@@ -10,7 +10,7 @@ namespace Irt {
 
         virtual std::shared_ptr<Expression> ToRValue() const override final;
 
-        virtual std::shared_ptr<Statement> ToCondition(Address ifTrue, Address ifFalse) const override final;
+        virtual std::shared_ptr<Statement> ToCondition(Address addressIf, Address addressElse) const override final;
 
     private:
         const std::shared_ptr<Expression> expression_;

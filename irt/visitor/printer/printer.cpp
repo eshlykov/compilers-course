@@ -78,10 +78,10 @@ namespace Irt {
         node->expressionRight_->Accept(this);
 
         ++nodeNumber_;
-        PrintLeaf(headNodeNumber, "LabelIf", node->labelIf_.ToString());
+        PrintLeaf(headNodeNumber, "AddressIf", node->addressIf_.ToString());
 
         ++nodeNumber_;
-        PrintLeaf(headNodeNumber, "LabelElse", node->labelElse_.ToString());
+        PrintLeaf(headNodeNumber, "AddressElse", node->addressElse_.ToString());
     }
 
     void Printer::Visit(Constant* node) {
@@ -105,14 +105,14 @@ namespace Irt {
         int headNodeNumber = nodeNumber_;
         PrintHead(headNodeNumber, "Jump");
 
-        for (auto& label : node->labels_) {
+        for (auto& address : node->addresses_) {
             ++nodeNumber_;
-            PrintLeaf(headNodeNumber, "Label", label.ToString());
+            PrintLeaf(headNodeNumber, "Address", address.ToString());
         }
     }
 
     void Printer::Visit(Label* node) {
-        PrintHead(nodeNumber_, "Label : " + node->label_.ToString());
+        PrintHead(nodeNumber_, "Address : " + node->address_.ToString());
     }
 
     void Printer::Visit(Memory* node) {
@@ -142,7 +142,7 @@ namespace Irt {
         PrintHead(headNodeNumber, "Name");
 
         ++nodeNumber_;
-        PrintLeaf(headNodeNumber, "Label", node->label_.ToString());
+        PrintLeaf(headNodeNumber, "Address", node->address_.ToString());
     }
 
     void Printer::Visit(StatementSequence* node) {

@@ -10,13 +10,13 @@ namespace Irt {
         return expression_;
     }
 
-    std::shared_ptr<Statement> ExpressionWrapper::ToCondition(Address ifTrue, Address ifFalse) const {
+    std::shared_ptr<Statement> ExpressionWrapper::ToCondition(Address addressIf, Address addressElse) const {
         return std::make_shared<ConditionalJump>(
             LogicalOperator::Equal,
             expression_,
             std::make_shared<Constant>(1),
-            ifTrue,
-            ifFalse);
+            addressIf,
+            addressElse);
     }
 
 }

@@ -11,15 +11,15 @@ namespace Irt {
     class Jump : public Statement {
     public:
         Jump(std::shared_ptr<Expression> expression,
-            const std::vector<Address>& labels);
+            const std::vector<Address>& addresses);
 
-        Jump(const Address& label);
+        Jump(const Address& address);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
         const std::shared_ptr<Expression> expression_;
-        const std::vector<Address> labels_;
+        const std::vector<Address> addresses_;
     };
 
 }

@@ -8,12 +8,12 @@ namespace Irt {
 
     class Label : public Statement {
     public:
-        explicit Label(const Address& label);
+        explicit Label(const Address& address);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
-        const Address label_;
+        const Address address_;
     };
 
 }

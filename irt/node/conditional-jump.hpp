@@ -18,8 +18,8 @@ namespace Irt {
         ConditionalJump(LogicalOperator logicalOperator,
             std::shared_ptr<Expression> expressionLeft,
             std::shared_ptr<Expression> expressionRight,
-            const Address& labelIf,
-            const Address& labelElse);
+            const Address& addressIf,
+            const Address& addressElse);
 
         virtual void Accept(Visitor* visitor) override final;
 
@@ -27,8 +27,8 @@ namespace Irt {
         const LogicalOperator logicalOperator_;
         const std::shared_ptr<Expression> expressionLeft_;
         const std::shared_ptr<Expression> expressionRight_;
-        const Address labelIf_;
-        const Address labelElse_;
+        const Address addressIf_;
+        const Address addressElse_;
     };
 
 }

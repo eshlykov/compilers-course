@@ -2,8 +2,8 @@
 
 namespace Irt {
 
-    Label::Label(const Address& label) :
-        label_{label} {
+    Label::Label(const Address& address) :
+        address_{address} {
     }
 
     void Label::Accept(Visitor* visitor) {

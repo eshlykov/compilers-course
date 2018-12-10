@@ -8,8 +8,8 @@ namespace Irt {
         ++counter_;
     }
 
-    Address::Address(const std::string& label) :
-        id_{std::stoi(label)} {
+    Address::Address(const std::string& address) :
+        id_{std::stoi(address)} {
         assert(id_ <= counter_);
         counter_ = id_ + 1;
     }
