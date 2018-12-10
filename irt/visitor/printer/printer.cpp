@@ -159,7 +159,7 @@ namespace Irt {
     }
 
     void Printer::Visit(Temporary* node) {
-        PrintHead(nodeNumber_, "Temporary : " + node->temporary_.ToString());
+        PrintHead(nodeNumber_, "Temporary : " + node->storage_.ToString());
     }
 
     void Printer::Visit(Void* node) {

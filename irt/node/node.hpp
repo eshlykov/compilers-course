@@ -2,7 +2,7 @@
 
 #include "../visitor/visitor.hpp"
 #include "../utils/address.hpp"
-#include "../utils/register.hpp"
+#include "../utils/storage.hpp"
 #include <cassert>
 
 namespace Irt {

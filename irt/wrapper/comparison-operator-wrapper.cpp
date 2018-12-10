@@ -11,10 +11,10 @@ namespace Irt {
     }
 
     std::shared_ptr<Expression> ComparisonOperatorWrapper::ToRValue() const {
-        Register temp;
+        Storage storage;
         Address addressIf;
         Address addressElse;
-        Address end;
+        Address addressEnd;
         return std::make_shared<ExpressionSequence>(
             ToCondition(addressIf, addressElse),
             std::make_shared<ExpressionSequence>(
@@ -22,25 +22,25 @@ namespace Irt {
                     std::make_shared<Label>(addressIf),
                     std::make_shared<StatementSequence>(
                         std::make_shared<Move>(
-                            std::make_shared<Temporary>(temp),
+                            std::make_shared<Temporary>(storage),
                             std::make_shared<Constant>(1)
                         ),
                         std::make_shared<StatementSequence>(
-                            std::make_shared<Jump>(end),
+                            std::make_shared<Jump>(addressEnd),
                             std::make_shared<StatementSequence>(
                                 std::make_shared<Label>(addressElse),
                                 std::make_shared<StatementSequence>(
                                     std::make_shared<Move>(
-                                        std::make_shared<Temporary>(temp),
+                                        std::make_shared<Temporary>(storage),
                                         std::make_shared<Constant>(0)
                                     ),
-                                    std::make_shared<Label>(end)
+                                    std::make_shared<Label>(addressEnd)
                                 )
                             )
                         )
                     )
                 ),
-                std::make_shared<Temporary>(temp)
+                std::make_shared<Temporary>(storage)
             )
         );
     }

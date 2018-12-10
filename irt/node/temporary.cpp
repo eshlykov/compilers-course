@@ -2,8 +2,8 @@
 
 namespace Irt {
 
-    Temporary::Temporary(Register temporary) :
-        temporary_(temporary) {
+    Temporary::Temporary(Storage storage) :
+        storage_(storage) {
     }
 
     void Temporary::Accept(Visitor* visitor) {

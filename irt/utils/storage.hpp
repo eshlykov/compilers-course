@@ -4,9 +4,9 @@
 
 namespace Irt {
 
-    class Register {
+    class Storage {
     public:
-        Register();
+        Storage();
 
         std::string ToString() const;
 

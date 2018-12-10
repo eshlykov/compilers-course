@@ -8,12 +8,12 @@ namespace Irt {
 
     class Temporary : public Expression {
     public:
-        explicit Temporary(Register temporary);
+        explicit Temporary(Storage storage);
 
         virtual void Accept(Visitor* visitor) override final;
 
     public:
-        const Register temporary_;
+        const Storage storage_;
     };
 
 }
