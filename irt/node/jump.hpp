@@ -13,6 +13,8 @@ namespace Irt {
         Jump(std::shared_ptr<Expression> expression,
             const std::vector<Address>& labels);
 
+        Jump(const Address& label);
+
         virtual void Accept(Visitor* visitor) override final;
 
     public:

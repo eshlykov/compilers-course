@@ -9,7 +9,8 @@ namespace Irt {
 
     enum class LogicalOperator {
         And,
-        Less
+        Less,
+        Equal
     };
 
     class ConditionalJump : public Statement {

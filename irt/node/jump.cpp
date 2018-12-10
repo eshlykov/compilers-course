@@ -1,4 +1,5 @@
 #include "jump.hpp"
+#include "name.hpp"
 
 namespace Irt {
 
@@ -6,6 +7,12 @@ namespace Irt {
         const std::vector<Address>& labels) :
             expression_{expression},
             labels_{labels} {
+        assert(expression_ != nullptr);
+    }
+
+    Jump::Jump(const Address& label) :
+            expression_{std::make_shared<Name>(label)},
+            labels_{label} {
         assert(expression_ != nullptr);
     }
 

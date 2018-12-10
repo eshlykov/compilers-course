@@ -64,6 +64,9 @@ namespace Irt {
             case LogicalOperator::Less:
                 PrintHead(headNodeNumber, "LogicalOperator : <");
                 break;
+            case LogicalOperator::Equal:
+                PrintHead(headNodeNumber, "LogicalOperator : ==");
+                break;
         }
 
         ++nodeNumber_;
