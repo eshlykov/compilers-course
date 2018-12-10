@@ -8,7 +8,7 @@ namespace Irt {
     }
 
     std::shared_ptr<Expression> StatementConverter::ToExpression() const {
-        return std::make_shared<ExpressionSequence>(statement, std::make_shared<Constant>(0));
+        return std::make_shared<ExpressionSequence>(statement_, std::make_shared<Constant>(0));
     }
 
     std::shared_ptr<Statement> StatementConverter::ToStatement() const {
