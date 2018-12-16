@@ -32,8 +32,14 @@ int main(int argc, char* argv[]) {
     SourceCode sourceCode{filename};
 
     yyin = std::fopen(filename.c_str(), "r");
+    if (yyin == nullptr) {
+        std::cout << "cannot open file " << filename << std::endl;
+    }
+
     ParserArgs parserArgs;
     bool isParsed = yyparse(parserArgs) == 0;
+
+    std::fclose(yyin);
 
     std::vector<CompileError> errors = parserArgs.errors_;
     if (!errors.empty()) {
