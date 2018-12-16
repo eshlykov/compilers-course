@@ -66,6 +66,25 @@ namespace Ast {
     }
 
     void Translator::Visit(IndexExpression* node) {
+        node->lhs_->Accept(this);
+        std::shared_ptr<Irt::Expression> array = wrapper_->ToRValue();
+
+        node->rhs_->Accept(this);
+        std::shared_ptr<Irt::Expression> index = wrapper_->ToRValue();
+
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::BinaryOperator>(
+                Irt::ArithmeticOperator::Plus,
+                array,
+                std::make_shared<Irt::BinaryOperator>(
+                    Irt::ArithmeticOperator::Multiplication,
+                    index,
+                    std::make_shared<Irt::Constant>(
+                        Irt::Frame::WordSize_
+                    )
+                )
+            )
+        );
     }
 
     void Translator::Visit(IntArrayConstructorExpression* node) {
