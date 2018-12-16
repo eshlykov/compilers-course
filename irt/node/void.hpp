@@ -3,9 +3,9 @@
 #include "statement.hpp"
 #include <memory>
 
-class Expression;
-
 namespace Irt {
+
+    class Expression;
 
     class Void : public Statement {
     public:

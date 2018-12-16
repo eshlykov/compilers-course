@@ -1,6 +1,7 @@
 #pragma once
 
 #include "statement.hpp"
+#include "../utils/address.hpp"
 #include <memory>
 
 namespace Irt {

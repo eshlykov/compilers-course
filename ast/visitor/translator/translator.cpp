@@ -210,6 +210,20 @@ namespace Ast {
     }
 
     void Translator::Visit(ScopeStatement* node) {
+        std::shared_ptr<Irt::Statement> scopeStatement = std::make_shared<Irt::Void>(
+            std::make_shared<Irt::Constant>(0)
+        );
+
+        for (auto&& statement : node->statements_) {
+            statement->Accept(this);
+
+            scopeStatement = std::make_shared<Irt::StatementSequence>(
+                scopeStatement,
+                statement_
+            );
+        }
+
+        statement_ = scopeStatement;
     }
 
     void Translator::Visit(ThisExpression* node) {
@@ -222,6 +236,7 @@ namespace Ast {
     }
 
     void Translator::Visit(VarDeclaration* node) {
+
     }
 
     std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(BinaryOperator binaryOperator) {
