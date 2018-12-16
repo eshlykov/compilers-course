@@ -18,6 +18,11 @@ namespace Irt {
         AddInStorage(name, localVariables_);
     }
 
+    std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
+        std::shared_ptr<const Access> access = FindFormalParameterOrLocalVariable(name);
+        return access->GetData();
+    }
+
     std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(const std::string& name) const {
         auto access = FindInStorage(name, formalParameters_);
         access = access != nullptr ? access : FindInStorage(name, localVariables_);
@@ -40,5 +45,7 @@ namespace Irt {
         });
         return iter != storage.end() ? iter->second : nullptr;
     }
+
+    const Storage Frame::FramePointer_;
 
 }

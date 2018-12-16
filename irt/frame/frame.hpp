@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../utils/storage.hpp"
+#include "../node/expression.hpp"
 #include "access.hpp"
 #include <memory>
 #include <string>
@@ -17,10 +18,12 @@ namespace Irt {
 
         void AddLocalVariable(const std::string& name);
 
-        std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(const std::string& name) const;
+        std::shared_ptr<Expression> GetData(const std::string& name);
 
     private:
         using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
+
+        std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(const std::string& name) const;
 
         void AddInStorage(const std::string& name, std::vector<KeyType>& storage);
 
