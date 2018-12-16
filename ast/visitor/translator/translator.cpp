@@ -46,7 +46,11 @@ namespace Ast {
     }
 
     void Translator::Visit(BooleanExpression* node) {
-        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(std::make_shared<Irt::Constant>(node->value_ ? 1 : 0));
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::Constant>(
+                node->value_ ? 1 : 0
+            )
+        );
     }
 
     void Translator::Visit(ClassBody* node) {
