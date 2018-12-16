@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../utils/storage.hpp"
 #include "access.hpp"
 #include <memory>
 #include <string>
@@ -27,13 +28,13 @@ namespace Irt {
 
     public:
         static constexpr int WordSize_ = sizeof(nullptr);
+        static const Storage FramePointer_;
 
     private:
         const std::string name_;
         int size_;
         std::vector<KeyType> formalParameters_;
         std::vector<KeyType> localVariables_;
-
     };
 
 }
