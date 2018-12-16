@@ -5,7 +5,8 @@
 namespace Irt {
 
     enum class SystemFunction : int {
-        New
+        New,
+        Print
     };
 
     class Address {

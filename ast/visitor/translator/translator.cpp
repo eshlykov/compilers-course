@@ -265,6 +265,7 @@ namespace Ast {
     }
 
     void Translator::Visit(MethodCallExpression* node) {
+
     }
 
     void Translator::Visit(MethodDeclaration* node) {
@@ -317,6 +318,18 @@ namespace Ast {
     }
 
     void Translator::Visit(PrintStatement* node) {
+        node->expression_->Accept(this);
+
+        Irt::Address addressPrint{Irt::SystemFunction::Print};
+
+        statement_ = std::make_shared<Irt::Void>(
+            std::make_shared<Irt::Call>(
+                std::make_shared<Irt::Name>(addressPrint),
+                std::vector<std::shared_ptr<Irt::Expression>>{
+                    wrapper_->ToRValue()
+                }
+            )
+        );
     }
 
     void Translator::Visit(Program* node) {
