@@ -6,6 +6,12 @@ namespace Ast {
     }
 
     void Translator::Visit(AssignmentStatement* node) {
+        node->expression_->Accept(this);
+
+        statement_ = std::make_shared<Irt::Move>(
+            codeFragment_.frame_->GetData(node->variable_),
+            wrapper_->ToRValue()
+        );
     }
 
     void Translator::Visit(BinaryOperatorExpression* node) {

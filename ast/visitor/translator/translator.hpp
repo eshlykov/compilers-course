@@ -2,6 +2,7 @@
 
 #include "../../../utils/ast.hpp"
 #include "../../../utils/irt.hpp"
+#include "../../../irt/frame/code-fragment.hpp"
 #include "../../../irt/frame/frame.hpp"
 #include "../../../irt/wrapper/comparison-operator-wrapper.hpp"
 #include "../../../irt/wrapper/and-operator-wrapper.hpp"
@@ -71,6 +72,7 @@ namespace Ast {
     private:
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;
+        Irt::CodeFragment codeFragment_;
     };
 
 }

@@ -9,7 +9,7 @@ namespace Irt {
     public:
         CodeFragment(const std::shared_ptr<Frame>, const std::shared_ptr<Statement>);
 
-    private:
+    public:
         const std::shared_ptr<Frame> frame_;
         const std::shared_ptr<Statement> body_;
     };
