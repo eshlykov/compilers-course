@@ -10,23 +10,23 @@ namespace Ast {
 
     void Translator::Visit(BinaryOperatorExpression* node) {
         node->lhs_->Accept(this);
-        std::shared_ptr<Irt::Wrapper> leftWrapper = wrapper_;
+        std::shared_ptr<Irt::Expression> lhs = wrapper_->ToRValue();
 
         node->rhs_->Accept(this);
-        std::shared_ptr<Irt::Wrapper> rightWrapper = wrapper_;
+        std::shared_ptr<Irt::Expression> rhs = wrapper_->ToRValue();
 
         switch (node->binaryOperator_) {
         case Ast::BinaryOperator::And:
             wrapper_ = std::make_shared<Irt::AndOperatorWrapper>(
-                leftWrapper->ToRValue(),
-                rightWrapper->ToRValue()
+                lhs,
+                rhs
             );
             break;
         case Ast::BinaryOperator::Less:
             wrapper_ = std::make_shared<Irt::ComparisonOperatorWrapper>(
                 Irt::LogicalOperator::Less,
-                leftWrapper->ToRValue(),
-                rightWrapper->ToRValue()
+                lhs,
+                rhs
             );
             break;
         default:
@@ -36,8 +36,8 @@ namespace Ast {
                 wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
                     std::make_shared<Irt::BinaryOperator>(
                         arithmeticOperator.value(),
-                        leftWrapper->ToRValue(),
-                        rightWrapper->ToRValue()
+                        lhs,
+                        rhs
                     )
                 );
                 break;
