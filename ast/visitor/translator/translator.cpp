@@ -40,16 +40,13 @@ namespace Ast {
                         rhs
                     )
                 );
-                break;
             }
         }
     }
 
     void Translator::Visit(BooleanExpression* node) {
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            std::make_shared<Irt::Constant>(
-                node->value_ ? 1 : 0
-            )
+            std::make_shared<Irt::Constant>(node->value_ ? 1 : 0)
         );
     }
 
@@ -60,6 +57,37 @@ namespace Ast {
     }
 
     void Translator::Visit(ConditionStatement* node) {
+        node->condition_->Accept(this);
+
+        node->ifStatement_->Accept(this);
+        std::shared_ptr<Irt::Statement> ifStatement = statement_;
+
+        node->elseStatement_->Accept(this);
+        std::shared_ptr<Irt::Statement> elseStatement = statement_;
+
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+        Irt::Address addressEnd;
+
+        statement_ = std::make_shared<Irt::StatementSequence>(
+            wrapper_->ToCondition(addressIf, addressElse),
+            std::make_shared<Irt::StatementSequence>(
+                std::make_shared<Irt::Label>(addressIf),
+                std::make_shared<Irt::StatementSequence>(
+                    ifStatement,
+                    std::make_shared<Irt::StatementSequence>(
+                        std::make_shared<Irt::Jump>(addressEnd),
+                        std::make_shared<Irt::StatementSequence>(
+                            std::make_shared<Irt::Label>(addressElse),
+                            std::make_shared<Irt::StatementSequence>(
+                                elseStatement,
+                                std::make_shared<Irt::Label>(addressEnd)
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     void Translator::Visit(IdentifierExpression* node) {
@@ -79,9 +107,7 @@ namespace Ast {
                 std::make_shared<Irt::BinaryOperator>(
                     Irt::ArithmeticOperator::Multiplication,
                     index,
-                    std::make_shared<Irt::Constant>(
-                        Irt::Frame::WordSize_
-                    )
+                    std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
                 )
             )
         );
@@ -95,19 +121,16 @@ namespace Ast {
 
     void Translator::Visit(LoopStatement* node) {
         node->condition_->Accept(this);
-
-        Irt::Address addressIf;
-        Irt::Address addressElse;
-        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondition(addressIf, addressElse);
-
         node->statement_->Accept(this);
 
         Irt::Address addressCondition;
+        Irt::Address addressIf;
+        Irt::Address addressElse;
 
         statement_ = std::make_shared<Irt::StatementSequence>(
             std::make_shared<Irt::Label>(addressCondition),
             std::make_shared<Irt::StatementSequence>(
-                condition,
+                wrapper_->ToCondition(addressIf, addressElse),
                 std::make_shared<Irt::StatementSequence>(
                     std::make_shared<Irt::Label>(addressIf),
                     std::make_shared<Irt::StatementSequence>(
@@ -176,9 +199,7 @@ namespace Ast {
 
     void Translator::Visit(NumberExpression* node) {
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            std::make_shared<Irt::Constant>(
-                node->value_
-            )
+            std::make_shared<Irt::Constant>(node->value_)
         );
     }
 
