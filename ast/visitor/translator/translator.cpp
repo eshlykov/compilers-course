@@ -3,6 +3,26 @@
 namespace Ast {
 
     void Translator::Visit(AssignmentByIndexStatement* node) {
+        node->index_->Accept(this);
+        std::shared_ptr<Irt::Expression> index = wrapper_->ToRValue();
+
+        node->expression_->Accept(this);
+        std::shared_ptr<Irt::Expression> value = wrapper_->ToRValue();
+
+        statement_ = std::make_shared<Irt::Move>(
+            std::make_shared<Irt::Memory>(
+                std::make_shared<Irt::BinaryOperator>(
+                    Irt::ArithmeticOperator::Plus,
+                    codeFragment_.frame_->GetData(node->array_),
+                    std::make_shared<Irt::BinaryOperator>(
+                        Irt::ArithmeticOperator::Multiplication,
+                        index,
+                        std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
+                    )
+                )
+            ),
+            value
+        );
     }
 
     void Translator::Visit(AssignmentStatement* node) {
