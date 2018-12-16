@@ -16,4 +16,5 @@ namespace Irt {
         static int counter_;
         int id_;
     };
+
 }

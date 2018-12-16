@@ -1,7 +1,14 @@
 #pragma once
 
 #include "../../../utils/ast.hpp"
+#include "../../../utils/irt.hpp"
+#include "../../../irt/wrapper/comparison-operator-wrapper.hpp"
+#include "../../../irt/wrapper/and-operator-wrapper.hpp"
+#include "../../../irt/wrapper/expression-wrapper.hpp"
 #include "../visitor.hpp"
+#include <cassert>
+#include <memory>
+#include <optional>
 
 namespace Ast {
 
@@ -56,6 +63,12 @@ namespace Ast {
         virtual void Visit(UserTypeConstructorExpression* node) override final;
 
         virtual void Visit(VarDeclaration* node) override final;
+
+    private:
+        std::optional<Irt::ArithmeticOperator> ToIrtArithmeticOperator(BinaryOperator binaryOperator);
+
+    private:
+        std::shared_ptr<Irt::Wrapper> wrapper_;
     };
 
 }
