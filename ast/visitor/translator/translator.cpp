@@ -112,6 +112,11 @@ namespace Ast {
     }
 
     void Translator::Visit(NumberExpression* node) {
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::Constant>(
+                node->value_
+            )
+        );
     }
 
     void Translator::Visit(PrintStatement* node) {
