@@ -1,7 +1,10 @@
 
 language: cpp
-compiler: gcc
-dist: trusty
+
+compiler:
+  - clang
+
+dist: xenial
 
 branches:
   only:
@@ -17,8 +20,6 @@ before_install:
   - sudo apt-get install valgrind
 
 install:
-  - sudo apt-get install -qq g++-7
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - sudo apt-get install flex
   - sudo apt-get install bison
   - sudo apt-get install -qq cppcheck
