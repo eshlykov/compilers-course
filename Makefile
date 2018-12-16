@@ -26,7 +26,7 @@ cppcheck:
 travis_compile:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	g++ $(CPP) -std=c++17 -Wno-register -Wno-deprecated -o compiler
+	clang++ $(CPP) -std=c++17 -Wno-register -Wno-deprecated -o compiler
 
 travis: travis_compile
 	python3 testlib/tester.py compiler
