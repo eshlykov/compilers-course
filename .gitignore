@@ -12,3 +12,4 @@ parser.hpp
 *.svg
 *.log
 .editorconfig
+compiler.dSYM
