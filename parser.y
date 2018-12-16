@@ -151,6 +151,8 @@ Goal :
     MainClass ClassDeclarationRepeated {
         parserArgs.program_ = std::make_unique<Program>(location, std::move(*$1), *$2);
         $$ = 0;
+        delete $1;
+        delete $2;
     }
 ;
 
@@ -160,6 +162,7 @@ ClassDeclarationRepeated :
     } | ClassDeclarationRepeated ClassDeclaration {
         $1->push_back(std::move(*$2));
         $$ = $1;
+        delete $2;
     } | ClassDeclarationRepeated TT_RightBrace {
         $$ = $1;
         yyerrok;
@@ -173,6 +176,9 @@ MainClass :
          TT_RightBrace
     TT_RightBrace {
         $$ = new std::unique_ptr<MainClass>{new MainClass{location, *$2, *$12, std::move(*$15)}};
+        delete $2;
+        delete $12;
+        delete $15;
     }
 ;
 
@@ -181,6 +187,7 @@ ExtendsIdentifierOptional :
         $$ = new std::optional<std::string>{};
     } | TT_Extends Identifier {
         $$ = new std::optional<std::string>{*$2};
+        delete $2;
     }
 ;
 
@@ -190,6 +197,7 @@ VarDeclarationRepeated :
     } | VarDeclarationRepeated VarDeclaration {
         $1->push_back(std::move(*$2));
         $$ = $1;
+        delete $2;
     } | VarDeclarationRepeated error TT_Semicolon {
         $$ = $1;
         yyerrok;
@@ -202,6 +210,7 @@ MethodDeclarationRepeated :
     } | MethodDeclarationRepeated MethodDeclaration {
         $1->push_back(std::move(*$2));
         $$ = $1;
+        delete $2;
     }
 ;
 
@@ -211,12 +220,18 @@ ClassDeclaration :
         MethodDeclarationRepeated
     TT_RightBrace {
         $$ = new std::unique_ptr<ClassDeclaration>{new ClassDeclaration{location, *$2, *$3, std::make_unique<ClassBody>(location, *$5, *$6)}};
+        delete $2;
+        delete $3;
+        delete $5;
+        delete $6;
     }
 ;
 
 VarDeclaration :
     Type Identifier TT_Semicolon {
         $$ = new std::unique_ptr<VarDeclaration>{new VarDeclaration{location, std::move(*$1), *$2}};
+        delete $1;
+        delete $2;
     }
 ;
 
@@ -226,9 +241,11 @@ CommaTypeIdentifierRepeated :
     } | CommaTypeIdentifierRepeated TT_Comma Type Identifier {
         $1->push_back(std::make_unique<VarDeclaration>(location, std::move(*$3), *$4));
         $$ = $1;
+        delete $3;
+        delete $4;
     } | CommaTypeIdentifierRepeated error TT_Identifier {
         $$ = $1;
-        static_cast<void>($3); // remove warning 'unused value'
+        delete $3;
         yyerrok;
     }
 ;
@@ -239,6 +256,8 @@ TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     } | Type Identifier CommaTypeIdentifierRepeated {
         $3->push_back(std::make_unique<VarDeclaration>(location, std::move(*$1), *$2));
         $$ = $3;
+        delete $1;
+        delete $2;
     }
 ;
 
@@ -249,6 +268,12 @@ MethodDeclaration :
         TT_Return Expression TT_Semicolon
     TT_RightBrace {
         $$ = new std::unique_ptr<MethodDeclaration>{new MethodDeclaration{location, std::move(*$2), *$3, *$5, std::make_unique<MethodBody>(location, *$8, *$9, std::move(*$11))}};
+        delete $2;
+        delete $3;
+        delete $5;
+        delete $8;
+        delete $9;
+        delete $11;
     }
 ;
 
@@ -261,6 +286,7 @@ Type :
         $$ = new std::unique_ptr<Type>{new Type{location, TypeKind::Int}};
     } | Identifier {
         $$ = new std::unique_ptr<Type>{new Type{location, *$1}};
+        delete $1;
     }
 ;
 
@@ -270,22 +296,35 @@ StatementRepeated :
     } | Statement StatementRepeated {
         $2->push_back(std::move(*$1));
         $$ = $2;
+        delete $1;
     }
 ;
 
 Statement :
     TT_LeftBrace StatementRepeated TT_RightBrace {
         $$ = new std::unique_ptr<Statement>{new ScopeStatement{location, *$2}};
+        delete $2;
     } | TT_If TT_LeftParen Expression TT_RightParen Statement TT_Else Statement {
         $$ = new std::unique_ptr<Statement>{new ConditionStatement{location, std::move(*$3), std::move(*$5), std::move(*$7)}};
+        delete $3;
+        delete $5;
+        delete $7;
     } | TT_While TT_LeftParen Expression TT_RightParen Statement {
         $$ = new std::unique_ptr<Statement>{new LoopStatement{location, std::move(*$3), std::move(*$5)}};
+        delete $3;
+        delete $5;
     } | TT_Print TT_LeftParen Expression TT_RightParen TT_Semicolon {
         $$ = new std::unique_ptr<Statement>{new PrintStatement{location, std::move(*$3)}};
+        delete $3;
     } | Identifier TT_Assignment Expression TT_Semicolon {
         $$ = new std::unique_ptr<Statement>{new AssignmentStatement{location, *$1, std::move(*$3)}};
+        delete $1;
+        delete $3;
     } | Identifier TT_LeftBracket Expression TT_RightBracket TT_Assignment Expression TT_Semicolon {
         $$ = new std::unique_ptr<Statement>{new AssignmentByIndexStatement{location, *$1, std::move(*$3), std::move(*$6)}};
+        delete $1;
+        delete $3;
+        delete $6;
     }
 ;
 
@@ -295,6 +334,7 @@ CommaExpressionRepeated :
     } | CommaExpressionRepeated TT_Comma Expression {
         $1->push_back(std::move(*$3));
         $$ = $1;
+        delete $3;
     }
 ;
 
@@ -304,26 +344,43 @@ ExpressionCommaExpressionRepeatedOptional :
     } | Expression CommaExpressionRepeated {
         $2->push_back(std::move(*$1));
         $$ = $2;
+        delete $1;
     }
 ;
 
 Expression :
     Expression TT_And Expression {
         $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::And}};
+        delete $1;
+        delete $3;
     } | Expression TT_Less Expression {
         $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Less}};
+        delete $1;
+        delete $3;
     } | Expression TT_Plus Expression {
         $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Plus}};
+        delete $1;
+        delete $3;
     } | Expression TT_Minus Expression {
         $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Minus}};
+        delete $1;
+        delete $3;
     } | Expression TT_Star Expression {
         $$ = new std::unique_ptr<Expression>{new BinaryOperatorExpression{location, std::move(*$1), std::move(*$3), BinaryOperator::Star}};
+        delete $1;
+        delete $3;
     } | Expression TT_LeftBracket Expression TT_RightBracket {
         $$ = new std::unique_ptr<Expression>{new IndexExpression{location, std::move(*$1), std::move(*$3)}};
+        delete $1;
+        delete $3;
     } | Expression TT_Dot TT_Length {
         $$ = new std::unique_ptr<Expression>{new LengthExpression{location, std::move(*$1)}};
+        delete $1;
     } | Expression TT_Dot Identifier TT_LeftParen ExpressionCommaExpressionRepeatedOptional TT_RightParen {
         $$ = new std::unique_ptr<Expression>{new MethodCallExpression{location, std::move(*$1), *$3, *$5}};
+        delete $1;
+        delete $3;
+        delete $5;
     } | Number {
         $$ = new std::unique_ptr<Expression>{new NumberExpression{location, $1}};
     } | TT_True {
@@ -332,14 +389,18 @@ Expression :
         $$ = new std::unique_ptr<Expression>{new BooleanExpression{location, false}};
     } | Identifier {
         $$ = new std::unique_ptr<Expression>{new IdentifierExpression{location, *$1}};
+        delete $1;
     } | TT_This {
         $$ = new std::unique_ptr<Expression>{new ThisExpression{location}};
     } | TT_New TT_Int TT_LeftBracket Expression TT_RightBracket {
         $$ = new std::unique_ptr<Expression>{new IntArrayConstructorExpression{location, std::move(*$4)}};
+        delete $4;
     } | TT_New Identifier TT_LeftParen TT_RightParen {
         $$ = new std::unique_ptr<Expression>{new UserTypeConstructorExpression{location, std::move(*$2)}};
+        delete $2;
     } | TT_Bang Expression {
         $$ = new std::unique_ptr<Expression>{new NotExpression{location, std::move(*$2)}};
+        delete $2;
     } | TT_LeftParen Expression TT_RightParen {
         $$ = $2;
     }
