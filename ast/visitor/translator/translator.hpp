@@ -70,6 +70,7 @@ namespace Ast {
 
     private:
         std::shared_ptr<Irt::Wrapper> wrapper_;
+        std::shared_ptr<Irt::Statement> statement_;
     };
 
 }

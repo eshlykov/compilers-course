@@ -94,6 +94,32 @@ namespace Ast {
     }
 
     void Translator::Visit(LoopStatement* node) {
+        node->condition_->Accept(this);
+
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondtion(addressIf, addressElse);
+
+        node->statement_->Accept(this);
+
+        Irt::Address addressCondition;
+
+        statement_ = std::make_shared<StatementSequence>(
+            std::make_shared<Label>(addressCondition),
+            std::make_shared<StatementSequence>(
+                condition,
+                std::make_shared<StatementSequence>(
+                    std::make_shared<Label>(addressIf),
+                    std::make_shared<StatementSequence>(
+                        statement_,
+                        std::make_shared<StatementSequence>(
+                            std::make_shared<Jump>(addressCondition>,
+                            std::make_shared<Label>(addressElse),
+                        )
+                    )
+                )
+            )
+        );
     }
 
     void Translator::Visit(MainClass* node) {
