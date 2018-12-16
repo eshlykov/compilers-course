@@ -4,7 +4,7 @@ CPP = `find . -name "*cpp"`
 compile:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
-	$(CC) $(CPP) -o compiler
+	$(CC) $(CPP) -g -o compiler
 
 default: compile
 	python3 testlib/tester.py compiler
