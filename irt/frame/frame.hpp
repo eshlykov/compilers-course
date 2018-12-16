@@ -25,13 +25,15 @@ namespace Irt {
 
         std::shared_ptr<const Access> FindInStorage(const std::string& name, const std::vector<KeyType>& storage) const;
 
+    public:
+        static constexpr int WordSize_ = sizeof(nullptr);
+
     private:
         const std::string name_;
         int size_;
         std::vector<KeyType> formalParameters_;
         std::vector<KeyType> localVariables_;
 
-        static constexpr int variableSize_ = sizeof(nullptr);
     };
 
 }
