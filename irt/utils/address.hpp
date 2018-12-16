@@ -4,11 +4,15 @@
 
 namespace Irt {
 
+    enum class SystemFunction : int {
+        New
+    };
+
     class Address {
     public:
         Address();
 
-        explicit Address(const std::string& address);
+        explicit Address(SystemFunction name);
 
         std::string ToString() const;
 

@@ -8,9 +8,8 @@ namespace Irt {
         ++counter_;
     }
 
-    Address::Address(const std::string& address) :
-        id_{std::stoi(address)} {
-        assert(id_ <= counter_);
+    Address::Address(SystemFunction name) :
+        id_{static_cast<std::underlying_type_t<SystemFunction>>(name)} {
         counter_ = id_ + 1;
     }
 
@@ -18,6 +17,6 @@ namespace Irt {
         return std::to_string(id_);
     }
 
-    int Address::counter_ = 0;
+    int Address::counter_ = 1024; // More than quantity of system function
 
 }
