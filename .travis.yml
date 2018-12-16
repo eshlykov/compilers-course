@@ -1,4 +1,3 @@
-
 language: cpp
 
 compiler:
@@ -26,4 +25,4 @@ install:
   - sudo apt-get install -qq cppcheck
 
 script:
-  - make all_checks
+  - make travis_all_checks
