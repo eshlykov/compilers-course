@@ -135,6 +135,43 @@ namespace Ast {
     }
 
     void Translator::Visit(NotExpression* node) {
+        node->expression_->Accept(this);
+
+        Irt::Storage storage;
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+        Irt::Address addressEnd;
+
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::ExpressionSequence>(
+                std::make_shared<Irt::StatementSequence>(
+                    wrapper_->ToCondition(addressIf, addressElse),
+                    std::make_shared<Irt::StatementSequence>(
+                        std::make_shared<Irt::Label>(addressIf),
+                        std::make_shared<Irt::StatementSequence>(
+                            std::make_shared<Irt::Move>(
+                                std::make_shared<Irt::Temporary>(storage),
+                                std::make_shared<Irt::Constant>(0)
+                            ),
+                            std::make_shared<Irt::StatementSequence>(
+                                std::make_shared<Irt::Jump>(addressEnd),
+                                std::make_shared<Irt::StatementSequence>(
+                                    std::make_shared<Irt::Label>(addressElse),
+                                    std::make_shared<Irt::StatementSequence>(
+                                        std::make_shared<Irt::Move>(
+                                            std::make_shared<Irt::Temporary>(storage),
+                                            std::make_shared<Irt::Constant>(1)
+                                        ),
+                                        std::make_shared<Irt::Label>(addressEnd)
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                std::make_shared<Irt::Temporary>(storage)
+            )
+        );
     }
 
     void Translator::Visit(NumberExpression* node) {
