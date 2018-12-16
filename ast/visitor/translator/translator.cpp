@@ -98,23 +98,23 @@ namespace Ast {
 
         Irt::Address addressIf;
         Irt::Address addressElse;
-        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondtion(addressIf, addressElse);
+        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondition(addressIf, addressElse);
 
         node->statement_->Accept(this);
 
         Irt::Address addressCondition;
 
-        statement_ = std::make_shared<StatementSequence>(
-            std::make_shared<Label>(addressCondition),
-            std::make_shared<StatementSequence>(
+        statement_ = std::make_shared<Irt::StatementSequence>(
+            std::make_shared<Irt::Label>(addressCondition),
+            std::make_shared<Irt::StatementSequence>(
                 condition,
-                std::make_shared<StatementSequence>(
-                    std::make_shared<Label>(addressIf),
-                    std::make_shared<StatementSequence>(
+                std::make_shared<Irt::StatementSequence>(
+                    std::make_shared<Irt::Label>(addressIf),
+                    std::make_shared<Irt::StatementSequence>(
                         statement_,
-                        std::make_shared<StatementSequence>(
-                            std::make_shared<Jump>(addressCondition>,
-                            std::make_shared<Label>(addressElse),
+                        std::make_shared<Irt::StatementSequence>(
+                            std::make_shared<Irt::Jump>(addressCondition),
+                            std::make_shared<Irt::Label>(addressElse)
                         )
                     )
                 )
