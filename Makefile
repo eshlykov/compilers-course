@@ -10,10 +10,10 @@ default: compile
 	python3 testlib/tester.py compiler
 
 test: compile
+	./testlib/test-folder-creation.sh
 	python3 testlib/tester.py compiler
 
 draw: compile
-	./testlib/test-folder-creation.sh
 	python3 testlib/drawer.py compiler
 
 leaks_check: compile
@@ -24,4 +24,3 @@ cppcheck:
 	cppcheck --enable=all -f $(CPP)
 
 all_checks: test draw cppcheck leaks_check
-
