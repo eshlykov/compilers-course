@@ -9,6 +9,7 @@ namespace Ast {
         if (variables_.find(name) != variables_.end()) {
             throw VariableRedefinition{"variable '" + name + "' has been already defined", location};
         }
+        variable.offset_ = GetSize();
         variables_[name] = variable;
     }
 
@@ -38,4 +39,5 @@ namespace Ast {
     int ClassInfo::GetSize() const {
         return variables_.size();
     }
+
 }
