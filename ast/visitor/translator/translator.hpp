@@ -7,6 +7,7 @@
 #include "../../../irt/wrapper/comparison-operator-wrapper.hpp"
 #include "../../../irt/wrapper/and-operator-wrapper.hpp"
 #include "../../../irt/wrapper/expression-wrapper.hpp"
+#include "../symbol-table/symbol-table.hpp"
 #include "../visitor.hpp"
 #include <cassert>
 #include <memory>
@@ -73,8 +74,14 @@ namespace Ast {
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;
         Irt::CodeFragment codeFragment_;
+        SymbolTable symbolTable_;
         std::string className_;
         std::string methodName_;
+        enum class VariableContext {
+            ClassVariable,
+            MethodVariable,
+            MethodArgument
+        } variableContext_;
     };
 
 }

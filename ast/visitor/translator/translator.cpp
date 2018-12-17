@@ -387,13 +387,25 @@ namespace Ast {
     }
 
     void Translator::Visit(Type* node) {
+        // empty
     }
 
     void Translator::Visit(UserTypeConstructorExpression* node) {
     }
 
     void Translator::Visit(VarDeclaration* node) {
+        node->type_->Accept(this);
 
+        if (variableContext_ == VariableContext::MethodArgument) {
+            codeFragment_.frame_->AddFormalParameter(node->name_);
+        } else {
+            codeFragment_.frame_->AddLocalVariable(node->name_);
+        }
+
+        statement_ = std::make_shared<Irt::Move>(
+            codeFragment_.frame_->GetData(node->name_),
+            std::make_shared<Irt::Constant>(0)
+        );
     }
 
     std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(BinaryOperator binaryOperator) {
