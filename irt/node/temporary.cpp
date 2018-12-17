@@ -7,7 +7,7 @@ namespace Irt {
     }
 
     void Temporary::Accept(Visitor* visitor) {
-
+        visitor->Visit(this);
     }
 
 }

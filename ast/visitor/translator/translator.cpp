@@ -1,7 +1,5 @@
 #include "translator.hpp"
 
-#include <iostream>
-
 namespace Ast {
 
     Translator::Translator() :
@@ -410,7 +408,7 @@ namespace Ast {
 
         if (variableContext_ == VariableContext::MethodArgument) {
             codeFragment_->frame_->AddFormalParameter(node->name_);
-        } else {
+        } else if (variableContext_ == VariableContext::MethodVariable) {
             codeFragment_->frame_->AddLocalVariable(node->name_);
             statement_ = std::make_shared<Irt::Move>(
                 GetVariable(node->name_),
@@ -521,8 +519,6 @@ namespace Ast {
     }
 
     std::shared_ptr<Irt::Expression> Translator::GetVariable(const std::string& name) {
-        std::cout << className_ << " " << methodName_ << " " << name << std::endl;
-
         if (std::shared_ptr<Irt::Expression> data = codeFragment_->frame_->GetData(name); data != nullptr) {
             return data;
         }

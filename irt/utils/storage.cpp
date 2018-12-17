@@ -11,6 +11,10 @@ namespace Irt {
         return std::to_string(id_);
     }
 
+    bool Storage::operator==(const Storage& other) const {
+        return id_ == other.id_;
+    }
+
     int Storage::counter_ = 0;
 
 }

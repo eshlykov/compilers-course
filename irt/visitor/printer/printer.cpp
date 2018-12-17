@@ -1,4 +1,5 @@
 #include "printer.hpp"
+#include "../../frame/frame.hpp"
 
 namespace Irt {
 
@@ -161,7 +162,11 @@ namespace Irt {
     }
 
     void Printer::Visit(Temporary* node) {
-        PrintHead(nodeNumber_, "Temporary : " + node->storage_.ToString());
+        if (node->storage_ == Frame::FramePointer_) {
+            PrintHead(nodeNumber_, "FramePointer");
+        } else {
+            PrintHead(nodeNumber_, "Temporary : " + node->storage_.ToString());
+        }
     }
 
     void Printer::Visit(Void* node) {
