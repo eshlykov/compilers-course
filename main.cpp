@@ -1,9 +1,11 @@
 #include "ast/node/program.hpp"
+#include "ast/visitor/printer/printer.hpp"
+#include "ast/visitor/symbol-table/symbol-table.hpp"
+#include "ast/visitor/translator/translator.hpp"
+#include "irt/visitor/printer/code-fragment-printer.hpp"
 #include "utils/compile-error/compile-error.hpp"
 #include "utils/parser-args.hpp"
 #include "utils/source-code.hpp"
-#include "ast/visitor/printer/printer.hpp"
-#include "ast/visitor/symbol-table/symbol-table.hpp"
 #include <cstdio>
 #include <iostream>
 #include <fstream>
@@ -81,4 +83,7 @@ int main(int argc, char* argv[]) {
         }
         return 1;
     }
+
+    Ast::Translator translator;
+//    translator.Visit(program.get());
 }
