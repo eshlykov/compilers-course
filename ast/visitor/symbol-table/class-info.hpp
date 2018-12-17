@@ -20,6 +20,8 @@ namespace Ast {
 
         const std::unordered_map<std::string, MethodInfo>& GetMethods() const;
 
+        int GetSize() const;
+
         void SetBase(std::string base);
 
     private:

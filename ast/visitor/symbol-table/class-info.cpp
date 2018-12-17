@@ -35,4 +35,7 @@ namespace Ast {
         base_ = base;
     }
 
+    int ClassInfo::GetSize() const {
+        return variables_.size();
+    }
 }
