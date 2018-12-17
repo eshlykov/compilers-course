@@ -11,7 +11,7 @@ namespace Irt {
 
     public:
         std::shared_ptr<Frame> frame_;
-        std::shared_ptr<Statement> body_;
+        std::shared_ptr<StatementSequence> body_;
         std::shared_ptr<CodeFragment> next_;
     };
 

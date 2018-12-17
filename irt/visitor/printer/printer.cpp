@@ -88,7 +88,7 @@ namespace Irt {
     }
 
     void Printer::Visit(Constant* node) {
-        PrintHead(nodeNumber_, "Value : " + std::to_string(node->value_));
+        PrintHead(nodeNumber_, "Constant : " + std::to_string(node->value_));
     }
 
     void Printer::Visit(ExpressionSequence* node) {

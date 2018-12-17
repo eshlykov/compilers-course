@@ -6,7 +6,7 @@ namespace Irt {
 
     class ExpressionWrapper : public Wrapper {
     public:
-        ExpressionWrapper(std::shared_ptr<Expression> expression);
+        explicit ExpressionWrapper(std::shared_ptr<Expression> expression);
 
         virtual std::shared_ptr<Expression> ToRValue() const override final;
 

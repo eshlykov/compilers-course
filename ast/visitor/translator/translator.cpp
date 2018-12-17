@@ -3,7 +3,8 @@
 namespace Ast {
 
     Translator::Translator() :
-        codeFragment_{std::make_shared<Irt::CodeFragment>()} {
+        codeFragment_{std::make_shared<Irt::CodeFragment>()},
+        variableContext_{VariableContext::ClassVariable} {
     }
 
     void Translator::Visit(AssignmentByIndexStatement* node) {
@@ -99,7 +100,11 @@ namespace Ast {
     }
 
     void Translator::Visit(ConditionStatement* node) {
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+
         node->condition_->Accept(this);
+        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondition(addressIf, addressElse);
 
         node->ifStatement_->Accept(this);
         std::shared_ptr<Irt::Statement> ifStatement = statement_;
@@ -107,12 +112,10 @@ namespace Ast {
         node->elseStatement_->Accept(this);
         std::shared_ptr<Irt::Statement> elseStatement = statement_;
 
-        Irt::Address addressIf;
-        Irt::Address addressElse;
         Irt::Address addressEnd;
 
         statement_ = std::make_shared<Irt::StatementSequence>(
-            wrapper_->ToCondition(addressIf, addressElse),
+            condition,
             std::make_shared<Irt::StatementSequence>(
                 std::make_shared<Irt::Label>(addressIf),
                 std::make_shared<Irt::StatementSequence>(
@@ -188,12 +191,15 @@ namespace Ast {
     }
 
     void Translator::Visit(LoopStatement* node) {
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+
         node->condition_->Accept(this);
+        std::shared_ptr<Irt::Statement> condition = wrapper_->ToCondition(addressIf, addressElse);
+
         node->statement_->Accept(this);
 
         Irt::Address addressCondition;
-        Irt::Address addressIf;
-        Irt::Address addressElse;
 
         statement_ = std::make_shared<Irt::StatementSequence>(
             std::make_shared<Irt::Label>(addressCondition),
@@ -220,7 +226,10 @@ namespace Ast {
 
         node->mainBody_->Accept(this);
 
-        codeFragment_->body_ = statement_;
+        codeFragment_->body_ = std::make_shared<Irt::StatementSequence>(
+            statement_,
+            std::make_shared<Irt::Jump>(codeFragment_->frame_->returnAddress_)
+        );
     }
 
     void Translator::Visit(MethodBody* node) {
