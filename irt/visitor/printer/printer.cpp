@@ -15,19 +15,19 @@ namespace Irt {
 
     void Printer::Visit(BinaryOperator* node) {
         int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "BinaryOperator");
 
+        ++nodeNumber_;
         switch (node->arithmeticOperator_) {
-            case ArithmeticOperator::Plus:
-                PrintHead(headNodeNumber, "ArithmeticOperator : +");
-                break;
-            case ArithmeticOperator::Minus:
-                PrintHead(headNodeNumber, "ArithmeticOperator : -");
-                break;
-            case ArithmeticOperator::Multiplication:
-                PrintHead(headNodeNumber, "ArithmeticOperator : *");
-                break;
-            default:
-                break;
+        case ArithmeticOperator::Plus:
+            PrintLeaf(headNodeNumber, "ArithmeticOperator", "+");
+            break;
+        case ArithmeticOperator::Minus:
+            PrintLeaf(headNodeNumber, "ArithmeticOperator", "-");
+            break;
+        case ArithmeticOperator::Multiplication:
+            PrintLeaf(headNodeNumber, "ArithmeticOperator", "*");
+            break;
         }
 
         ++nodeNumber_;
@@ -56,17 +56,19 @@ namespace Irt {
 
     void Printer::Visit(ConditionalJump* node) {
         int headNodeNumber = nodeNumber_;
+        PrintHead(headNodeNumber, "ConditionalJump");
 
+        ++nodeNumber_;
         switch (node->logicalOperator_) {
-            case LogicalOperator::And:
-                PrintHead(headNodeNumber, "LogicalOperator : &&");
-                break;
-            case LogicalOperator::Less:
-                PrintHead(headNodeNumber, "LogicalOperator : <");
-                break;
-            case LogicalOperator::Equal:
-                PrintHead(headNodeNumber, "LogicalOperator : ==");
-                break;
+        case LogicalOperator::And:
+            PrintLeaf(headNodeNumber, "LogicalOperator", "&&");
+            break;
+        case LogicalOperator::Less:
+            PrintLeaf(headNodeNumber, "LogicalOperator", "<");
+            break;
+        case LogicalOperator::Equal:
+            PrintLeaf(headNodeNumber, "LogicalOperator", "==");
+            break;
         }
 
         ++nodeNumber_;
@@ -112,7 +114,7 @@ namespace Irt {
     }
 
     void Printer::Visit(Label* node) {
-        PrintHead(nodeNumber_, "Address : " + node->address_.ToString());
+        PrintHead(nodeNumber_, "Label : " + node->address_.ToString());
     }
 
     void Printer::Visit(Memory* node) {
@@ -169,6 +171,10 @@ namespace Irt {
         ++nodeNumber_;
         PrintEdge(headNodeNumber);
         node->expression_->Accept(this);
+    }
+
+    void Printer::Next() {
+        ++nodeNumber_;
     }
 
     void Printer::PrintHead(int headNodeNumber, const std::string& label) {

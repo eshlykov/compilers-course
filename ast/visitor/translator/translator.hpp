@@ -76,6 +76,8 @@ namespace Ast {
 
         std::shared_ptr<Irt::Expression> Allocate(std::shared_ptr<Irt::Expression> wordsCount);
 
+        std::shared_ptr<Irt::Expression> GetVariable(const std::string& name);
+
     private:
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;

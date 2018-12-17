@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../utils/ast.hpp"
+#include <optional>
 #include <string>
 #include <variant>
 

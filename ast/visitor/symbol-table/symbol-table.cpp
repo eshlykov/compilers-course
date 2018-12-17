@@ -2,6 +2,7 @@
 #include "../../../utils/ast.hpp"
 #include "../../../utils/switcher.hpp"
 #include "../../../utils/compile-error/compile-errors.hpp"
+#include <cassert>
 #include <variant>
 
 namespace Ast {
@@ -77,6 +78,8 @@ namespace Ast {
                 classes_[baseClassName].SetBase({});
             }
         }
+
+        UpdateVariableOffsets(node->className_);
 
         node->classBody_->Accept(this);
     }
@@ -231,6 +234,20 @@ namespace Ast {
 
     void SymbolTable::Visit(VarDeclaration* node) {
          node->type_->Accept(this);
+    }
+
+    int SymbolTable::GetVariableOffset(const std::string& className, const std::string& variableName) {
+        assert(classes_.find(className) != classes_.end());
+
+        const ClassInfo& classInfo = classes_.at(className);
+        const auto& variables = classInfo.GetVariables();
+        if (const auto& iter = variables.find(variableName); iter != variables.end()) {
+            return iter->second.offset_;
+        }
+
+        assert(classInfo.GetBase().has_value());
+
+        return GetVariableOffset(classInfo.GetBase().value(), variableName);
     }
 
     void SymbolTable::ForwardVisit(MainClass* node) {
@@ -406,6 +423,13 @@ namespace Ast {
         } catch (const std::bad_variant_access&) {
         }
         return false;
+    }
+
+    void SymbolTable::UpdateVariableOffsets(const std::string& name) {
+        if (const std::optional<std::string>& baseName = classes_.at(name).GetBase(); baseName.has_value()) {
+            UpdateVariableOffsets(baseName.value());
+            classes_[name].UpdateVariableOffsets(classes_[baseName.value()].GetSize());
+        }
     }
 
 }

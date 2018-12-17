@@ -22,7 +22,7 @@ namespace Irt {
 
     std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
         std::shared_ptr<const Access> access = FindFormalParameterOrLocalVariable(name);
-        return access->GetData();
+        return access != nullptr ? access->GetData() : nullptr;
     }
 
     std::shared_ptr<Expression> Frame::GetThis() {
@@ -36,7 +36,6 @@ namespace Irt {
     std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(const std::string& name) const {
         auto access = FindInStorage(name, formalParameters_);
         access = access != nullptr ? access : FindInStorage(name, localVariables_);
-        assert(access != nullptr);
         return access;
     }
 

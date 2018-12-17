@@ -63,8 +63,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    Ast::Printer printer{ParseDrawingFilenameFromArguments(argc, argv)};
-    printer.Visit(program.get());
+    Ast::Printer astPrinter{ParseDrawingFilenameFromArguments(argc, argv)};
+    astPrinter.Visit(program.get());
 
     Ast::SymbolTable symbolTable{};
     try {
@@ -84,6 +84,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    Ast::Translator translator;
+//    Ast::Translator translator;
 //    translator.Visit(program.get());
+
+//    Irt::Print(ParseDrawingFilenameFromArguments(argc, argv), translator.GetCodeFragment());
 }

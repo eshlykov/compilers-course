@@ -5,6 +5,10 @@
 
 namespace Ast {
 
+    ClassInfo::ClassInfo() :
+        are_offsets_updated_{false} {
+    }
+
     void ClassInfo::AddVariable(const std::string& name, VariableInfo variable, const Location& location) {
         if (variables_.find(name) != variables_.end()) {
             throw VariableRedefinition{"variable '" + name + "' has been already defined", location};
@@ -38,6 +42,17 @@ namespace Ast {
 
     int ClassInfo::GetSize() const {
         return variables_.size();
+    }
+
+    void ClassInfo::UpdateVariableOffsets(int additionalOffset) {
+        if (are_offsets_updated_) {
+            return;
+        }
+
+        for (auto& [name, info] : variables_) {
+            info.offset_ += additionalOffset;
+        }
+        are_offsets_updated_ = true;
     }
 
 }

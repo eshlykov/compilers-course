@@ -74,6 +74,8 @@ namespace Ast {
 
         const std::unordered_map<std::string, ClassInfo>& GetClasses() const;
 
+        int GetVariableOffset(const std::string& className, const std::string& variableName);
+
     private:
         void ForwardVisit(MainClass* node);
 
@@ -96,6 +98,8 @@ namespace Ast {
         std::optional<MethodInfo> TryLookUpMethod(const ClassInfo& currentClass, const std::string& name, const Location& location);
 
         bool CheckIfUndeclared(TypeVariant type, const Location& location);
+
+        void UpdateVariableOffsets(const std::string& name);
 
     private:
         std::unordered_map<std::string, ClassInfo> classes_;

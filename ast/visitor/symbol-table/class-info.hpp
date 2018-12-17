@@ -10,6 +10,8 @@ namespace Ast {
 
     class ClassInfo {
     public:
+        ClassInfo();
+
         void AddVariable(const std::string& name, VariableInfo variable, const Location& location);
 
         void AddMethod(const std::string& name, MethodInfo method, const Location& location);
@@ -24,10 +26,15 @@ namespace Ast {
 
         void SetBase(std::string base);
 
+        void UpdateVariableOffsets(int additionalOffset);
+
+        int GetVariableOffset(const std::string& name) const;
+
     private:
         std::optional<std::string> base_;
         std::unordered_map<std::string, VariableInfo> variables_;
         std::unordered_map<std::string, MethodInfo> methods_;
+        bool are_offsets_updated_;
     };
 
 }

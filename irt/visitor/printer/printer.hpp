@@ -39,6 +39,8 @@ namespace Irt {
 
         virtual void Visit(Void* node) override final;
 
+        void Next();
+
     private:
         void PrintHead(int headNodeNumber, const std::string& label);
 

@@ -1,5 +1,7 @@
 #include "translator.hpp"
 
+#include <iostream>
+
 namespace Ast {
 
     Translator::Translator() :
@@ -17,7 +19,7 @@ namespace Ast {
             std::make_shared<Irt::Memory>(
                 std::make_shared<Irt::BinaryOperator>(
                     Irt::ArithmeticOperator::Plus,
-                    codeFragment_->frame_->GetData(node->array_),
+                    GetVariable(node->array_),
                     std::make_shared<Irt::BinaryOperator>(
                         Irt::ArithmeticOperator::Multiplication,
                         index,
@@ -33,7 +35,7 @@ namespace Ast {
         node->expression_->Accept(this);
 
         statement_ = std::make_shared<Irt::Move>(
-            codeFragment_->frame_->GetData(node->variable_),
+            GetVariable(node->variable_),
             wrapper_->ToRValue()
         );
     }
@@ -134,7 +136,7 @@ namespace Ast {
 
     void Translator::Visit(IdentifierExpression* node) {
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            codeFragment_->frame_->GetData(node->name_)
+            GetVariable(node->name_)
         );
     }
 
@@ -285,8 +287,8 @@ namespace Ast {
         methodName_ = node->methodName_;
 
         std::shared_ptr<Irt::CodeFragment> temp = codeFragment_;
-        temp->next_ = codeFragment_;
-        codeFragment_ = temp;
+        codeFragment_ = std::make_shared<Irt::CodeFragment>();
+        codeFragment_->next_ = temp;
         codeFragment_->frame_ = std::make_shared<Irt::Frame>(className_ + "$" + methodName_);
 
         variableContext_ = VariableContext::MethodArgument;
@@ -411,10 +413,14 @@ namespace Ast {
         } else {
             codeFragment_->frame_->AddLocalVariable(node->name_);
             statement_ = std::make_shared<Irt::Move>(
-                codeFragment_->frame_->GetData(node->name_),
+                GetVariable(node->name_),
                 std::make_shared<Irt::Constant>(0)
             );
         }
+    }
+
+    std::shared_ptr<Irt::CodeFragment> Translator::GetCodeFragment() {
+        return codeFragment_;
     }
 
     std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(BinaryOperator binaryOperator) {
@@ -514,8 +520,24 @@ namespace Ast {
         );
     }
 
-    std::shared_ptr<Irt::CodeFragment> Translator::GetCodeFragment() {
-        return codeFragment_;
+    std::shared_ptr<Irt::Expression> Translator::GetVariable(const std::string& name) {
+        std::cout << className_ << " " << methodName_ << " " << name << std::endl;
+
+        if (std::shared_ptr<Irt::Expression> data = codeFragment_->frame_->GetData(name); data != nullptr) {
+            return data;
+        }
+
+        return std::make_shared<Irt::Memory>(
+            std::make_shared<Irt::BinaryOperator>(
+                Irt::ArithmeticOperator::Plus,
+                codeFragment_->frame_->GetThis(),
+                std::make_shared<Irt::BinaryOperator>(
+                    Irt::ArithmeticOperator::Multiplication,
+                    std::make_shared<Irt::Constant>(symbolTable_.GetVariableOffset(className_, name)),
+                    std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
+                )
+            )
+        );
     }
 
 }
