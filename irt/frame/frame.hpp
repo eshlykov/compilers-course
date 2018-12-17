@@ -2,7 +2,7 @@
 
 #include "../utils/storage.hpp"
 #include "../node/expression.hpp"
-#include "access.hpp"
+#include "in-frame-access.hpp"
 #include <memory>
 #include <string>
 #include <utility>
@@ -20,6 +20,8 @@ namespace Irt {
 
         std::shared_ptr<Expression> GetData(const std::string& name);
 
+        std::shared_ptr<Expression> GetThis();
+
     private:
         using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
 
@@ -35,6 +37,7 @@ namespace Irt {
 
     private:
         const std::string name_;
+        const InFrameAccess thisPointer_;
         int size_;
         std::vector<KeyType> formalParameters_;
         std::vector<KeyType> localVariables_;

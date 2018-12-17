@@ -117,6 +117,9 @@ namespace Ast {
     }
 
     void Translator::Visit(IdentifierExpression* node) {
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            codeFragment_.frame_->GetData(node->name_)
+        );
     }
 
     void Translator::Visit(IndexExpression* node) {
@@ -230,6 +233,16 @@ namespace Ast {
     }
 
     void Translator::Visit(LengthExpression* node) {
+        node->expression_->Accept(this);
+
+        Irt::Address addressLength{className_ + "$length"};
+
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::Call>(
+                std::make_shared<Irt::Name>(addressLength),
+                std::vector<std::shared_ptr<Irt::Expression>>{wrapper_->ToRValue()}
+            )
+        );
     }
 
     void Translator::Visit(LoopStatement* node) {
@@ -265,6 +278,22 @@ namespace Ast {
     }
 
     void Translator::Visit(MethodCallExpression* node) {
+        node->expression_->Accept(this);
+
+        std::vector<std::shared_ptr<Irt::Expression>> arguments{wrapper_->ToRValue()};
+        for (auto& argument : node->argumentsList_) {
+            argument->Accept(this);
+            arguments.push_back(wrapper_->ToRValue());
+        }
+
+        Irt::Address addressMethod{className_ + "$" + node->methodName_};
+
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            std::make_shared<Irt::Call>(
+                std::make_shared<Irt::Name>(addressMethod),
+                arguments
+            )
+        );
     }
 
     void Translator::Visit(MethodDeclaration* node) {
@@ -352,6 +381,9 @@ namespace Ast {
     }
 
     void Translator::Visit(ThisExpression* node) {
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            codeFragment_.frame_->GetThis()
+        );
     }
 
     void Translator::Visit(Type* node) {

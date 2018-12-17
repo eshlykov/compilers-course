@@ -1,7 +1,6 @@
 #pragma once
 
 #include "access.hpp"
-#include "frame.hpp"
 #include "../node/memory.hpp"
 #include "../node/temporary.hpp"
 #include "../node/constant.hpp"

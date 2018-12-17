@@ -1,4 +1,3 @@
-#include "in-frame-access.hpp"
 #include "frame.hpp"
 #include <algorithm>
 #include <cassert>
@@ -7,7 +6,8 @@ namespace Irt {
 
     Frame::Frame(const std::string& name) :
         name_{name},
-        size_{0} {
+        thisPointer_{InFrameAccess{0}},
+        size_{WordSize_} {
     }
 
     void Frame::AddFormalParameter(const std::string& name) {
@@ -21,6 +21,10 @@ namespace Irt {
     std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
         std::shared_ptr<const Access> access = FindFormalParameterOrLocalVariable(name);
         return access->GetData();
+    }
+
+    std::shared_ptr<Expression> Frame::GetThis() {
+        return thisPointer_.GetData();
     }
 
     std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(const std::string& name) const {

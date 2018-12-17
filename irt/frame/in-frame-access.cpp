@@ -1,4 +1,5 @@
 #include "in-frame-access.hpp"
+#include "frame.hpp"
 
 namespace Irt {
 

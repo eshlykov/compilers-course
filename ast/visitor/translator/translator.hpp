@@ -73,6 +73,8 @@ namespace Ast {
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;
         Irt::CodeFragment codeFragment_;
+        std::string className_;
+        std::string methodName_;
     };
 
 }
