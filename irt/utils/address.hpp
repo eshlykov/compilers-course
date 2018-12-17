@@ -4,22 +4,17 @@
 
 namespace Irt {
 
-    enum class SystemFunction : int {
-        New,
-        Print
-    };
-
     class Address {
     public:
         Address();
 
-        explicit Address(SystemFunction name);
+        explicit Address(const std::string& name);
 
         std::string ToString() const;
 
     private:
-        static int counter_;
-        int id_;
+        const std::shared_ptr<const int> dummy_;
+        const std::string id_;
     };
 
 }

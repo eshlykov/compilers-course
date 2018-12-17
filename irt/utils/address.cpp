@@ -1,22 +1,19 @@
 #include "address.hpp"
-#include <cassert>
 
 namespace Irt {
 
     Address::Address() :
-        id_{counter_} {
-        ++counter_;
+        dummy_{std::make_shared<const int>(0)},
+        id_{std::to_string(reinterpret_cast<unsigned long long>(dummy_.get()))} {
     }
 
-    Address::Address(SystemFunction name) :
-        id_{static_cast<std::underlying_type_t<SystemFunction>>(name)} {
-        counter_ = id_ + 1;
+    Address::Address(const std::string& name) :
+        dummy_{nullptr},
+        id_{name} {
     }
 
     std::string Address::ToString() const {
-        return std::to_string(id_);
+        return id_;
     }
-
-    int Address::counter_ = 1024; // More than quantity of system function
 
 }

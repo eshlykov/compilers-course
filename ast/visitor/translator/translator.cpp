@@ -145,7 +145,7 @@ namespace Ast {
         Irt::Storage size;
         Irt::Storage array;
         Irt::Storage index;
-        Irt::Address addressNew{Irt::SystemFunction::New};
+        Irt::Address addressNew{"new"};
         Irt::Address addressCondition;
         Irt::Address addressIf;
         Irt::Address addressElse;
@@ -265,7 +265,6 @@ namespace Ast {
     }
 
     void Translator::Visit(MethodCallExpression* node) {
-
     }
 
     void Translator::Visit(MethodDeclaration* node) {
@@ -320,7 +319,7 @@ namespace Ast {
     void Translator::Visit(PrintStatement* node) {
         node->expression_->Accept(this);
 
-        Irt::Address addressPrint{Irt::SystemFunction::Print};
+        Irt::Address addressPrint{"print"};
 
         statement_ = std::make_shared<Irt::Void>(
             std::make_shared<Irt::Call>(
