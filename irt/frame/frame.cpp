@@ -44,7 +44,7 @@ namespace Irt {
         auto iter = std::find_if(storage.begin(), storage.end(), [&name] (KeyType key) {
             return key.first == name;
         });
-        assert(iter != storage.end());
+        assert(iter == storage.end());
         storage.emplace_back(name, std::make_shared<const InFrameAccess>(size_));
         size_ += WordSize_;
     }
