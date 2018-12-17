@@ -81,9 +81,21 @@ namespace Ast {
     }
 
     void Translator::Visit(ClassBody* node) {
+        variableContext_ = VariableContext::ClassVariable;
+
+        for (auto& variable : node->variables_) {
+            variable->Accept(this);
+        }
+
+        for (auto& method : node->methods_) {
+            method->Accept(this);
+        }
     }
 
     void Translator::Visit(ClassDeclaration* node) {
+        className_ = node->className_;
+
+        node->classBody_->Accept(this);
     }
 
     void Translator::Visit(ConditionStatement* node) {
