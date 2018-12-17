@@ -1,4 +1,4 @@
-CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated
+CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated -D _LIBCPP_DEBUG=1
 CPP = `find . -name "*cpp"`
 
 compile:
