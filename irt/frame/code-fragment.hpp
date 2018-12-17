@@ -5,13 +5,14 @@
 
 namespace Irt {
 
-    class CodeFragment {
+    struct CodeFragment {
     public:
-        CodeFragment(const std::shared_ptr<Frame>, const std::shared_ptr<Statement>);
+        CodeFragment();
 
     public:
-        const std::shared_ptr<Frame> frame_;
-        const std::shared_ptr<Statement> body_;
+        std::shared_ptr<Frame> frame_;
+        std::shared_ptr<Statement> body_;
+        std::shared_ptr<CodeFragment> next_;
     };
 
 }

@@ -17,6 +17,8 @@ namespace Ast {
 
     class Translator : public Visitor {
     public:
+        Translator();
+
         virtual void Visit(AssignmentByIndexStatement* node) override final;
 
         virtual void Visit(AssignmentStatement* node) override final;
@@ -75,7 +77,7 @@ namespace Ast {
     private:
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;
-        Irt::CodeFragment codeFragment_;
+        std::shared_ptr<Irt::CodeFragment> codeFragment_;
         SymbolTable symbolTable_;
         std::string className_;
         std::string methodName_;

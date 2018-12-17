@@ -2,6 +2,10 @@
 
 namespace Ast {
 
+    Translator::Translator() :
+        codeFragment_{std::make_shared<Irt::CodeFragment>()} {
+    }
+
     void Translator::Visit(AssignmentByIndexStatement* node) {
         node->index_->Accept(this);
         std::shared_ptr<Irt::Expression> index = wrapper_->ToRValue();
@@ -13,7 +17,7 @@ namespace Ast {
             std::make_shared<Irt::Memory>(
                 std::make_shared<Irt::BinaryOperator>(
                     Irt::ArithmeticOperator::Plus,
-                    codeFragment_.frame_->GetData(node->array_),
+                    codeFragment_->frame_->GetData(node->array_),
                     std::make_shared<Irt::BinaryOperator>(
                         Irt::ArithmeticOperator::Multiplication,
                         index,
@@ -29,7 +33,7 @@ namespace Ast {
         node->expression_->Accept(this);
 
         statement_ = std::make_shared<Irt::Move>(
-            codeFragment_.frame_->GetData(node->variable_),
+            codeFragment_->frame_->GetData(node->variable_),
             wrapper_->ToRValue()
         );
     }
@@ -118,7 +122,7 @@ namespace Ast {
 
     void Translator::Visit(IdentifierExpression* node) {
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            codeFragment_.frame_->GetData(node->name_)
+            codeFragment_->frame_->GetData(node->name_)
         );
     }
 
@@ -198,9 +202,50 @@ namespace Ast {
     }
 
     void Translator::Visit(MainClass* node) {
+        className_ = node->className_;
+
+        codeFragment_->frame_ = std::make_shared<Irt::Frame>(className_ + "$main");
+
+        node->mainBody_->Accept(this);
+
+        codeFragment_->body_ = statement_;
     }
 
     void Translator::Visit(MethodBody* node) {
+        Irt::Address addressStart{className_ + "$" + methodName_};
+
+        std::shared_ptr<Irt::Statement> body = std::make_shared<Irt::Label>(addressStart);
+
+        variableContext_ = VariableContext::MethodVariable;
+
+        for (auto& variable : node->variables_) {
+            variable->Accept(this);
+            body = std::make_shared<Irt::StatementSequence>(
+                body,
+                statement_
+            );
+        }
+
+        for (auto& statement : node->statements_) {
+            statement->Accept(this);
+            body = std::make_shared<Irt::StatementSequence>(
+                body,
+                statement_
+            );
+        }
+
+        node->returnExpression_->Accept(this);
+
+        codeFragment_->body_ = std::make_shared<Irt::StatementSequence>(
+            std::make_shared<Irt::Move>(
+                std::make_shared<Irt::ExpressionSequence>(
+                    body,
+                    wrapper_->ToRValue()
+                ),
+                codeFragment_->frame_->GetResultStorage()
+            ),
+            std::make_shared<Irt::Jump>(codeFragment_->frame_->returnAddress_)
+        );
     }
 
     void Translator::Visit(MethodCallExpression* node) {
@@ -223,6 +268,21 @@ namespace Ast {
     }
 
     void Translator::Visit(MethodDeclaration* node) {
+        node->resultType_->Accept(this);
+
+        methodName_ = node->methodName_;
+
+        std::shared_ptr<Irt::CodeFragment> temp = codeFragment_;
+        temp->next_ = codeFragment_;
+        codeFragment_ = temp;
+        codeFragment_->frame_ = std::make_shared<Irt::Frame>(className_ + "$" + methodName_);
+
+        variableContext_ = VariableContext::MethodArgument;
+        for (auto& argument : node->argumentsList_) {
+            argument->Accept(this);
+        }
+
+        node->methodBody_->Accept(this);
     }
 
     void Translator::Visit(NotExpression* node) {
@@ -287,6 +347,13 @@ namespace Ast {
     }
 
     void Translator::Visit(Program* node) {
+        symbolTable_.Visit(node);
+
+        node->mainClass_->Accept(this);
+
+        for (auto& classDeclaration : node->classDeclarations_) {
+            classDeclaration->Accept(this);
+        }
     }
 
     void Translator::Visit(ScopeStatement* node) {
@@ -308,7 +375,7 @@ namespace Ast {
 
     void Translator::Visit(ThisExpression* node) {
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            codeFragment_.frame_->GetThis()
+            codeFragment_->frame_->GetThis()
         );
     }
 
@@ -328,15 +395,14 @@ namespace Ast {
         node->type_->Accept(this);
 
         if (variableContext_ == VariableContext::MethodArgument) {
-            codeFragment_.frame_->AddFormalParameter(node->name_);
+            codeFragment_->frame_->AddFormalParameter(node->name_);
         } else {
-            codeFragment_.frame_->AddLocalVariable(node->name_);
+            codeFragment_->frame_->AddLocalVariable(node->name_);
+            statement_ = std::make_shared<Irt::Move>(
+                codeFragment_->frame_->GetData(node->name_),
+                std::make_shared<Irt::Constant>(0)
+            );
         }
-
-        statement_ = std::make_shared<Irt::Move>(
-            codeFragment_.frame_->GetData(node->name_),
-            std::make_shared<Irt::Constant>(0)
-        );
     }
 
     std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(BinaryOperator binaryOperator) {
