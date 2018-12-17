@@ -501,4 +501,9 @@ namespace Ast {
             std::make_shared<Irt::Temporary>(object)
         );
     }
+
+    std::shared_ptr<Irt::CodeFragment> Translator::GetCodeFragment() {
+        return codeFragment_;
+    }
+
 }

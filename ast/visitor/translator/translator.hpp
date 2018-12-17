@@ -69,6 +69,8 @@ namespace Ast {
 
         virtual void Visit(VarDeclaration* node) override final;
 
+        std::shared_ptr<Irt::CodeFragment> GetCodeFragment();
+
     private:
         std::optional<Irt::ArithmeticOperator> ToIrtArithmeticOperator(BinaryOperator binaryOperator);
 
