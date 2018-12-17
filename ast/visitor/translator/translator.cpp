@@ -154,81 +154,7 @@ namespace Ast {
         Irt::Address addressElse;
 
         wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-            std::make_shared<Irt::ExpressionSequence>(
-                std::make_shared<Irt::StatementSequence>(
-                    std::make_shared<Irt::Move>(
-                        std::make_shared<Irt::Temporary>(size),
-                        wrapper_->ToRValue()
-                    ),
-                    std::make_shared<Irt::StatementSequence>(
-                        std::make_shared<Irt::Move>(
-                            std::make_shared<Irt::Temporary>(array),
-                            std::make_shared<Irt::Call>(
-                                std::make_shared<Irt::Name>(addressNew),
-                                std::vector<std::shared_ptr<Irt::Expression>>{
-                                    std::make_shared<Irt::BinaryOperator>(
-                                        Irt::ArithmeticOperator::Multiplication,
-                                        std::make_shared<Irt::Temporary>(size),
-                                        std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
-                                    )
-                                }
-                            )
-                        ),
-                        std::make_shared<Irt::StatementSequence>(
-                            std::make_shared<Irt::Move>(
-                                std::make_shared<Irt::Temporary>(index),
-                                std::make_shared<Irt::Constant>(0)
-                            ),
-                            std::make_shared<Irt::StatementSequence>(
-                                std::make_shared<Irt::Label>(addressCondition),
-                                std::make_shared<Irt::StatementSequence>(
-                                    std::make_shared<Irt::ConditionalJump>(
-                                        Irt::LogicalOperator::Less,
-                                        std::make_shared<Irt::Temporary>(index),
-                                        std::make_shared<Irt::Temporary>(size),
-                                        addressIf,
-                                        addressElse
-                                    ),
-                                    std::make_shared<Irt::StatementSequence>(
-                                        std::make_shared<Irt::Label>(addressIf),
-                                        std::make_shared<Irt::StatementSequence>(
-                                            std::make_shared<Irt::Move>(
-                                                std::make_shared<Irt::Memory>(
-                                                    std::make_shared<Irt::BinaryOperator>(
-                                                        Irt::ArithmeticOperator::Plus,
-                                                        std::make_shared<Irt::Temporary>(array),
-                                                        std::make_shared<Irt::BinaryOperator>(
-                                                            Irt::ArithmeticOperator::Multiplication,
-                                                            std::make_shared<Irt::Temporary>(index),
-                                                            std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
-                                                        )
-                                                    )
-                                                ),
-                                                std::make_shared<Irt::Constant>(0)
-                                            ),
-                                            std::make_shared<Irt::StatementSequence>(
-                                                std::make_shared<Irt::Move>(
-                                                    std::make_shared<Irt::Temporary>(index),
-                                                    std::make_shared<Irt::BinaryOperator>(
-                                                        Irt::ArithmeticOperator::Plus,
-                                                        std::make_shared<Irt::Temporary>(index),
-                                                        std::make_shared<Irt::Constant>(1)
-                                                    )
-                                                ),
-                                                std::make_shared<Irt::StatementSequence>(
-                                                    std::make_shared<Irt::Jump>(addressCondition),
-                                                    std::make_shared<Irt::Label>(addressElse)
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
-                std::make_shared<Irt::Temporary>(array)
-            )
+            Allocate(wrapper_->ToRValue())
         );
     }
 
@@ -391,6 +317,11 @@ namespace Ast {
     }
 
     void Translator::Visit(UserTypeConstructorExpression* node) {
+        wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
+            Allocate(
+                std::make_shared<Irt::Constant>(symbolTable_.GetClasses().at(className_).GetSize())
+            )
+        );
     }
 
     void Translator::Visit(VarDeclaration* node) {
@@ -419,4 +350,89 @@ namespace Ast {
         return {};
     }
 
+    std::shared_ptr<Irt::Expression> Translator::Allocate(std::shared_ptr<Irt::Expression> wordsCount) {
+        Irt::Storage size;
+        Irt::Storage object;
+        Irt::Storage index;
+        Irt::Address addressNew{"new"};
+        Irt::Address addressCondition;
+        Irt::Address addressIf;
+        Irt::Address addressElse;
+
+        return std::make_shared<Irt::ExpressionSequence>(
+            std::make_shared<Irt::StatementSequence>(
+                std::make_shared<Irt::Move>(
+                    std::make_shared<Irt::Temporary>(size),
+                    wordsCount
+                ),
+                std::make_shared<Irt::StatementSequence>(
+                    std::make_shared<Irt::Move>(
+                        std::make_shared<Irt::Temporary>(object),
+                        std::make_shared<Irt::Call>(
+                            std::make_shared<Irt::Name>(addressNew),
+                            std::vector<std::shared_ptr<Irt::Expression>>{
+                                std::make_shared<Irt::BinaryOperator>(
+                                    Irt::ArithmeticOperator::Multiplication,
+                                    std::make_shared<Irt::Temporary>(size),
+                                    std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
+                                )
+                            }
+                        )
+                    ),
+                    std::make_shared<Irt::StatementSequence>(
+                        std::make_shared<Irt::Move>(
+                            std::make_shared<Irt::Temporary>(index),
+                            std::make_shared<Irt::Constant>(0)
+                        ),
+                        std::make_shared<Irt::StatementSequence>(
+                            std::make_shared<Irt::Label>(addressCondition),
+                            std::make_shared<Irt::StatementSequence>(
+                                std::make_shared<Irt::ConditionalJump>(
+                                    Irt::LogicalOperator::Less,
+                                    std::make_shared<Irt::Temporary>(index),
+                                    std::make_shared<Irt::Temporary>(size),
+                                    addressIf,
+                                    addressElse
+                                ),
+                                std::make_shared<Irt::StatementSequence>(
+                                    std::make_shared<Irt::Label>(addressIf),
+                                    std::make_shared<Irt::StatementSequence>(
+                                        std::make_shared<Irt::Move>(
+                                            std::make_shared<Irt::Memory>(
+                                                std::make_shared<Irt::BinaryOperator>(
+                                                    Irt::ArithmeticOperator::Plus,
+                                                    std::make_shared<Irt::Temporary>(object),
+                                                    std::make_shared<Irt::BinaryOperator>(
+                                                        Irt::ArithmeticOperator::Multiplication,
+                                                        std::make_shared<Irt::Temporary>(index),
+                                                        std::make_shared<Irt::Constant>(Irt::Frame::WordSize_)
+                                                    )
+                                                )
+                                            ),
+                                            std::make_shared<Irt::Constant>(0)
+                                        ),
+                                        std::make_shared<Irt::StatementSequence>(
+                                            std::make_shared<Irt::Move>(
+                                                std::make_shared<Irt::Temporary>(index),
+                                                std::make_shared<Irt::BinaryOperator>(
+                                                    Irt::ArithmeticOperator::Plus,
+                                                    std::make_shared<Irt::Temporary>(index),
+                                                    std::make_shared<Irt::Constant>(1)
+                                                )
+                                            ),
+                                            std::make_shared<Irt::StatementSequence>(
+                                                std::make_shared<Irt::Jump>(addressCondition),
+                                                std::make_shared<Irt::Label>(addressElse)
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            std::make_shared<Irt::Temporary>(object)
+        );
+    }
 }

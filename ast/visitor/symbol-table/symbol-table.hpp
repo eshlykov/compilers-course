@@ -72,6 +72,8 @@ namespace Ast {
 
         std::vector<CompileError> GetErrorList() const;
 
+        const std::unordered_map<std::string, ClassInfo>& GetClasses() const;
+
     private:
         void ForwardVisit(MainClass* node);
 
@@ -100,7 +102,7 @@ namespace Ast {
         std::pair<std::string, VariableInfo> currentVariable_;
         std::pair<std::string, MethodInfo> currentMethod_;
         std::pair<std::string, ClassInfo> currentClass_;
-        std::vector<CompileError> errors;
+        std::vector<CompileError> errors_;
     };
 
 }

@@ -70,6 +70,8 @@ namespace Ast {
     private:
         std::optional<Irt::ArithmeticOperator> ToIrtArithmeticOperator(BinaryOperator binaryOperator);
 
+        std::shared_ptr<Irt::Expression> Allocate(std::shared_ptr<Irt::Expression> wordsCount);
+
     private:
         std::shared_ptr<Irt::Wrapper> wrapper_;
         std::shared_ptr<Irt::Statement> statement_;

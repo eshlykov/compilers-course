@@ -73,7 +73,7 @@ namespace Ast {
                 classes_[node->className_].SetBase({});
                 *currentClass = {node->className_, classes_.at(node->className_)};
             } else if (IsBaseOf(node->className_, baseClassName)) {
-                errors.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->GetLocation()});
+                errors_.push_back(MutualInheritance{"classes '" + node->className_ + "' and '" + baseClassName + "' extend each other", node->GetLocation()});
                 classes_[baseClassName].SetBase({});
             }
         }
@@ -146,7 +146,7 @@ namespace Ast {
                 return;
             }
         } catch (const std::bad_variant_access&) {
-            errors.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->GetLocation()});
+            errors_.push_back(TypesMismatch{"primitive types do not have any methods", node->expression_->GetLocation()});
             return;
         }
 
@@ -158,7 +158,7 @@ namespace Ast {
         int expectedCount = method->GetArguments().size();
         int givenCount = node->argumentsList_.size();
         if (expectedCount != givenCount) {
-            errors.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(expectedCount) +
+            errors_.push_back(ArgumentsCountMismatch{"method '" + node->methodName_ + "' expects to be given " + std::to_string(expectedCount) +
                 " arguments, but it is given " + std::to_string(givenCount) + " instead", node->GetLocation()});
         }
 
@@ -247,11 +247,11 @@ namespace Ast {
 
         auto& [className, classInfo] = *currentClass;
         if (classes_.find(className) != classes_.end()) {
-            errors.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->GetLocation()});
+            errors_.push_back(ClassRedefinition{"class '" + className + "' has been already defined", node->GetLocation()});
         }
 
         if (node->extendsForClass_.has_value() && node->extendsForClass_.value() == node->className_) {
-            errors.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->GetLocation()});
+            errors_.push_back(SelfInheritance{"class '" + className + "' inherits itself", node->GetLocation()});
         } else if (node->extendsForClass_.has_value()) {
             classInfo.SetBase(node->extendsForClass_.value());
         }
@@ -270,7 +270,7 @@ namespace Ast {
             try {
                 classInfo.AddVariable(variableName, variableInfo, variable->GetLocation());
             } catch (CompileError& error) {
-                errors.push_back(error);
+                errors_.push_back(error);
             }
         }
 
@@ -281,7 +281,7 @@ namespace Ast {
             try {
                 classInfo.AddMethod(methodName, methodInfo, method->GetLocation());
             } catch (CompileError& error) {
-                errors.push_back(error);
+                errors_.push_back(error);
             }
         }
     }
@@ -306,7 +306,7 @@ namespace Ast {
             try {
                 methodInfo.AddArgument(variableName, variableInfo, argument->GetLocation());
             } catch (CompileError& error) {
-                errors.push_back(error);
+                errors_.push_back(error);
             }
         }
 
@@ -323,13 +323,17 @@ namespace Ast {
             try {
                 methodInfo.AddVariable(variableName, variableInfo, variable->GetLocation());
             } catch (CompileError& error) {
-                errors.push_back(error);
+                errors_.push_back(error);
             }
         }
     }
 
     std::vector<CompileError> SymbolTable::GetErrorList() const {
-        return errors;
+        return errors_;
+    }
+
+    const std::unordered_map<std::string, ClassInfo>& SymbolTable::GetClasses() const {
+        return classes_;
     }
 
     void SymbolTable::CompareTypes(TypeVariant lhs, TypeVariant rhs, const Location& location) {
@@ -344,7 +348,7 @@ namespace Ast {
             }
         } catch (const std::bad_variant_access&) {
         }
-        errors.push_back(TypesMismatch{lhs, rhs, location});
+        errors_.push_back(TypesMismatch{lhs, rhs, location});
     }
 
     bool SymbolTable::IsBaseOf(const std::string& baseClassName, const std::string& derivedClassName) const {
@@ -377,7 +381,7 @@ namespace Ast {
         if (currentClass.GetBase().has_value()) {
             return TryLookUpVariable(classes_.at(currentClass.GetBase().value()), name, location, true);
         }
-        errors.push_back(UndeclaredVariable{"undeclared variable '" + name + "'", location});
+        errors_.push_back(UndeclaredVariable{"undeclared variable '" + name + "'", location});
         return {};
     }
 
@@ -388,7 +392,7 @@ namespace Ast {
         if (currentClass.GetBase().has_value()) {
             return TryLookUpMethod(classes_.at(currentClass.GetBase().value()), name, location);
         }
-        errors.push_back(UndeclaredMethod{"undeclared method '" + name + "'", location});
+        errors_.push_back(UndeclaredMethod{"undeclared method '" + name + "'", location});
         return {};
     }
 
@@ -396,7 +400,7 @@ namespace Ast {
         try {
             std::string typeName = std::get<std::string>(type);
             if (classes_.find(typeName) == classes_.end()) {
-                errors.push_back(UndeclaredClass{"undeclared class '" + typeName + "'", location});
+                errors_.push_back(UndeclaredClass{"undeclared class '" + typeName + "'", location});
                 return true;
             }
         } catch (const std::bad_variant_access&) {
