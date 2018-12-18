@@ -19,7 +19,7 @@ In [irt](irt) lies everything connected to IRT (Intermediate Representation Tree
 ## Prerequisites
 
 Code is written in C++17. Compilation is done via clang-7.0.1.  
-For correct work of everything we suggest you have the following:
+For correct work of everything we suggest you to have the following:
 * [bison](https://www.gnu.org/software/bison/) (parser)
 * [flex](https://www.gnu.org/software/flex/) (lexical analyser)
 * [valgring](http://www.valgrind.org) (used for leaks detection)
