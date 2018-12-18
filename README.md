@@ -6,7 +6,7 @@
 
 ## Code
 
-In this section we'll briefly cover main aspects of the code.
+In this section we'll briefly cover the main aspects of the code.
 
 ### AST
 
