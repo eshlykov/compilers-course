@@ -41,4 +41,4 @@ This compiler was written by 3 programmers:
 
 ## Acknowledgements
 
-Thanks to our lector Victor Zhuravlev.
+Thanks to our lecturer Victor Zhuravlev.
