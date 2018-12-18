@@ -10,11 +10,11 @@ In this section we'll briefly cover the main aspects of the code.
 
 ### AST
 
-In [ast](ast) lies everything connected to AST (Abstract Syntax Tree).
+Everything connected to AST (Abstract Syntax Tree) lies in [ast](ast).
 
 ### IRT
 
-In [irt](irt) lies everything connected to IRT (Intermediate Representation Tree).
+Everything connected to IRT (Intermediate Representation Tree) lies in [irt](irt).
 
 ## Prerequisites
 
