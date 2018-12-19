@@ -1,13 +1,14 @@
 CC=clang++ -stdlib=libc++ -std=c++17 -Wno-register -Wno-deprecated -D _LIBCPP_DEBUG=1
 CPP = `find . -name "*cpp"`
+SOURCES = `find . -name "*cpp" -not -name "parser.cpp" -not -name "lexer.cpp"`
 
 compile:
 	flex -olexer.cpp lexer.l
 	bison -o parser.cpp -d parser.y --report=all
 	$(CC) $(CPP) -g -o compiler
 
-default: compile
-	python3 testlib/tester.py compiler
+leaks_check: compile
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./compiler $(TEST)
 
 test: compile
 	python3 testlib/tester.py compiler
@@ -16,34 +17,10 @@ draw: compile
 	./testlib/test-folder-creation.sh
 	python3 testlib/drawer.py compiler
 
-leaks_check: compile
+full_leaks_check: compile
 	python3 testlib/memory_leak_checker.py compiler
 
 cppcheck:
-	git clean -fdx > /dev/null
-	cppcheck --enable=all -f $(CPP)
+	cppcheck --enable=all -f $(SOURCES)
 
-travis_compile:
-	flex -olexer.cpp lexer.l
-	bison -o parser.cpp -d parser.y --report=all
-	clang++ $(CPP) -std=c++17 -Wno-register -Wno-deprecated -o compiler
-
-travis: travis_compile
-	python3 testlib/tester.py compiler
-	dot -T svg ast.dot -o ast.svg
-
-travis_test: travis_compile
-	./testlib/test-folder-creation.sh
-	python3 testlib/tester.py compiler
-
-travis_draw: travis_compile
-	python3 testlib/drawer.py compiler
-
-travis_cppcheck:
-	git clean -fdx > /dev/null
-	cppcheck --enable=all -f $(CPP)
-
-travis_leaks_check: compile
-	python3 testlib/memory_leak_checker.py compiler
-
-travis_all_checks: travis_test travis_draw travis_cppcheck travis_leaks_check
+travis_all_checks: test draw cppcheck full_leaks_check
