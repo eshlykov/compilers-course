@@ -6,20 +6,20 @@
 
 ## Code
 
-In this section we'll briefly cover main aspects of the code.
+In this section we'll briefly cover the main aspects of the code.
 
 ### AST
 
-In [ast](ast) lies everything connected to AST (Abstract Syntax Tree).
+Everything connected to AST (Abstract Syntax Tree) lies in [ast](ast).
 
 ### IRT
 
-In [irt](irt) lies everything connected to IRT (Intermediate Representation Tree).
+Everything connected to IRT (Intermediate Representation Tree) lies in [irt](irt).
 
 ## Prerequisites
 
 Code is written in C++17. Compilation is done via clang-7.0.1.  
-For correct work of everything we suggest you have the following:
+For correct work of everything we suggest you to have the following:
 * [bison](https://www.gnu.org/software/bison/) (parser)
 * [flex](https://www.gnu.org/software/flex/) (lexical analyser)
 * [valgring](http://www.valgrind.org) (used for leaks detection)
@@ -41,4 +41,4 @@ This compiler was written by 3 programmers:
 
 ## Acknowledgements
 
-Thanks to our lector Victor Zhuravlev.
+Thanks to our lecturer Victor Zhuravlev.
