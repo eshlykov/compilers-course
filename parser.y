@@ -253,7 +253,7 @@ TypeIdentifierCommaTypeIdentifierRepeatedOptional :
     %empty {
         $$ = new std::vector<std::unique_ptr<VarDeclaration>>{};
     } | Type Identifier CommaTypeIdentifierRepeated {
-        $3->push_back(std::make_unique<VarDeclaration>(location, std::move(*$1), *$2));
+        $3->push_front(std::make_unique<VarDeclaration>(location, std::move(*$1), *$2));
         $$ = $3;
         delete $1;
         delete $2;
@@ -293,7 +293,7 @@ StatementRepeated :
     %empty {
         $$ = new std::vector<std::unique_ptr<Statement>>{};
     } | Statement StatementRepeated {
-        $2->push_back(std::move(*$1));
+        $2->push_front(std::move(*$1));
         $$ = $2;
         delete $1;
     }
@@ -341,7 +341,7 @@ ExpressionCommaExpressionRepeatedOptional :
     %empty {
         $$ = new std::vector<std::unique_ptr<Expression>>{};
     } | Expression CommaExpressionRepeated {
-        $2->push_back(std::move(*$1));
+        $2->push_front(std::move(*$1));
         $$ = $2;
         delete $1;
     }
