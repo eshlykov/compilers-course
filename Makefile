@@ -18,7 +18,7 @@ draw: compile
 	python3 testlib/drawer.py compiler
 
 full_leaks_check: compile
-	python3 testlib/memory_leak_checker.py compiler
+	python3 testlib/memory-leak-checker.py compiler
 
 cppcheck:
 	cppcheck --enable=all -f $(SOURCES)
