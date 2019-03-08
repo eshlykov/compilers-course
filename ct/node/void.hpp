@@ -1,7 +1,6 @@
 #pragma once
 
 #include "statement.hpp"
-#include "/irt/void.hpp"
 #include <memory>
 
 namespace Ct {

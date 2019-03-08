@@ -13,3 +13,4 @@ parser.hpp
 *.log
 .editorconfig
 compiler.dSYM
+.DS_Store
