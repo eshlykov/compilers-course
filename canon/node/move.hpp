@@ -3,7 +3,7 @@
 #include "statement.hpp"
 #include <memory>
 
-namespace Irt {
+namespace Ct {
 
     class Expression;
 

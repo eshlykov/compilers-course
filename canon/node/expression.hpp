@@ -2,7 +2,7 @@
 
 #include "node.hpp"
 
-namespace Irt {
+namespace Ct {
 
     class Expression : public Node {
     };

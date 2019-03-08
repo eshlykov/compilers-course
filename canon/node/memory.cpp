@@ -1,6 +1,6 @@
 #include "memory.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Memory::Memory(std::shared_ptr<Expression> expression) :
         expression_{expression} {

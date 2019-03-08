@@ -1,6 +1,6 @@
 #include "call.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Call::Call(std::shared_ptr<Expression> expression,
         const std::vector<std::shared_ptr<Expression>>& expressionList) :

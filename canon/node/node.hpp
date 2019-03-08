@@ -3,7 +3,7 @@
 #include "../visitor/visitor.hpp"
 #include <cassert>
 
-namespace Irt {
+namespace Ct {
 
     class Node {
     public:

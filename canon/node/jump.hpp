@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-namespace Irt {
+namespace Ct {
 
     class Expression;
 

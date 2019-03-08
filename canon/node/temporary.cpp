@@ -1,6 +1,6 @@
 #include "temporary.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Temporary::Temporary(Storage storage) :
         storage_(storage) {

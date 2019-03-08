@@ -1,7 +1,7 @@
 #include "jump.hpp"
 #include "name.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Jump::Jump(const Address& address) :
             expression_{std::make_shared<Name>(address)},

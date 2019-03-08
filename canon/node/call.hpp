@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-namespace Irt {
+namespace Ct {
 
     class Call : public Expression {
     public:

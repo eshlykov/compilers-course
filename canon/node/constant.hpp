@@ -2,7 +2,7 @@
 
 #include "expression.hpp"
 
-namespace Irt {
+namespace Ct {
 
     class Constant : public Expression {
     public:

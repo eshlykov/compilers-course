@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-namespace Irt {
+namespace Ct {
 
     class Label : public Statement {
     public:

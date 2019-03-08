@@ -1,6 +1,6 @@
 #include "move.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Move::Move(std::shared_ptr<Expression> destination,
         std::shared_ptr<Expression> source) :

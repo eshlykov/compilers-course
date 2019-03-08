@@ -1,6 +1,6 @@
 #include "constant.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Constant::Constant(int value) :
         value_{value} {

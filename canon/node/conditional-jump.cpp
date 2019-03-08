@@ -1,6 +1,6 @@
 #include "conditional-jump.hpp"
 
-namespace Irt {
+namespace Ct {
 
     ConditionalJump::ConditionalJump(LogicalOperator logicalOperator,
         std::shared_ptr<Expression> expressionLeft,

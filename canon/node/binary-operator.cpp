@@ -1,6 +1,6 @@
 #include "binary-operator.hpp"
 
-namespace Irt {
+namespace Ct {
 
     BinaryOperator::BinaryOperator(ArithmeticOperator arithmeticOperator,
         std::shared_ptr<Expression> leftExpression,

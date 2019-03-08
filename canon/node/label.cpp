@@ -1,6 +1,6 @@
 #include "label.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Label::Label(const Address& address) :
         address_{address} {

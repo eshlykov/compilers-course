@@ -1,6 +1,6 @@
 #include "statement-sequence.hpp"
 
-namespace Irt {
+namespace Ct {
 
     StatementSequence::StatementSequence(std::shared_ptr<Statement> leftStatement,
         std::shared_ptr<Statement> rightStatement) :

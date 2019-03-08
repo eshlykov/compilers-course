@@ -3,7 +3,7 @@
 #include "expression.hpp"
 #include <memory>
 
-namespace Irt {
+namespace Ct {
 
     enum class ArithmeticOperator {
         Plus,

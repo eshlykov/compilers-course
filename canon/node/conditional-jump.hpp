@@ -4,7 +4,7 @@
 #include "../utils/address.hpp"
 #include <memory>
 
-namespace Irt {
+namespace Ct {
 
     class Expression;
 

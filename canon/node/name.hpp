@@ -4,7 +4,7 @@
 #include "expression.hpp"
 #include <memory>
 
-namespace Irt {
+namespace Ct {
 
     class Name : public Expression {
     public:

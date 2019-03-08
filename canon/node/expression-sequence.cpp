@@ -1,6 +1,6 @@
 #include "expression-sequence.hpp"
 
-namespace Irt {
+namespace Ct {
 
     ExpressionSequence::ExpressionSequence(std::shared_ptr<Statement> statement,
         std::shared_ptr<Expression> expression) :

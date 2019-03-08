@@ -1,6 +1,6 @@
 #include "name.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Name::Name(const Address& address) :
         address_{address} {

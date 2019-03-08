@@ -1,6 +1,6 @@
 #include "void.hpp"
 
-namespace Irt {
+namespace Ct {
 
     Void::Void(std::shared_ptr<Expression> expression) :
         expression_{expression} {
