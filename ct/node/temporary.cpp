@@ -10,4 +10,12 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> Temporary::Kids() {
+        return {};
+    }
+
+    std::shared_ptr<Expression> Temporary::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        return std::make_shared<Temporary>(storage_);
+    }
+
 }

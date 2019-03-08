@@ -13,4 +13,15 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> Call::Kids() {
+        std::vector<std::shared_ptr<Expression>> newVec(expressionList_.begin(), expressionList_.end());
+        newVec.insert(newVec.begin(), expression_);
+        return newVec;
+    }
+
+    std::shared_ptr<Expression> Call::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        std::vector<std::shared_ptr<Expression>> newVec(expressionList.begin() + 1, expressionList.end());
+        return std::make_shared<Call>(expressionList[0], newVec);
+    }
+
 }

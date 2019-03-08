@@ -14,4 +14,12 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> ExpressionSequence::Kids() {
+        return {expression_};
+    }
+
+    std::shared_ptr<Expression> ExpressionSequence::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        return std::make_shared<ExpressionSequence>(statement_, expressionList[0]);
+    }
+
 }

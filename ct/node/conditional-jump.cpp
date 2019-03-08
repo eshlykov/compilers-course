@@ -20,4 +20,12 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> ConditionalJump::Kids() {
+        return {expressionLeft_, expressionRight_};
+    }
+
+    std::shared_ptr<Statement> ConditionalJump::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        return std::make_shared<ConditionalJump>(logicalOperator_, expressionList[0], expressionList[1], addressIf_, addressElse_);
+    }
+
 }
