@@ -10,4 +10,12 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> Name::Kids() {
+        return {};
+    }
+
+    std::shared_ptr<Expression> Name::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        return std::make_shared<Name>(address_);
+    }
+
 }

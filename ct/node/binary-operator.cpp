@@ -16,4 +16,12 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> BinaryOperator::Kids() {
+        return {leftExpression_, rightExpression_};
+    }
+
+    std::shared_ptr<Expression> BinaryOperator::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        return std::make_shared<BinaryOperator>(arithmeticOperator_, expressionList[0], expressionList[1]);
+    }
+
 }

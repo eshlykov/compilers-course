@@ -13,4 +13,13 @@ namespace Ct {
         visitor->Visit(this);
     }
 
+    std::vector<std::shared_ptr<Expression>> Jump::Kids() {
+        return {expression_};
+    }
+
+    std::shared_ptr<Statement> Jump::Build(const std::vector<std::shared_ptr<Expression>>& expressionList) {
+        assert(!addresses_.empty());
+        return std::make_shared<Jump>(addresses_[0]);
+    }
+
 }
