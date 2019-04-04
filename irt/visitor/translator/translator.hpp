@@ -2,7 +2,10 @@
 
 #include "../visitor.hpp"
 #include "../../../utils/irt.hpp"
+#include "../../../utils/ct.hpp"
 #include "../../../ct/node/node.hpp"
+#include "../../../ct/frame/code-fragment.hpp"
+#include <optional>
 #include <memory>
 
 namespace Irt {
@@ -38,7 +41,13 @@ namespace Irt {
             virtual void Visit(Void* node) override final;
 
         private:
-            std::shared_ptr<Ct::Node> node_;
+            std::shared_ptr<Ct::CodeFragment> codeFragment_;
+            std::shared_ptr<Ct::Expression> exp_;
+            std::shared_ptr<Ct::Statement> statement_;
+
+        private:
+            std::optional<Ct::ArithmeticOperator> ToCtArithmeticOperator(ArithmeticOperator arithmeticOperator);
+            std::optional<Ct::LogicalOperator> ToCtLogicalOperator(LogicalOperator logicalOperator);
     };
 
 }
