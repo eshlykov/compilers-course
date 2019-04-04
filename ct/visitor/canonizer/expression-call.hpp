@@ -10,6 +10,9 @@ namespace Ct {
     public:
         ExpressionCall(std::shared_ptr<Call> call);
 
+        virtual void Accept(Visitor*) override final {
+        }
+
         virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
 
         virtual std::shared_ptr<Statement> Build(const std::vector<std::shared_ptr<Expression>>& kids) override final;

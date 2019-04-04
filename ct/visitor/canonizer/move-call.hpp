@@ -10,6 +10,9 @@ namespace Ct {
     public:
         MoveCall(std::shared_ptr<Temporary> destination, std::shared_ptr<Call> source);
 
+        virtual void Accept(Visitor*) override final {
+        }
+
         virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
 
         virtual std::shared_ptr<Statement> Build(const std::vector<std::shared_ptr<Expression>>& kids) override final;
