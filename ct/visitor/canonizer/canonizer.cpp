@@ -57,8 +57,4 @@ namespace Ct {
 
     }
 
-    void Canonizer::Next() {
-
-    }
-
 }

@@ -7,7 +7,6 @@ namespace Ct {
         Canonizer canonizer;
         while (codeFragment != nullptr) {
             canonizer.Visit(codeFragment->body_.get());
-            canonizer.Next();
             codeFragment = codeFragment->next_;
         }
     }

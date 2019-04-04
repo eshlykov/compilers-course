@@ -36,8 +36,6 @@ namespace Ct {
 
         virtual void Visit(Void*) override final;
 
-        void Next();
-
     private:
         std::shared_ptr<Node> node_;
     };
