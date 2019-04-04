@@ -2,6 +2,9 @@
 
 #include "../../../utils/ct.hpp"
 #include "../visitor.hpp"
+#include "move-call.hpp"
+#include "expression-call.hpp"
+#include "statement-expression-list.hpp"
 #include <memory>
 
 namespace Ct {
