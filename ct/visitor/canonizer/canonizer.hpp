@@ -1,5 +1,9 @@
 #pragma once
 
+#include "../../../utils/ct.hpp"
+#include "../visitor.hpp"
+#include <memory>
+
 namespace Ct {
 
     class Canonizer : public Visitor {
@@ -31,6 +35,8 @@ namespace Ct {
         virtual void Visit(Temporary*) override final;
 
         virtual void Visit(Void*) override final;
+
+        void Next();
 
     private:
         std::shared_ptr<Node> node_;

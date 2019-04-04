@@ -2,7 +2,7 @@
 
 namespace Ct {
 
-    Canonizer() {
+    Canonizer::Canonizer() {
     }
 
     void Canonizer::Visit(BinaryOperator*) {
@@ -56,4 +56,9 @@ namespace Ct {
     void Canonizer::Visit(Void*) {
 
     }
+
+    void Canonizer::Next() {
+
+    }
+
 }
