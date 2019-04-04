@@ -1,4 +1,4 @@
-CC=clang++ -std=c++17 -Wno-register -Wno-deprecated -D _LIBCPP_DEBUG=1
+CC=clang++ -std=c++17 -Wno-register -Wno-deprecated
 CPP = `find . -name "*cpp"`
 SOURCES = `find . -name "*cpp" -not -name "parser.cpp" -not -name "lexer.cpp"`
 
