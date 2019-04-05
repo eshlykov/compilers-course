@@ -14,7 +14,7 @@ class Jump : public Statement {
  public:
   explicit Jump(const Address& address);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Expression> expression_;

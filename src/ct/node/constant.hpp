@@ -8,13 +8,12 @@ class Constant : public Expression {
  public:
   explicit Constant(int value);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
-  virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
+  std::vector<std::shared_ptr<Expression>> Kids() final;
 
-  virtual std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList)
-      override final;
+  std::shared_ptr<Expression> Build(
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const int value_;

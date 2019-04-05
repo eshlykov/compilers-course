@@ -10,7 +10,7 @@ class Name : public Expression {
  public:
   explicit Name(const Address& address);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const Address address_;

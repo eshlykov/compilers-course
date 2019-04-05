@@ -17,13 +17,12 @@ class ConditionalJump : public Statement {
                   std::shared_ptr<Expression> expressionRight,
                   const Address& addressIf, const Address& addressElse);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
-  virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
+  std::vector<std::shared_ptr<Expression>> Kids() final;
 
-  virtual std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList)
-      override final;
+  std::shared_ptr<Statement> Build(
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const LogicalOperator logicalOperator_;

@@ -16,7 +16,7 @@ class MethodBody : public Node {
              std::vector<std::unique_ptr<Statement>>& statements,
              std::unique_ptr<Expression> returnExpression);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::vector<std::unique_ptr<VarDeclaration>> variables_;

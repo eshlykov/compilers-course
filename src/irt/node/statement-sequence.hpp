@@ -10,7 +10,7 @@ class StatementSequence : public Statement {
   StatementSequence(std::shared_ptr<Statement> leftStatement,
                     std::shared_ptr<Statement> rightStatement);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Statement> leftStatement_;
