@@ -17,4 +17,4 @@ void Print(const std::string &filename,
   }
 }
 
-}
+}  // namespace Irt
