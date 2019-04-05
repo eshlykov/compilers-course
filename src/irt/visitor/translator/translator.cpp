@@ -45,7 +45,7 @@ void Translator::Visit(ConditionalJump* node) {
   std::optional<Ct::LogicalOperator> logicalOperator = ToCtLogicalOperator(node->logicalOperator_);
   assert(logicalOperator.has_value());
 
-  statement_ = std::make_shared<ConditionalJump>(logicalOperator, expressionLeft,
+  statement_ = std::make_shared<Ct::ConditionalJump>(logicalOperator.value(), expressionLeft,
                                                  expressionRight, node->addressIf_,
                                                  node->addressElse_);
 
