@@ -10,12 +10,12 @@ class ExpressionCall : public Statement {
  public:
   explicit ExpressionCall(std::shared_ptr<Call> call);
 
-  void Accept(Visitor*) final {}
+  void Accept(Visitor *) final {}
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& kids) final;
+      const std::vector<std::shared_ptr<Expression>> &kids) final;
 
  private:
   std::shared_ptr<Call> Call_;
@@ -29,7 +29,7 @@ inline std::vector<std::shared_ptr<Expression>> ExpressionCall::Kids() {
 }
 
 inline std::shared_ptr<Statement> ExpressionCall::Build(
-    const std::vector<std::shared_ptr<Expression>>& kids) {
+    const std::vector<std::shared_ptr<Expression>> &kids) {
   return std::make_shared<Void>(Call_->Build(kids));
 }
 

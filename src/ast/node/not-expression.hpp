@@ -10,7 +10,7 @@ class NotExpression : public Expression {
   explicit NotExpression(Location location,
                          std::unique_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> expression_;
@@ -23,6 +23,6 @@ inline NotExpression::NotExpression(Location location,
   assert(expression_ != nullptr);
 }
 
-inline void NotExpression::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void NotExpression::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

@@ -6,9 +6,9 @@
 
 class SelfInheritance : public CompileError {
  public:
-  SelfInheritance(const std::string& message, const Location& location);
+  SelfInheritance(const std::string &message, const Location &location);
 };
 
-inline SelfInheritance::SelfInheritance(const std::string& message,
-                                        const Location& location)
+inline SelfInheritance::SelfInheritance(const std::string &message,
+                                        const Location &location)
     : CompileError(message, location) {}

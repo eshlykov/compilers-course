@@ -2,7 +2,7 @@
 
 namespace Ast {
 
-Printer::Printer(const std::string& filename)
+Printer::Printer(const std::string &filename)
     : file_{filename}, nodeNumber_{0} {
   file_ << "strict graph {" << std::endl;
 }
@@ -12,7 +12,7 @@ Printer::~Printer() {
   file_.close();
 }
 
-void Printer::Visit(AssignmentByIndexStatement* node) {
+void Printer::Visit(AssignmentByIndexStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "AssignmentByIndexStatement");
 
@@ -28,7 +28,7 @@ void Printer::Visit(AssignmentByIndexStatement* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(AssignmentStatement* node) {
+void Printer::Visit(AssignmentStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "AssignmentStatement");
 
@@ -40,7 +40,7 @@ void Printer::Visit(AssignmentStatement* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(BinaryOperatorExpression* node) {
+void Printer::Visit(BinaryOperatorExpression *node) {
   int headNodeNumber = nodeNumber_;
 
   switch (node->binaryOperator_) {
@@ -72,29 +72,29 @@ void Printer::Visit(BinaryOperatorExpression* node) {
   node->rhs_->Accept(this);
 }
 
-void Printer::Visit(BooleanExpression* node) {
+void Printer::Visit(BooleanExpression *node) {
   PrintHead(nodeNumber_,
             "Boolean : " + std::string{node->value_ ? "true" : "false"});
 }
 
-void Printer::Visit(ClassBody* node) {
+void Printer::Visit(ClassBody *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "ClassBody");
 
-  for (auto& variable : node->variables_) {
+  for (auto &variable : node->variables_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     variable->Accept(this);
   }
 
-  for (auto& method : node->methods_) {
+  for (auto &method : node->methods_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     method->Accept(this);
   }
 }
 
-void Printer::Visit(ClassDeclaration* node) {
+void Printer::Visit(ClassDeclaration *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "ClassDeclaration : " + node->className_);
 
@@ -108,7 +108,7 @@ void Printer::Visit(ClassDeclaration* node) {
   node->classBody_->Accept(this);
 }
 
-void Printer::Visit(ConditionStatement* node) {
+void Printer::Visit(ConditionStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "ConditionStatement");
 
@@ -125,11 +125,11 @@ void Printer::Visit(ConditionStatement* node) {
   node->elseStatement_->Accept(this);
 }
 
-void Printer::Visit(IdentifierExpression* node) {
+void Printer::Visit(IdentifierExpression *node) {
   PrintHead(nodeNumber_, "Identifier : " + node->name_);
 }
 
-void Printer::Visit(IndexExpression* node) {
+void Printer::Visit(IndexExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "IndexExpression");
 
@@ -142,7 +142,7 @@ void Printer::Visit(IndexExpression* node) {
   node->rhs_->Accept(this);
 }
 
-void Printer::Visit(IntArrayConstructorExpression* node) {
+void Printer::Visit(IntArrayConstructorExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "IntArrayConstructorExpression");
 
@@ -151,7 +151,7 @@ void Printer::Visit(IntArrayConstructorExpression* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(LengthExpression* node) {
+void Printer::Visit(LengthExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "LengthExpression");
 
@@ -160,7 +160,7 @@ void Printer::Visit(LengthExpression* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(LoopStatement* node) {
+void Printer::Visit(LoopStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "LoopStatement");
 
@@ -173,7 +173,7 @@ void Printer::Visit(LoopStatement* node) {
   node->statement_->Accept(this);
 }
 
-void Printer::Visit(MainClass* node) {
+void Printer::Visit(MainClass *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "MainClass : " + node->className_);
 
@@ -185,17 +185,17 @@ void Printer::Visit(MainClass* node) {
   node->mainBody_->Accept(this);
 }
 
-void Printer::Visit(MethodBody* node) {
+void Printer::Visit(MethodBody *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "MethodBody");
 
-  for (auto& variable : node->variables_) {
+  for (auto &variable : node->variables_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     variable->Accept(this);
   }
 
-  for (auto& statement : node->statements_) {
+  for (auto &statement : node->statements_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     statement->Accept(this);
@@ -206,7 +206,7 @@ void Printer::Visit(MethodBody* node) {
   node->returnExpression_->Accept(this);
 }
 
-void Printer::Visit(MethodCallExpression* node) {
+void Printer::Visit(MethodCallExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "MethodCallExpression");
 
@@ -217,18 +217,18 @@ void Printer::Visit(MethodCallExpression* node) {
   ++nodeNumber_;
   PrintLeaf(headNodeNumber, "Name", node->methodName_);
 
-  for (auto& argument : node->argumentsList_) {
+  for (auto &argument : node->argumentsList_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     argument->Accept(this);
   }
 }
 
-void Printer::Visit(MethodDeclaration* node) {
+void Printer::Visit(MethodDeclaration *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "MethodDeclaration : " + node->methodName_);
 
-  for (auto& argument : node->argumentsList_) {
+  for (auto &argument : node->argumentsList_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     argument->Accept(this);
@@ -239,7 +239,7 @@ void Printer::Visit(MethodDeclaration* node) {
   node->methodBody_->Accept(this);
 }
 
-void Printer::Visit(NotExpression* node) {
+void Printer::Visit(NotExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "! Expression");
 
@@ -248,12 +248,12 @@ void Printer::Visit(NotExpression* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(NumberExpression* node) {
+void Printer::Visit(NumberExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Number : " + std::to_string(node->value_));
 }
 
-void Printer::Visit(PrintStatement* node) {
+void Printer::Visit(PrintStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "StatementPrint");
 
@@ -262,7 +262,7 @@ void Printer::Visit(PrintStatement* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(Program* node) {
+void Printer::Visit(Program *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Program");
 
@@ -270,27 +270,27 @@ void Printer::Visit(Program* node) {
   PrintEdge(headNodeNumber);
   node->mainClass_->Accept(this);
 
-  for (auto& classDeclaration : node->classDeclarations_) {
+  for (auto &classDeclaration : node->classDeclarations_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     classDeclaration->Accept(this);
   }
 }
 
-void Printer::Visit(ScopeStatement* node) {
+void Printer::Visit(ScopeStatement *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "{ Statement }");
 
-  for (auto& statement : node->statements_) {
+  for (auto &statement : node->statements_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     statement->Accept(this);
   }
 }
 
-void Printer::Visit(ThisExpression* node) { PrintHead(nodeNumber_, "This"); }
+void Printer::Visit(ThisExpression *node) { PrintHead(nodeNumber_, "This"); }
 
-void Printer::Visit(Type* node) {
+void Printer::Visit(Type *node) {
   try {
     switch (std::get<TypeKind>(node->type_)) {
       case TypeKind::IntArray:
@@ -305,17 +305,17 @@ void Printer::Visit(Type* node) {
       default:
         break;
     }
-  } catch (const std::bad_variant_access&) {
+  } catch (const std::bad_variant_access &) {
     PrintHead(nodeNumber_, "Type : " + std::get<std::string>(node->type_));
   }
 }
 
-void Printer::Visit(UserTypeConstructorExpression* node) {
+void Printer::Visit(UserTypeConstructorExpression *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "UserTypeConstructorExpression : " + node->name_);
 }
 
-void Printer::Visit(VarDeclaration* node) {
+void Printer::Visit(VarDeclaration *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Variable");
 
@@ -327,7 +327,7 @@ void Printer::Visit(VarDeclaration* node) {
   PrintLeaf(headNodeNumber, "Name", node->name_);
 }
 
-void Printer::PrintHead(int headNodeNumber, const std::string& label) {
+void Printer::PrintHead(int headNodeNumber, const std::string &label) {
   file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
 }
 
@@ -335,8 +335,8 @@ void Printer::PrintEdge(int headNodeNumber) {
   file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
 }
 
-void Printer::PrintLeaf(int headNodeNumber, const std::string& label,
-                        const std::string& name) {
+void Printer::PrintLeaf(int headNodeNumber, const std::string &label,
+                        const std::string &name) {
   file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];"
         << std::endl;
   file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;

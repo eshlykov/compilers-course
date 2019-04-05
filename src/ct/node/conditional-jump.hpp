@@ -17,12 +17,12 @@ class ConditionalJump : public Statement {
                   std::shared_ptr<Expression> expressionRight,
                   Address addressIf, Address addressElse);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
 
  public:
   const LogicalOperator logicalOperator_;
@@ -45,14 +45,14 @@ inline ConditionalJump::ConditionalJump(
   assert(expressionRight_ != nullptr);
 }
 
-inline void ConditionalJump::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void ConditionalJump::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> ConditionalJump::Kids() {
   return {expressionLeft_, expressionRight_};
 }
 
 inline std::shared_ptr<Statement> ConditionalJump::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+    const std::vector<std::shared_ptr<Expression>> &expressionList) {
   return std::make_shared<ConditionalJump>(logicalOperator_, expressionList[0],
                                            expressionList[1], addressIf_,
                                            addressElse_);

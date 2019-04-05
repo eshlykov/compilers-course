@@ -19,7 +19,7 @@ class BinaryOperatorExpression : public Expression {
                            std::unique_ptr<Expression> rhs,
                            BinaryOperator binaryOperator);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> lhs_;
@@ -38,7 +38,7 @@ inline BinaryOperatorExpression::BinaryOperatorExpression(
   assert(rhs_ != nullptr);
 }
 
-inline void BinaryOperatorExpression::Accept(Visitor* visitor) {
+inline void BinaryOperatorExpression::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

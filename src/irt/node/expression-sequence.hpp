@@ -12,7 +12,7 @@ class ExpressionSequence : public Expression {
   ExpressionSequence(std::shared_ptr<Statement> statement,
                      std::shared_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::shared_ptr<Statement> statement_;
@@ -27,7 +27,7 @@ inline ExpressionSequence::ExpressionSequence(
   assert(expression_ != nullptr);
 }
 
-inline void ExpressionSequence::Accept(Visitor* visitor) {
+inline void ExpressionSequence::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

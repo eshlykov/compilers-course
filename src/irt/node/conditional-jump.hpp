@@ -17,7 +17,7 @@ class ConditionalJump : public Statement {
                   std::shared_ptr<Expression> expressionRight,
                   Address addressIf, Address addressElse);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const LogicalOperator logicalOperator_;
@@ -40,6 +40,6 @@ inline ConditionalJump::ConditionalJump(
   assert(expressionRight_ != nullptr);
 }
 
-inline void ConditionalJump::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void ConditionalJump::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

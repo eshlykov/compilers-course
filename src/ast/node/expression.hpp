@@ -8,7 +8,7 @@ namespace Ast {
 
 class Expression : public Node {
  public:
-  void SetType(const std::variant<TypeKind, std::string>& type);
+  void SetType(const std::variant<TypeKind, std::string> &type);
 
   std::variant<TypeKind, std::string> GetType() const;
 
@@ -17,7 +17,7 @@ class Expression : public Node {
 };
 
 inline void Expression::SetType(
-    const std::variant<TypeKind, std::string>& type) {
+    const std::variant<TypeKind, std::string> &type) {
   type_ = type;
 }
 

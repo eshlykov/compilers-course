@@ -10,7 +10,7 @@ class LengthExpression : public Expression {
   explicit LengthExpression(Location location,
                             std::unique_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> expression_;
@@ -23,6 +23,6 @@ inline LengthExpression::LengthExpression(
   assert(expression_ != nullptr);
 }
 
-inline void LengthExpression::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void LengthExpression::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

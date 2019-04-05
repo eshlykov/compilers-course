@@ -13,7 +13,7 @@ class AssignmentByIndexStatement : public Statement {
                              std::unique_ptr<Expression> index,
                              std::unique_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::string array_;
@@ -32,7 +32,7 @@ inline AssignmentByIndexStatement::AssignmentByIndexStatement(
   assert(expression_ != nullptr);
 }
 
-inline void AssignmentByIndexStatement::Accept(Visitor* visitor) {
+inline void AssignmentByIndexStatement::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

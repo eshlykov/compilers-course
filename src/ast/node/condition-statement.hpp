@@ -12,7 +12,7 @@ class ConditionStatement : public Statement {
                      std::unique_ptr<Statement> ifStatement,
                      std::unique_ptr<Statement> elseStatement);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> condition_;
@@ -33,7 +33,7 @@ inline ConditionStatement::ConditionStatement(
   assert(elseStatement_ != nullptr);
 }
 
-inline void ConditionStatement::Accept(Visitor* visitor) {
+inline void ConditionStatement::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

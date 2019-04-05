@@ -15,7 +15,7 @@ class ClassDeclaration : public Node {
                    std::optional<std::string> extendsForClass,
                    std::unique_ptr<ClassBody> classBody);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::string className_;
@@ -34,6 +34,6 @@ inline ClassDeclaration::ClassDeclaration(
   assert(classBody_ != nullptr);
 }
 
-inline void ClassDeclaration::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void ClassDeclaration::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

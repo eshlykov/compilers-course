@@ -18,55 +18,55 @@ class Translator : public Visitor {
  public:
   Translator();
 
-  void Visit(AssignmentByIndexStatement* node) final;
+  void Visit(AssignmentByIndexStatement *node) final;
 
-  void Visit(AssignmentStatement* node) final;
+  void Visit(AssignmentStatement *node) final;
 
-  void Visit(BinaryOperatorExpression* node) final;
+  void Visit(BinaryOperatorExpression *node) final;
 
-  void Visit(BooleanExpression* node) final;
+  void Visit(BooleanExpression *node) final;
 
-  void Visit(ClassBody* node) final;
+  void Visit(ClassBody *node) final;
 
-  void Visit(ClassDeclaration* node) final;
+  void Visit(ClassDeclaration *node) final;
 
-  void Visit(ConditionStatement* node) final;
+  void Visit(ConditionStatement *node) final;
 
-  void Visit(IdentifierExpression* node) final;
+  void Visit(IdentifierExpression *node) final;
 
-  void Visit(IndexExpression* node) final;
+  void Visit(IndexExpression *node) final;
 
-  void Visit(IntArrayConstructorExpression* node) final;
+  void Visit(IntArrayConstructorExpression *node) final;
 
-  void Visit(LengthExpression* node) final;
+  void Visit(LengthExpression *node) final;
 
-  void Visit(LoopStatement* node) final;
+  void Visit(LoopStatement *node) final;
 
-  void Visit(MainClass* node) final;
+  void Visit(MainClass *node) final;
 
-  void Visit(MethodBody* node) final;
+  void Visit(MethodBody *node) final;
 
-  void Visit(MethodCallExpression* node) final;
+  void Visit(MethodCallExpression *node) final;
 
-  void Visit(MethodDeclaration* node) final;
+  void Visit(MethodDeclaration *node) final;
 
-  void Visit(NotExpression* node) final;
+  void Visit(NotExpression *node) final;
 
-  void Visit(NumberExpression* node) final;
+  void Visit(NumberExpression *node) final;
 
-  void Visit(PrintStatement* node) final;
+  void Visit(PrintStatement *node) final;
 
-  void Visit(Program* node) final;
+  void Visit(Program *node) final;
 
-  void Visit(ScopeStatement* node) final;
+  void Visit(ScopeStatement *node) final;
 
-  void Visit(ThisExpression* node) final;
+  void Visit(ThisExpression *node) final;
 
-  void Visit(Type* node) final;
+  void Visit(Type *node) final;
 
-  void Visit(UserTypeConstructorExpression* node) final;
+  void Visit(UserTypeConstructorExpression *node) final;
 
-  void Visit(VarDeclaration* node) final;
+  void Visit(VarDeclaration *node) final;
 
   std::shared_ptr<Irt::CodeFragment> GetCodeFragment();
 
@@ -77,7 +77,7 @@ class Translator : public Visitor {
   std::shared_ptr<Irt::Expression> Allocate(
       std::shared_ptr<Irt::Expression> wordsCount);
 
-  std::shared_ptr<Irt::Expression> GetVariable(const std::string& name);
+  std::shared_ptr<Irt::Expression> GetVariable(const std::string &name);
 
  private:
   std::shared_ptr<Irt::Wrapper> wrapper_;

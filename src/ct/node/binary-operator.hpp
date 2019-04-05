@@ -13,12 +13,12 @@ class BinaryOperator : public Expression {
                  std::shared_ptr<Expression> leftExpression,
                  std::shared_ptr<Expression> rightExpression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
 
  public:
   const ArithmeticOperator arithmeticOperator_;
@@ -37,14 +37,14 @@ inline BinaryOperator::BinaryOperator(
   assert(rightExpression_ != nullptr);
 }
 
-inline void BinaryOperator::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void BinaryOperator::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> BinaryOperator::Kids() {
   return {leftExpression_, rightExpression_};
 }
 
 inline std::shared_ptr<Expression> BinaryOperator::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+    const std::vector<std::shared_ptr<Expression>> &expressionList) {
   return std::make_shared<BinaryOperator>(arithmeticOperator_,
                                           expressionList[0], expressionList[1]);
 }
