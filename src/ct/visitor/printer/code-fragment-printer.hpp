@@ -8,6 +8,13 @@
 namespace Ct {
 
 void Print(const std::string& filename,
-           std::shared_ptr<CodeFragment> codeFragment);
-
+           std::shared_ptr<CodeFragment> codeFragment) {
+  Printer printer{filename};
+  while (codeFragment != nullptr) {
+    printer.Visit(codeFragment->body_.get());
+    printer.Next();
+    codeFragment = codeFragment->next_;
+  }
 }
+
+}  // namespace Ct

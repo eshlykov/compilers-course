@@ -85,8 +85,8 @@ void Translator::Visit(ClassDeclaration* node) {
 }
 
 void Translator::Visit(ConditionStatement* node) {
-  Irt::Address addressIf;
-  Irt::Address addressElse;
+  Address addressIf;
+  Address addressElse;
 
   node->condition_->Accept(this);
   std::shared_ptr<Irt::Statement> condition =
@@ -98,7 +98,7 @@ void Translator::Visit(ConditionStatement* node) {
   node->elseStatement_->Accept(this);
   std::shared_ptr<Irt::Statement> elseStatement = statement_;
 
-  Irt::Address addressEnd;
+  Address addressEnd;
 
   statement_ = std::make_shared<Irt::StatementSequence>(
       condition,
@@ -137,13 +137,13 @@ void Translator::Visit(IndexExpression* node) {
 void Translator::Visit(IntArrayConstructorExpression* node) {
   node->expression_->Accept(this);
 
-  Irt::Storage size;
-  Irt::Storage array;
-  Irt::Storage index;
-  Irt::Address addressNew{"new"};
-  Irt::Address addressCondition;
-  Irt::Address addressIf;
-  Irt::Address addressElse;
+  Storage size;
+  Storage array;
+  Storage index;
+  Address addressNew{"new"};
+  Address addressCondition;
+  Address addressIf;
+  Address addressElse;
 
   wrapper_ =
       std::make_shared<Irt::ExpressionWrapper>(Allocate(wrapper_->ToRValue()));
@@ -152,7 +152,7 @@ void Translator::Visit(IntArrayConstructorExpression* node) {
 void Translator::Visit(LengthExpression* node) {
   node->expression_->Accept(this);
 
-  Irt::Address addressLength{className_ + "$length"};
+  Address addressLength{className_ + "$length"};
 
   wrapper_ =
       std::make_shared<Irt::ExpressionWrapper>(std::make_shared<Irt::Call>(
@@ -161,8 +161,8 @@ void Translator::Visit(LengthExpression* node) {
 }
 
 void Translator::Visit(LoopStatement* node) {
-  Irt::Address addressIf;
-  Irt::Address addressElse;
+  Address addressIf;
+  Address addressElse;
 
   node->condition_->Accept(this);
   std::shared_ptr<Irt::Statement> condition =
@@ -170,7 +170,7 @@ void Translator::Visit(LoopStatement* node) {
 
   node->statement_->Accept(this);
 
-  Irt::Address addressCondition;
+  Address addressCondition;
 
   statement_ = std::make_shared<Irt::StatementSequence>(
       std::make_shared<Irt::Label>(addressCondition),
@@ -198,7 +198,7 @@ void Translator::Visit(MainClass* node) {
 }
 
 void Translator::Visit(MethodBody* node) {
-  Irt::Address addressStart{className_ + "$" + methodName_};
+  Address addressStart{className_ + "$" + methodName_};
 
   std::shared_ptr<Irt::Statement> body =
       std::make_shared<Irt::Label>(addressStart);
@@ -233,7 +233,7 @@ void Translator::Visit(MethodCallExpression* node) {
     arguments.push_back(wrapper_->ToRValue());
   }
 
-  Irt::Address addressMethod{className_ + "$" + node->methodName_};
+  Address addressMethod{className_ + "$" + node->methodName_};
 
   wrapper_ =
       std::make_shared<Irt::ExpressionWrapper>(std::make_shared<Irt::Call>(
@@ -262,10 +262,10 @@ void Translator::Visit(MethodDeclaration* node) {
 void Translator::Visit(NotExpression* node) {
   node->expression_->Accept(this);
 
-  Irt::Storage storage;
-  Irt::Address addressIf;
-  Irt::Address addressElse;
-  Irt::Address addressEnd;
+  Storage storage;
+  Address addressIf;
+  Address addressElse;
+  Address addressEnd;
 
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       std::make_shared<Irt::ExpressionSequence>(
@@ -298,7 +298,7 @@ void Translator::Visit(NumberExpression* node) {
 void Translator::Visit(PrintStatement* node) {
   node->expression_->Accept(this);
 
-  Irt::Address addressPrint{"print"};
+  Address addressPrint{"print"};
 
   statement_ = std::make_shared<Irt::Void>(std::make_shared<Irt::Call>(
       std::make_shared<Irt::Name>(addressPrint),
@@ -374,13 +374,13 @@ std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(
 
 std::shared_ptr<Irt::Expression> Translator::Allocate(
     std::shared_ptr<Irt::Expression> wordsCount) {
-  Irt::Storage size;
-  Irt::Storage object;
-  Irt::Storage index;
-  Irt::Address addressNew{"new"};
-  Irt::Address addressCondition;
-  Irt::Address addressIf;
-  Irt::Address addressElse;
+  Storage size;
+  Storage object;
+  Storage index;
+  Address addressNew{"new"};
+  Address addressCondition;
+  Address addressIf;
+  Address addressElse;
 
   return std::make_shared<Irt::ExpressionSequence>(
       std::make_shared<Irt::StatementSequence>(

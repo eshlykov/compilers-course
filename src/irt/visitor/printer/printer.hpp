@@ -13,31 +13,31 @@ class Printer : public Visitor {
 
   ~Printer();
 
-  virtual void Visit(BinaryOperator* node) override final;
+  void Visit(BinaryOperator* node) final;
 
-  virtual void Visit(Call* node) override final;
+  void Visit(Call* node) final;
 
-  virtual void Visit(ConditionalJump*) override final;
+  void Visit(ConditionalJump*) final;
 
-  virtual void Visit(Constant* node) override final;
+  void Visit(Constant* node) final;
 
-  virtual void Visit(ExpressionSequence*) override final;
+  void Visit(ExpressionSequence*) final;
 
-  virtual void Visit(Jump* node) override final;
+  void Visit(Jump* node) final;
 
-  virtual void Visit(Label* node) override final;
+  void Visit(Label* node) final;
 
-  virtual void Visit(Memory* node) override final;
+  void Visit(Memory* node) final;
 
-  virtual void Visit(Move* node) override final;
+  void Visit(Move* node) final;
 
-  virtual void Visit(Name* node) override final;
+  void Visit(Name* node) final;
 
-  virtual void Visit(StatementSequence* node) override final;
+  void Visit(StatementSequence* node) final;
 
-  virtual void Visit(Temporary* node) override final;
+  void Visit(Temporary* node) final;
 
-  virtual void Visit(Void* node) override final;
+  void Visit(Void* node) final;
 
   void Next();
 

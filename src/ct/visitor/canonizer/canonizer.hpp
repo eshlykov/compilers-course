@@ -15,31 +15,31 @@ class Canonizer : public Visitor {
  public:
   Canonizer();
 
-  virtual void Visit(BinaryOperator*) override final;
+  void Visit(BinaryOperator*) final;
 
-  virtual void Visit(Call*) override final;
+  void Visit(Call*) final;
 
-  virtual void Visit(ConditionalJump*) override final;
+  void Visit(ConditionalJump*) final;
 
-  virtual void Visit(Constant*) override final;
+  void Visit(Constant*) final;
 
-  virtual void Visit(ExpressionSequence*) override final;
+  void Visit(ExpressionSequence*) final;
 
-  virtual void Visit(Jump*) override final;
+  void Visit(Jump*) final;
 
-  virtual void Visit(Label*) override final;
+  void Visit(Label*) final;
 
-  virtual void Visit(Memory*) override final;
+  void Visit(Memory*) final;
 
-  virtual void Visit(Move*) override final;
+  void Visit(Move*) final;
 
-  virtual void Visit(Name*) override final;
+  void Visit(Name*) final;
 
-  virtual void Visit(StatementSequence*) override final;
+  void Visit(StatementSequence*) final;
 
-  virtual void Visit(Temporary*) override final;
+  void Visit(Temporary*) final;
 
-  virtual void Visit(Void*) override final;
+  void Visit(Void*) final;
 
  private:
   bool IsConst(const std::shared_ptr<Statement>& statement) {
