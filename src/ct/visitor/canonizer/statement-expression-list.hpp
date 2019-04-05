@@ -17,6 +17,6 @@ struct StatementExpressionList {
 inline StatementExpressionList::StatementExpressionList(
     std::shared_ptr<Statement> statement,
     std::vector<std::shared_ptr<Expression>> expressions)
-    : Statement_(statement), Expressions_(expressions) {}
+    : Statement_(std::move(statement)), Expressions_(std::move(expressions)) {}
 
 }  // namespace Ct

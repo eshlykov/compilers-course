@@ -11,12 +11,12 @@ class MoveCall : public Statement {
   MoveCall(std::shared_ptr<Temporary> destination,
            std::shared_ptr<Call> source);
 
-  virtual void Accept(Visitor*) override final {}
+  void Accept(Visitor*) final {}
 
-  virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
+  std::vector<std::shared_ptr<Expression>> Kids() final;
 
-  virtual std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& kids) override final;
+  std::shared_ptr<Statement> Build(
+      const std::vector<std::shared_ptr<Expression>>& kids) final;
 
  private:
   std::shared_ptr<Temporary> Destination_;
@@ -25,7 +25,7 @@ class MoveCall : public Statement {
 
 inline MoveCall::MoveCall(std::shared_ptr<Temporary> destination,
                           std::shared_ptr<Call> source)
-    : Destination_(destination), Source_(source) {}
+    : Destination_(std::move(destination)), Source_(std::move(source)) {}
 
 inline std::vector<std::shared_ptr<Expression>> MoveCall::Kids() {
   return Source_->Kids();

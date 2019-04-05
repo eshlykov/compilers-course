@@ -10,19 +10,19 @@ class ExpressionCall : public Statement {
  public:
   ExpressionCall(std::shared_ptr<Call> call);
 
-  virtual void Accept(Visitor*) override final {}
+  void Accept(Visitor*) final {}
 
-  virtual std::vector<std::shared_ptr<Expression>> Kids() override final;
+  std::vector<std::shared_ptr<Expression>> Kids() final;
 
-  virtual std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& kids) override final;
+  std::shared_ptr<Statement> Build(
+      const std::vector<std::shared_ptr<Expression>>& kids) final;
 
  private:
   std::shared_ptr<Call> Call_;
 };
 
 inline ExpressionCall::ExpressionCall(std::shared_ptr<Call> call)
-    : Call_(call) {}
+    : Call_(std::move(call)) {}
 
 inline std::vector<std::shared_ptr<Expression>> ExpressionCall::Kids() {
   return Call_->Kids();

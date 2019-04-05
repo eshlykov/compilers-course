@@ -26,7 +26,7 @@ add_executable(compiler ${SOURCES})
 
 if (CLANG_FORMAT_TOOL)
     add_clang_format_target(
-            parakeet_clang_format
+            compiler_clang_format
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${HEADERS} ${SOURCES})
 endif ()
