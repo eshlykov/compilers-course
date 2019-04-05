@@ -15,4 +15,7 @@ struct CodeFragment {
   std::shared_ptr<CodeFragment> next_;
 };
 
+inline CodeFragment::CodeFragment()
+    : frame_{nullptr}, body_{nullptr}, next_{nullptr} {}
+
 }  // namespace Ct
