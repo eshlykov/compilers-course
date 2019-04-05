@@ -10,7 +10,7 @@ class IntArrayConstructorExpression : public Expression {
   explicit IntArrayConstructorExpression(
       Location location, std::unique_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> expression_;
@@ -23,7 +23,7 @@ inline IntArrayConstructorExpression::IntArrayConstructorExpression(
   assert(expression_ != nullptr);
 }
 
-inline void IntArrayConstructorExpression::Accept(Visitor* visitor) {
+inline void IntArrayConstructorExpression::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

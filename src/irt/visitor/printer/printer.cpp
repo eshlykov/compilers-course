@@ -3,7 +3,7 @@
 
 namespace Irt {
 
-Printer::Printer(const std::string& filename)
+Printer::Printer(const std::string &filename)
     : file_{filename}, nodeNumber_{0} {
   file_ << "strict graph {" << std::endl;
 }
@@ -13,7 +13,7 @@ Printer::~Printer() {
   file_.close();
 }
 
-void Printer::Visit(BinaryOperator* node) {
+void Printer::Visit(BinaryOperator *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "BinaryOperator");
 
@@ -39,7 +39,7 @@ void Printer::Visit(BinaryOperator* node) {
   node->rightExpression_->Accept(this);
 }
 
-void Printer::Visit(Call* node) {
+void Printer::Visit(Call *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Call");
 
@@ -47,14 +47,14 @@ void Printer::Visit(Call* node) {
   PrintEdge(headNodeNumber);
   node->expression_->Accept(this);
 
-  for (auto& expression : node->expressionList_) {
+  for (auto &expression : node->expressionList_) {
     ++nodeNumber_;
     PrintEdge(headNodeNumber);
     expression->Accept(this);
   }
 }
 
-void Printer::Visit(ConditionalJump* node) {
+void Printer::Visit(ConditionalJump *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "ConditionalJump");
 
@@ -86,11 +86,11 @@ void Printer::Visit(ConditionalJump* node) {
   PrintLeaf(headNodeNumber, "AddressElse", node->addressElse_.ToString());
 }
 
-void Printer::Visit(Constant* node) {
+void Printer::Visit(Constant *node) {
   PrintHead(nodeNumber_, "Constant : " + std::to_string(node->value_));
 }
 
-void Printer::Visit(ExpressionSequence* node) {
+void Printer::Visit(ExpressionSequence *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "ExpressionSequence");
 
@@ -103,7 +103,7 @@ void Printer::Visit(ExpressionSequence* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(Jump* node) {
+void Printer::Visit(Jump *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Jump");
 
@@ -111,11 +111,11 @@ void Printer::Visit(Jump* node) {
   PrintLeaf(headNodeNumber, "Address", node->address_.ToString());
 }
 
-void Printer::Visit(Label* node) {
+void Printer::Visit(Label *node) {
   PrintHead(nodeNumber_, "Label : " + node->address_.ToString());
 }
 
-void Printer::Visit(Memory* node) {
+void Printer::Visit(Memory *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Memory");
 
@@ -124,7 +124,7 @@ void Printer::Visit(Memory* node) {
   node->expression_->Accept(this);
 }
 
-void Printer::Visit(Move* node) {
+void Printer::Visit(Move *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Move");
 
@@ -137,7 +137,7 @@ void Printer::Visit(Move* node) {
   node->source_->Accept(this);
 }
 
-void Printer::Visit(Name* node) {
+void Printer::Visit(Name *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Name");
 
@@ -145,7 +145,7 @@ void Printer::Visit(Name* node) {
   PrintLeaf(headNodeNumber, "Address", node->address_.ToString());
 }
 
-void Printer::Visit(StatementSequence* node) {
+void Printer::Visit(StatementSequence *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "StatementSequence");
 
@@ -158,7 +158,7 @@ void Printer::Visit(StatementSequence* node) {
   node->rightStatement_->Accept(this);
 }
 
-void Printer::Visit(Temporary* node) {
+void Printer::Visit(Temporary *node) {
   if (node->storage_ == Frame::FramePointer_) {
     PrintHead(nodeNumber_, "FramePointer");
   } else {
@@ -166,7 +166,7 @@ void Printer::Visit(Temporary* node) {
   }
 }
 
-void Printer::Visit(Void* node) {
+void Printer::Visit(Void *node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Void");
 
@@ -177,7 +177,7 @@ void Printer::Visit(Void* node) {
 
 void Printer::Next() { ++nodeNumber_; }
 
-void Printer::PrintHead(int headNodeNumber, const std::string& label) {
+void Printer::PrintHead(int headNodeNumber, const std::string &label) {
   file_ << headNodeNumber << " [label=\"" << label << "\"];" << std::endl;
 }
 
@@ -185,8 +185,8 @@ void Printer::PrintEdge(int headNodeNumber) {
   file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;
 }
 
-void Printer::PrintLeaf(int headNodeNumber, const std::string& label,
-                        const std::string& name) {
+void Printer::PrintLeaf(int headNodeNumber, const std::string &label,
+                        const std::string &name) {
   file_ << nodeNumber_ << " [label=\"" << label << " : " << name << "\"];"
         << std::endl;
   file_ << headNodeNumber << " -- " << nodeNumber_ << std::endl;

@@ -10,7 +10,7 @@ class IndexExpression : public Expression {
   IndexExpression(Location location, std::unique_ptr<Expression> lhs,
                   std::unique_ptr<Expression> rhs);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Expression> lhs_;
@@ -26,6 +26,6 @@ inline IndexExpression::IndexExpression(Location location,
   assert(rhs_ != nullptr);
 }
 
-inline void IndexExpression::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void IndexExpression::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

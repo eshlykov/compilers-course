@@ -12,20 +12,20 @@ class Expression;
 
 class Jump : public Statement {
  public:
-  explicit Jump(const Address& address);
+  explicit Jump(const Address &address);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::shared_ptr<Expression> expression_;
   const Address address_;
 };
 
-inline Jump::Jump(const Address& address)
+inline Jump::Jump(const Address &address)
     : expression_{std::make_shared<Name>(address)}, address_{address} {
   assert(expression_ != nullptr);
 }
 
-inline void Jump::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void Jump::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

@@ -14,10 +14,10 @@ class MethodDeclaration : public Node {
  public:
   MethodDeclaration(Location location, std::unique_ptr<Type> resultType,
                     std::string methodName,
-                    std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
+                    std::vector<std::unique_ptr<VarDeclaration>> &argumentsList,
                     std::unique_ptr<MethodBody> methodBody);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::unique_ptr<Type> resultType_;
@@ -28,7 +28,7 @@ class MethodDeclaration : public Node {
 
 inline MethodDeclaration::MethodDeclaration(
     Location location, std::unique_ptr<Type> resultType, std::string methodName,
-    std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
+    std::vector<std::unique_ptr<VarDeclaration>> &argumentsList,
     std::unique_ptr<MethodBody> methodBody)
     : resultType_{std::move(resultType)},
       methodName_{std::move(methodName)},
@@ -39,7 +39,7 @@ inline MethodDeclaration::MethodDeclaration(
   assert(methodBody_ != nullptr);
 }
 
-inline void MethodDeclaration::Accept(Visitor* visitor) {
+inline void MethodDeclaration::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

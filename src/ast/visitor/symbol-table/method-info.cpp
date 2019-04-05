@@ -7,11 +7,11 @@
 
 namespace Ast {
 
-void MethodInfo::AddVariable(const std::string& name, VariableInfo variable,
-                             const Location& location) {
+void MethodInfo::AddVariable(const std::string &name, VariableInfo variable,
+                             const Location &location) {
   auto iter =
       find_if(arguments_.begin(), arguments_.end(),
-              [&](const auto& argument) { return argument.first == name; });
+              [&](const auto &argument) { return argument.first == name; });
   if (variables_.find(name) != variables_.end() || iter != arguments_.end()) {
     throw VariableRedefinition{
         "variable '" + name + "' has been already defined", location};
@@ -19,11 +19,11 @@ void MethodInfo::AddVariable(const std::string& name, VariableInfo variable,
   variables_[name] = std::move(variable);
 }
 
-void MethodInfo::AddArgument(const std::string& name, VariableInfo variable,
-                             const Location& location) {
+void MethodInfo::AddArgument(const std::string &name, VariableInfo variable,
+                             const Location &location) {
   auto iter =
       find_if(arguments_.begin(), arguments_.end(),
-              [&](const auto& argument) { return argument.first == name; });
+              [&](const auto &argument) { return argument.first == name; });
   if (iter != arguments_.end()) {
     throw ArgumentRedefinition{
         "argument '" + name + "' has been already defined", location};
@@ -31,22 +31,22 @@ void MethodInfo::AddArgument(const std::string& name, VariableInfo variable,
   arguments_.emplace_back(name, variable);
 }
 
-const std::variant<TypeKind, std::string>& MethodInfo::GetReturnType() const {
+const std::variant<TypeKind, std::string> &MethodInfo::GetReturnType() const {
   return returnType_;
 }
 
-const std::unordered_map<std::string, VariableInfo>& MethodInfo::GetVariables()
+const std::unordered_map<std::string, VariableInfo> &MethodInfo::GetVariables()
     const {
   return variables_;
 }
 
-const std::vector<std::pair<std::string, VariableInfo>>&
-MethodInfo::GetArguments() const {
+const std::vector<std::pair<std::string, VariableInfo>>
+    &MethodInfo::GetArguments() const {
   return arguments_;
 }
 
 void MethodInfo::SetReturnType(
-    const std::variant<TypeKind, std::string>& returnType) {
+    const std::variant<TypeKind, std::string> &returnType) {
   returnType_ = returnType;
 }
 

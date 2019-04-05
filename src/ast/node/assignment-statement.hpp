@@ -12,7 +12,7 @@ class AssignmentStatement : public Statement {
   AssignmentStatement(Location location, std::string variable,
                       std::unique_ptr<Expression> expression);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::string variable_;
@@ -27,7 +27,7 @@ inline AssignmentStatement::AssignmentStatement(
   assert(expression_ != nullptr);
 }
 
-inline void AssignmentStatement::Accept(Visitor* visitor) {
+inline void AssignmentStatement::Accept(Visitor *visitor) {
   visitor->Visit(this);
 }
 

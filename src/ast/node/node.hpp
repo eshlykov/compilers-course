@@ -19,20 +19,20 @@ class Node {
 
   virtual ~Node() = default;
 
-  virtual void Accept(Visitor*) = 0;
+  virtual void Accept(Visitor *) = 0;
 
-  void SetLocation(const Location& location);
+  void SetLocation(const Location &location);
 
-  const Location& GetLocation() const;
+  const Location &GetLocation() const;
 
  private:
   Location location_;
 };
 
-inline void Node::SetLocation(const Location& location) {
+inline void Node::SetLocation(const Location &location) {
   location_ = location;
 }
 
-inline const Location& Node::GetLocation() const { return location_; }
+inline const Location &Node::GetLocation() const { return location_; }
 
 }  // namespace Ast

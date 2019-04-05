@@ -11,10 +11,10 @@ namespace Ast {
 class ClassBody : public Node {
  public:
   ClassBody(Location location,
-            std::vector<std::unique_ptr<VarDeclaration>>& variables,
-            std::vector<std::unique_ptr<MethodDeclaration>>& methods);
+            std::vector<std::unique_ptr<VarDeclaration>> &variables,
+            std::vector<std::unique_ptr<MethodDeclaration>> &methods);
 
-  void Accept(Visitor* visitor) final;
+  void Accept(Visitor *visitor) final;
 
  public:
   const std::vector<std::unique_ptr<VarDeclaration>> variables_;
@@ -22,12 +22,12 @@ class ClassBody : public Node {
 };
 
 inline ClassBody::ClassBody(
-    Location location, std::vector<std::unique_ptr<VarDeclaration>>& variables,
-    std::vector<std::unique_ptr<MethodDeclaration>>& methods)
+    Location location, std::vector<std::unique_ptr<VarDeclaration>> &variables,
+    std::vector<std::unique_ptr<MethodDeclaration>> &methods)
     : variables_{std::move(variables)}, methods_{std::move(methods)} {
   SetLocation(location);
 }
 
-inline void ClassBody::Accept(Visitor* visitor) { visitor->Visit(this); }
+inline void ClassBody::Accept(Visitor *visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

@@ -7,7 +7,7 @@
 
 namespace Ct {
 
-void Print(const std::string& filename,
+void Print(const std::string &filename,
            std::shared_ptr<CodeFragment> codeFragment) {
   Printer printer{filename};
   while (codeFragment != nullptr) {

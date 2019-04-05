@@ -10,7 +10,7 @@ class SourceCode {
 
   std::string GetFilename() const;
 
-  const std::string& operator[](int index) const;
+  const std::string &operator[](int index) const;
 
  private:
   std::string filename_;
@@ -36,6 +36,6 @@ inline SourceCode::SourceCode(std::string filename)
 
 inline std::string SourceCode::GetFilename() const { return filename_; }
 
-inline const std::string& SourceCode::operator[](int index) const {
+inline const std::string &SourceCode::operator[](int index) const {
   return lines_[index - 1];
 }
