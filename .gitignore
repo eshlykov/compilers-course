@@ -14,3 +14,5 @@ parser.hpp
 .editorconfig
 compiler.dSYM
 .DS_Store
+.idea
+cmake-build*

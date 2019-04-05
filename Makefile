@@ -1,10 +1,10 @@
 CC=clang++ -std=c++17 -Wno-register -Wno-deprecated
-CPP = `find . -name "*cpp"`
-SOURCES = `find . -name "*cpp" -not -name "parser.cpp" -not -name "lexer.cpp"`
+CPP = `find src -name "*cpp"`
+SOURCES = `find src -name "*cpp" -not -name "parser.cpp" -not -name "lexer.cpp"`
 
 compile:
-	flex -olexer.cpp lexer.l
-	bison -o parser.cpp -d parser.y --report=all
+	flex -osrc/lexer.cpp src/lexer.l
+	bison -o src/parser.cpp -d src/parser.y --report=all
 	$(CC) $(CPP) -g -o compiler
 
 leaks_check: compile
