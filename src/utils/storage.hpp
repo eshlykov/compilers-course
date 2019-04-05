@@ -4,7 +4,7 @@
 
 class Storage {
  public:
-  Storage();
+  Storage() noexcept;
 
   std::string ToString() const;
 
@@ -15,7 +15,7 @@ class Storage {
   int id_;
 };
 
-inline Storage::Storage() : id_{counter_} { ++counter_; }
+inline Storage::Storage() noexcept : id_{counter_} { ++counter_; }
 
 inline std::string Storage::ToString() const { return std::to_string(id_); }
 
