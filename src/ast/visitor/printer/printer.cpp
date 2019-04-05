@@ -286,7 +286,7 @@ void Printer::Visit(ScopeStatement *node) {
   }
 }
 
-void Printer::Visit(ThisExpression *node) { PrintHead(nodeNumber_, "This"); }
+void Printer::Visit(ThisExpression *) { PrintHead(nodeNumber_, "This"); }
 
 void Printer::Visit(Type *node) {
   try {

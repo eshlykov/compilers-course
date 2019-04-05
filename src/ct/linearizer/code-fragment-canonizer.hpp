@@ -7,7 +7,7 @@
 namespace Ct {
 
 void Canonize(std::shared_ptr<CodeFragment> codeFragment) {
-  Linearizer linerizer;
+  Linearizer linearizer;
   while (codeFragment != nullptr) {
     linerizer.Visit(codeFragment->body_.get());
     codeFragment = codeFragment->next_;

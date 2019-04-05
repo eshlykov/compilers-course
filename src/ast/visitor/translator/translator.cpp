@@ -137,13 +137,10 @@ void Translator::Visit(IndexExpression *node) {
 void Translator::Visit(IntArrayConstructorExpression *node) {
   node->expression_->Accept(this);
 
-  Storage size;
-  Storage array;
-  Storage index;
-  Address addressNew{"new"};
+  /*Address addressNew{"new"};
   Address addressCondition;
   Address addressIf;
-  Address addressElse;
+  Address addressElse;*/
 
   wrapper_ =
       std::make_shared<Irt::ExpressionWrapper>(Allocate(wrapper_->ToRValue()));
@@ -329,19 +326,19 @@ void Translator::Visit(ScopeStatement *node) {
   statement_ = scopeStatement;
 }
 
-void Translator::Visit(ThisExpression *node) {
+void Translator::Visit(ThisExpression *) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       codeFragment_->frame_->GetThis());
 }
 
-void Translator::Visit(Type *node) {
+void Translator::Visit(Type *) {
   // empty
 }
 
 void Translator::Visit(UserTypeConstructorExpression *node) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       Allocate(std::make_shared<Irt::Constant>(
-          symbolTable_.GetClasses().at(className_).GetSize())));
+          symbolTable_.GetClasses().at(node->name_).GetSize())));
 }
 
 void Translator::Visit(VarDeclaration *node) {
