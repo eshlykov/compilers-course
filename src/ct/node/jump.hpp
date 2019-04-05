@@ -23,12 +23,12 @@ class Jump : public Statement {
 
  public:
   const std::shared_ptr<Expression> expression_;
-  const std::vector<Address> addresses_;
+  const Address address_;
 };
 
 inline Jump::Jump(Address address)
     : expression_{std::make_shared<Name>(address)},
-      addresses_{std::move(address)} {
+      address_{std::move(address)} {
   assert(expression_ != nullptr);
 }
 
@@ -40,8 +40,7 @@ inline std::vector<std::shared_ptr<Expression>> Jump::Kids() {
 
 inline std::shared_ptr<Statement> Jump::Build(
     const std::vector<std::shared_ptr<Expression>>& expressionList) {
-  assert(!addresses_.empty());
-  return std::make_shared<Jump>(addresses_[0]);
+  return std::make_shared<Jump>(address_);
 }
 
 }  // namespace Ct

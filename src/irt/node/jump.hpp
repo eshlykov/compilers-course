@@ -18,11 +18,11 @@ class Jump : public Statement {
 
  public:
   const std::shared_ptr<Expression> expression_;
-  const std::vector<Address> addresses_;
+  const Address address_;
 };
 
 inline Jump::Jump(const Address& address)
-    : expression_{std::make_shared<Name>(address)}, addresses_{address} {
+    : expression_{std::make_shared<Name>(address)}, address_{address} {
   assert(expression_ != nullptr);
 }
 

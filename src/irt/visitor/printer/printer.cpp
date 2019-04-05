@@ -107,10 +107,8 @@ void Printer::Visit(Jump* node) {
   int headNodeNumber = nodeNumber_;
   PrintHead(headNodeNumber, "Jump");
 
-  for (auto& address : node->addresses_) {
-    ++nodeNumber_;
-    PrintLeaf(headNodeNumber, "Address", address.ToString());
-  }
+  ++nodeNumber_;
+  PrintLeaf(headNodeNumber, "Address", node->address_.ToString());
 }
 
 void Printer::Visit(Label* node) {

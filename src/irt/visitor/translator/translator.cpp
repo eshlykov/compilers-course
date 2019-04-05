@@ -58,7 +58,7 @@ void Translator::Visit(ExpressionSequence* node) {
 }
 
 void Translator::Visit(Jump* node) {
-  statement_ = std::make_shared<Ct::Jump>(node->addresses_[0]);
+  statement_ = std::make_shared<Ct::Jump>(node->address_);
 }
 
 void Translator::Visit(Label* node) {
