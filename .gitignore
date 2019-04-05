@@ -1,3 +1,4 @@
+.DS_Store
 compiler
 lexer.cpp
 parser.cpp
