@@ -4,14 +4,14 @@
 
 namespace Irt {
 
-    class Constant : public Expression {
-    public:
-        explicit Constant(int value);
+class Constant : public Expression {
+ public:
+  explicit Constant(int value);
 
-        virtual void Accept(Visitor* visitor) override final;
+  virtual void Accept(Visitor* visitor) override final;
 
-    public:
-        const int value_;
-    };
+ public:
+  const int value_;
+};
 
-}
+}  // namespace Irt

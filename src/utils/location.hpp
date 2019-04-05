@@ -3,9 +3,9 @@
 #include <algorithm>
 
 struct Location {
-    Location();
+  Location();
 
-    int lineNumber_;
-    int firstColumn_;
-    int lastColumn_;
+  int lineNumber_;
+  int firstColumn_;
+  int lastColumn_;
 };

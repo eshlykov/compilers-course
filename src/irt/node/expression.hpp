@@ -4,7 +4,6 @@
 
 namespace Irt {
 
-    class Expression : public Node {
-    };
+class Expression : public Node {};
 
-}
+}  // namespace Irt

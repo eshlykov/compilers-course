@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../node/expression.hpp"
 #include <memory>
+#include "../node/expression.hpp"
 
 namespace Irt {
 
-    class Access {
-    public:
-        virtual ~Access() = default;
+class Access {
+ public:
+  virtual ~Access() = default;
 
-        virtual std::shared_ptr<Expression> GetData() const = 0;
-    };
+  virtual std::shared_ptr<Expression> GetData() const = 0;
+};
 
-}
+}  // namespace Irt

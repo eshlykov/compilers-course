@@ -4,7 +4,6 @@
 
 namespace Ast {
 
-    class Statement : public Node {
-    };
+class Statement : public Node {};
 
-}
+}  // namespace Ast

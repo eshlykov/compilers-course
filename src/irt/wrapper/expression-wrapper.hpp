@@ -4,16 +4,17 @@
 
 namespace Irt {
 
-    class ExpressionWrapper : public Wrapper {
-    public:
-        explicit ExpressionWrapper(std::shared_ptr<Expression> expression);
+class ExpressionWrapper : public Wrapper {
+ public:
+  explicit ExpressionWrapper(std::shared_ptr<Expression> expression);
 
-        virtual std::shared_ptr<Expression> ToRValue() const override final;
+  virtual std::shared_ptr<Expression> ToRValue() const override final;
 
-        virtual std::shared_ptr<Statement> ToCondition(Address addressIf, Address addressElse) const override final;
+  virtual std::shared_ptr<Statement> ToCondition(
+      Address addressIf, Address addressElse) const override final;
 
-    private:
-        const std::shared_ptr<Expression> expression_;
-    };
+ private:
+  const std::shared_ptr<Expression> expression_;
+};
 
-}
+}  // namespace Irt

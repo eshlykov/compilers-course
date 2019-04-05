@@ -5,17 +5,17 @@
 
 namespace Irt {
 
-    class Address {
-    public:
-        Address();
+class Address {
+ public:
+  Address();
 
-        explicit Address(const std::string& name);
+  explicit Address(const std::string& name);
 
-        std::string ToString() const;
+  std::string ToString() const;
 
-    private:
-        const std::shared_ptr<const int> dummy_;
-        const std::string id_;
-    };
+ private:
+  const std::shared_ptr<const int> dummy_;
+  const std::string id_;
+};
 
-}
+}  // namespace Irt

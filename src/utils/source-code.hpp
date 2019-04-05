@@ -5,14 +5,14 @@
 #include <vector>
 
 class SourceCode {
-public:
-    explicit SourceCode(const std::string& filename);
+ public:
+  explicit SourceCode(const std::string& filename);
 
-    std::string GetFilename() const;
+  std::string GetFilename() const;
 
-    const std::string& operator[](int index) const;
+  const std::string& operator[](int index) const;
 
-private:
-    std::string filename_;
-    std::vector<std::string> lines_;
+ private:
+  std::string filename_;
+  std::vector<std::string> lines_;
 };

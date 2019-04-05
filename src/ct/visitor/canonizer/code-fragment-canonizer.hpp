@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../frame/code-fragment.hpp"
 #include <memory>
+#include "../../frame/code-fragment.hpp"
 
 namespace Ct {
 
-    void Canonize(std::shared_ptr<CodeFragment> codeFragment);
+void Canonize(std::shared_ptr<CodeFragment> codeFragment);
 
 }

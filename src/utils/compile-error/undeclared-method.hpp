@@ -1,10 +1,10 @@
 #pragma once
 
-#include "compile-error.hpp"
-#include "../location.hpp"
 #include <string>
+#include "../location.hpp"
+#include "compile-error.hpp"
 
 class UndeclaredMethod : public CompileError {
-public:
-    UndeclaredMethod(const std::string& message, const Location& location);
+ public:
+  UndeclaredMethod(const std::string& message, const Location& location);
 };

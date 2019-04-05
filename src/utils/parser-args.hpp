@@ -4,11 +4,11 @@
 
 namespace Ast {
 
-    class Program;
+class Program;
 
 }
 
 struct ParserArgs {
-    std::unique_ptr<Ast::Program> program_;
-    std::vector<CompileError> errors_;
+  std::unique_ptr<Ast::Program> program_;
+  std::vector<CompileError> errors_;
 };

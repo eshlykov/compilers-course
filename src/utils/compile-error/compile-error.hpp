@@ -1,20 +1,20 @@
 #pragma once
 
-#include "../location.hpp"
-#include "../source-code.hpp"
 #include <exception>
 #include <string>
 #include <variant>
+#include "../location.hpp"
+#include "../source-code.hpp"
 
 class CompileError {
-public:
-    CompileError(const std::string& message, const Location& location);
+ public:
+  CompileError(const std::string& message, const Location& location);
 
-    ~CompileError() = default;
+  ~CompileError() = default;
 
-    virtual std::string GetMessage(const SourceCode& sourceCode) const final;
+  virtual std::string GetMessage(const SourceCode& sourceCode) const final;
 
-private:
-    std::string message_;
-    Location location_;
+ private:
+  std::string message_;
+  Location location_;
 };

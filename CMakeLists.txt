@@ -12,7 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 get_filename_component(SRC "src" ABSOLUTE)
 
 file(GLOB_RECURSE SOURCES ${SRC}/*.cpp)
-file(GLOB_RECURSE HEADERS ${SRC}/*.cpp)
+file(GLOB_RECURSE HEADERS ${SRC}/*.hpp)
 
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)

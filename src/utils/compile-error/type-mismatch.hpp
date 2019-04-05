@@ -1,20 +1,22 @@
 #pragma once
 
+#include <exception>
+#include <string>
+#include <variant>
 #include "../ast.hpp"
 #include "../location.hpp"
 #include "../source-code.hpp"
 #include "compile-error.hpp"
-#include <exception>
-#include <string>
-#include <variant>
 
 class TypesMismatch : public CompileError {
-    using TypeVariant = std::variant<Ast::TypeKind, std::string>;
-public:
-    TypesMismatch(const std::string& message, const Location& location);
+  using TypeVariant = std::variant<Ast::TypeKind, std::string>;
 
-    TypesMismatch(TypeVariant found, TypeVariant expected, const Location& location);
+ public:
+  TypesMismatch(const std::string& message, const Location& location);
 
-private:
-    std::string TypeToString(TypeVariant& type);
+  TypesMismatch(TypeVariant found, TypeVariant expected,
+                const Location& location);
+
+ private:
+  std::string TypeToString(TypeVariant& type);
 };
