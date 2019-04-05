@@ -26,7 +26,7 @@ class Move : public Statement {
 
 inline Move::Move(std::shared_ptr<Expression> destination,
                   std::shared_ptr<Expression> source)
-    : destination_{destination}, source_{source} {
+    : destination_{std::move(destination)}, source_{std::move(source)} {
   assert(destination_ != nullptr);
   assert(source_ != nullptr);
 }

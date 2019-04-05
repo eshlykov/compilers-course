@@ -18,7 +18,7 @@ class Void : public Statement {
 };
 
 inline Void::Void(std::shared_ptr<Expression> expression)
-    : expression_{expression} {
+    : expression_{std::move(expression)} {
   assert(expression_ != nullptr);
 }
 

@@ -8,7 +8,7 @@ namespace Irt {
 
 class Name : public Expression {
  public:
-  explicit Name(const Address& address);
+  explicit Name(Address address);
 
   void Accept(Visitor* visitor) final;
 
@@ -16,7 +16,7 @@ class Name : public Expression {
   const Address address_;
 };
 
-inline Name::Name(const Address& address) : address_{address} {}
+inline Name::Name(Address address) : address_{std::move(address)} {}
 
 inline void Name::Accept(Visitor* visitor) { visitor->Visit(this); }
 

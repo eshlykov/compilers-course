@@ -27,7 +27,7 @@ class ExpressionSequence : public Expression {
 inline ExpressionSequence::ExpressionSequence(
     std::shared_ptr<Statement> statement,
     std::shared_ptr<Expression> expression)
-    : statement_{statement}, expression_{expression} {
+    : statement_{std::move(statement)}, expression_{std::move(expression)} {
   assert(statement_ != nullptr);
   assert(expression_ != nullptr);
 }

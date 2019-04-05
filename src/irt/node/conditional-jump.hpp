@@ -15,7 +15,7 @@ class ConditionalJump : public Statement {
   ConditionalJump(LogicalOperator logicalOperator,
                   std::shared_ptr<Expression> expressionLeft,
                   std::shared_ptr<Expression> expressionRight,
-                  const Address& addressIf, const Address& addressElse);
+                  Address addressIf, Address addressElse);
 
   void Accept(Visitor* visitor) final;
 
@@ -29,13 +29,13 @@ class ConditionalJump : public Statement {
 
 inline ConditionalJump::ConditionalJump(
     LogicalOperator logicalOperator, std::shared_ptr<Expression> expressionLeft,
-    std::shared_ptr<Expression> expressionRight, const Address& addressIf,
-    const Address& addressElse)
+    std::shared_ptr<Expression> expressionRight, Address addressIf,
+    Address addressElse)
     : logicalOperator_{logicalOperator},
-      expressionLeft_{expressionLeft},
-      expressionRight_{expressionRight},
-      addressIf_{addressIf},
-      addressElse_{addressElse} {
+      expressionLeft_{std::move(expressionLeft)},
+      expressionRight_{std::move(expressionRight)},
+      addressIf_{std::move(addressIf)},
+      addressElse_{std::move(addressElse)} {
   assert(expressionLeft_ != nullptr);
   assert(expressionRight_ != nullptr);
 }

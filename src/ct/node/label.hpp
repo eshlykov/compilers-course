@@ -9,7 +9,7 @@ namespace Ct {
 
 class Label : public Statement {
  public:
-  explicit Label(const Address& address);
+  explicit Label(Address address);
 
   void Accept(Visitor* visitor) final;
 
@@ -22,7 +22,7 @@ class Label : public Statement {
   const Address address_;
 };
 
-inline Label::Label(const Address& address) : address_{address} {}
+inline Label::Label(Address address) : address_{std::move(address)} {}
 
 inline void Label::Accept(Visitor* visitor) { visitor->Visit(this); }
 

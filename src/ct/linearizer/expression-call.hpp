@@ -8,7 +8,7 @@ namespace Ct {
 
 class ExpressionCall : public Statement {
  public:
-  ExpressionCall(std::shared_ptr<Call> call);
+  explicit ExpressionCall(std::shared_ptr<Call> call);
 
   void Accept(Visitor*) final {}
 

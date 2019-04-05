@@ -26,8 +26,8 @@ inline BinaryOperator::BinaryOperator(
     std::shared_ptr<Expression> leftExpression,
     std::shared_ptr<Expression> rightExpression)
     : arithmeticOperator_{arithmeticOperator},
-      leftExpression_{leftExpression},
-      rightExpression_{rightExpression} {
+      leftExpression_{std::move(leftExpression)},
+      rightExpression_{std::move(rightExpression)} {
   assert(leftExpression_ != nullptr);
   assert(rightExpression_ != nullptr);
 }

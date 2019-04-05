@@ -16,7 +16,7 @@ class Memory : public Expression {
 };
 
 inline Memory::Memory(std::shared_ptr<Expression> expression)
-    : expression_{expression} {
+    : expression_{std::move(expression)} {
   assert(expression_ != nullptr);
 }
 

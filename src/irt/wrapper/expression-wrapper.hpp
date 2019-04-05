@@ -19,7 +19,7 @@ class ExpressionWrapper : public Wrapper {
 
 inline ExpressionWrapper::ExpressionWrapper(
     std::shared_ptr<Expression> expression)
-    : expression_{expression} {}
+    : expression_{std::move(expression)} {}
 
 inline std::shared_ptr<Expression> ExpressionWrapper::ToRValue() const {
   return expression_;

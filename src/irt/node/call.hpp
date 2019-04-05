@@ -9,7 +9,7 @@ namespace Irt {
 class Call : public Expression {
  public:
   Call(std::shared_ptr<Expression> expression,
-       const std::vector<std::shared_ptr<Expression>>& expressionList);
+       std::vector<std::shared_ptr<Expression>> expressionList);
 
   void Accept(Visitor* visitor) final;
 
@@ -20,8 +20,8 @@ class Call : public Expression {
 
 inline Call::Call(
     std::shared_ptr<Expression> expression,
-    const std::vector<std::shared_ptr<Expression>>& expressionList)
-    : expression_(expression), expressionList_(expressionList) {
+    std::vector<std::shared_ptr<Expression>> expressionList)
+    : expression_(std::move(expression)), expressionList_(std::move(expressionList)) {
   assert(expression_ != nullptr);
 }
 

@@ -15,8 +15,8 @@ class AndOperatorWrapper : public ComparisonOperatorWrapper {
 inline AndOperatorWrapper::AndOperatorWrapper(
     std::shared_ptr<Expression> leftExpression,
     std::shared_ptr<Expression> rightExpression)
-    : ComparisonOperatorWrapper(LogicalOperator::And, leftExpression,
-                                rightExpression) {}
+    : ComparisonOperatorWrapper(LogicalOperator::And, std::move(leftExpression),
+                                std::move(rightExpression)) {}
 
 inline std::shared_ptr<Statement> AndOperatorWrapper::ToCondition(
     Address addressIf, Address addressElse) const {

@@ -24,8 +24,8 @@ inline ComparisonOperatorWrapper::ComparisonOperatorWrapper(
     LogicalOperator logicalOperator, std::shared_ptr<Expression> leftExpression,
     std::shared_ptr<Expression> rightExpression)
     : logicalOperator_{logicalOperator},
-      leftExpression_{leftExpression},
-      rightExpression_{rightExpression} {}
+      leftExpression_{std::move(leftExpression)},
+      rightExpression_{std::move(rightExpression)} {}
 
 inline std::shared_ptr<Expression> ComparisonOperatorWrapper::ToRValue() const {
   Storage storage;
