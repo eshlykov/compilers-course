@@ -23,4 +23,15 @@ class Temporary : public Expression {
   const Storage storage_;
 };
 
+inline Temporary::Temporary(Storage storage) : storage_(storage) {}
+
+inline void Temporary::Accept(Visitor* visitor) { visitor->Visit(this); }
+
+inline std::vector<std::shared_ptr<Expression>> Temporary::Kids() { return {}; }
+
+inline std::shared_ptr<Expression> Temporary::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<Temporary>(storage_);
+}
+
 }  // namespace Ct

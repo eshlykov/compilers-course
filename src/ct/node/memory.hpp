@@ -21,4 +21,20 @@ class Memory : public Expression {
   const std::shared_ptr<Expression> expression_;
 };
 
+inline Memory::Memory(std::shared_ptr<Expression> expression)
+    : expression_{expression} {
+  assert(expression_ != nullptr);
+}
+
+inline void Memory::Accept(Visitor* visitor) { visitor->Visit(this); }
+
+inline std::vector<std::shared_ptr<Expression>> Memory::Kids() {
+  return {expression_};
+}
+
+inline std::shared_ptr<Expression> Memory::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<Memory>(expressionList[0]);
+}
+
 }  // namespace Ct

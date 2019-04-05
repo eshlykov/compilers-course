@@ -23,4 +23,25 @@ class StatementSequence : public Statement {
   const std::shared_ptr<Statement> rightStatement_;
 };
 
+inline StatementSequence::StatementSequence(
+    std::shared_ptr<Statement> leftStatement,
+    std::shared_ptr<Statement> rightStatement)
+    : leftStatement_{leftStatement}, rightStatement_{rightStatement} {
+  assert(leftStatement_ != nullptr);
+  assert(rightStatement_ != nullptr);
+}
+
+inline void StatementSequence::Accept(Visitor* visitor) {
+  visitor->Visit(this);
+}
+
+inline std::vector<std::shared_ptr<Expression>> StatementSequence::Kids() {
+  return {};
+}
+
+inline std::shared_ptr<Statement> StatementSequence::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<StatementSequence>(leftStatement_, rightStatement_);
+}
+
 }  // namespace Ct

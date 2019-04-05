@@ -20,4 +20,15 @@ class Constant : public Expression {
   const int value_;
 };
 
+inline Constant::Constant(int value) : value_{value} {}
+
+inline void Constant::Accept(Visitor* visitor) { visitor->Visit(this); }
+
+inline std::vector<std::shared_ptr<Expression>> Constant::Kids() { return {}; }
+
+inline std::shared_ptr<Expression> Constant::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<Constant>(value_);
+}
+
 }  // namespace Ct

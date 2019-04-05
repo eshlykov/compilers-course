@@ -27,4 +27,27 @@ class BinaryOperator : public Expression {
   const std::shared_ptr<Expression> rightExpression_;
 };
 
+inline BinaryOperator::BinaryOperator(
+    ArithmeticOperator arithmeticOperator,
+    std::shared_ptr<Expression> leftExpression,
+    std::shared_ptr<Expression> rightExpression)
+    : arithmeticOperator_{arithmeticOperator},
+      leftExpression_{leftExpression},
+      rightExpression_{rightExpression} {
+  assert(leftExpression_ != nullptr);
+  assert(rightExpression_ != nullptr);
+}
+
+inline void BinaryOperator::Accept(Visitor* visitor) { visitor->Visit(this); }
+
+inline std::vector<std::shared_ptr<Expression>> BinaryOperator::Kids() {
+  return {leftExpression_, rightExpression_};
+}
+
+inline std::shared_ptr<Expression> BinaryOperator::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<BinaryOperator>(arithmeticOperator_,
+                                          expressionList[0], expressionList[1]);
+}
+
 }  // namespace Ct

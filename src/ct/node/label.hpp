@@ -23,4 +23,15 @@ class Label : public Statement {
   const Address address_;
 };
 
+inline Label::Label(const Address& address) : address_{address} {}
+
+inline void Label::Accept(Visitor* visitor) { visitor->Visit(this); }
+
+inline std::vector<std::shared_ptr<Expression>> Label::Kids() { return {}; }
+
+inline std::shared_ptr<Statement> Label::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<Label>(address_);
+}
+
 }  // namespace Ct

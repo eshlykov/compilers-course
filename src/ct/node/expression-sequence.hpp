@@ -25,4 +25,25 @@ class ExpressionSequence : public Expression {
   const std::shared_ptr<Expression> expression_;
 };
 
+inline ExpressionSequence::ExpressionSequence(
+    std::shared_ptr<Statement> statement,
+    std::shared_ptr<Expression> expression)
+    : statement_{statement}, expression_{expression} {
+  assert(statement_ != nullptr);
+  assert(expression_ != nullptr);
+}
+
+inline void ExpressionSequence::Accept(Visitor* visitor) {
+  visitor->Visit(this);
+}
+
+inline std::vector<std::shared_ptr<Expression>> ExpressionSequence::Kids() {
+  return {expression_};
+}
+
+inline std::shared_ptr<Expression> ExpressionSequence::Build(
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+  return std::make_shared<ExpressionSequence>(statement_, expressionList[0]);
+}
+
 }  // namespace Ct
