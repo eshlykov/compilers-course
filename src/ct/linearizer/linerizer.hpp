@@ -10,9 +10,13 @@
 
 namespace Ct {
 
-class Canonizer : public Visitor {
+class Linearizer : public Visitor {
  public:
-  bool IsConst(const std::shared_ptr<Statement>& statement);
+  std::vector<std::shared_ptr<Statement>> Linearize(
+      const std::shared_ptr<Statement>& statement);
+
+ private:
+  bool IsNop(const std::shared_ptr<Statement>& statement);
 
   std::shared_ptr<Statement> Sequence(std::shared_ptr<Statement> first,
                                       std::shared_ptr<Statement> second);
@@ -55,15 +59,11 @@ class Canonizer : public Visitor {
       const std::shared_ptr<Statement>& statement,
       const std::vector<std::shared_ptr<Statement>>& list);
 
-  std::vector<std::shared_ptr<Statement>> Linearize(
-      const std::shared_ptr<Statement>& statement);
-
  private:
   const std::shared_ptr<StatementExpressionList> NopNull =
       std::make_shared<StatementExpressionList>(
           std::make_shared<Void>(std::make_shared<Constant>(0)),
           std::vector<std::shared_ptr<Expression>>());
-  std::shared_ptr<Node> node_;
 };
 
 }  // namespace Ct

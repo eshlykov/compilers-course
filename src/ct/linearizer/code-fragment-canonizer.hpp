@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "../frame/code-fragment.hpp"
-#include "canonizer.hpp"
+#include "linerizer.hpp"
 
 namespace Ct {
 
