@@ -58,15 +58,34 @@ void Translator::Visit(ExpressionSequence* node) {
   expression_ = std::make_shared<Ct::ExpressionSequence>(statement, expression);
 }
 
-void Translator::Visit(Jump* node) {}
+void Translator::Visit(Jump* node) {
+  statement_ = std::make_shared<Ct::Jump>(node->addresses_);
+}
 
-void Translator::Visit(Label* node) {}
+void Translator::Visit(Label* node) {
+  statement_ = std::make_shared<Ct::Label>(node->address_);
+}
 
-void Translator::Visit(Memory* node) {}
+void Translator::Visit(Memory* node) {
+  node->expression_->Accept(this);
+  std::shared_ptr<Ct::Expression> expression = expression_;
 
-void Translator::Visit(Move* node) {}
+  expression_ = std::make_shared<Ct::Memory>(expression);
+}
 
-void Translator::Visit(Name* node) {}
+void Translator::Visit(Move* node) {
+  node->destination_->Accept(this);
+  std::shared_ptr<Ct::Expression> destination = expression_;
+
+  node->source_->Accept(this);
+  std::shared_ptr<Ct::Expression> source = expression_;
+
+  statement_ = std::make_shared<Ct::Move>(destination, source);
+}
+
+void Translator::Visit(Name* node) {
+  expression_ = std::make_shared<Ct::Name>(node->address_);
+}
 
 void Translator::Visit(StatementSequence* node) {}
 
