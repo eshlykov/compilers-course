@@ -34,21 +34,21 @@ inline Move::Move(std::shared_ptr<Expression> destination,
 inline void Move::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> Move::Kids() {
-  if (std::dynamic_pointer_cast<Memory>(destination_) != nullptr) {
-    return {std::dynamic_pointer_cast<Memory>(destination_), source_};
-  } else {
-    return {source_};
+  auto memory = std::dynamic_pointer_cast<Memory>(destination_);
+  if (memory != nullptr) {
+    return {memory, source_};
   }
+  return {source_};
 }
 
 inline std::shared_ptr<Statement> Move::Build(
     const std::vector<std::shared_ptr<Expression>>& expressionList) {
-  if (std::dynamic_pointer_cast<Memory>(destination_) != nullptr) {
+  auto memory = std::dynamic_pointer_cast<Memory>(destination_);
+  if (memory != nullptr) {
     return std::make_shared<Move>(std::make_shared<Memory>(expressionList[0]),
                                   expressionList[1]);
-  } else {
-    return std::make_shared<Move>(destination_, expressionList[0]);
   }
+  return std::make_shared<Move>(destination_, expressionList[0]);
 }
 
 }  // namespace Ct
