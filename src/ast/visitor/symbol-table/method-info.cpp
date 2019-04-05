@@ -16,7 +16,7 @@ void MethodInfo::AddVariable(const std::string& name, VariableInfo variable,
     throw VariableRedefinition{
         "variable '" + name + "' has been already defined", location};
   }
-  variables_[name] = variable;
+  variables_[name] = std::move(variable);
 }
 
 void MethodInfo::AddArgument(const std::string& name, VariableInfo variable,

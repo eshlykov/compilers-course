@@ -9,7 +9,7 @@ namespace Ast {
 
 class AssignmentByIndexStatement : public Statement {
  public:
-  AssignmentByIndexStatement(Location location, const std::string& array,
+  AssignmentByIndexStatement(Location location, std::string array,
                              std::unique_ptr<Expression> index,
                              std::unique_ptr<Expression> expression);
 
@@ -22,9 +22,9 @@ class AssignmentByIndexStatement : public Statement {
 };
 
 inline AssignmentByIndexStatement::AssignmentByIndexStatement(
-    Location location, const std::string& array,
+    Location location, std::string array,
     std::unique_ptr<Expression> index, std::unique_ptr<Expression> expression)
-    : array_{array},
+    : array_{std::move(array)},
       index_{std::move(index)},
       expression_{std::move(expression)} {
   SetLocation(location);

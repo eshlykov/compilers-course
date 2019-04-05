@@ -13,7 +13,7 @@ namespace Ast {
 class MethodDeclaration : public Node {
  public:
   MethodDeclaration(Location location, std::unique_ptr<Type> resultType,
-                    const std::string& methodName,
+                    std::string methodName,
                     std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
                     std::unique_ptr<MethodBody> methodBody);
 
@@ -28,11 +28,11 @@ class MethodDeclaration : public Node {
 
 inline MethodDeclaration::MethodDeclaration(
     Location location, std::unique_ptr<Type> resultType,
-    const std::string& methodName,
+    std::string methodName,
     std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
     std::unique_ptr<MethodBody> methodBody)
     : resultType_{std::move(resultType)},
-      methodName_{methodName},
+      methodName_{std::move(methodName)},
       argumentsList_{std::move(argumentsList)},
       methodBody_{std::move(methodBody)} {
   SetLocation(location);

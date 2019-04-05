@@ -9,7 +9,7 @@ namespace Ast {
 class VarDeclaration : public Node {
  public:
   VarDeclaration(Location location, std::unique_ptr<Type> type,
-                 const std::string& name);
+                 std::string name);
 
   void Accept(Visitor* visitor) final;
 
@@ -20,8 +20,8 @@ class VarDeclaration : public Node {
 
 inline VarDeclaration::VarDeclaration(Location location,
                                       std::unique_ptr<Type> type,
-                                      const std::string& name)
-    : type_{std::move(type)}, name_{name} {
+                                      std::string name)
+    : type_{std::move(type)}, name_{std::move(name)} {
   SetLocation(location);
   assert(type_ != nullptr);
 }

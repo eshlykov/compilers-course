@@ -9,8 +9,8 @@ namespace Ast {
 
 class MainClass : public Node {
  public:
-  MainClass(Location location, const std::string& className,
-            const std::string& argv, std::unique_ptr<Statement> mainBody);
+  MainClass(Location location, std::string className,
+            std::string argv, std::unique_ptr<Statement> mainBody);
 
   void Accept(Visitor* visitor) final;
 
@@ -20,10 +20,10 @@ class MainClass : public Node {
   const std::unique_ptr<Statement> mainBody_;
 };
 
-inline MainClass::MainClass(Location location, const std::string& className,
-                            const std::string& argv,
+inline MainClass::MainClass(Location location, std::string className,
+                            std::string argv,
                             std::unique_ptr<Statement> mainBody)
-    : className_{className}, argv_{argv}, mainBody_{std::move(mainBody)} {
+    : className_{std::move(className)}, argv_{std::move(argv)}, mainBody_{std::move(mainBody)} {
   SetLocation(location);
   assert(mainBody_ != nullptr);
 }

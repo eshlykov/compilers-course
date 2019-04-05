@@ -11,7 +11,7 @@ namespace Ast {
 
 class ClassDeclaration : public Node {
  public:
-  ClassDeclaration(Location location, const std::string& className,
+  ClassDeclaration(Location location, std::string className,
                    std::optional<std::string> extendsForClass,
                    std::unique_ptr<ClassBody> classBody);
 
@@ -24,11 +24,11 @@ class ClassDeclaration : public Node {
 };
 
 inline ClassDeclaration::ClassDeclaration(
-    Location location, const std::string& className,
+    Location location, std::string className,
     std::optional<std::string> extendsForClass,
     std::unique_ptr<ClassBody> classBody)
-    : className_{className},
-      extendsForClass_{extendsForClass},
+    : className_{std::move(className)},
+      extendsForClass_{std::move(extendsForClass)},
       classBody_{std::move(classBody)} {
   SetLocation(location);
   assert(classBody_ != nullptr);

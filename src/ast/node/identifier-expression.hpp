@@ -7,7 +7,7 @@ namespace Ast {
 
 class IdentifierExpression : public Expression {
  public:
-  IdentifierExpression(Location location, const std::string& name);
+  IdentifierExpression(Location location, std::string name);
 
   void Accept(Visitor* visitor) final;
 
@@ -16,8 +16,8 @@ class IdentifierExpression : public Expression {
 };
 
 inline IdentifierExpression::IdentifierExpression(Location location,
-                                                  const std::string& name)
-    : name_{name} {
+                                                  std::string name)
+    : name_{std::move(name)} {
   SetLocation(location);
 }
 

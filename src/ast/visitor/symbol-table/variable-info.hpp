@@ -9,7 +9,7 @@ namespace Ast {
 
 struct VariableInfo {
   std::variant<TypeKind, std::string> type_;
-  int offset_;
+  size_t offset_;
 };
 
 }  // namespace Ast

@@ -9,7 +9,7 @@ namespace Ast {
 
 class AssignmentStatement : public Statement {
  public:
-  AssignmentStatement(Location location, const std::string& variable,
+  AssignmentStatement(Location location, std::string variable,
                       std::unique_ptr<Expression> expression);
 
   void Accept(Visitor* visitor) final;
@@ -20,9 +20,9 @@ class AssignmentStatement : public Statement {
 };
 
 inline AssignmentStatement::AssignmentStatement(
-    Location location, const std::string& variable,
+    Location location, std::string variable,
     std::unique_ptr<Expression> expression)
-    : variable_{variable}, expression_{std::move(expression)} {
+    : variable_{std::move(variable)}, expression_{std::move(expression)} {
   SetLocation(location);
   assert(expression_ != nullptr);
 }

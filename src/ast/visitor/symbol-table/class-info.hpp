@@ -24,7 +24,7 @@ class ClassInfo {
 
   const std::unordered_map<std::string, MethodInfo>& GetMethods() const;
 
-  int GetSize() const;
+  size_t GetSize() const;
 
   void SetBase(std::string base);
 

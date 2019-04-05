@@ -23,7 +23,7 @@ void ClassInfo::AddMethod(const std::string& name, MethodInfo method,
     throw MethodRedefinition{"method '" + name + "' has been already defined",
                              location};
   }
-  methods_[name] = method;
+  methods_[name] = std::move(method);
 }
 
 const std::optional<std::string>& ClassInfo::GetBase() const { return base_; }
@@ -40,7 +40,7 @@ const std::unordered_map<std::string, MethodInfo>& ClassInfo::GetMethods()
 
 void ClassInfo::SetBase(std::string base) { base_ = base; }
 
-int ClassInfo::GetSize() const { return variables_.size(); }
+size_t ClassInfo::GetSize() const { return variables_.size(); }
 
 void ClassInfo::UpdateVariableOffsets(int additionalOffset) {
   if (are_offsets_updated_) {
