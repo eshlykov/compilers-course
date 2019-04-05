@@ -1,13 +1,9 @@
 #pragma once
 
-#include <cassert>
 #include <memory>
 #include <optional>
 #include "../../../irt/frame/code-fragment.hpp"
-#include "../../../irt/frame/frame.hpp"
-#include "../../../irt/wrapper/and-operator-wrapper.hpp"
-#include "../../../irt/wrapper/comparison-operator-wrapper.hpp"
-#include "../../../irt/wrapper/expression-wrapper.hpp"
+#include "../../../irt/wrapper/wrapper.hpp"
 #include "../../../utils/ast.hpp"
 #include "../../../utils/irt.hpp"
 #include "../symbol-table/symbol-table.hpp"
@@ -16,58 +12,61 @@
 namespace Ast {
 
 class Translator : public Visitor {
+ private:
+  enum class VariableContext { ClassVariable, MethodVariable, MethodArgument };
+
  public:
   Translator();
 
-  virtual void Visit(AssignmentByIndexStatement* node) override final;
+  void Visit(AssignmentByIndexStatement* node) final;
 
-  virtual void Visit(AssignmentStatement* node) override final;
+  void Visit(AssignmentStatement* node) final;
 
-  virtual void Visit(BinaryOperatorExpression* node) override final;
+  void Visit(BinaryOperatorExpression* node) final;
 
-  virtual void Visit(BooleanExpression* node) override final;
+  void Visit(BooleanExpression* node) final;
 
-  virtual void Visit(ClassBody* node) override final;
+  void Visit(ClassBody* node) final;
 
-  virtual void Visit(ClassDeclaration* node) override final;
+  void Visit(ClassDeclaration* node) final;
 
-  virtual void Visit(ConditionStatement* node) override final;
+  void Visit(ConditionStatement* node) final;
 
-  virtual void Visit(IdentifierExpression* node) override final;
+  void Visit(IdentifierExpression* node) final;
 
-  virtual void Visit(IndexExpression* node) override final;
+  void Visit(IndexExpression* node) final;
 
-  virtual void Visit(IntArrayConstructorExpression* node) override final;
+  void Visit(IntArrayConstructorExpression* node) final;
 
-  virtual void Visit(LengthExpression* node) override final;
+  void Visit(LengthExpression* node) final;
 
-  virtual void Visit(LoopStatement* node) override final;
+  void Visit(LoopStatement* node) final;
 
-  virtual void Visit(MainClass* node) override final;
+  void Visit(MainClass* node) final;
 
-  virtual void Visit(MethodBody* node) override final;
+  void Visit(MethodBody* node) final;
 
-  virtual void Visit(MethodCallExpression* node) override final;
+  void Visit(MethodCallExpression* node) final;
 
-  virtual void Visit(MethodDeclaration* node) override final;
+  void Visit(MethodDeclaration* node) final;
 
-  virtual void Visit(NotExpression* node) override final;
+  void Visit(NotExpression* node) final;
 
-  virtual void Visit(NumberExpression* node) override final;
+  void Visit(NumberExpression* node) final;
 
-  virtual void Visit(PrintStatement* node) override final;
+  void Visit(PrintStatement* node) final;
 
-  virtual void Visit(Program* node) override final;
+  void Visit(Program* node) final;
 
-  virtual void Visit(ScopeStatement* node) override final;
+  void Visit(ScopeStatement* node) final;
 
-  virtual void Visit(ThisExpression* node) override final;
+  void Visit(ThisExpression* node) final;
 
-  virtual void Visit(Type* node) override final;
+  void Visit(Type* node) final;
 
-  virtual void Visit(UserTypeConstructorExpression* node) override final;
+  void Visit(UserTypeConstructorExpression* node) final;
 
-  virtual void Visit(VarDeclaration* node) override final;
+  void Visit(VarDeclaration* node) final;
 
   std::shared_ptr<Irt::CodeFragment> GetCodeFragment();
 
@@ -87,11 +86,7 @@ class Translator : public Visitor {
   SymbolTable symbolTable_;
   std::string className_;
   std::string methodName_;
-  enum class VariableContext {
-    ClassVariable,
-    MethodVariable,
-    MethodArgument
-  } variableContext_;
+  VariableContext variableContext_;
 };
 
 }  // namespace Ast

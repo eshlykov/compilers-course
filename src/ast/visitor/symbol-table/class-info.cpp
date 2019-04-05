@@ -1,6 +1,6 @@
 #include "class-info.hpp"
 #include "../../../utils/compile-error/compile-error.hpp"
-#include "../../../utils/compile-error/method-redefenition.hpp"
+#include "../../../utils/compile-error/method-redefinition.hpp"
 #include "../../../utils/compile-error/variable-redefinition.hpp"
 
 namespace Ast {

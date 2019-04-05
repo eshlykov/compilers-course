@@ -30,8 +30,6 @@ class ClassInfo {
 
   void UpdateVariableOffsets(int additionalOffset);
 
-  int GetVariableOffset(const std::string& name) const;
-
  private:
   std::optional<std::string> base_;
   std::unordered_map<std::string, VariableInfo> variables_;

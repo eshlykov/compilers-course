@@ -2,9 +2,9 @@
 
 #include "argument-redefinition.hpp"
 #include "arguments-count-mismatch.hpp"
-#include "class-redefenition.hpp"
+#include "class-redefinition.hpp"
 #include "compile-error.hpp"
-#include "method-redefenition.hpp"
+#include "method-redefinition.hpp"
 #include "mutual-inheritance.hpp"
 #include "self-inheritance.hpp"
 #include "type-mismatch.hpp"

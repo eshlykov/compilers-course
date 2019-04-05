@@ -1,5 +1,11 @@
 #include "translator.hpp"
 
+#include <cassert>
+#include "../../../irt/frame/frame.hpp"
+#include "../../../irt/wrapper/and-operator-wrapper.hpp"
+#include "../../../irt/wrapper/comparison-operator-wrapper.hpp"
+#include "../../../irt/wrapper/expression-wrapper.hpp"
+
 namespace Ast {
 
 Translator::Translator()

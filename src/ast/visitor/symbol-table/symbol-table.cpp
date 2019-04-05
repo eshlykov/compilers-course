@@ -1,4 +1,5 @@
 #include "symbol-table.hpp"
+#include <algorithm>
 #include <cassert>
 #include <variant>
 #include "../../../utils/ast.hpp"
