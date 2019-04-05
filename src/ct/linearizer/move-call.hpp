@@ -11,12 +11,12 @@ class MoveCall : public Statement {
   MoveCall(std::shared_ptr<Temporary> destination,
            std::shared_ptr<Call> source);
 
-  void Accept(Visitor *) final {}
+  void Accept(Visitor*) final {}
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>> &kids) final;
+      const std::vector<std::shared_ptr<Expression>>& kids) final;
 
  private:
   std::shared_ptr<Temporary> Destination_;
@@ -32,7 +32,7 @@ inline std::vector<std::shared_ptr<Expression>> MoveCall::Kids() {
 }
 
 inline std::shared_ptr<Statement> MoveCall::Build(
-    const std::vector<std::shared_ptr<Expression>> &kids) {
+    const std::vector<std::shared_ptr<Expression>>& kids) {
   return std::make_shared<Move>(Destination_, Source_->Build(kids));
 }
 

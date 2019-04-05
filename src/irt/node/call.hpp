@@ -11,7 +11,7 @@ class Call : public Expression {
   Call(std::shared_ptr<Expression> expression,
        std::vector<std::shared_ptr<Expression>> expressionList);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Expression> expression_;
@@ -25,6 +25,6 @@ inline Call::Call(std::shared_ptr<Expression> expression,
   assert(expression_ != nullptr);
 }
 
-inline void Call::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Call::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

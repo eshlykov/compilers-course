@@ -12,9 +12,9 @@ class MethodCallExpression : public Expression {
   MethodCallExpression(Location location,
                        std::unique_ptr<Expression> expression,
                        std::string methodName,
-                       std::vector<std::unique_ptr<Expression>> &argumentsList);
+                       std::vector<std::unique_ptr<Expression>>& argumentsList);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::unique_ptr<Expression> expression_;
@@ -25,7 +25,7 @@ class MethodCallExpression : public Expression {
 inline MethodCallExpression::MethodCallExpression(
     Location location, std::unique_ptr<Expression> expression,
     std::string methodName,
-    std::vector<std::unique_ptr<Expression>> &argumentsList)
+    std::vector<std::unique_ptr<Expression>>& argumentsList)
     : expression_{std::move(expression)},
       methodName_{std::move(methodName)},
       argumentsList_{std::move(argumentsList)} {
@@ -33,7 +33,7 @@ inline MethodCallExpression::MethodCallExpression(
   assert(expression_ != nullptr);
 }
 
-inline void MethodCallExpression::Accept(Visitor *visitor) {
+inline void MethodCallExpression::Accept(Visitor* visitor) {
   visitor->Visit(this);
 }
 

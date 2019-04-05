@@ -9,7 +9,7 @@ class IdentifierExpression : public Expression {
  public:
   IdentifierExpression(Location location, std::string name);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::string name_;
@@ -21,7 +21,7 @@ inline IdentifierExpression::IdentifierExpression(Location location,
   SetLocation(location);
 }
 
-inline void IdentifierExpression::Accept(Visitor *visitor) {
+inline void IdentifierExpression::Accept(Visitor* visitor) {
   visitor->Visit(this);
 }
 

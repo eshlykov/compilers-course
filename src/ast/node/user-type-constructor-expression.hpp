@@ -9,7 +9,7 @@ class UserTypeConstructorExpression : public Expression {
  public:
   explicit UserTypeConstructorExpression(Location location, std::string name);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::string name_;
@@ -21,7 +21,7 @@ inline UserTypeConstructorExpression::UserTypeConstructorExpression(
   SetLocation(location);
 }
 
-inline void UserTypeConstructorExpression::Accept(Visitor *visitor) {
+inline void UserTypeConstructorExpression::Accept(Visitor* visitor) {
   visitor->Visit(this);
 }
 

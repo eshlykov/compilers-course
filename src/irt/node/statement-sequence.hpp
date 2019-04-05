@@ -10,7 +10,7 @@ class StatementSequence : public Statement {
   StatementSequence(std::shared_ptr<Statement> leftStatement,
                     std::shared_ptr<Statement> rightStatement);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Statement> leftStatement_;
@@ -26,7 +26,7 @@ inline StatementSequence::StatementSequence(
   assert(rightStatement_ != nullptr);
 }
 
-inline void StatementSequence::Accept(Visitor *visitor) {
+inline void StatementSequence::Accept(Visitor* visitor) {
   visitor->Visit(this);
 }
 

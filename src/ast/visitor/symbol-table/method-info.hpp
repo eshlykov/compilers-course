@@ -10,19 +10,19 @@ namespace Ast {
 
 class MethodInfo {
  public:
-  void AddVariable(const std::string &name, VariableInfo variable,
-                   const Location &location);
+  void AddVariable(const std::string& name, VariableInfo variable,
+                   const Location& location);
 
-  void AddArgument(const std::string &name, VariableInfo variable,
-                   const Location &location);
+  void AddArgument(const std::string& name, const VariableInfo& variable,
+                   const Location& location);
 
-  const std::variant<TypeKind, std::string> &GetReturnType() const;
+  const std::variant<TypeKind, std::string>& GetReturnType() const;
 
-  const std::unordered_map<std::string, VariableInfo> &GetVariables() const;
+  const std::unordered_map<std::string, VariableInfo>& GetVariables() const;
 
-  const std::vector<std::pair<std::string, VariableInfo>> &GetArguments() const;
+  const std::vector<std::pair<std::string, VariableInfo>>& GetArguments() const;
 
-  void SetReturnType(const std::variant<TypeKind, std::string> &returnType);
+  void SetReturnType(const std::variant<TypeKind, std::string>& returnType);
 
  private:
   std::variant<TypeKind, std::string> returnType_;

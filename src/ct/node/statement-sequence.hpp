@@ -10,12 +10,12 @@ class StatementSequence : public Statement {
   StatementSequence(std::shared_ptr<Statement> leftStatement,
                     std::shared_ptr<Statement> rightStatement);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const std::shared_ptr<Statement> leftStatement_;
@@ -31,7 +31,7 @@ inline StatementSequence::StatementSequence(
   assert(rightStatement_ != nullptr);
 }
 
-inline void StatementSequence::Accept(Visitor *visitor) {
+inline void StatementSequence::Accept(Visitor* visitor) {
   visitor->Visit(this);
 }
 
@@ -40,7 +40,7 @@ inline std::vector<std::shared_ptr<Expression>> StatementSequence::Kids() {
 }
 
 inline std::shared_ptr<Statement> StatementSequence::Build(
-    const std::vector<std::shared_ptr<Expression>> &expressionList) {
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
   return std::make_shared<StatementSequence>(leftStatement_, rightStatement_);
 }
 

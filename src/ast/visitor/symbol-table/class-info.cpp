@@ -7,8 +7,8 @@ namespace Ast {
 
 ClassInfo::ClassInfo() : are_offsets_updated_{false} {}
 
-void ClassInfo::AddVariable(const std::string &name, VariableInfo variable,
-                            const Location &location) {
+void ClassInfo::AddVariable(const std::string& name, VariableInfo variable,
+                            const Location& location) {
   if (variables_.find(name) != variables_.end()) {
     throw VariableRedefinition{
         "variable '" + name + "' has been already defined", location};
@@ -17,8 +17,8 @@ void ClassInfo::AddVariable(const std::string &name, VariableInfo variable,
   variables_[name] = variable;
 }
 
-void ClassInfo::AddMethod(const std::string &name, MethodInfo method,
-                          const Location &location) {
+void ClassInfo::AddMethod(const std::string& name, MethodInfo method,
+                          const Location& location) {
   if (methods_.find(name) != methods_.end()) {
     throw MethodRedefinition{"method '" + name + "' has been already defined",
                              location};
@@ -26,19 +26,19 @@ void ClassInfo::AddMethod(const std::string &name, MethodInfo method,
   methods_[name] = std::move(method);
 }
 
-const std::optional<std::string> &ClassInfo::GetBase() const { return base_; }
+const std::optional<std::string>& ClassInfo::GetBase() const { return base_; }
 
-const std::unordered_map<std::string, VariableInfo> &ClassInfo::GetVariables()
+const std::unordered_map<std::string, VariableInfo>& ClassInfo::GetVariables()
     const {
   return variables_;
 }
 
-const std::unordered_map<std::string, MethodInfo> &ClassInfo::GetMethods()
+const std::unordered_map<std::string, MethodInfo>& ClassInfo::GetMethods()
     const {
   return methods_;
 }
 
-void ClassInfo::SetBase(std::string base) { base_ = base; }
+void ClassInfo::SetBase(const std::string& base) { base_ = base; }
 
 size_t ClassInfo::GetSize() const { return variables_.size(); }
 
@@ -47,7 +47,7 @@ void ClassInfo::UpdateVariableOffsets(int additionalOffset) {
     return;
   }
 
-  for (auto &[name, info] : variables_) {
+  for (auto& [name, info] : variables_) {
     info.offset_ += additionalOffset;
   }
   are_offsets_updated_ = true;

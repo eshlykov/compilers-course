@@ -12,7 +12,7 @@ class MainClass : public Node {
   MainClass(Location location, std::string className, std::string argv,
             std::unique_ptr<Statement> mainBody);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::string className_;
@@ -30,6 +30,6 @@ inline MainClass::MainClass(Location location, std::string className,
   assert(mainBody_ != nullptr);
 }
 
-inline void MainClass::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void MainClass::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

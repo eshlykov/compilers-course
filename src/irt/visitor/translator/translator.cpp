@@ -7,27 +7,26 @@ namespace Irt {
 Translator::Translator()
     : codeFragment_{std::make_shared<Ct::CodeFragment>()} {}
 
-void Translator::Visit(BinaryOperator *node) {
+void Translator::Visit(BinaryOperator* node) {
   node->leftExpression_->Accept(this);
   std::shared_ptr<Ct::Expression> leftExpression = expression_;
 
   node->rightExpression_->Accept(this);
   std::shared_ptr<Ct::Expression> rightExpression = expression_;
 
-  std::optional<Ct::ArithmeticOperator> arithmeticOperator =
+  Ct::ArithmeticOperator arithmeticOperator =
       ToCtArithmeticOperator(node->arithmeticOperator_);
-  assert(arithmeticOperator.has_value());
 
   expression_ = std::make_shared<Ct::BinaryOperator>(
-      arithmeticOperator.value(), leftExpression, rightExpression);
+      arithmeticOperator, leftExpression, rightExpression);
 }
 
-void Translator::Visit(Call *node) {
+void Translator::Visit(Call* node) {
   node->expression_->Accept(this);
   std::shared_ptr<Ct::Expression> callExpression = expression_;
 
   std::vector<std::shared_ptr<Ct::Expression>> expressionList;
-  for (const auto &expression : node->expressionList_) {
+  for (const auto& expression : node->expressionList_) {
     expression->Accept(this);
     expressionList.push_back(expression_);
   }
@@ -35,27 +34,26 @@ void Translator::Visit(Call *node) {
   expression_ = std::make_shared<Ct::Call>(callExpression, expressionList);
 }
 
-void Translator::Visit(ConditionalJump *node) {
+void Translator::Visit(ConditionalJump* node) {
   node->expressionLeft_->Accept(this);
   std::shared_ptr<Ct::Expression> expressionLeft = expression_;
 
   node->expressionRight_->Accept(this);
   std::shared_ptr<Ct::Expression> expressionRight = expression_;
 
-  std::optional<Ct::LogicalOperator> logicalOperator =
+  Ct::LogicalOperator logicalOperator =
       ToCtLogicalOperator(node->logicalOperator_);
-  assert(logicalOperator.has_value());
 
   statement_ = std::make_shared<Ct::ConditionalJump>(
-      logicalOperator.value(), expressionLeft, expressionRight,
-      node->addressIf_, node->addressElse_);
+      logicalOperator, expressionLeft, expressionRight, node->addressIf_,
+      node->addressElse_);
 }
 
-void Translator::Visit(Constant *node) {
+void Translator::Visit(Constant* node) {
   expression_ = std::make_shared<Ct::Constant>(node->value_);
 }
 
-void Translator::Visit(ExpressionSequence *node) {
+void Translator::Visit(ExpressionSequence* node) {
   node->expression_->Accept(this);
   std::shared_ptr<Ct::Expression> expression = expression_;
 
@@ -65,22 +63,22 @@ void Translator::Visit(ExpressionSequence *node) {
   expression_ = std::make_shared<Ct::ExpressionSequence>(statement, expression);
 }
 
-void Translator::Visit(Jump *node) {
+void Translator::Visit(Jump* node) {
   statement_ = std::make_shared<Ct::Jump>(node->address_);
 }
 
-void Translator::Visit(Label *node) {
+void Translator::Visit(Label* node) {
   statement_ = std::make_shared<Ct::Label>(node->address_);
 }
 
-void Translator::Visit(Memory *node) {
+void Translator::Visit(Memory* node) {
   node->expression_->Accept(this);
   std::shared_ptr<Ct::Expression> expression = expression_;
 
   expression_ = std::make_shared<Ct::Memory>(expression);
 }
 
-void Translator::Visit(Move *node) {
+void Translator::Visit(Move* node) {
   node->destination_->Accept(this);
   std::shared_ptr<Ct::Expression> destination = expression_;
 
@@ -90,11 +88,11 @@ void Translator::Visit(Move *node) {
   statement_ = std::make_shared<Ct::Move>(destination, source);
 }
 
-void Translator::Visit(Name *node) {
+void Translator::Visit(Name* node) {
   expression_ = std::make_shared<Ct::Name>(node->address_);
 }
 
-void Translator::Visit(StatementSequence *node) {
+void Translator::Visit(StatementSequence* node) {
   node->leftStatement_->Accept(this);
   std::shared_ptr<Ct::Statement> leftStatement = statement_;
 
@@ -105,39 +103,36 @@ void Translator::Visit(StatementSequence *node) {
       std::make_shared<Ct::StatementSequence>(leftStatement, rightStatement);
 }
 
-void Translator::Visit(Temporary *node) {
+void Translator::Visit(Temporary* node) {
   expression_ = std::make_shared<Ct::Temporary>(node->storage_);
 }
 
-void Translator::Visit(Void *node) {
+void Translator::Visit(Void* node) {
   node->expression_->Accept(this);
   std::shared_ptr<Ct::Expression> expression = expression_;
   statement_ = std::make_shared<Ct::Void>(expression);
 }
 
-std::optional<Ct::ArithmeticOperator> Translator::ToCtArithmeticOperator(
+Ct::ArithmeticOperator Translator::ToCtArithmeticOperator(
     ArithmeticOperator arithmeticOperator) {
   if (arithmeticOperator == ArithmeticOperator::Plus) {
-    return {Ct::ArithmeticOperator::Plus};
-  } else if (arithmeticOperator == ArithmeticOperator::Minus) {
-    return {Ct::ArithmeticOperator::Minus};
-  } else if (arithmeticOperator == ArithmeticOperator::Multiplication) {
-    return {Ct::ArithmeticOperator::Multiplication};
+    return Ct::ArithmeticOperator::Plus;
   }
-  return {};
+  if (arithmeticOperator == ArithmeticOperator::Minus) {
+    return Ct::ArithmeticOperator::Minus;
+  }
+  return Ct::ArithmeticOperator::Multiplication;
 }
 
-std::optional<Ct::LogicalOperator> Translator::ToCtLogicalOperator(
+Ct::LogicalOperator Translator::ToCtLogicalOperator(
     LogicalOperator logicalOperator) {
   if (logicalOperator == LogicalOperator::And) {
-    return {Ct::LogicalOperator::And};
-  } else if (logicalOperator == LogicalOperator::Less) {
-    return {Ct::LogicalOperator::Less};
-  } else if (logicalOperator == LogicalOperator::Equal) {
-    return {Ct::LogicalOperator::Equal};
+    return Ct::LogicalOperator::And;
   }
-
-  return {};
+  if (logicalOperator == LogicalOperator::Less) {
+    return Ct::LogicalOperator::Less;
+  }
+  return Ct::LogicalOperator::Equal;
 }
 
 }  // namespace Irt

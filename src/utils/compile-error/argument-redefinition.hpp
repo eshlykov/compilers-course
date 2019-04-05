@@ -6,9 +6,9 @@
 
 class ArgumentRedefinition : public CompileError {
  public:
-  ArgumentRedefinition(const std::string &message, const Location &location);
+  ArgumentRedefinition(const std::string& message, const Location& location);
 };
 
-inline ArgumentRedefinition::ArgumentRedefinition(const std::string &message,
-                                                  const Location &location)
+inline ArgumentRedefinition::ArgumentRedefinition(const std::string& message,
+                                                  const Location& location)
     : CompileError(message, location) {}

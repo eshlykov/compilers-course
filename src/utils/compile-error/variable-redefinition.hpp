@@ -6,9 +6,9 @@
 
 class VariableRedefinition : public CompileError {
  public:
-  VariableRedefinition(const std::string &message, const Location &location);
+  VariableRedefinition(const std::string& message, const Location& location);
 };
 
-inline VariableRedefinition::VariableRedefinition(const std::string &message,
-                                                  const Location &location)
+inline VariableRedefinition::VariableRedefinition(const std::string& message,
+                                                  const Location& location)
     : CompileError(message, location) {}

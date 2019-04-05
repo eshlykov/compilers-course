@@ -12,7 +12,7 @@ class InFrameAccess : public Access {
  public:
   explicit InFrameAccess(int offset);
 
-  std::shared_ptr<Expression> GetData() const;
+  std::shared_ptr<Expression> GetData() const final;
 
  private:
   int offset_;

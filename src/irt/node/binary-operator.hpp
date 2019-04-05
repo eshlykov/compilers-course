@@ -13,7 +13,7 @@ class BinaryOperator : public Expression {
                  std::shared_ptr<Expression> leftExpression,
                  std::shared_ptr<Expression> rightExpression);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const ArithmeticOperator arithmeticOperator_;
@@ -32,6 +32,6 @@ inline BinaryOperator::BinaryOperator(
   assert(rightExpression_ != nullptr);
 }
 
-inline void BinaryOperator::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void BinaryOperator::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

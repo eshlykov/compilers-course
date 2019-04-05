@@ -4,22 +4,22 @@
 
 namespace Irt {
 
-Frame::Frame(const std::string &name, Address returnAddress)
+Frame::Frame(std::string name, Address returnAddress)
     : returnAddress_{std::move(returnAddress)},
-      name_{name},
+      name_{std::move(name)},
       resultStorage_{InFrameAccess{WordSize_}},
       thisPointer_{InFrameAccess{2 * WordSize_}},
       size_{3 * WordSize_} {}
 
-void Frame::AddFormalParameter(const std::string &name) {
+void Frame::AddFormalParameter(const std::string& name) {
   AddInStorage(name, formalParameters_);
 }
 
-void Frame::AddLocalVariable(const std::string &name) {
+void Frame::AddLocalVariable(const std::string& name) {
   AddInStorage(name, localVariables_);
 }
 
-std::shared_ptr<Expression> Frame::GetData(const std::string &name) {
+std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
   std::shared_ptr<const Access> access =
       FindFormalParameterOrLocalVariable(name);
   return access != nullptr ? access->GetData() : nullptr;
@@ -32,14 +32,14 @@ std::shared_ptr<Expression> Frame::GetResultStorage() {
 }
 
 std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(
-    const std::string &name) const {
+    const std::string& name) const {
   auto access = FindInStorage(name, formalParameters_);
   access = access != nullptr ? access : FindInStorage(name, localVariables_);
   return access;
 }
 
-void Frame::AddInStorage(const std::string &name,
-                         std::vector<KeyType> &storage) {
+void Frame::AddInStorage(const std::string& name,
+                         std::vector<KeyType>& storage) {
   auto iter = std::find_if(storage.begin(), storage.end(),
                            [&name](KeyType key) { return key.first == name; });
   assert(iter == storage.end());
@@ -48,7 +48,7 @@ void Frame::AddInStorage(const std::string &name,
 }
 
 std::shared_ptr<const Access> Frame::FindInStorage(
-    const std::string &name, const std::vector<KeyType> &storage) const {
+    const std::string& name, const std::vector<KeyType>& storage) const {
   auto iter = std::find_if(storage.begin(), storage.end(),
                            [&name](KeyType key) { return key.first == name; });
   return iter != storage.end() ? iter->second : nullptr;

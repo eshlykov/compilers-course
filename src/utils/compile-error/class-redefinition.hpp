@@ -7,9 +7,9 @@
 
 class ClassRedefinition : public CompileError {
  public:
-  ClassRedefinition(const std::string &message, const Location &location);
+  ClassRedefinition(const std::string& message, const Location& location);
 };
 
-inline ClassRedefinition::ClassRedefinition(const std::string &message,
-                                            const Location &location)
+inline ClassRedefinition::ClassRedefinition(const std::string& message,
+                                            const Location& location)
     : CompileError(message, location) {}

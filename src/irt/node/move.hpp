@@ -12,7 +12,7 @@ class Move : public Statement {
   Move(std::shared_ptr<Expression> destination,
        std::shared_ptr<Expression> source);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Expression> destination_;
@@ -26,6 +26,6 @@ inline Move::Move(std::shared_ptr<Expression> destination,
   assert(source_ != nullptr);
 }
 
-inline void Move::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Move::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

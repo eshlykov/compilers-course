@@ -11,10 +11,10 @@
 #include "utils/parser-args.hpp"
 #include "utils/source-code.hpp"
 
-extern FILE *yyin;
-extern int yyparse(ParserArgs &);
+extern FILE* yyin;
+extern int yyparse(ParserArgs&);
 
-std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
+std::string ParseDrawingFilenameFromArguments(int argc, char* argv[]) {
   if (argc == 3) {
     return argv[2];
   }
@@ -25,7 +25,7 @@ std::string ParseDrawingFilenameFromArguments(int argc, char *argv[]) {
  * To use our compiler now you should provide name of .dot file as first
  * argument
  */
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   if (argc < 2) {
     std::cout << "no source filename is given" << std::endl;
     return 1;
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
   std::vector<CompileError> errors = parserArgs.errors_;
   if (!errors.empty()) {
-    for (auto &error : errors) {
+    for (auto& error : errors) {
       std::cout << error.GetMessage(sourceCode) << std::endl;
     }
     return 1;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
   Ast::SymbolTable symbolTable{};
   try {
     symbolTable.Visit(program.get());
-  } catch (const std::exception &exception) {
+  } catch (const std::exception& exception) {
     std::cout << exception.what() << std::endl;
     return 1;
   } catch (...) {
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (auto redefinitions = symbolTable.GetErrorList(); !redefinitions.empty()) {
-    for (auto &error : redefinitions) {
+    for (auto& error : redefinitions) {
       std::cout << error.GetMessage(sourceCode) << std::endl;
     }
     return 1;

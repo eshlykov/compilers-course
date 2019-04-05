@@ -11,7 +11,7 @@ class Node {
 
   virtual ~Node() = default;
 
-  virtual void Accept(Visitor *) = 0;
+  virtual void Accept(Visitor*) = 0;
 };
 
 }  // namespace Irt

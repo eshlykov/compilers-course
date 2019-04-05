@@ -6,24 +6,23 @@
 #include "../location.hpp"
 #include "../source-code.hpp"
 
-class CompileError {
+class CompileError : public std::runtime_error {
  public:
-  CompileError(std::string message, const Location &location);
+  CompileError(const std::string& message, const Location& location);
 
-  ~CompileError() = default;
-
-  virtual std::string GetMessage(const SourceCode &sourceCode) const final;
+  virtual std::string GetMessage(const SourceCode& sourceCode) const final;
 
  private:
   std::string message_;
   Location location_;
 };
 
-inline CompileError::CompileError(std::string message, const Location &location)
-    : message_{std::move(message)}, location_{location} {}
+inline CompileError::CompileError(const std::string& message,
+                                  const Location& location)
+    : std::runtime_error{message}, message_{message}, location_{location} {}
 
 inline std::string CompileError::GetMessage(
-    const SourceCode &sourceCode) const {
+    const SourceCode& sourceCode) const {
   std::string message = "\033[1;37m";
   message += sourceCode.GetFilename();
   message += ":" + std::to_string(location_.lineNumber_) + ":" +

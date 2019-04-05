@@ -11,7 +11,7 @@ class LoopStatement : public Statement {
   LoopStatement(Location location, std::unique_ptr<Expression> condition,
                 std::unique_ptr<Statement> statement);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::unique_ptr<Expression> condition_;
@@ -27,6 +27,6 @@ inline LoopStatement::LoopStatement(Location location,
   assert(statement_ != nullptr);
 }
 
-inline void LoopStatement::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void LoopStatement::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

@@ -14,31 +14,31 @@ class Translator : public Visitor {
  public:
   Translator();
 
-  void Visit(BinaryOperator *node) final;
+  void Visit(BinaryOperator* node) final;
 
-  void Visit(Call *node) final;
+  void Visit(Call* node) final;
 
-  void Visit(ConditionalJump *node) final;
+  void Visit(ConditionalJump* node) final;
 
-  void Visit(Constant *node) final;
+  void Visit(Constant* node) final;
 
-  void Visit(ExpressionSequence *node) final;
+  void Visit(ExpressionSequence* node) final;
 
-  void Visit(Jump *node) final;
+  void Visit(Jump* node) final;
 
-  void Visit(Label *node) final;
+  void Visit(Label* node) final;
 
-  void Visit(Memory *node) final;
+  void Visit(Memory* node) final;
 
-  void Visit(Move *node) final;
+  void Visit(Move* node) final;
 
-  void Visit(Name *node) final;
+  void Visit(Name* node) final;
 
-  void Visit(StatementSequence *node) final;
+  void Visit(StatementSequence* node) final;
 
-  void Visit(Temporary *node) final;
+  void Visit(Temporary* node) final;
 
-  void Visit(Void *node) final;
+  void Visit(Void* node) final;
 
  private:
   std::shared_ptr<Ct::CodeFragment> codeFragment_;
@@ -46,9 +46,9 @@ class Translator : public Visitor {
   std::shared_ptr<Ct::Statement> statement_;
 
  private:
-  std::optional<Ct::ArithmeticOperator> ToCtArithmeticOperator(
+  static Ct::ArithmeticOperator ToCtArithmeticOperator(
       ArithmeticOperator arithmeticOperator);
-  std::optional<Ct::LogicalOperator> ToCtLogicalOperator(
+  static Ct::LogicalOperator ToCtLogicalOperator(
       LogicalOperator logicalOperator);
 };
 

@@ -12,12 +12,12 @@ class Move : public Statement {
   Move(std::shared_ptr<Expression> destination,
        std::shared_ptr<Expression> source);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const std::shared_ptr<Expression> destination_;
@@ -31,7 +31,7 @@ inline Move::Move(std::shared_ptr<Expression> destination,
   assert(source_ != nullptr);
 }
 
-inline void Move::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Move::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> Move::Kids() {
   auto memory = std::dynamic_pointer_cast<Memory>(destination_);
@@ -42,7 +42,7 @@ inline std::vector<std::shared_ptr<Expression>> Move::Kids() {
 }
 
 inline std::shared_ptr<Statement> Move::Build(
-    const std::vector<std::shared_ptr<Expression>> &expressionList) {
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
   auto memory = std::dynamic_pointer_cast<Memory>(destination_);
   if (memory != nullptr) {
     return std::make_shared<Move>(std::make_shared<Memory>(expressionList[0]),

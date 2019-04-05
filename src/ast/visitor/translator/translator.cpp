@@ -12,7 +12,7 @@ Translator::Translator()
     : codeFragment_{std::make_shared<Irt::CodeFragment>()},
       variableContext_{VariableContext::ClassVariable} {}
 
-void Translator::Visit(AssignmentByIndexStatement *node) {
+void Translator::Visit(AssignmentByIndexStatement* node) {
   node->index_->Accept(this);
   std::shared_ptr<Irt::Expression> index = wrapper_->ToRValue();
 
@@ -28,14 +28,14 @@ void Translator::Visit(AssignmentByIndexStatement *node) {
       value);
 }
 
-void Translator::Visit(AssignmentStatement *node) {
+void Translator::Visit(AssignmentStatement* node) {
   node->expression_->Accept(this);
 
   statement_ = std::make_shared<Irt::Move>(GetVariable(node->variable_),
                                            wrapper_->ToRValue());
 }
 
-void Translator::Visit(BinaryOperatorExpression *node) {
+void Translator::Visit(BinaryOperatorExpression* node) {
   node->lhs_->Accept(this);
   std::shared_ptr<Irt::Expression> lhs = wrapper_->ToRValue();
 
@@ -51,40 +51,38 @@ void Translator::Visit(BinaryOperatorExpression *node) {
           Irt::LogicalOperator::Less, lhs, rhs);
       break;
     default: {
-      std::optional<Irt::ArithmeticOperator> arithmeticOperator =
+      Irt::ArithmeticOperator arithmeticOperator =
           ToIrtArithmeticOperator(node->binaryOperator_);
-      assert(arithmeticOperator.has_value());
       wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
-          std::make_shared<Irt::BinaryOperator>(arithmeticOperator.value(), lhs,
-                                                rhs));
+          std::make_shared<Irt::BinaryOperator>(arithmeticOperator, lhs, rhs));
     }
   }
 }
 
-void Translator::Visit(BooleanExpression *node) {
+void Translator::Visit(BooleanExpression* node) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       std::make_shared<Irt::Constant>(node->value_ ? 1 : 0));
 }
 
-void Translator::Visit(ClassBody *node) {
+void Translator::Visit(ClassBody* node) {
   variableContext_ = VariableContext::ClassVariable;
 
-  for (auto &variable : node->variables_) {
+  for (auto& variable : node->variables_) {
     variable->Accept(this);
   }
 
-  for (auto &method : node->methods_) {
+  for (auto& method : node->methods_) {
     method->Accept(this);
   }
 }
 
-void Translator::Visit(ClassDeclaration *node) {
+void Translator::Visit(ClassDeclaration* node) {
   className_ = node->className_;
 
   node->classBody_->Accept(this);
 }
 
-void Translator::Visit(ConditionStatement *node) {
+void Translator::Visit(ConditionStatement* node) {
   Address addressIf;
   Address addressElse;
 
@@ -115,11 +113,11 @@ void Translator::Visit(ConditionStatement *node) {
                           std::make_shared<Irt::Label>(addressEnd)))))));
 }
 
-void Translator::Visit(IdentifierExpression *node) {
+void Translator::Visit(IdentifierExpression* node) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(GetVariable(node->name_));
 }
 
-void Translator::Visit(IndexExpression *node) {
+void Translator::Visit(IndexExpression* node) {
   node->lhs_->Accept(this);
   std::shared_ptr<Irt::Expression> array = wrapper_->ToRValue();
 
@@ -134,19 +132,14 @@ void Translator::Visit(IndexExpression *node) {
               std::make_shared<Irt::Constant>(Irt::Frame::WordSize_))));
 }
 
-void Translator::Visit(IntArrayConstructorExpression *node) {
+void Translator::Visit(IntArrayConstructorExpression* node) {
   node->expression_->Accept(this);
-
-  /*Address addressNew{"new"};
-  Address addressCondition;
-  Address addressIf;
-  Address addressElse;*/
 
   wrapper_ =
       std::make_shared<Irt::ExpressionWrapper>(Allocate(wrapper_->ToRValue()));
 }
 
-void Translator::Visit(LengthExpression *node) {
+void Translator::Visit(LengthExpression* node) {
   node->expression_->Accept(this);
 
   Address addressLength{className_ + "$length"};
@@ -157,7 +150,7 @@ void Translator::Visit(LengthExpression *node) {
           std::vector<std::shared_ptr<Irt::Expression>>{wrapper_->ToRValue()}));
 }
 
-void Translator::Visit(LoopStatement *node) {
+void Translator::Visit(LoopStatement* node) {
   Address addressIf;
   Address addressElse;
 
@@ -182,7 +175,7 @@ void Translator::Visit(LoopStatement *node) {
                       std::make_shared<Irt::Label>(addressElse))))));
 }
 
-void Translator::Visit(MainClass *node) {
+void Translator::Visit(MainClass* node) {
   className_ = node->className_;
 
   codeFragment_->frame_ = std::make_shared<Irt::Frame>(className_ + "$main");
@@ -194,7 +187,7 @@ void Translator::Visit(MainClass *node) {
       std::make_shared<Irt::Jump>(codeFragment_->frame_->returnAddress_));
 }
 
-void Translator::Visit(MethodBody *node) {
+void Translator::Visit(MethodBody* node) {
   Address addressStart{className_ + "$" + methodName_};
 
   std::shared_ptr<Irt::Statement> body =
@@ -202,12 +195,12 @@ void Translator::Visit(MethodBody *node) {
 
   variableContext_ = VariableContext::MethodVariable;
 
-  for (auto &variable : node->variables_) {
+  for (auto& variable : node->variables_) {
     variable->Accept(this);
     body = std::make_shared<Irt::StatementSequence>(body, statement_);
   }
 
-  for (auto &statement : node->statements_) {
+  for (auto& statement : node->statements_) {
     statement->Accept(this);
     body = std::make_shared<Irt::StatementSequence>(body, statement_);
   }
@@ -221,11 +214,11 @@ void Translator::Visit(MethodBody *node) {
       std::make_shared<Irt::Jump>(codeFragment_->frame_->returnAddress_));
 }
 
-void Translator::Visit(MethodCallExpression *node) {
+void Translator::Visit(MethodCallExpression* node) {
   node->expression_->Accept(this);
 
   std::vector<std::shared_ptr<Irt::Expression>> arguments{wrapper_->ToRValue()};
-  for (auto &argument : node->argumentsList_) {
+  for (auto& argument : node->argumentsList_) {
     argument->Accept(this);
     arguments.push_back(wrapper_->ToRValue());
   }
@@ -237,7 +230,7 @@ void Translator::Visit(MethodCallExpression *node) {
           std::make_shared<Irt::Name>(addressMethod), arguments));
 }
 
-void Translator::Visit(MethodDeclaration *node) {
+void Translator::Visit(MethodDeclaration* node) {
   node->resultType_->Accept(this);
 
   methodName_ = node->methodName_;
@@ -249,14 +242,14 @@ void Translator::Visit(MethodDeclaration *node) {
       std::make_shared<Irt::Frame>(className_ + "$" + methodName_);
 
   variableContext_ = VariableContext::MethodArgument;
-  for (auto &argument : node->argumentsList_) {
+  for (auto& argument : node->argumentsList_) {
     argument->Accept(this);
   }
 
   node->methodBody_->Accept(this);
 }
 
-void Translator::Visit(NotExpression *node) {
+void Translator::Visit(NotExpression* node) {
   node->expression_->Accept(this);
 
   Storage storage;
@@ -287,12 +280,12 @@ void Translator::Visit(NotExpression *node) {
           std::make_shared<Irt::Temporary>(storage)));
 }
 
-void Translator::Visit(NumberExpression *node) {
+void Translator::Visit(NumberExpression* node) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       std::make_shared<Irt::Constant>(node->value_));
 }
 
-void Translator::Visit(PrintStatement *node) {
+void Translator::Visit(PrintStatement* node) {
   node->expression_->Accept(this);
 
   Address addressPrint{"print"};
@@ -302,21 +295,21 @@ void Translator::Visit(PrintStatement *node) {
       std::vector<std::shared_ptr<Irt::Expression>>{wrapper_->ToRValue()}));
 }
 
-void Translator::Visit(Program *node) {
+void Translator::Visit(Program* node) {
   symbolTable_.Visit(node);
 
   node->mainClass_->Accept(this);
 
-  for (auto &classDeclaration : node->classDeclarations_) {
+  for (auto& classDeclaration : node->classDeclarations_) {
     classDeclaration->Accept(this);
   }
 }
 
-void Translator::Visit(ScopeStatement *node) {
+void Translator::Visit(ScopeStatement* node) {
   std::shared_ptr<Irt::Statement> scopeStatement =
       std::make_shared<Irt::Void>(std::make_shared<Irt::Constant>(0));
 
-  for (auto &&statement : node->statements_) {
+  for (auto&& statement : node->statements_) {
     statement->Accept(this);
 
     scopeStatement =
@@ -326,22 +319,22 @@ void Translator::Visit(ScopeStatement *node) {
   statement_ = scopeStatement;
 }
 
-void Translator::Visit(ThisExpression *) {
+void Translator::Visit(ThisExpression*) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       codeFragment_->frame_->GetThis());
 }
 
-void Translator::Visit(Type *) {
+void Translator::Visit(Type*) {
   // empty
 }
 
-void Translator::Visit(UserTypeConstructorExpression *node) {
+void Translator::Visit(UserTypeConstructorExpression* node) {
   wrapper_ = std::make_shared<Irt::ExpressionWrapper>(
       Allocate(std::make_shared<Irt::Constant>(
           symbolTable_.GetClasses().at(node->name_).GetSize())));
 }
 
-void Translator::Visit(VarDeclaration *node) {
+void Translator::Visit(VarDeclaration* node) {
   node->type_->Accept(this);
 
   if (variableContext_ == VariableContext::MethodArgument) {
@@ -357,20 +350,19 @@ std::shared_ptr<Irt::CodeFragment> Translator::GetCodeFragment() {
   return codeFragment_;
 }
 
-std::optional<Irt::ArithmeticOperator> Translator::ToIrtArithmeticOperator(
+Irt::ArithmeticOperator Translator::ToIrtArithmeticOperator(
     BinaryOperator binaryOperator) {
   if (binaryOperator == BinaryOperator::Plus) {
     return Irt::ArithmeticOperator::Plus;
-  } else if (binaryOperator == BinaryOperator::Minus) {
-    return Irt::ArithmeticOperator::Minus;
-  } else if (binaryOperator == BinaryOperator::Star) {
-    return Irt::ArithmeticOperator::Multiplication;
   }
-  return {};
+  if (binaryOperator == BinaryOperator::Minus) {
+    return Irt::ArithmeticOperator::Minus;
+  }
+  return Irt::ArithmeticOperator::Multiplication;
 }
 
 std::shared_ptr<Irt::Expression> Translator::Allocate(
-    std::shared_ptr<Irt::Expression> wordsCount) {
+    const std::shared_ptr<Irt::Expression>& wordsCount) {
   Storage size;
   Storage object;
   Storage index;
@@ -443,7 +435,7 @@ std::shared_ptr<Irt::Expression> Translator::Allocate(
 }
 
 std::shared_ptr<Irt::Expression> Translator::GetVariable(
-    const std::string &name) {
+    const std::string& name) {
   if (std::shared_ptr<Irt::Expression> data =
           codeFragment_->frame_->GetData(name);
       data != nullptr) {

@@ -13,13 +13,13 @@ namespace Irt {
 
 class Frame {
  public:
-  explicit Frame(const std::string &name, Address returnAddress = {});
+  explicit Frame(std::string name, Address returnAddress = {});
 
-  void AddFormalParameter(const std::string &name);
+  void AddFormalParameter(const std::string& name);
 
-  void AddLocalVariable(const std::string &name);
+  void AddLocalVariable(const std::string& name);
 
-  std::shared_ptr<Expression> GetData(const std::string &name);
+  std::shared_ptr<Expression> GetData(const std::string& name);
 
   std::shared_ptr<Expression> GetThis();
 
@@ -29,12 +29,12 @@ class Frame {
   using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
 
   std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(
-      const std::string &name) const;
+      const std::string& name) const;
 
-  void AddInStorage(const std::string &name, std::vector<KeyType> &storage);
+  void AddInStorage(const std::string& name, std::vector<KeyType>& storage);
 
   std::shared_ptr<const Access> FindInStorage(
-      const std::string &name, const std::vector<KeyType> &storage) const;
+      const std::string& name, const std::vector<KeyType>& storage) const;
 
  public:
   static constexpr int WordSize_ = sizeof(nullptr);

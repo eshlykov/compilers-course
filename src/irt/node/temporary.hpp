@@ -11,7 +11,7 @@ class Temporary : public Expression {
  public:
   explicit Temporary(Storage storage);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const Storage storage_;
@@ -19,6 +19,6 @@ class Temporary : public Expression {
 
 inline Temporary::Temporary(Storage storage) : storage_(storage) {}
 
-inline void Temporary::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Temporary::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

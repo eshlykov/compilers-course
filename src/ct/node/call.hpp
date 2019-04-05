@@ -11,12 +11,12 @@ class Call : public Expression {
   Call(std::shared_ptr<Expression> expression,
        std::vector<std::shared_ptr<Expression>> expressionList);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const std::shared_ptr<Expression> expression_;
@@ -30,7 +30,7 @@ inline Call::Call(std::shared_ptr<Expression> expression,
   assert(expression_ != nullptr);
 }
 
-inline void Call::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Call::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> Call::Kids() {
   std::vector<std::shared_ptr<Expression>> newVec(expressionList_.begin(),
@@ -40,7 +40,7 @@ inline std::vector<std::shared_ptr<Expression>> Call::Kids() {
 }
 
 inline std::shared_ptr<Expression> Call::Build(
-    const std::vector<std::shared_ptr<Expression>> &expressionList) {
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
   std::vector<std::shared_ptr<Expression>> newVec(expressionList.begin() + 1,
                                                   expressionList.end());
   return std::make_shared<Call>(expressionList[0], newVec);

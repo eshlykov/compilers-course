@@ -12,11 +12,11 @@ namespace Ast {
 class MethodBody : public Node {
  public:
   MethodBody(Location location,
-             std::vector<std::unique_ptr<VarDeclaration>> &variables,
-             std::vector<std::unique_ptr<Statement>> &statements,
+             std::vector<std::unique_ptr<VarDeclaration>>& variables,
+             std::vector<std::unique_ptr<Statement>>& statements,
              std::unique_ptr<Expression> returnExpression);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::vector<std::unique_ptr<VarDeclaration>> variables_;
@@ -25,8 +25,8 @@ class MethodBody : public Node {
 };
 
 inline MethodBody::MethodBody(
-    Location location, std::vector<std::unique_ptr<VarDeclaration>> &variables,
-    std::vector<std::unique_ptr<Statement>> &statements,
+    Location location, std::vector<std::unique_ptr<VarDeclaration>>& variables,
+    std::vector<std::unique_ptr<Statement>>& statements,
     std::unique_ptr<Expression> returnExpression)
     : variables_{std::move(variables)},
       statements_{std::move(statements)},
@@ -35,6 +35,6 @@ inline MethodBody::MethodBody(
   assert(returnExpression_ != nullptr);
 }
 
-inline void MethodBody::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void MethodBody::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

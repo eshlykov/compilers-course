@@ -14,12 +14,12 @@ class Jump : public Statement {
  public:
   explicit Jump(Address address);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
   std::vector<std::shared_ptr<Expression>> Kids() final;
 
   std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>> &expressionList) final;
+      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
 
  public:
   const std::shared_ptr<Expression> expression_;
@@ -32,14 +32,14 @@ inline Jump::Jump(Address address)
   assert(expression_ != nullptr);
 }
 
-inline void Jump::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void Jump::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 inline std::vector<std::shared_ptr<Expression>> Jump::Kids() {
   return {expression_};
 }
 
 inline std::shared_ptr<Statement> Jump::Build(
-    const std::vector<std::shared_ptr<Expression>> &expressionList) {
+    const std::vector<std::shared_ptr<Expression>>& expressionList) {
   return std::make_shared<Jump>(address_);
 }
 

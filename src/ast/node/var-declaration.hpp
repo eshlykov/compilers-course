@@ -11,7 +11,7 @@ class VarDeclaration : public Node {
   VarDeclaration(Location location, std::unique_ptr<Type> type,
                  std::string name);
 
-  void Accept(Visitor *visitor) final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::unique_ptr<Type> type_;
@@ -26,6 +26,6 @@ inline VarDeclaration::VarDeclaration(Location location,
   assert(type_ != nullptr);
 }
 
-inline void VarDeclaration::Accept(Visitor *visitor) { visitor->Visit(this); }
+inline void VarDeclaration::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast
