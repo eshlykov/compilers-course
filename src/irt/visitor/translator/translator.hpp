@@ -42,7 +42,7 @@ class Translator : public Visitor {
 
  private:
   std::shared_ptr<Ct::CodeFragment> codeFragment_;
-  std::shared_ptr<Ct::Expression> exp_;
+  std::shared_ptr<Ct::Expression> expression_;
   std::shared_ptr<Ct::Statement> statement_;
 
  private:
