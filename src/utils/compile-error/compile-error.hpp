@@ -8,7 +8,7 @@
 
 class CompileError {
  public:
-  CompileError(const std::string& message, const Location& location);
+  CompileError(std::string message, const Location& location);
 
   ~CompileError() = default;
 
@@ -19,9 +19,8 @@ class CompileError {
   Location location_;
 };
 
-inline CompileError::CompileError(const std::string& message,
-                                  const Location& location)
-    : message_{message}, location_{location} {}
+inline CompileError::CompileError(std::string message, const Location& location)
+    : message_{std::move(message)}, location_{location} {}
 
 inline std::string CompileError::GetMessage(
     const SourceCode& sourceCode) const {

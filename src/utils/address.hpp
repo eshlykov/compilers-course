@@ -7,7 +7,7 @@ class Address {
  public:
   Address();
 
-  explicit Address(const std::string& name);
+  explicit Address(std::string name);
 
   std::string ToString() const;
 
@@ -20,6 +20,7 @@ inline Address::Address()
     : dummy_{std::make_shared<const int>(0)},
       id_{std::to_string(reinterpret_cast<unsigned long long>(dummy_.get()))} {}
 
-inline Address::Address(const std::string& name) : dummy_{nullptr}, id_{name} {}
+inline Address::Address(std::string name)
+    : dummy_{nullptr}, id_{std::move(name)} {}
 
 inline std::string Address::ToString() const { return id_; }

@@ -6,7 +6,7 @@
 
 class SourceCode {
  public:
-  explicit SourceCode(const std::string& filename);
+  explicit SourceCode(std::string filename);
 
   std::string GetFilename() const;
 
@@ -17,8 +17,8 @@ class SourceCode {
   std::vector<std::string> lines_;
 };
 
-inline SourceCode::SourceCode(const std::string& filename)
-    : filename_{filename} {
+inline SourceCode::SourceCode(std::string filename)
+    : filename_{std::move(filename)} {
   std::ifstream stream{filename_};
 
   std::string line;
@@ -29,7 +29,7 @@ inline SourceCode::SourceCode(const std::string& filename)
         ' ');
     lines_.push_back(line);
   }
-  lines_.push_back(" ");
+  lines_.emplace_back(" ");
 
   stream.close();
 }
