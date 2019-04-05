@@ -11,10 +11,14 @@ class Label : public Statement {
  public:
   explicit Label(const Address& address);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const Address address_;
 };
+
+inline Label::Label(const Address& address) : address_{address} {}
+
+inline void Label::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

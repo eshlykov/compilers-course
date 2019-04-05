@@ -12,11 +12,23 @@ class ExpressionSequence : public Expression {
   ExpressionSequence(std::shared_ptr<Statement> statement,
                      std::shared_ptr<Expression> expression);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const std::shared_ptr<Statement> statement_;
   const std::shared_ptr<Expression> expression_;
 };
+
+inline ExpressionSequence::ExpressionSequence(
+    std::shared_ptr<Statement> statement,
+    std::shared_ptr<Expression> expression)
+    : statement_{statement}, expression_{expression} {
+  assert(statement_ != nullptr);
+  assert(expression_ != nullptr);
+}
+
+inline void ExpressionSequence::Accept(Visitor* visitor) {
+  visitor->Visit(this);
+}
 
 }  // namespace Irt

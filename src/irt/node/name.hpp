@@ -16,4 +16,8 @@ class Name : public Expression {
   const Address address_;
 };
 
+inline Name::Name(const Address& address) : address_{address} {}
+
+inline void Name::Accept(Visitor* visitor) { visitor->Visit(this); }
+
 }  // namespace Irt

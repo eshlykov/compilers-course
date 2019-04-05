@@ -11,10 +11,14 @@ class Temporary : public Expression {
  public:
   explicit Temporary(Storage storage);
 
-  virtual void Accept(Visitor* visitor) override final;
+  void Accept(Visitor* visitor) final;
 
  public:
   const Storage storage_;
 };
+
+inline Temporary::Temporary(Storage storage) : storage_(storage) {}
+
+inline void Temporary::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Irt

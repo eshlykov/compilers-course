@@ -14,4 +14,8 @@ class Constant : public Expression {
   const int value_;
 };
 
+inline Constant::Constant(int value) : value_{value} {}
+
+inline void Constant::Accept(Visitor* visitor) { visitor->Visit(this); }
+
 }  // namespace Irt
