@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "../../frame/code-fragment.hpp"
+#include "../frame/code-fragment.hpp"
 #include "canonizer.hpp"
 
 namespace Ct {
