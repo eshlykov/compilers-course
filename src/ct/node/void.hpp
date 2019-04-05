@@ -9,33 +9,32 @@ class Expression;
 
 class Void : public Statement {
  public:
-  explicit Void(std::shared_ptr<Expression> expression);
+  explicit Void(ExpressionPtr expression);
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  StatementPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
-  const std::shared_ptr<Expression> expression_;
+  const ExpressionPtr expression_;
 };
 
-inline Void::Void(std::shared_ptr<Expression> expression)
+inline Void::Void(ExpressionPtr expression)
     : expression_{std::move(expression)} {
   assert(expression_ != nullptr);
 }
 
 inline void Void::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Void::Kids() {
-  return {expression_};
-}
+inline std::vector<ExpressionPtr> Void::Kids() { return {expression_}; }
 
-inline std::shared_ptr<Statement> Void::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline StatementPtr Void::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   return std::make_shared<Void>(expressionList[0]);
 }
+
+using VoidPtr = std::shared_ptr<Void>;
 
 }  // namespace Ct

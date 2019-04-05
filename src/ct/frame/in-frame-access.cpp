@@ -5,7 +5,7 @@ namespace Ct {
 
 InFrameAccess::InFrameAccess(int offset) : offset_{offset} {}
 
-std::shared_ptr<Expression> InFrameAccess::GetData() const {
+ExpressionPtr InFrameAccess::GetData() const {
   if (offset_ == 0) {
     return std::make_shared<Memory>(
         std::make_shared<Temporary>(Frame::FramePointer_));

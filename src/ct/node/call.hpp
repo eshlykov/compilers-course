@@ -8,23 +8,21 @@ namespace Ct {
 
 class Call : public Expression {
  public:
-  Call(std::shared_ptr<Expression> expression,
-       std::vector<std::shared_ptr<Expression>> expressionList);
+  Call(ExpressionPtr expression, std::vector<ExpressionPtr> expressionList);
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  ExpressionPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
-  const std::shared_ptr<Expression> expression_;
-  const std::vector<std::shared_ptr<Expression>> expressionList_;
+  const ExpressionPtr expression_;
+  const std::vector<ExpressionPtr> expressionList_;
 };
 
-inline Call::Call(std::shared_ptr<Expression> expression,
-                  std::vector<std::shared_ptr<Expression>> expressionList)
+inline Call::Call(ExpressionPtr expression,
+                  std::vector<ExpressionPtr> expressionList)
     : expression_(std::move(expression)),
       expressionList_(std::move(expressionList)) {
   assert(expression_ != nullptr);
@@ -32,18 +30,20 @@ inline Call::Call(std::shared_ptr<Expression> expression,
 
 inline void Call::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Call::Kids() {
-  std::vector<std::shared_ptr<Expression>> newVec(expressionList_.begin(),
-                                                  expressionList_.end());
+inline std::vector<ExpressionPtr> Call::Kids() {
+  std::vector<ExpressionPtr> newVec(expressionList_.begin(),
+                                    expressionList_.end());
   newVec.insert(newVec.begin(), expression_);
   return newVec;
 }
 
-inline std::shared_ptr<Expression> Call::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
-  std::vector<std::shared_ptr<Expression>> newVec(expressionList.begin() + 1,
-                                                  expressionList.end());
+inline ExpressionPtr Call::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
+  std::vector<ExpressionPtr> newVec(expressionList.begin() + 1,
+                                    expressionList.end());
   return std::make_shared<Call>(expressionList[0], newVec);
 }
+
+using CallPtr = std::shared_ptr<Call>;
 
 }  // namespace Ct

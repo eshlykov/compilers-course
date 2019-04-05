@@ -13,10 +13,9 @@ class Label : public Statement {
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  StatementPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
   const Address address_;
@@ -26,11 +25,13 @@ inline Label::Label(Address address) : address_{std::move(address)} {}
 
 inline void Label::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Label::Kids() { return {}; }
+inline std::vector<ExpressionPtr> Label::Kids() { return {}; }
 
-inline std::shared_ptr<Statement> Label::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline StatementPtr Label::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   return std::make_shared<Label>(address_);
 }
+
+using LabelPtr = std::shared_ptr<Label>;
 
 }  // namespace Ct

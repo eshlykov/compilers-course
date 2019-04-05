@@ -2,13 +2,11 @@
 
 namespace Ct {
 
-std::vector<std::shared_ptr<Statement>> Linearizer::Linearize(
-    const std::shared_ptr<Statement>& statement) {
-  return Linearize(DoStatement(statement),
-                   std::vector<std::shared_ptr<Statement>>());
+std::vector<StatementPtr> Linearizer::Linearize(const StatementPtr& statement) {
+  return Linearize(DoStatement(statement), std::vector<StatementPtr>());
 }
 
-bool Linearizer::IsNop(const std::shared_ptr<Statement>& statement) {
+bool Linearizer::IsNop(const StatementPtr& statement) {
   auto voidStatement = std::dynamic_pointer_cast<Void>(statement);
   if (voidStatement == nullptr) {
     return false;
@@ -19,8 +17,7 @@ bool Linearizer::IsNop(const std::shared_ptr<Statement>& statement) {
   return constStatement != nullptr;
 }
 
-std::shared_ptr<Statement> Linearizer::Sequence(
-    std::shared_ptr<Statement> first, std::shared_ptr<Statement> second) {
+StatementPtr Linearizer::Sequence(StatementPtr first, StatementPtr second) {
   if (IsNop(first)) {
     return second;
   }
@@ -30,21 +27,19 @@ std::shared_ptr<Statement> Linearizer::Sequence(
   return std::make_shared<StatementSequence>(first, second);
 }
 
-bool Linearizer::Commute(const std::shared_ptr<Statement>& first,
-                         const std::shared_ptr<Expression>& second) {
+bool Linearizer::Commute(const StatementPtr& first,
+                         const ExpressionPtr& second) {
   auto nameStatement = std::dynamic_pointer_cast<Name>(second);
   auto constStatement = std::dynamic_pointer_cast<Constant>(second);
   return IsNop(first) || nameStatement != nullptr || constStatement != nullptr;
 }
 
-std::shared_ptr<Statement> Linearizer::DoStatement(
-    const std::shared_ptr<StatementSequence>& statement) {
+StatementPtr Linearizer::DoStatement(const StatementSequencePtr& statement) {
   return Sequence(DoStatement(statement->leftStatement_),
                   DoStatement(statement->rightStatement_));
 }
 
-std::shared_ptr<Statement> Linearizer::DoStatement(
-    const std::shared_ptr<Move>& moveStatement) {
+StatementPtr Linearizer::DoStatement(const MovePtr& moveStatement) {
   auto temporary =
       std::dynamic_pointer_cast<Temporary>(moveStatement->destination_);
   auto call = std::dynamic_pointer_cast<Call>(moveStatement->source_);
@@ -64,8 +59,7 @@ std::shared_ptr<Statement> Linearizer::DoStatement(
   return ReorderStatement(moveStatement);
 }
 
-std::shared_ptr<Statement> Linearizer::DoStatement(
-    const std::shared_ptr<Void>& voidStatement) {
+StatementPtr Linearizer::DoStatement(const VoidPtr& voidStatement) {
   auto call = std::dynamic_pointer_cast<Call>(voidStatement);
   if (call != nullptr) {
     return ReorderStatement(std::make_shared<ExpressionCall>(call));
@@ -74,8 +68,7 @@ std::shared_ptr<Statement> Linearizer::DoStatement(
   return ReorderStatement(voidStatement);
 }
 
-std::shared_ptr<Statement> Linearizer::DoStatement(
-    const std::shared_ptr<Statement>& statement) {
+StatementPtr Linearizer::DoStatement(const StatementPtr& statement) {
   auto statementSequence =
       std::dynamic_pointer_cast<StatementSequence>(statement);
   if (statementSequence != nullptr) {
@@ -95,24 +88,22 @@ std::shared_ptr<Statement> Linearizer::DoStatement(
   return ReorderStatement(statement);
 }
 
-std::shared_ptr<Statement> Linearizer::ReorderStatement(
-    const std::shared_ptr<Statement>& statement) {
+StatementPtr Linearizer::ReorderStatement(const StatementPtr& statement) {
   std::shared_ptr<StatementExpressionList> list = Reorder(statement->Kids());
   return Sequence(list->Statement_, statement->Build(list->Expressions_));
 }
 
-std::shared_ptr<ExpressionSequence> Linearizer::DoExpression(
-    const std::shared_ptr<ExpressionSequence>& expressionSequence) {
-  std::shared_ptr<Statement> statements =
-      DoStatement(expressionSequence->statement_);
-  std::shared_ptr<ExpressionSequence> expression =
+ExpressionSequencePtr Linearizer::DoExpression(
+    const ExpressionSequencePtr& expressionSequence) {
+  StatementPtr statements = DoStatement(expressionSequence->statement_);
+  ExpressionSequencePtr expression =
       DoExpression(expressionSequence->expression_);
   return std::make_shared<ExpressionSequence>(
       Sequence(statements, expression->statement_), expression->expression_);
 }
 
-std::shared_ptr<ExpressionSequence> Linearizer::DoExpression(
-    const std::shared_ptr<Expression>& expression) {
+ExpressionSequencePtr Linearizer::DoExpression(
+    const ExpressionPtr& expression) {
   auto expressionSequence =
       std::dynamic_pointer_cast<ExpressionSequence>(expression);
   if (expressionSequence != nullptr) {
@@ -122,42 +113,40 @@ std::shared_ptr<ExpressionSequence> Linearizer::DoExpression(
   return ReorderExpression(expression);
 }
 
-std::shared_ptr<ExpressionSequence> Linearizer::ReorderExpression(
-    const std::shared_ptr<Expression>& expression) {
+ExpressionSequencePtr Linearizer::ReorderExpression(
+    const ExpressionPtr& expression) {
   std::shared_ptr<StatementExpressionList> list = Reorder(expression->Kids());
   return std::make_shared<ExpressionSequence>(
       list->Statement_, expression->Build(list->Expressions_));
 }
 
 std::shared_ptr<StatementExpressionList> Linearizer::Reorder(
-    const std::vector<std::shared_ptr<Expression>>& list) {
+    const std::vector<ExpressionPtr>& list) {
   if (list.empty()) {
     return NopNull;
   }
 
-  std::shared_ptr<Expression> head = list.front();
+  ExpressionPtr head = list.front();
 
   auto callExpression = std::dynamic_pointer_cast<Call>(head);
   if (callExpression != nullptr) {
     Storage storage;
-    std::shared_ptr<Expression> justExpression =
-        std::make_shared<ExpressionSequence>(
-            std::make_shared<Move>(std::make_shared<Temporary>(storage), head),
-            std::make_shared<Temporary>(storage));
-    std::vector<std::shared_ptr<Expression>> listCopy = list;
+    ExpressionPtr justExpression = std::make_shared<ExpressionSequence>(
+        std::make_shared<Move>(std::make_shared<Temporary>(storage), head),
+        std::make_shared<Temporary>(storage));
+    std::vector<ExpressionPtr> listCopy = list;
     listCopy.front() = justExpression;
     return Reorder(listCopy);
   }
 
-  std::shared_ptr<ExpressionSequence> expressionSequence = DoExpression(head);
-  std::vector<std::shared_ptr<Expression>> listSinceSecond;
+  ExpressionSequencePtr expressionSequence = DoExpression(head);
+  std::vector<ExpressionPtr> listSinceSecond;
   std::copy(list.begin() + 1, list.end(), std::back_inserter(listSinceSecond));
   std::shared_ptr<StatementExpressionList> statementExpressionList =
       Reorder(listSinceSecond);
   if (Commute(statementExpressionList->Statement_,
               expressionSequence->expression_)) {
-    std::vector<std::shared_ptr<Expression>> newList{
-        expressionSequence->expression_};
+    std::vector<ExpressionPtr> newList{expressionSequence->expression_};
     std::copy(statementExpressionList->Expressions_.begin(),
               statementExpressionList->Expressions_.end(),
               std::back_inserter(newList));
@@ -168,8 +157,7 @@ std::shared_ptr<StatementExpressionList> Linearizer::Reorder(
   }
 
   Storage storage;
-  std::vector<std::shared_ptr<Expression>> newList{
-      std::make_shared<Temporary>(storage)};
+  std::vector<ExpressionPtr> newList{std::make_shared<Temporary>(storage)};
   std::copy(statementExpressionList->Expressions_.begin(),
             statementExpressionList->Expressions_.end(),
             std::back_inserter(newList));
@@ -182,23 +170,22 @@ std::shared_ptr<StatementExpressionList> Linearizer::Reorder(
       newList);
 }
 
-std::vector<std::shared_ptr<Statement>> Linearizer::Linearize(
-    const std::shared_ptr<StatementSequence>& statement,
-    const std::vector<std::shared_ptr<Statement>>& list) {
+std::vector<StatementPtr> Linearizer::Linearize(
+    const StatementSequencePtr& statement,
+    const std::vector<StatementPtr>& list) {
   return Linearize(statement->leftStatement_,
                    Linearize(statement->rightStatement_, list));
 }
 
-std::vector<std::shared_ptr<Statement>> Linearizer::Linearize(
-    const std::shared_ptr<Statement>& statement,
-    const std::vector<std::shared_ptr<Statement>>& list) {
+std::vector<StatementPtr> Linearizer::Linearize(
+    const StatementPtr& statement, const std::vector<StatementPtr>& list) {
   auto statementSequence =
       std::dynamic_pointer_cast<StatementSequence>(statement);
   if (statementSequence != nullptr) {
     return Linearize(statementSequence, list);
   }
 
-  std::vector<std::shared_ptr<Statement>> listCopy{statement};
+  std::vector<StatementPtr> listCopy{statement};
   std::copy(list.begin(), list.end(), std::back_inserter(listCopy));
   return listCopy;
 }

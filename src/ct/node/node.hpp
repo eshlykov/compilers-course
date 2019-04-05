@@ -14,4 +14,6 @@ class Node {
   virtual void Accept(Visitor*) = 0;
 };
 
+using NodePtr = std::shared_ptr<Node>;
+
 }  // namespace Ct

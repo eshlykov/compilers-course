@@ -19,17 +19,15 @@ void Frame::AddLocalVariable(const std::string& name) {
   AddInStorage(name, localVariables_);
 }
 
-std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
+ExpressionPtr Frame::GetData(const std::string& name) {
   std::shared_ptr<const Access> access =
       FindFormalParameterOrLocalVariable(name);
   return access != nullptr ? access->GetData() : nullptr;
 }
 
-std::shared_ptr<Expression> Frame::GetThis() { return thisPointer_.GetData(); }
+ExpressionPtr Frame::GetThis() { return thisPointer_.GetData(); }
 
-std::shared_ptr<Expression> Frame::GetResultStorage() {
-  return resultStorage_.GetData();
-}
+ExpressionPtr Frame::GetResultStorage() { return resultStorage_.GetData(); }
 
 std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(
     const std::string& name) const {

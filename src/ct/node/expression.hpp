@@ -14,4 +14,6 @@ class Expression : public Node {
       const std::vector<std::shared_ptr<Expression>>& expressionList) = 0;
 };
 
+using ExpressionPtr = std::shared_ptr<Expression>;
+
 }  // namespace Ct

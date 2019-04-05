@@ -9,23 +9,20 @@ class Expression;
 
 class Move : public Statement {
  public:
-  Move(std::shared_ptr<Expression> destination,
-       std::shared_ptr<Expression> source);
+  Move(ExpressionPtr destination, ExpressionPtr source);
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  StatementPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
-  const std::shared_ptr<Expression> destination_;
-  const std::shared_ptr<Expression> source_;
+  const ExpressionPtr destination_;
+  const ExpressionPtr source_;
 };
 
-inline Move::Move(std::shared_ptr<Expression> destination,
-                  std::shared_ptr<Expression> source)
+inline Move::Move(ExpressionPtr destination, ExpressionPtr source)
     : destination_{std::move(destination)}, source_{std::move(source)} {
   assert(destination_ != nullptr);
   assert(source_ != nullptr);
@@ -33,7 +30,7 @@ inline Move::Move(std::shared_ptr<Expression> destination,
 
 inline void Move::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Move::Kids() {
+inline std::vector<ExpressionPtr> Move::Kids() {
   auto memory = std::dynamic_pointer_cast<Memory>(destination_);
   if (memory != nullptr) {
     return {memory, source_};
@@ -41,8 +38,8 @@ inline std::vector<std::shared_ptr<Expression>> Move::Kids() {
   return {source_};
 }
 
-inline std::shared_ptr<Statement> Move::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline StatementPtr Move::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   auto memory = std::dynamic_pointer_cast<Memory>(destination_);
   if (memory != nullptr) {
     return std::make_shared<Move>(std::make_shared<Memory>(expressionList[0]),
@@ -50,5 +47,7 @@ inline std::shared_ptr<Statement> Move::Build(
   }
   return std::make_shared<Move>(destination_, expressionList[0]);
 }
+
+using MovePtr = std::shared_ptr<Move>;
 
 }  // namespace Ct

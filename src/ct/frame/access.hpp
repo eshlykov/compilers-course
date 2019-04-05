@@ -9,7 +9,7 @@ class Access {
  public:
   virtual ~Access() = default;
 
-  virtual std::shared_ptr<Expression> GetData() const = 0;
+  virtual ExpressionPtr GetData() const = 0;
 };
 
 }  // namespace Ct

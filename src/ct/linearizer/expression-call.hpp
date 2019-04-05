@@ -8,29 +8,27 @@ namespace Ct {
 
 class ExpressionCall : public Statement {
  public:
-  explicit ExpressionCall(std::shared_ptr<Call> call);
+  explicit ExpressionCall(CallPtr call);
 
   void Accept(Visitor*) final {}
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& kids) final;
+  StatementPtr Build(const std::vector<ExpressionPtr>& kids) final;
 
  private:
-  std::shared_ptr<Call> Call_;
+  CallPtr call_;
 };
 
-inline ExpressionCall::ExpressionCall(std::shared_ptr<Call> call)
-    : Call_(std::move(call)) {}
+inline ExpressionCall::ExpressionCall(CallPtr call) : call_(std::move(call)) {}
 
-inline std::vector<std::shared_ptr<Expression>> ExpressionCall::Kids() {
-  return Call_->Kids();
+inline std::vector<ExpressionPtr> ExpressionCall::Kids() {
+  return call_->Kids();
 }
 
-inline std::shared_ptr<Statement> ExpressionCall::Build(
-    const std::vector<std::shared_ptr<Expression>>& kids) {
-  return std::make_shared<Void>(Call_->Build(kids));
+inline StatementPtr ExpressionCall::Build(
+    const std::vector<ExpressionPtr>& kids) {
+  return std::make_shared<Void>(call_->Build(kids));
 }
 
 }  // namespace Ct

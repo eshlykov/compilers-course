@@ -12,58 +12,46 @@ namespace Ct {
 
 class Linearizer : public Visitor {
  public:
-  std::vector<std::shared_ptr<Statement>> Linearize(
-      const std::shared_ptr<Statement>& statement);
+  std::vector<StatementPtr> Linearize(const StatementPtr& statement);
 
  private:
-  static bool IsNop(const std::shared_ptr<Statement>& statement);
+  static bool IsNop(const StatementPtr& statement);
 
-  static std::shared_ptr<Statement> Sequence(std::shared_ptr<Statement> first,
-                                             std::shared_ptr<Statement> second);
+  static StatementPtr Sequence(StatementPtr first, StatementPtr second);
 
-  static bool Commute(const std::shared_ptr<Statement>& first,
-                      const std::shared_ptr<Expression>& second);
+  static bool Commute(const StatementPtr& first, const ExpressionPtr& second);
 
-  std::shared_ptr<Statement> DoStatement(
-      const std::shared_ptr<StatementSequence>& statement);
+  StatementPtr DoStatement(const StatementSequencePtr& statement);
 
-  std::shared_ptr<Statement> DoStatement(
-      const std::shared_ptr<Move>& moveStatement);
+  StatementPtr DoStatement(const MovePtr& moveStatement);
 
-  std::shared_ptr<Statement> DoStatement(
-      const std::shared_ptr<Void>& voidStatement);
+  StatementPtr DoStatement(const VoidPtr& voidStatement);
 
-  std::shared_ptr<Statement> DoStatement(
-      const std::shared_ptr<Statement>& statement);
+  StatementPtr DoStatement(const StatementPtr& statement);
 
-  std::shared_ptr<Statement> ReorderStatement(
-      const std::shared_ptr<Statement>& statement);
+  StatementPtr ReorderStatement(const StatementPtr& statement);
 
-  std::shared_ptr<ExpressionSequence> DoExpression(
-      const std::shared_ptr<ExpressionSequence>& expressionSequence);
+  ExpressionSequencePtr DoExpression(
+      const ExpressionSequencePtr& expressionSequence);
 
-  std::shared_ptr<ExpressionSequence> DoExpression(
-      const std::shared_ptr<Expression>& expression);
+  ExpressionSequencePtr DoExpression(const ExpressionPtr& expression);
 
-  std::shared_ptr<ExpressionSequence> ReorderExpression(
-      const std::shared_ptr<Expression>& expression);
+  ExpressionSequencePtr ReorderExpression(const ExpressionPtr& expression);
 
   std::shared_ptr<StatementExpressionList> Reorder(
-      const std::vector<std::shared_ptr<Expression>>& list);
+      const std::vector<ExpressionPtr>& list);
 
-  std::vector<std::shared_ptr<Statement>> Linearize(
-      const std::shared_ptr<StatementSequence>& statement,
-      const std::vector<std::shared_ptr<Statement>>& list);
+  std::vector<StatementPtr> Linearize(const StatementSequencePtr& statement,
+                                      const std::vector<StatementPtr>& list);
 
-  std::vector<std::shared_ptr<Statement>> Linearize(
-      const std::shared_ptr<Statement>& statement,
-      const std::vector<std::shared_ptr<Statement>>& list);
+  std::vector<StatementPtr> Linearize(const StatementPtr& statement,
+                                      const std::vector<StatementPtr>& list);
 
  private:
   const std::shared_ptr<StatementExpressionList> NopNull =
       std::make_shared<StatementExpressionList>(
           std::make_shared<Void>(std::make_shared<Constant>(0)),
-          std::vector<std::shared_ptr<Expression>>());
+          std::vector<ExpressionPtr>());
 };
 
 }  // namespace Ct

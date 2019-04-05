@@ -19,11 +19,11 @@ class Frame {
 
   void AddLocalVariable(const std::string& name);
 
-  std::shared_ptr<Expression> GetData(const std::string& name);
+  ExpressionPtr GetData(const std::string& name);
 
-  std::shared_ptr<Expression> GetThis();
+  ExpressionPtr GetThis();
 
-  std::shared_ptr<Expression> GetResultStorage();
+  ExpressionPtr GetResultStorage();
 
  private:
   using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;

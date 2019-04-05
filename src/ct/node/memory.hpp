@@ -7,33 +7,32 @@ namespace Ct {
 
 class Memory : public Expression {
  public:
-  explicit Memory(std::shared_ptr<Expression> expression);
+  explicit Memory(ExpressionPtr expression);
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  ExpressionPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
-  const std::shared_ptr<Expression> expression_;
+  const ExpressionPtr expression_;
 };
 
-inline Memory::Memory(std::shared_ptr<Expression> expression)
+inline Memory::Memory(ExpressionPtr expression)
     : expression_{std::move(expression)} {
   assert(expression_ != nullptr);
 }
 
 inline void Memory::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Memory::Kids() {
-  return {expression_};
-}
+inline std::vector<ExpressionPtr> Memory::Kids() { return {expression_}; }
 
-inline std::shared_ptr<Expression> Memory::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline ExpressionPtr Memory::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   return std::make_shared<Memory>(expressionList[0]);
 }
+
+using MemoryPtr = std::shared_ptr<Memory>;
 
 }  // namespace Ct

@@ -12,10 +12,9 @@ class Name : public Expression {
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Expression> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  ExpressionPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
   const Address address_;
@@ -25,11 +24,13 @@ inline Name::Name(Address address) : address_{std::move(address)} {}
 
 inline void Name::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Name::Kids() { return {}; }
+inline std::vector<ExpressionPtr> Name::Kids() { return {}; }
 
-inline std::shared_ptr<Expression> Name::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline ExpressionPtr Name::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   return std::make_shared<Name>(address_);
 }
+
+using NamePtr = std::shared_ptr<Name>;
 
 }  // namespace Ct

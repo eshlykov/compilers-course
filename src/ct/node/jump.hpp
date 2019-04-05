@@ -16,13 +16,12 @@ class Jump : public Statement {
 
   void Accept(Visitor* visitor) final;
 
-  std::vector<std::shared_ptr<Expression>> Kids() final;
+  std::vector<ExpressionPtr> Kids() final;
 
-  std::shared_ptr<Statement> Build(
-      const std::vector<std::shared_ptr<Expression>>& expressionList) final;
+  StatementPtr Build(const std::vector<ExpressionPtr>& expressionList) final;
 
  public:
-  const std::shared_ptr<Expression> expression_;
+  const ExpressionPtr expression_;
   const Address address_;
 };
 
@@ -34,13 +33,13 @@ inline Jump::Jump(Address address)
 
 inline void Jump::Accept(Visitor* visitor) { visitor->Visit(this); }
 
-inline std::vector<std::shared_ptr<Expression>> Jump::Kids() {
-  return {expression_};
-}
+inline std::vector<ExpressionPtr> Jump::Kids() { return {expression_}; }
 
-inline std::shared_ptr<Statement> Jump::Build(
-    const std::vector<std::shared_ptr<Expression>>& expressionList) {
+inline StatementPtr Jump::Build(
+    const std::vector<ExpressionPtr>& expressionList) {
   return std::make_shared<Jump>(address_);
 }
+
+using JumpPtr = std::shared_ptr<Jump>;
 
 }  // namespace Ct
