@@ -4,9 +4,9 @@
 
 namespace Ct {
 
-Frame::Frame(const std::string &name, Address returnAddress)
+Frame::Frame(std::string name, Address returnAddress)
     : returnAddress_{std::move(returnAddress)},
-      name_{name},
+      name_{std::move(name)},
       resultStorage_{InFrameAccess{WordSize_}},
       thisPointer_{InFrameAccess{2 * WordSize_}},
       size_{3 * WordSize_} {}

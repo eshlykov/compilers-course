@@ -16,7 +16,7 @@ class Linearizer : public Visitor {
       const std::shared_ptr<Statement> &statement);
 
  private:
-  bool IsNop(const std::shared_ptr<Statement> &statement);
+  static bool IsNop(const std::shared_ptr<Statement> &statement);
 
   std::shared_ptr<Statement> Sequence(std::shared_ptr<Statement> first,
                                       std::shared_ptr<Statement> second);

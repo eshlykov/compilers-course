@@ -13,7 +13,7 @@ namespace Ct {
 
 class Frame {
  public:
-  explicit Frame(const std::string &name, Address returnAddress = {});
+  explicit Frame(std::string name, Address returnAddress = {});
 
   void AddFormalParameter(const std::string &name);
 

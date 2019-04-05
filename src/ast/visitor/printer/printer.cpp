@@ -59,8 +59,6 @@ void Printer::Visit(BinaryOperatorExpression *node) {
     case BinaryOperator::Star:
       PrintHead(headNodeNumber, "BinaryOperator : *");
       break;
-    default:
-      break;
   }
 
   ++nodeNumber_;
