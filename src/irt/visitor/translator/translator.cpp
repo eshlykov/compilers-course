@@ -18,8 +18,8 @@ void Translator::Visit(BinaryOperator* node) {
       ToCtArithmeticOperator(node->arithmeticOperator_);
   assert(arithmeticOperator.has_value());
 
-  expression_ = std::make_shared<Ct::BinaryOperator>(arithmeticOperator.value(),
-                                              leftExpression, rightExpression);
+  expression_ = std::make_shared<Ct::BinaryOperator>(
+      arithmeticOperator.value(), leftExpression, rightExpression);
 }
 
 void Translator::Visit(Call* node) {
@@ -58,7 +58,7 @@ void Translator::Visit(ExpressionSequence* node) {
 }
 
 void Translator::Visit(Jump* node) {
-  statement_ = std::make_shared<Ct::Jump>(node->addresses_);
+  statement_ = std::make_shared<Ct::Jump>(node->addresses_[0]);
 }
 
 void Translator::Visit(Label* node) {
@@ -93,7 +93,8 @@ void Translator::Visit(StatementSequence* node) {
   node->rightStatement_->Accept(this);
   std::shared_ptr<Ct::Statement> rightStatement = statement_;
 
-  statement_ = std::make_shared<Ct::StatementSequence>(leftStatement, rightStatement);
+  statement_ =
+      std::make_shared<Ct::StatementSequence>(leftStatement, rightStatement);
 }
 
 void Translator::Visit(Temporary* node) {
