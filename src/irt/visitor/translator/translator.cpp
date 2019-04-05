@@ -48,7 +48,6 @@ void Translator::Visit(Constant* node) {
 }
 
 void Translator::Visit(ExpressionSequence* node) {
-
   node->expression_->Accept(this);
   std::shared_ptr<Ct::Expression> expression = expression_;
 
@@ -68,11 +67,25 @@ void Translator::Visit(Move* node) {}
 
 void Translator::Visit(Name* node) {}
 
-void Translator::Visit(StatementSequence* node) {}
+void Translator::Visit(StatementSequence* node) {
+  node->leftStatement_->Accept(this);
+  std::shared_ptr<Ct::Statement> leftStatement = statement_;
 
-void Translator::Visit(Temporary* node) {}
+  node->rightStatement_->Accept(this);
+  std::shared_ptr<Ct::Statement> rightStatement = statement_;
 
-void Translator::Visit(Void* node) {}
+  statement_ = std::make_shared<Ct::StatementSequence>(leftStatement, rightStatement);
+}
+
+void Translator::Visit(Temporary* node) {
+  expression_ = std::make_shared<Ct::Temporary>(node->storage_);
+}
+
+void Translator::Visit(Void* node) {
+  node->expression_->Accept(this);
+  std::shared_ptr<Ct::Expression> expression = expression_;
+  statement_ = std::make_shared<Ct::Void>(expression);
+}
 
 std::optional<Ct::ArithmeticOperator> Translator::ToCtArithmeticOperator(
     ArithmeticOperator arithmeticOperator) {
