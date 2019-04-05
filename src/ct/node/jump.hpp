@@ -27,7 +27,8 @@ class Jump : public Statement {
 };
 
 inline Jump::Jump(Address address)
-    : expression_{std::make_shared<Name>(address)}, addresses_{std::move(address)} {
+    : expression_{std::make_shared<Name>(address)},
+      addresses_{std::move(address)} {
   assert(expression_ != nullptr);
 }
 

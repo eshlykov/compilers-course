@@ -22,8 +22,8 @@ class AssignmentByIndexStatement : public Statement {
 };
 
 inline AssignmentByIndexStatement::AssignmentByIndexStatement(
-    Location location, std::string array,
-    std::unique_ptr<Expression> index, std::unique_ptr<Expression> expression)
+    Location location, std::string array, std::unique_ptr<Expression> index,
+    std::unique_ptr<Expression> expression)
     : array_{std::move(array)},
       index_{std::move(index)},
       expression_{std::move(expression)} {

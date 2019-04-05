@@ -7,8 +7,7 @@ namespace Ast {
 
 class UserTypeConstructorExpression : public Expression {
  public:
-  explicit UserTypeConstructorExpression(Location location,
-                                         std::string name);
+  explicit UserTypeConstructorExpression(Location location, std::string name);
 
   void Accept(Visitor* visitor) final;
 

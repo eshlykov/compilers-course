@@ -18,10 +18,10 @@ class Call : public Expression {
   const std::vector<std::shared_ptr<Expression>> expressionList_;
 };
 
-inline Call::Call(
-    std::shared_ptr<Expression> expression,
-    std::vector<std::shared_ptr<Expression>> expressionList)
-    : expression_(std::move(expression)), expressionList_(std::move(expressionList)) {
+inline Call::Call(std::shared_ptr<Expression> expression,
+                  std::vector<std::shared_ptr<Expression>> expressionList)
+    : expression_(std::move(expression)),
+      expressionList_(std::move(expressionList)) {
   assert(expression_ != nullptr);
 }
 

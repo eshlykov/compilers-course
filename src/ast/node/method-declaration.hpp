@@ -27,8 +27,7 @@ class MethodDeclaration : public Node {
 };
 
 inline MethodDeclaration::MethodDeclaration(
-    Location location, std::unique_ptr<Type> resultType,
-    std::string methodName,
+    Location location, std::unique_ptr<Type> resultType, std::string methodName,
     std::vector<std::unique_ptr<VarDeclaration>>& argumentsList,
     std::unique_ptr<MethodBody> methodBody)
     : resultType_{std::move(resultType)},
