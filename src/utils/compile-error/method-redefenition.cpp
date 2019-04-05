@@ -1,7 +1,7 @@
 #include "method-redefenition.hpp"
-#include "../location.hpp"
 #include <string>
+#include "../location.hpp"
 
-MethodRedefinition::MethodRedefinition(const std::string& message, const Location& location) :
-    CompileError(message, location) {
-}
+MethodRedefinition::MethodRedefinition(const std::string& message,
+                                       const Location& location)
+    : CompileError(message, location) {}
