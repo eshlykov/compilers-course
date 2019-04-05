@@ -8,7 +8,15 @@ namespace Ast {
     public:
         explicit ThisExpression(Location location);
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
     };
+
+    inline ThisExpression::ThisExpression(Location location) {
+        SetLocation(location);
+    }
+
+    inline void ThisExpression::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

@@ -12,10 +12,24 @@ namespace Ast {
 
         Type(Location location, TypeKind typeKind);
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const std::variant<TypeKind, std::string> type_;
     };
+
+    inline Type::Type(Location location, const std::string& className) :
+        type_{className} {
+        SetLocation(location);
+    }
+
+    inline Type::Type(Location location, TypeKind typeKind) :
+        type_{typeKind} {
+        SetLocation(location);
+    }
+
+    inline void Type::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

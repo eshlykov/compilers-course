@@ -11,10 +11,20 @@ namespace Ast {
             const std::string& name);
 
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const std::string name_;
     };
+
+    inline IdentifierExpression::IdentifierExpression(Location location,
+        const std::string& name) :
+        name_{name} {
+        SetLocation(location);
+    }
+
+    inline void IdentifierExpression::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

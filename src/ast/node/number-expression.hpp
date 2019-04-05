@@ -9,10 +9,20 @@ namespace Ast {
         explicit NumberExpression(Location location,
             int value);
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const int value_;
     };
+
+    inline NumberExpression::NumberExpression(Location location,
+        int value) :
+        value_{value} {
+        SetLocation(location);
+    }
+
+    inline void NumberExpression::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

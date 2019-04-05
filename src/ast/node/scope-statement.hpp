@@ -12,10 +12,20 @@ namespace Ast {
             std::vector<std::unique_ptr<Statement>>& statements);
 
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const std::vector<std::unique_ptr<Statement>> statements_;
     };
+
+    inline ScopeStatement::ScopeStatement(Location location,
+        std::vector<std::unique_ptr<Statement>>& statements) :
+        statements_{std::move(statements)} {
+        SetLocation(location);
+    }
+
+    inline void ScopeStatement::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

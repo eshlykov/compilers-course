@@ -29,4 +29,12 @@ namespace Ast {
         Location location_;
     };
 
+    inline void Node::SetLocation(const Location& location) {
+        location_ = location;
+    }
+
+    inline const Location& Node::GetLocation() const {
+        return location_;
+    }
+
 }

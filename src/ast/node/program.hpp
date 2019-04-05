@@ -14,11 +14,24 @@ namespace Ast {
             std::unique_ptr<MainClass> mainClass,
             std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations);
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const std::unique_ptr<MainClass> mainClass_;
         const std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
     };
+
+    inline Program::Program(Location location,
+        std::unique_ptr<MainClass> mainClass,
+        std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations) :
+        mainClass_{std::move(mainClass)},
+        classDeclarations_{std::move(classDeclarations)} {
+        SetLocation(location);
+        assert(mainClass_ != nullptr);
+    }
+
+    inline void Program::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }

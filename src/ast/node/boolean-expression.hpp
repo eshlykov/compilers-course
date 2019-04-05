@@ -9,10 +9,20 @@ namespace Ast {
         explicit BooleanExpression(Location location,
             bool value);
 
-        virtual void Accept(Visitor* visitor) override final;
+        void Accept(Visitor* visitor) final;
 
     public:
         const bool value_;
     };
+
+    inline BooleanExpression::BooleanExpression(Location location,
+        bool value) :
+        value_{value} {
+        SetLocation(location);
+    }
+
+    inline void BooleanExpression::Accept(Visitor* visitor) {
+        visitor->Visit(this);
+    }
 
 }
