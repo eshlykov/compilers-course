@@ -35,7 +35,6 @@ class Frame {
   std::vector<KeyType> GetLocalVariables() const;
 
  private:
-
   std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(
       const std::string& name) const;
 

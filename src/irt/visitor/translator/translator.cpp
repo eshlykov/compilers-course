@@ -113,9 +113,7 @@ void Translator::Visit(Void* node) {
   statement_ = std::make_shared<Ct::Void>(expression);
 }
 
-std::shared_ptr<Ct::Statement> Translator::GetStatement() {
-  return statement_;
-}
+std::shared_ptr<Ct::Statement> Translator::GetStatement() { return statement_; }
 
 Ct::ArithmeticOperator Translator::ToCtArithmeticOperator(
     ArithmeticOperator arithmeticOperator) {

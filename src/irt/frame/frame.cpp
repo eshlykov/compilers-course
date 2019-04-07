@@ -54,9 +54,7 @@ std::shared_ptr<const Access> Frame::FindInStorage(
   return iter != storage.end() ? iter->second : nullptr;
 }
 
-int Frame::Size() const {
-  return size_;
-}
+int Frame::Size() const { return size_; }
 
 std::vector<Frame::KeyType> Frame::GetFormalParameters() const {
   return formalParameters_;

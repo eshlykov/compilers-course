@@ -6,9 +6,9 @@
 #include "ast/visitor/printer/printer.hpp"
 #include "ast/visitor/symbol-table/symbol-table.hpp"
 #include "ast/visitor/translator/translator.hpp"
+#include "ct/visitor/printer/code-fragment-printer.hpp"
 #include "irt/visitor/printer/code-fragment-printer.hpp"
 #include "irt/visitor/translator/code-fragment-translator.hpp"
-#include "ct/visitor/printer/code-fragment-printer.hpp"
 #include "utils/compile-error/compile-error.hpp"
 #include "utils/parser-args.hpp"
 #include "utils/source-code.hpp"
@@ -94,10 +94,11 @@ int main(int argc, char* argv[]) {
   Ast::Translator translator;
   translator.Visit(program.get());
 
-//  Irt::Print(ParseDrawingFilenameFromArguments(argc, argv),
-//             translator.GetCodeFragment());
+  //  Irt::Print(ParseDrawingFilenameFromArguments(argc, argv),
+  //             translator.GetCodeFragment());
 
-  std::shared_ptr<Ct::CodeFragment> codeFragment = Irt::Translate(translator.GetCodeFragment());
+  std::shared_ptr<Ct::CodeFragment> codeFragment =
+      Irt::Translate(translator.GetCodeFragment());
 
   Ct::Print(ParseDrawingFilenameFromArguments(argc, argv), codeFragment);
 }
