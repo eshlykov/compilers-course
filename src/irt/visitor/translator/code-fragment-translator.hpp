@@ -2,16 +2,16 @@
 
 #include <memory>
 #include <string>
-#include "../../../irt/frame/code-fragment.hpp"
+#include "../../../ct/frame/code-fragment.hpp"
 #include "../../frame/code-fragment.hpp"
 #include "printer.hpp"
 
-namespace Ct {
+namespace Irt {
 
-std::shared_ptr<Ct::CodeFragment> Translate(std::shared_ptr<Irt::CodeFragment> codeFragment) {
+std::shared_ptr<Ct::CodeFragment> Translate(std::shared_ptr<CodeFragment> codeFragment) {
   Translator translator;
-  std::shared_ptr<CodeFragment> head = nullptr;
-  std::shared_ptr<CodeFragment> tail = nullptr;
+  std::shared_ptr<Ct::CodeFragment> head = nullptr;
+  std::shared_ptr<Ct::CodeFragment> tail = nullptr;
 
   while (codeFragment != nullptr) {
     translator.Visit(codeFragment->body_.get());
