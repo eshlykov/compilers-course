@@ -14,7 +14,7 @@ namespace Ct {
 
 class Frame {
  public:
-  explicit Frame(const Irt::Frame& frame);
+  explicit Frame(const std::shared_ptr<Irt::Frame>& frame);
 
  private:
 

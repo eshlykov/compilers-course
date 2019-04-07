@@ -4,7 +4,7 @@
 #include <string>
 #include "../../../ct/frame/code-fragment.hpp"
 #include "../../frame/code-fragment.hpp"
-#include "printer.hpp"
+#include "translator.hpp"
 
 namespace Irt {
 
@@ -21,7 +21,7 @@ std::shared_ptr<Ct::CodeFragment> Translate(std::shared_ptr<CodeFragment> codeFr
       head = temp;
       tail = temp;
     } else {
-      tail->next = temp;
+      tail->next_ = temp;
       tail = temp;
     }
 

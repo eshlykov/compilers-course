@@ -10,7 +10,7 @@
 
 namespace Ct {
 
-class Linearizer : public Visitor {
+class Linearizer {
  public:
   std::vector<StatementPtr> Linearize(const StatementPtr& statement);
 
