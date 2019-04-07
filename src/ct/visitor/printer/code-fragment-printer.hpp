@@ -11,8 +11,12 @@ void Print(const std::string& filename,
            std::shared_ptr<CodeFragment> codeFragment) {
   Printer printer{filename};
   while (codeFragment != nullptr) {
-    printer.Visit(codeFragment->body_.get());
-    printer.Next();
+    StatementSequencePtr body = codeFragment->body_;
+    std::vector<Statement> statements = Linearizer::Linearize(body);
+    for (auto&& statement : statements) {
+      printer.Visit(statement);
+      printer.Next();
+    }
     codeFragment = codeFragment->next_;
   }
 }
