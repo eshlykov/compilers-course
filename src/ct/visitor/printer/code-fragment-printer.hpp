@@ -17,9 +17,10 @@ void Print(const std::string& filename,
     StatementSequencePtr body = codeFragment->body_;
     std::vector<StatementPtr> statements = linearizer.Linearize(body);
     for (auto&& statement : statements) {
-      if (auto tmp = std::dynamic_pointer_cast<ConditionalJump>(statement);
-          tmp != nullptr) {
-        printer.Visit(tmp.get());
+      if (auto conditionalJump =
+              std::dynamic_pointer_cast<ConditionalJump>(statement);
+          conditionalJump != nullptr) {
+        printer.Visit(conditionalJump.get());
       } else if (auto jump = std::dynamic_pointer_cast<Jump>(statement);
                  jump != nullptr) {
         printer.Visit(jump.get());
