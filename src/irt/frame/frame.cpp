@@ -54,6 +54,18 @@ std::shared_ptr<const Access> Frame::FindInStorage(
   return iter != storage.end() ? iter->second : nullptr;
 }
 
+int Frame::Size() const {
+  return size_;
+}
+
+std::vector<Frame::KeyType> Frame::GetFormalParameters() const {
+  return formalParameters_;
+}
+
+std::vector<Frame::KeyType> Frame::GetLocalVariables() const {
+  return localVariables_;
+}
+
 const Storage Frame::FramePointer_;
 
 }  // namespace Irt

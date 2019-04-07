@@ -13,6 +13,9 @@ namespace Irt {
 
 class Frame {
  public:
+  using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
+
+ public:
   explicit Frame(std::string name, Address returnAddress = {});
 
   void AddFormalParameter(const std::string& name);
@@ -25,8 +28,13 @@ class Frame {
 
   std::shared_ptr<Expression> GetResultStorage();
 
+  int Size() const;
+
+  std::vector<KeyType> GetFormalParameters() const;
+
+  std::vector<KeyType> GetLocalVariables() const;
+
  private:
-  using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
 
   std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(
       const std::string& name) const;
@@ -42,9 +50,9 @@ class Frame {
 
  public:
   const Address returnAddress_;
+  const std::string name_;
 
  private:
-  const std::string name_;
   const InFrameAccess resultStorage_;
   const InFrameAccess thisPointer_;
   int size_;
