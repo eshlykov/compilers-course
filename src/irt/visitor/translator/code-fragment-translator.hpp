@@ -1,0 +1,34 @@
+#pragma once
+
+#include <memory>
+#include <string>
+#include "../../../irt/frame/code-fragment.hpp"
+#include "../../frame/code-fragment.hpp"
+#include "printer.hpp"
+
+namespace Ct {
+
+std::shared_ptr<Ct::CodeFragment> Translate(std::shared_ptr<Irt::CodeFragment> codeFragment) {
+  Translator translator;
+  std::shared_ptr<CodeFragment> head = nullptr;
+  std::shared_ptr<CodeFragment> tail = nullptr;
+
+  while (codeFragment != nullptr) {
+    translator.Visit(codeFragment->body_.get());
+    auto temp = std::make_shared<Ct::CodeFragment>(translator.GetStatement(), codeFragment->frame_);
+
+    if (head == nullptr) {
+      head = temp;
+      tail = temp;
+    } else {
+      tail->next = temp;
+      tail = temp;
+    }
+
+    codeFragment = codeFragment->next_;
+  }
+
+  return head;
+}
+
+}  // namespace Irt

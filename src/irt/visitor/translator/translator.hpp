@@ -40,6 +40,8 @@ class Translator : public Visitor {
 
   void Visit(Void* node) final;
 
+  std::shared_ptr<Ct::Statement> GetStatement();
+
  private:
   std::shared_ptr<Ct::CodeFragment> codeFragment_;
   std::shared_ptr<Ct::Expression> expression_;
