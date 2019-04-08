@@ -4,7 +4,7 @@
 
 namespace Ct {
 
-const Storage Frame::FramePointer_;
+const Storage Frame::FramePointer_ = Irt::Frame::FramePointer_;
 
 Frame::Frame(const std::shared_ptr<Irt::Frame>& frame)
     : name_(frame->name_), size_(frame->Size()) {
