@@ -159,7 +159,7 @@ void Printer::Visit(StatementSequence* node) {
 }
 
 void Printer::Visit(Temporary* node) {
-  if (node->storage_ == Frame::FramePointer_) {
+  if (node->storage_.IsFramePointer()) {
     PrintHead(nodeNumber_, "FramePointer");
   } else {
     PrintHead(nodeNumber_, "Temporary : " + node->storage_.ToString());

@@ -7,8 +7,8 @@ namespace Irt {
 Frame::Frame(std::string name, Address returnAddress)
     : returnAddress_{std::move(returnAddress)},
       name_{std::move(name)},
-      resultStorage_{InFrameAccess{WordSize_}},
-      thisPointer_{InFrameAccess{2 * WordSize_}},
+      resultStorage_{InFrameAccess{framePointer_, WordSize_}},
+      thisPointer_{InFrameAccess{framePointer_, 2 * WordSize_}},
       size_{3 * WordSize_} {}
 
 void Frame::AddFormalParameter(const std::string& name) {
@@ -43,7 +43,8 @@ void Frame::AddInStorage(const std::string& name,
   auto iter = std::find_if(storage.begin(), storage.end(),
                            [&name](KeyType key) { return key.first == name; });
   assert(iter == storage.end());
-  storage.emplace_back(name, std::make_shared<const InFrameAccess>(size_));
+  storage.emplace_back(
+      name, std::make_shared<const InFrameAccess>(framePointer_, size_));
   size_ += WordSize_;
 }
 
@@ -63,7 +64,5 @@ std::vector<Frame::KeyType> Frame::GetFormalParameters() const {
 std::vector<Frame::KeyType> Frame::GetLocalVariables() const {
   return localVariables_;
 }
-
-const Storage Frame::FramePointer_;
 
 }  // namespace Irt

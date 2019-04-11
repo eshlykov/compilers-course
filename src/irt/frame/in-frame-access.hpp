@@ -10,11 +10,12 @@ namespace Irt {
 
 class InFrameAccess : public Access {
  public:
-  explicit InFrameAccess(int offset);
+  explicit InFrameAccess(const Storage& framePointer, int offset);
 
   std::shared_ptr<Expression> GetData() const final;
 
  private:
+  const Storage& framePointer_;
   int offset_;
 };
 

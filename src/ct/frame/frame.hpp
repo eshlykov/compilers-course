@@ -19,7 +19,7 @@ class Frame {
  private:
  public:
   static constexpr int WordSize_ = sizeof(nullptr);
-  static const Storage FramePointer_;
+  const Storage framePointer_{true};
 
  public:
   const Address returnAddress_;

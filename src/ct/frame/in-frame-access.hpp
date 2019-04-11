@@ -10,11 +10,12 @@ namespace Ct {
 
 class InFrameAccess : public Access {
  public:
-  explicit InFrameAccess(int offset);
+  explicit InFrameAccess(const Storage& framePointer, int offset);
 
   ExpressionPtr GetData() const final;
 
  private:
+  const Storage& framePointer_;
   int offset_;
 };
 
