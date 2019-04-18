@@ -7,7 +7,7 @@ namespace Irt {
 Frame::Frame(std::string name, Address returnAddress)
     : returnAddress_{std::move(returnAddress)},
       name_{std::move(name)},
-      resultStorage_{InFrameAccess{framePointer_, WordSize_}},
+      resultStorage_{Storage{false, true}},
       thisPointer_{InFrameAccess{framePointer_, 2 * WordSize_}},
       size_{3 * WordSize_} {}
 
@@ -27,8 +27,8 @@ std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
 
 std::shared_ptr<Expression> Frame::GetThis() { return thisPointer_.GetData(); }
 
-std::shared_ptr<Expression> Frame::GetResultStorage() {
-  return resultStorage_.GetData();
+std::shared_ptr<Expression> Frame:: GetResultStorage() {
+  return std::make_shared<Memory>(std::make_shared<Temporary>(resultStorage_));
 }
 
 std::shared_ptr<const Access> Frame::FindFormalParameterOrLocalVariable(
