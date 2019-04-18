@@ -4,7 +4,7 @@
 
 class Storage {
  public:
-  explicit Storage(bool isFramePointer = false) noexcept;
+  explicit Storage(bool isFramePointer = false, bool isReturnStorage = false) noexcept;
 
   std::string ToString() const;
 
@@ -15,11 +15,13 @@ class Storage {
  private:
   static int counter_;
   const bool isFramePointer_;
+  const bool isReturnStorage_;
   int id_;
+
 };
 
-inline Storage::Storage(bool isFramePointer) noexcept
-    : isFramePointer_{isFramePointer}, id_{counter_} {
+inline Storage::Storage(bool isFramePointer, bool isReturnStorage) noexcept
+    : isFramePointer_{isFramePointer}, id_{counter_}, isReturnStorage_(isReturnStorage) {
   ++counter_;
 }
 

@@ -52,7 +52,7 @@ class Frame {
   const std::string name_;
 
  private:
-  const InFrameAccess resultStorage_;
+  const Storage resultStorage_;
   const InFrameAccess thisPointer_;
   int size_;
   std::vector<KeyType> formalParameters_;
