@@ -11,7 +11,7 @@ namespace Ct {
 class TraceScheduler {
  public:
   TraceScheduler(BasicBlocks blocks) : theBlocks_(blocks) {
-    for (std::shared_ptr<StatementListList> list = blocks.blocks_; list != nullptr; list = list->tail_) {
+    for (std::shared_ptr<StatementListList> list = blocks.GetBlocks(); list != nullptr; list = list->tail_) {
       table_[std::dynamic_pointer_cast<Label>(list)->head_->head_->address_] = list->head_;
     }
     statement_ = GetNext();
@@ -79,18 +79,18 @@ class TraceScheduler {
   }
 
   StatementList GetNext() {
-    if (theBlocks_.blocks_ == nullptr) {
-      return StatementList{std::make_shared<Label>(theBlocks_.done_), nullptr};
+    if (theBlocks_.GetBlocks() == nullptr) {
+      return StatementList{std::make_shared<Label>(theBlocks_.GetDone()), nullptr};
     }
 
-    StatementList list(theBlocks_.blocks_->head_);
+    StatementList list(theBlocks_.GetBlocks()->head_);
     auto label = std::dynamic_pointer_cast<Label>(list.head_);
     if (table_.count(label->address_) == 1) {
       Trace(list);
       return list;
     }
 
-    theBlocks_.blocks_ = theBlocks_.blocks_->tail_;
+    theBlocks_.SetBlocks(theBlocks_.GetBlocks()->tail_);
     return GetNext();
   }
 

@@ -11,6 +11,12 @@ class BasicBlocks {
 
   void CreateBasicBlocks(const std::vector<StatementPtr>& statements);
 
+  Address GetDone();
+
+  std::shared_ptr<StatementListList> GetBlocks();
+
+  void SetBlocks(std::shared_ptr<StatementListList>);
+
  private:
   void AddStatement(StatementPtr statement);
 
@@ -18,7 +24,7 @@ class BasicBlocks {
 
   void MakeBlocks(const std::vector<StatementPtr>& statements);
 
- public:
+ private:
   Address done_;
   std::vector<StatementPtr> lastStatement_;
   std::shared_ptr<StatementListList> blocks_;

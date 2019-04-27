@@ -1,13 +1,23 @@
 #include <utility>
 
-#include "basic-blocks.hpp"
+#include <utility>
+
 #include <memory>
+#include "basic-blocks.hpp"
 
 namespace Ct {
 
 void BasicBlocks::CreateBasicBlocks(
     const std::vector<StatementPtr>& statements) {
   MakeBlocks(statements);
+}
+
+Address BasicBlocks::GetDone() { return done_; }
+
+std::shared_ptr<StatementListList> BasicBlocks::GetBlocks() { return blocks_; }
+
+void BasicBlocks::SetBlocks(std::shared_ptr<StatementListList> blocks) {
+  blocks_ = std::move(blocks);
 }
 
 void BasicBlocks::AddStatement(StatementPtr statement) {
@@ -45,7 +55,8 @@ void BasicBlocks::MakeBlocks(const std::vector<StatementPtr>& statements) {
     return;
   }
 
-  if (auto label = std::dynamic_pointer_cast<Label>(statements[0]); label != nullptr) {
+  if (auto label = std::dynamic_pointer_cast<Label>(statements[0]);
+      label != nullptr) {
     lastStatement_ = {statements[0]};
     if (lastBlock_ == nullptr) {
       blocks_ = std::make_shared<StatementListList>(lastStatement_, nullptr);

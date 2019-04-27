@@ -27,7 +27,7 @@ std::shared_ptr<Expression> Frame::GetData(const std::string& name) {
 
 std::shared_ptr<Expression> Frame::GetThis() { return thisPointer_.GetData(); }
 
-std::shared_ptr<Expression> Frame:: GetResultStorage() {
+std::shared_ptr<Expression> Frame::GetResultStorage() {
   return std::make_shared<Memory>(std::make_shared<Temporary>(resultStorage_));
 }
 
