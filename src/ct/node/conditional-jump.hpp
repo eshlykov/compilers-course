@@ -7,7 +7,7 @@
 
 namespace Ct {
 
-enum class LogicalOperator { And, Less, Equal };
+enum class LogicalOperator { And, Less, Equal, NotLess, NotEqual };
 
 class ConditionalJump : public Statement {
  public:
@@ -53,6 +53,21 @@ inline StatementPtr ConditionalJump::Build(
   return std::make_shared<ConditionalJump>(logicalOperator_, expressionList[0],
                                            expressionList[1], addressIf_,
                                            addressElse_);
+}
+
+inline LogicalOperator InverseLogicalOperator(LogicalOperator logicalOperator) {
+  switch (logicalOperator) {
+    case LogicalOperator::Equal:
+      return LogicalOperator::NotEqual;
+    case LogicalOperator::NotEqual:
+      return LogicalOperator ::Equal;
+    case LogicalOperator::Less:
+      return LogicalOperator ::NotLess;
+    case LogicalOperator::NotLess:
+      return LogicalOperator ::Less;
+    default:
+      std::abort();
+  }
 }
 
 using ConditionalJumpPtr = std::shared_ptr<ConditionalJump>;

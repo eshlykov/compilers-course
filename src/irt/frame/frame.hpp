@@ -47,6 +47,7 @@ class Frame {
   static constexpr int WordSize_ = sizeof(nullptr);
   const Storage framePointer_{true, false};
   const Storage resultStorage_{false, true};
+
  public:
   const Address returnAddress_;
   const std::string name_;

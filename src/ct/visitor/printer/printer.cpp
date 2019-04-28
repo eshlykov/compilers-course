@@ -69,6 +69,12 @@ void Printer::Visit(ConditionalJump* node) {
     case LogicalOperator::Equal:
       PrintLeaf(headNodeNumber, "LogicalOperator", "==");
       break;
+    case LogicalOperator::NotEqual:
+      PrintLeaf(headNodeNumber, "LogicalOperator", "!=");
+      break;
+    case LogicalOperator::NotLess:
+      PrintLeaf(headNodeNumber, "LogicalOperator", ">=");
+      break;
   }
 
   ++nodeNumber_;

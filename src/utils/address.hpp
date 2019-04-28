@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -10,6 +12,8 @@ class Address {
   explicit Address(std::string name);
 
   std::string ToString() const;
+
+  bool operator==(const Address& other) const { return id_ == other.id_; }
 
  private:
   const std::shared_ptr<const int> dummy_;
@@ -24,3 +28,8 @@ inline Address::Address(std::string name)
     : dummy_{nullptr}, id_{std::move(name)} {}
 
 inline std::string Address::ToString() const { return id_; }
+
+const std::function<std::size_t(const Address&)> addressHash =
+    [](const Address& address) {
+      return std::hash<std::string>{}(address.ToString());
+    };

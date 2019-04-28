@@ -4,6 +4,7 @@
 #include <string>
 #include "../../frame/code-fragment.hpp"
 #include "../../linearizer/linerizer.hpp"
+#include "../../trace-scheduler/trace-schedule.hpp"
 #include "printer.hpp"
 
 namespace Ct {
@@ -16,6 +17,10 @@ void Print(const std::string& filename,
   while (codeFragment != nullptr) {
     StatementSequencePtr body = codeFragment->body_;
     std::vector<StatementPtr> statements = linearizer.Linearize(body);
+    BasicBlocks basicBlocks;
+    basicBlocks.CreateBasicBlocks(statements);
+    TraceScheduler scheduler(basicBlocks);
+    scheduler.Trace(statements);
     for (auto&& statement : statements) {
       if (auto conditionalJump =
               std::dynamic_pointer_cast<ConditionalJump>(statement);
