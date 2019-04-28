@@ -17,10 +17,10 @@ void Print(const std::string& filename,
   while (codeFragment != nullptr) {
     StatementSequencePtr body = codeFragment->body_;
     std::vector<StatementPtr> statements = linearizer.Linearize(body);
-//    BasicBlocks basicBlocks;
-//    basicBlocks.CreateBasicBlocks(statements);
+    BasicBlocks basicBlocks;
+    basicBlocks.CreateBasicBlocks(statements);
 //    TraceScheduler scheduler(basicBlocks);
-//    scheduler.Trace(statements);
+//    statements = scheduler.GetStatement();
     for (auto&& statement : statements) {
       if (auto conditionalJump =
               std::dynamic_pointer_cast<ConditionalJump>(statement);

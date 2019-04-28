@@ -105,6 +105,10 @@ class TraceScheduler {
     return GetNext();
   }
 
+  std::vector<StatementPtr> GetStatement() {
+    return statements_.ToStatements();
+  }
+
  private:
   StatementList statements_;
   BasicBlocks theBlocks_;
