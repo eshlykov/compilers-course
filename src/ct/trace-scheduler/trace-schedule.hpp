@@ -22,16 +22,11 @@ class TraceScheduler {
 
   StatementList GetLast(StatementList block) {
     auto list = std::make_shared<StatementList>(std::move(block));
+//    assert(list->tail_ != nullptr);
     while (list->tail_->tail_ != nullptr) {
       list = list->tail_;
     }
     return *list;
-  }
-
-  void Trace(std::vector<StatementPtr>& statements) {
-    StatementList list(statements);
-    Trace(list);
-    statements = list.ToStatements();
   }
 
   void Trace(StatementList& list) {
