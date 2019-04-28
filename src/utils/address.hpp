@@ -13,7 +13,7 @@ class Address {
 
   std::string ToString() const;
 
-  bool operator==(const Address& other) const { return dummy_ == other.dummy_; }
+  bool operator==(const Address& other) const { return id_ == other.id_; }
 
  private:
   const std::shared_ptr<const int> dummy_;
