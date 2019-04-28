@@ -94,11 +94,11 @@ int main(int argc, char* argv[]) {
   Ast::Translator translator;
   translator.Visit(program.get());
 
-  //  Irt::Print(ParseDrawingFilenameFromArguments(argc, argv),
-  //             translator.GetCodeFragment());
+//    Irt::Print(ParseDrawingFilenameFromArguments(argc, argv),
+//               translator.GetCodeFragment());
 
   std::shared_ptr<Ct::CodeFragment> codeFragment =
       Irt::Translate(translator.GetCodeFragment());
-
-  Ct::Print(ParseDrawingFilenameFromArguments(argc, argv), codeFragment);
+//
+//  Ct::Print(ParseDrawingFilenameFromArguments(argc, argv), codeFragment);
 }
