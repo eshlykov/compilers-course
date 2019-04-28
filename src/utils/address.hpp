@@ -29,7 +29,8 @@ inline Address::Address(std::string name)
 
 inline std::string Address::ToString() const { return id_; }
 
-const std::function<std::size_t(const Address&)> addressHash =
-    [](const Address& address) {
-      return std::hash<std::string>{}(address.ToString());
-    };
+struct AddressHasher {
+  std::size_t operator()(const Address& key) const {
+    return std::hash<std::string>{}(key.ToString());
+  }
+};

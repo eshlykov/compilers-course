@@ -108,7 +108,7 @@ class TraceScheduler {
  private:
   StatementList statements_;
   BasicBlocks theBlocks_;
-  std::unordered_map<Address, StatementList, decltype(addressHash)> table_;
+  std::unordered_map<Address, StatementList, AddressHasher> table_;
 };
 
 }  // namespace Ct
