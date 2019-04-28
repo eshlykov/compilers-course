@@ -45,14 +45,13 @@ class Frame {
 
  public:
   static constexpr int WordSize_ = sizeof(nullptr);
-  const Storage framePointer_{true};
-
+  const Storage framePointer_{true, false};
+  const Storage resultStorage_{false, true};
  public:
   const Address returnAddress_;
   const std::string name_;
 
  private:
-  const Storage resultStorage_;
   const InFrameAccess thisPointer_;
   int size_;
   std::vector<KeyType> formalParameters_;
