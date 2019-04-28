@@ -12,6 +12,7 @@ class Storage {
   bool operator==(const Storage& other) const;
 
   bool IsFramePointer() const;
+  bool IsReturnStorage() const;
 
  private:
   static int counter_;
@@ -34,3 +35,5 @@ inline bool Storage::operator==(const Storage& other) const {
 }
 
 inline bool Storage::IsFramePointer() const { return isFramePointer_; }
+
+inline bool Storage::IsReturnStorage() const { return isReturnStorage_; }
