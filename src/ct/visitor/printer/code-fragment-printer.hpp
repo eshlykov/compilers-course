@@ -19,8 +19,8 @@ void Print(const std::string& filename,
     std::vector<StatementPtr> statements = linearizer.Linearize(body);
     BasicBlocks basicBlocks;
     basicBlocks.CreateBasicBlocks(statements);
-//    TraceScheduler scheduler(basicBlocks);
-//    statements = scheduler.GetStatement();
+    TraceScheduler scheduler(basicBlocks);
+    statements = scheduler.GetStatements();
     for (auto&& statement : statements) {
       if (auto conditionalJump =
               std::dynamic_pointer_cast<ConditionalJump>(statement);

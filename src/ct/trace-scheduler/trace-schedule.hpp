@@ -105,7 +105,7 @@ class TraceScheduler {
     return GetNext();
   }
 
-  std::vector<StatementPtr> GetStatement() {
+  std::vector<StatementPtr> GetStatements() {
     return statements_.ToStatements();
   }
 
