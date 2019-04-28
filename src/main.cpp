@@ -100,5 +100,5 @@ int main(int argc, char* argv[]) {
   std::shared_ptr<Ct::CodeFragment> codeFragment =
       Irt::Translate(translator.GetCodeFragment());
 
-//  Ct::Print(ParseDrawingFilenameFromArguments(argc, argv), codeFragment);
+  Ct::Print(ParseDrawingFilenameFromArguments(argc, argv), codeFragment);
 }
