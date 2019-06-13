@@ -105,8 +105,9 @@ void CommandEmitterVisitor::Visit(const AddCommand* expression) {
 
   code_.push_back(AssemblyCommand("mov " + resultRegister + ", " + leftRegister,
                                   {leftRegister, resultRegister}));
-  code_.push_back(AssemblyCommand("add " + resultRegister + ", " + rightRegister,
-                                  {resultRegister, rightRegister}));
+  code_.push_back(
+      AssemblyCommand("add " + resultRegister + ", " + rightRegister,
+                      {resultRegister, rightRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
@@ -143,8 +144,9 @@ void CommandEmitterVisitor::Visit(const SubCommand* expression) {
 
   code_.push_back(AssemblyCommand("mov " + resultRegister + ", " + leftRegister,
                                   {leftRegister, resultRegister}));
-  code_.push_back(AssemblyCommand("sub " + resultRegister + ", " + rightRegister,
-                                  {resultRegister, rightRegister}));
+  code_.push_back(
+      AssemblyCommand("sub " + resultRegister + ", " + rightRegister,
+                      {resultRegister, rightRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
@@ -224,8 +226,9 @@ void CommandEmitterVisitor::Visit(const LoadCommand* expression) {
   std::string lastRegister = lastRegisterValue_;
 
   std::string addressRegister = AssemblyCommand::NewRegister();
-  code_.push_back(AssemblyCommand("mov " + addressRegister + ", " + lastRegister,
-                                  {addressRegister, lastRegister}));
+  code_.push_back(
+      AssemblyCommand("mov " + addressRegister + ", " + lastRegister,
+                      {addressRegister, lastRegister}));
   code_.push_back(
       AssemblyCommand("add " + addressRegister + ", " + std::to_string(offset),
                       {addressRegister}));
