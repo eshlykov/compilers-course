@@ -348,9 +348,6 @@ void AssemblyGenerationPhase::Run() {
       for (const auto& line : commandEmitter.Result()) {
         std::stringstream builder;
         builder << line.Text();
-        for (const auto& reg : line.Registers()) {
-          builder << ' ' << reg;
-        }
         codes_.push_back(builder.str());
       }
     }
