@@ -4,33 +4,12 @@
 
 class Storage {
  public:
-  explicit Storage(bool isFramePointer = false,
-                   bool isReturnStorage = false) noexcept;
+  Storage() : name_("S" + std::to_string(counter_++)) {}
+  explicit Storage(std::string name) : name_(std::move(name)) {}
 
-  std::string ToString() const;
-
-  bool operator==(const Storage& other) const;
-
-  bool IsFramePointer() const;
+  std::string ToString() { return name_; }
 
  private:
+  std::string name_;
   static int counter_;
-  const bool isFramePointer_;
-  const bool isReturnStorage_;
-  int id_;
 };
-
-inline Storage::Storage(bool isFramePointer, bool isReturnStorage) noexcept
-    : isFramePointer_{isFramePointer},
-      id_{counter_},
-      isReturnStorage_(isReturnStorage) {
-  ++counter_;
-}
-
-inline std::string Storage::ToString() const { return std::to_string(id_); }
-
-inline bool Storage::operator==(const Storage& other) const {
-  return id_ == other.id_;
-}
-
-inline bool Storage::IsFramePointer() const { return isFramePointer_; }
