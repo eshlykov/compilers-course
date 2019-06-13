@@ -21,19 +21,22 @@ void BasicBlocks::SetBlocks(std::shared_ptr<StatementListList> blocks) {
 }
 
 void BasicBlocks::AddStatement(StatementPtr statement) {
-  lastStatement_ = {std::move(statement)};
+  lastStatement_.push_back(statement);
 }
 
 void BasicBlocks::DoStatements(const std::vector<StatementPtr>& statements) {
+  if (statements.empty()) {
+    std::vector<StatementPtr> jumpStatements = {std::make_shared<Jump>(done_)};
+    DoStatements(jumpStatements);
+    return;
+  }
+
   auto jump = std::dynamic_pointer_cast<Jump>(statements[0]);
   auto label = std::dynamic_pointer_cast<Label>(statements[0]);
   auto conditionalJump =
       std::dynamic_pointer_cast<ConditionalJump>(statements[0]);
 
-  if (statements.empty()) {
-    std::vector<StatementPtr> jumpStatements = {std::make_shared<Jump>(done_)};
-    DoStatements(jumpStatements);
-  } else if ((jump != nullptr) || (conditionalJump != nullptr)) {
+  if (jump != nullptr || conditionalJump != nullptr) {
     auto statementsTail =
         std::vector<StatementPtr>(statements.begin() + 1, statements.end());
     AddStatement(statements[0]);
@@ -47,7 +50,7 @@ void BasicBlocks::DoStatements(const std::vector<StatementPtr>& statements) {
         std::vector<StatementPtr>(statements.begin() + 1, statements.end());
     AddStatement(statements[0]);
     DoStatements(statementsTail);
-  };
+  }
 }
 
 void BasicBlocks::MakeBlocks(const std::vector<StatementPtr>& statements) {
@@ -59,10 +62,34 @@ void BasicBlocks::MakeBlocks(const std::vector<StatementPtr>& statements) {
       label != nullptr) {
     lastStatement_ = {statements[0]};
     if (lastBlock_ == nullptr) {
-      blocks_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
-      lastBlock_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      auto block = blocks_;
+      if (block == nullptr) {
+        blocks_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      } else {
+        while (block->tail_ != nullptr) {
+          block = block->tail_;
+        }
+        block->tail_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      }
+      auto last = lastBlock_;
+      if (last == nullptr) {
+        lastBlock_ = std::make_shared<StatementListList>(lastStatement_, nullptr);;
+      } else {
+        while (last->tail_ != nullptr) {
+          last = last->tail_;
+        }
+        last->tail_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      }
     } else {
-      lastBlock_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      auto last = lastBlock_;
+      if (last == nullptr) {
+        lastBlock_ = std::make_shared<StatementListList>(lastStatement_, nullptr);;
+      } else {
+        while (last->tail_ != nullptr) {
+          last = last->tail_;
+        }
+        last->tail_ = std::make_shared<StatementListList>(lastStatement_, nullptr);
+      }
     }
     auto statementsTail =
         std::vector<StatementPtr>(statements.begin() + 1, statements.end());

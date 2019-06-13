@@ -20,9 +20,13 @@ class TraceScheduler {
     table_.clear();
   }
 
-  StatementList GetLast(StatementList block) {
+  std::vector<StatementPtr> GetStatements() {
+    return statements_.ToStatements();
+  }
+
+ private:
+  static StatementList GetLast(StatementList block) {
     auto list = std::make_shared<StatementList>(std::move(block));
-//    assert(list->tail_ != nullptr);
     while (list->tail_->tail_ != nullptr) {
       list = list->tail_;
     }
@@ -32,54 +36,57 @@ class TraceScheduler {
   void Trace(StatementList& list) {
     while (true) {
       auto label = std::dynamic_pointer_cast<Label>(list.head_);
+      assert(label != nullptr);
       table_.erase(label->address_);
       StatementList last = GetLast(list);
       StatementPtr statement = last.tail_->head_;
-      if (auto jump = std::dynamic_pointer_cast<Jump>(statement);
-          jump != nullptr) {
-        if (table_.count(jump->address_) == 1) {
-          StatementList target = table_[jump->address_];
-          last.tail_ = std::make_shared<StatementList>(target);
-          list = target;
-        } else {
-          last.tail_->tail_ = std::make_shared<StatementList>(GetNext());
-          return;
-        }
-      } else if (auto conditionalJump =
-                     std::dynamic_pointer_cast<ConditionalJump>(statement);
-                 conditionalJump != nullptr) {
-        bool hasIfTrue = table_.count(conditionalJump->addressIf_) == 1;
-        bool hasIfFalse = table_.count(conditionalJump->addressElse_) == 1;
-        if (hasIfFalse) {
-          StatementList ifFalse = table_[conditionalJump->addressElse_];
-          last.tail_->tail_ = std::make_shared<StatementList>(ifFalse);
-          list = ifFalse;
-        } else if (hasIfTrue) {
-          last.tail_->head_ = std::make_shared<ConditionalJump>(
-              InverseLogicalOperator(conditionalJump->logicalOperator_),
-              conditionalJump->expressionLeft_,
-              conditionalJump->expressionRight_, conditionalJump->addressElse_,
-              conditionalJump->addressIf_);
-          StatementList ifTrue = table_[conditionalJump->addressIf_];
-          last.tail_->tail_ = std::make_shared<StatementList>(ifTrue);
-          list = ifTrue;
-        } else {
-          Address temp;
-          last.tail_->head_ = std::make_shared<ConditionalJump>(
-              conditionalJump->logicalOperator_,
-              conditionalJump->expressionLeft_,
-              conditionalJump->expressionRight_, conditionalJump->addressIf_,
-              temp);
-          last.tail_->tail_ = std::make_shared<StatementList>(
-              std::make_shared<Label>(temp),
-              std::make_shared<StatementList>(
-                  std::make_shared<Jump>(conditionalJump->addressElse_),
-                  std::make_shared<StatementList>(GetNext())));
-          return;
-        }
-      } else {
-        std::terminate();
-      }
+      return;
+//      if (auto jump = std::dynamic_pointer_cast<Jump>(statement);
+//          jump != nullptr) {
+//        if (table_.count(jump->address_) == 1) {
+//          StatementList target = table_[jump->address_];
+//          last.tail_ = std::make_shared<StatementList>(target);
+//          list = target;
+//        } else {
+//          last.tail_->tail_ = std::make_shared<StatementList>(GetNext());
+//          return;
+//        }
+//      } else if (auto conditionalJump =
+//                     std::dynamic_pointer_cast<ConditionalJump>(statement);
+//                 conditionalJump != nullptr) {
+//        bool hasIfTrue = table_.count(conditionalJump->addressIf_) == 1;
+//        bool hasIfFalse = table_.count(conditionalJump->addressElse_) == 1;
+//        if (hasIfFalse) {
+//          StatementList ifFalse = table_[conditionalJump->addressElse_];
+//          last.tail_->tail_ = std::make_shared<StatementList>(ifFalse);
+//          list = ifFalse;
+//        } else if (hasIfTrue) {
+//          last.tail_->head_ = std::make_shared<ConditionalJump>(
+//              InverseLogicalOperator(conditionalJump->logicalOperator_),
+//              conditionalJump->expressionLeft_,
+//              conditionalJump->expressionRight_, conditionalJump->addressElse_,
+//              conditionalJump->addressIf_);
+//          StatementList ifTrue = table_[conditionalJump->addressIf_];
+//          last.tail_->tail_ = std::make_shared<StatementList>(ifTrue);
+//          list = ifTrue;
+//        } else {
+//          Address temp;
+//          last.tail_->head_ = std::make_shared<ConditionalJump>(
+//              conditionalJump->logicalOperator_,
+//              conditionalJump->expressionLeft_,
+//              conditionalJump->expressionRight_, conditionalJump->addressIf_,
+//              temp);
+//          last.tail_->tail_ = std::make_shared<StatementList>(
+//              std::make_shared<Label>(temp),
+//              std::make_shared<StatementList>(
+//                  std::make_shared<Jump>(conditionalJump->addressElse_),
+//                  std::make_shared<StatementList>(GetNext())));
+//          return;
+//        }
+//      } else {
+//        assert(false);
+//        std::terminate();
+//      }
     }
   }
 
@@ -90,6 +97,7 @@ class TraceScheduler {
     }
 
     StatementList list(theBlocks_.GetBlocks()->head_);
+    std::cout << theBlocks_.GetBlocks()->head_.size() << std::endl;
     auto label = std::dynamic_pointer_cast<Label>(list.head_);
     if (table_.count(label->address_) == 1) {
       Trace(list);
@@ -98,10 +106,6 @@ class TraceScheduler {
 
     theBlocks_.SetBlocks(theBlocks_.GetBlocks()->tail_);
     return GetNext();
-  }
-
-  std::vector<StatementPtr> GetStatements() {
-    return statements_.ToStatements();
   }
 
  private:
