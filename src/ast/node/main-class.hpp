@@ -1,35 +1,34 @@
 #pragma once
 
 #include <memory>
-#include <string>
-#include "node.hpp"
-#include "statement.hpp"
+
+#include <ast/node/visitor-target.hpp>
+#include <ast/visitor/visitor.hpp>
+
+#include <ast/node/expression.hpp>
+#include <ast/node/statement-list.hpp>
 
 namespace Ast {
 
-class MainClass : public Node {
+class MainClass : public VisitorTarget {
  public:
-  MainClass(Location location, std::string className, std::string argv,
-            std::unique_ptr<Statement> mainBody);
+  MainClass(const IdExpression* className, const IdExpression* classArgsName,
+            const StatementList* statements, const Location& location)
+      : VisitorTarget(location),
+        className_(className),
+        classArgsName_(classArgsName),
+        statements_(statements) {}
 
-  void Accept(Visitor* visitor) final;
+  const IdExpression* ClassName() const { return className_.get(); }
+  const IdExpression* ClassArgsName() const { return classArgsName_.get(); }
+  const StatementList* Statements() const { return statements_.get(); }
 
- public:
-  const std::string className_;
-  const std::string argv_;
-  const std::unique_ptr<Statement> mainBody_;
+  void Accept(IVisitor* visitor) const override { visitor->Visit(this); }
+
+ private:
+  std::unique_ptr<const IdExpression> className_;
+  std::unique_ptr<const IdExpression> classArgsName_;
+  std::unique_ptr<const StatementList> statements_;
 };
-
-inline MainClass::MainClass(Location location, std::string className,
-                            std::string argv,
-                            std::unique_ptr<Statement> mainBody)
-    : className_{std::move(className)},
-      argv_{std::move(argv)},
-      mainBody_{std::move(mainBody)} {
-  SetLocation(location);
-  assert(mainBody_ != nullptr);
-}
-
-inline void MainClass::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

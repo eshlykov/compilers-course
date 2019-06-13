@@ -1,39 +1,57 @@
 #pragma once
 
 #include <memory>
-#include <optional>
-#include <string>
-#include <vector>
-#include "class-body.hpp"
-#include "node.hpp"
+
+#include <ast/node/visitor-target.hpp>
+#include <ast/visitor/visitor.hpp>
+
+#include <ast/node/expression.hpp>
+#include <ast/node/method-declaration-list.hpp>
+#include <ast/node/var-declaration-list.hpp>
 
 namespace Ast {
 
-class ClassDeclaration : public Node {
+class ClassDeclaration : public VisitorTarget {
  public:
-  ClassDeclaration(Location location, std::string className,
-                   std::optional<std::string> extendsForClass,
-                   std::unique_ptr<ClassBody> classBody);
+  ClassDeclaration(const IdExpression* className,
+                   const VarDeclarationList* varDelcs,
+                   const MethodDeclarationList* methodDecls,
+                   const Location& location)
+      : VisitorTarget(location),
+        className_(className),
+        varDecls_(varDelcs),
+        methodDecls_(methodDecls),
+        hasParent_(false) {}
 
-  void Accept(Visitor* visitor) final;
+  ClassDeclaration(const IdExpression* className,
+                   const VarDeclarationList* varDecls,
+                   const MethodDeclarationList* methodDecls,
+                   const IdExpression* parent, const Location& location)
+      : VisitorTarget(location),
+        className_(className),
+        varDecls_(varDecls),
+        methodDecls_(methodDecls),
+        hasParent_(true),
+        extendsClassName_(parent) {}
 
- public:
-  const std::string className_;
-  const std::optional<std::string> extendsForClass_;
-  const std::unique_ptr<ClassBody> classBody_;
+  const IdExpression* ClassName() const { return className_.get(); }
+  const VarDeclarationList* VarDeclarations() const { return varDecls_.get(); }
+  const MethodDeclarationList* MethodDeclarations() const {
+    return methodDecls_.get();
+  }
+  bool HasParent() const { return hasParent_; }
+  const IdExpression* ExtendsClassName() const {
+    return extendsClassName_.get();
+  }
+
+  void Accept(IVisitor* visitor) const override { visitor->Visit(this); }
+
+ private:
+  std::unique_ptr<const IdExpression> className_;
+  std::unique_ptr<const VarDeclarationList> varDecls_;
+  std::unique_ptr<const MethodDeclarationList> methodDecls_;
+  bool hasParent_;
+  std::unique_ptr<const IdExpression> extendsClassName_;
 };
-
-inline ClassDeclaration::ClassDeclaration(
-    Location location, std::string className,
-    std::optional<std::string> extendsForClass,
-    std::unique_ptr<ClassBody> classBody)
-    : className_{std::move(className)},
-      extendsForClass_{std::move(extendsForClass)},
-      classBody_{std::move(classBody)} {
-  SetLocation(location);
-  assert(classBody_ != nullptr);
-}
-
-inline void ClassDeclaration::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast

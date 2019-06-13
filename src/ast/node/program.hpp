@@ -1,34 +1,34 @@
 #pragma once
 
 #include <memory>
-#include <vector>
-#include "class-declaration.hpp"
-#include "main-class.hpp"
-#include "node.hpp"
+
+#include <ast/node/visitor-target.hpp>
+#include <ast/visitor/visitor.hpp>
+
+#include <ast/node/class-declaration-list.hpp>
+#include <ast/node/main-class.hpp>
 
 namespace Ast {
 
-class Program : public Node {
+class Program : public VisitorTarget {
  public:
-  Program(Location location, std::unique_ptr<MainClass> mainClass,
-          std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations);
+  Program(const MainClass* mainClass,
+          const ClassDeclarationList* classDeclarations,
+          const Location& location)
+      : VisitorTarget(location),
+        mainClass_(mainClass),
+        classDeclarations_(classDeclarations) {}
 
-  void Accept(Visitor* visitor) final;
+  const MainClass* GetMainClass() const { return mainClass_.get(); }
+  const ClassDeclarationList* ClassDeclarations() const {
+    return classDeclarations_.get();
+  }
 
- public:
-  const std::unique_ptr<MainClass> mainClass_;
-  const std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations_;
+  void Accept(IVisitor* visitor) const override { visitor->Visit(this); }
+
+ private:
+  std::unique_ptr<const MainClass> mainClass_;
+  std::unique_ptr<const ClassDeclarationList> classDeclarations_;
 };
-
-inline Program::Program(
-    Location location, std::unique_ptr<MainClass> mainClass,
-    std::vector<std::unique_ptr<ClassDeclaration>>& classDeclarations)
-    : mainClass_{std::move(mainClass)},
-      classDeclarations_{std::move(classDeclarations)} {
-  SetLocation(location);
-  assert(mainClass_ != nullptr);
-}
-
-inline void Program::Accept(Visitor* visitor) { visitor->Visit(this); }
 
 }  // namespace Ast
