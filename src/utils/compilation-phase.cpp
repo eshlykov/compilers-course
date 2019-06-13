@@ -343,7 +343,7 @@ void AssemblyGenerationPhase::Run() {
        ++methodIt) {
     for (auto visitorIt = methodIt->second.begin();
          visitorIt != methodIt->second.end(); ++visitorIt) {
-      Cg::CommandEmitterVisitor commandEmitter(verbose_ > 1);
+      Cg::CommandEmitterVisitor commandEmitter;
       (*visitorIt)->Result()->Accept(&commandEmitter);
       for (const auto& line : commandEmitter.Result()) {
         std::stringstream builder;

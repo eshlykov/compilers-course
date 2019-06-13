@@ -10,7 +10,8 @@ using LOT = Irt::LogicOperatorTypes;
 int AssemblyCommand::registerCounter_ = 0;
 
 CommandEmitterVisitor::CommandEmitterVisitor() : Visitor(false) {
-  tempToRegister_["$fp"] = "ebp";
+  tempToRegister_["$fp"] = "rbp";
+  tempToRegister_["$rv"] = "rax";
 }
 
 void CommandEmitterVisitor::Visit(const ExpStatementCommand* statement) {
@@ -124,9 +125,9 @@ void CommandEmitterVisitor::Visit(const AddConstCommand* passedExpression) {
   code_.push_back(
       AssemblyCommand("mov " + resultRegister + ", " + expressionRegister,
                       {expressionRegister, resultRegister}));
-  code_.push_back(
-      AssemblyCommand("add " + resultRegister + ", " + std::to_string(constant),
-                      {resultRegister}));
+  code_.push_back(AssemblyCommand(
+      "add " + resultRegister + ", $" + std::to_string(constant),
+      {resultRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
@@ -163,9 +164,9 @@ void CommandEmitterVisitor::Visit(const SubConstCommand* passedExpression) {
   code_.push_back(
       AssemblyCommand("mov " + resultRegister + ", " + expressionRegister,
                       {expressionRegister, resultRegister}));
-  code_.push_back(
-      AssemblyCommand("sub " + resultRegister + ", " + std::to_string(constant),
-                      {resultRegister}));
+  code_.push_back(AssemblyCommand(
+      "sub " + resultRegister + ", $" + std::to_string(constant),
+      {resultRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
@@ -230,7 +231,7 @@ void CommandEmitterVisitor::Visit(const LoadCommand* expression) {
       AssemblyCommand("mov " + addressRegister + ", " + lastRegister,
                       {addressRegister, lastRegister}));
   code_.push_back(
-      AssemblyCommand("add " + addressRegister + ", " + std::to_string(offset),
+      AssemblyCommand("add " + addressRegister + ", $" + std::to_string(offset),
                       {addressRegister}));
 
   std::string targetRegister = lastRegisterValue_;
@@ -256,7 +257,7 @@ void CommandEmitterVisitor::Visit(const StoreCommand* expression) {
       AssemblyCommand("mov " + addressRegister + ", " + destinationRegister,
                       {addressRegister, destinationRegister}));
   code_.push_back(
-      AssemblyCommand("add " + addressRegister + ", " + std::to_string(offset),
+      AssemblyCommand("add " + addressRegister + ", $" + std::to_string(offset),
                       {addressRegister}));
 
   code_.push_back(
