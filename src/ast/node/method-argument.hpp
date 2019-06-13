@@ -11,9 +11,9 @@
 
 namespace Ast {
 
-class VarDeclaration : public VisitorTarget {
+class MethodArgument : public VisitorTarget {
  public:
-  VarDeclaration(const TypeModifier* type, const IdExpression* id,
+  MethodArgument(const TypeModifier* type, const IdExpression* id,
                  const Location& location)
       : VisitorTarget(location), type_(type), id_(id) {}
 
