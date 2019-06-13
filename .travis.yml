@@ -16,6 +16,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install graphviz
   - sudo apt-get install valgrind
+  - sudo apt-get install cmake
 
 install:
   - sudo apt-get install -qq g++-7
@@ -25,4 +26,6 @@ install:
   - sudo apt-get install -qq cppcheck
 
 script:
-  - make travis_all_checks
+  - cmake -S . -Bcmake-build-debug
+  - cd cmake-build-debug
+  - make compiler_test
