@@ -1,62 +1,106 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <utility>
+#include <unordered_map>
 #include <vector>
-#include "../../utils/address.hpp"
-#include "../../utils/storage.hpp"
-#include "../node/expression.hpp"
-#include "in-frame-access.hpp"
+
+#include <irt/node/expression.hpp>
+#include <utils/address.hpp>
+#include <utils/storage.hpp>
 
 namespace Irt {
 
+class IAddress {
+ public:
+  virtual ~IAddress() {}
+  virtual std::unique_ptr<const Expression> ToExpression() const = 0;
+};
+
+/**
+Indicates a memory location at offset X from the frame pointer.
+*/
+class AddressInFrame : public IAddress {
+ public:
+  AddressInFrame(const IAddress* frameAddress, int offset)
+      : frameAddress_(frameAddress), offset_(offset) {}
+
+  virtual ~AddressInFrame() {}
+  virtual std::unique_ptr<const Expression> ToExpression() const override;
+
+ private:
+  const IAddress* frameAddress_;
+  int offset_;
+};
+
+class AddressOfField : public IAddress {
+ public:
+  AddressOfField(const IAddress* thisAddress, int offset)
+      : thisAddress_(std::move(thisAddress)), offset_(offset) {}
+  std::unique_ptr<const Expression> ToExpression() const override;
+
+ private:
+  const IAddress* thisAddress_;
+  int offset_;
+};
+
+/**
+CAddressInRegister (T84) indicates that it will be held in "register" T84
+*/
+class AddressInRegister : public IAddress {
+ public:
+  AddressInRegister(const Storage& storage) : storage_(storage) {}
+  std::unique_ptr<const Expression> ToExpression() const override;
+
+ private:
+  Storage storage_;
+};
+
 class Frame {
  public:
-  using KeyType = std::pair<std::string, std::shared_ptr<const Access>>;
+  // CFrame( CLabel _name ) : name( _name ), maxOffsetFramePointer( 0 ) {}
+  Frame(const std::string& className, const std::string& methodName);
 
- public:
-  explicit Frame(std::string name, Address returnAddress = {});
+  int GetWordSize() const;
 
-  void AddFormalParameter(const std::string& name);
+  Address GetName() const;
+  const std::string& GetClassName() const;
+  const std::string& GetMethodName() const;
 
-  void AddLocalVariable(const std::string& name);
+  // reserves place on stack for method arguments and locals (determines offsets
+  // for them)
+  void AddThisAddress();
+  void AddReturnAddress();
+  void AddArgumentAddress(const std::string& name);
+  void AddLocalAddress(const std::string& name);
+  void AddFieldAddress(const std::string& name);
 
-  std::shared_ptr<Expression> GetData(const std::string& name);
+  const IAddress* GetFramePointerAddress() const;
+  const IAddress* GetReturnValueAddress() const;
+  const IAddress* GetThisAddress() const;
+  const IAddress* GetReturnAddress() const;
+  const IAddress* GetAddress(const std::string& varName) const;
 
-  std::shared_ptr<Expression> GetThis();
-
-  std::shared_ptr<Expression> GetResultStorage();
-
-  int Size() const;
-
-  std::vector<KeyType> GetFormalParameters() const;
-
-  std::vector<KeyType> GetLocalVariables() const;
-
- private:
-  std::shared_ptr<const Access> FindFormalParameterOrLocalVariable(
-      const std::string& name) const;
-
-  void AddInStorage(const std::string& name, std::vector<KeyType>& storage);
-
-  std::shared_ptr<const Access> FindInStorage(
-      const std::string& name, const std::vector<KeyType>& storage) const;
-
- public:
-  static constexpr int WordSize_ = sizeof(nullptr);
-  const Storage framePointer_{true, false};
-  const Storage resultStorage_{false, true};
-
- public:
-  const Address returnAddress_;
-  const std::string name_;
+  std::unique_ptr<const Expression> ExternalCall(
+      const std::string& functionName,
+      std::unique_ptr<const ExpressionList> args) const;
 
  private:
-  const InFrameAccess thisPointer_;
-  int size_;
-  std::vector<KeyType> formalParameters_;
-  std::vector<KeyType> localVariables_;
+  int NextOffsetFromFramePointer();
+  int NextOffsetFromThis();
+  void AddAddress(const std::string& name, const IAddress* address);
+
+  std::string className_;
+  std::string methodName_;
+  Address name_;
+  std::unordered_map<std::string, std::unique_ptr<const IAddress>> addresses_;
+
+  static const int wordSize_;
+  static const std::string thisAddressName_;
+  static const std::string returnAddressName_;
+  static const std::string returnValueAddressName_;
+  static const std::string framePointerAddressName_;
+
+  int maxOffsetFramePointer_;
+  int maxOffsetThis_;
 };
 
 }  // namespace Irt
