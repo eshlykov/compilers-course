@@ -8,6 +8,8 @@
 #include "move-call.hpp"
 #include "statement-expression-list.hpp"
 
+#include "../../parser.hpp"
+
 namespace Ct {
 
 class Linearizer {
