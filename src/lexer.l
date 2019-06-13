@@ -1,189 +1,164 @@
 %{
-
-#include "parser.hpp"
-#include <cstdlib>
+#include <cstdio>
+#include <iostream>
 #include <string>
+#include "parser.hpp"
+// used to prevent applying name-mangling to the yylex identifier
+#define YY_DECL extern "C" int yylex()
 
-int yycolumnno = 0;
-Location location;
-
-#define YY_USER_ACTION { \
-    if (yylineno != location.lineNumber_) { \
-        yycolumnno = 0; \
-    } \
-    \
-    location.lineNumber_ = yylineno; \
-    location.firstColumn_ = yycolumnno; \
-    location.lastColumn_ = yycolumnno + yyleng - 1; \
-    \
-    yycolumnno += yyleng; \
+void updateLocation( YYLTYPE* location, char* text ) {
+    location->first_line = location->last_line;
+    location->first_column = location->last_column;
+    for ( int i = 0; text[i] != '\0'; i++ ) {
+        if ( text[i] == '\n' ) {
+            ++location->last_line;
+            location->last_column = 1;
+        } else if (text[i] == '\t') {
+            location->last_column += 4;
+        } else {
+            ++location->last_column;
+        }
+    }
 }
 
+#define YY_USER_ACTION updateLocation( &yylloc, yytext );
 %}
 
 %option noyywrap
-%option yylineno
+
+LEX_AND        "&&"
+LEX_OR         "||"
+LEX_CLASS      "class"
+LEX_PUBLIC     "public"
+LEX_PRIVATE    "private"
+LEX_STATIC     "static"
+LEX_VOID       "void"
+LEX_MAIN       "main"
+LEX_EXTENDS    "extends"
+LEX_RETURN     "return"
+LEX_IF         "if"
+LEX_ELSE       "else"
+LEX_WHILE      "while"
+LEX_SOUT       "System.out.println"
+LEX_LENGTH     "length"
+LEX_NEW        "new"
+LEX_THIS       "this"
+LEX_TRUE       "true"
+LEX_FALSE      "false"
+LEX_STRING     "String"
+LEX_BOOLEAN    "boolean"
+LEX_INT        "int"
+LEX_DIGIT [0-9]
+LEX_LETTER [a-zA-Z_]
+LEX_INTEGER_LITERAL [1-9]{LEX_DIGIT}*|0
+LEX_LOGIC_LITERAL {LEX_TRUE}|{LEX_FALSE}
+LEX_ID {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
+LEX_COMMENT \/\/(.)*\n
 
 %%
-
-[ \t\n\v\r\f]+ {
+{LEX_INTEGER_LITERAL} {
+    yylval.ival = atoi( yytext );
+    return INTEGER_LITERAL;
 }
 
-0|[1-9][0-9]* {
-    yylval.NumberToken_ = std::atoi(yytext);
-    return TT_Number;
+{LEX_LOGIC_LITERAL} {
+    yylval.bval = std::string( yytext ) == "true";
+    return LOGIC_LITERAL;
 }
 
-class {
-    return TT_Class;
+{LEX_CLASS} {
+    return CLASS;
 }
 
-public {
-    return TT_Public;
+{LEX_PUBLIC} {
+    return PUBLIC;
 }
 
-static {
-    return TT_Static;
+{LEX_PRIVATE} {
+    return PRIVATE;
 }
 
-void {
-    return TT_Void;
+{LEX_STATIC} {
+    return STATIC;
 }
 
-main {
-    return TT_Main;
+{LEX_VOID} {
+    return VOID;
 }
 
-\[ {
-    return TT_LeftBracket;
+{LEX_MAIN} {
+    return MAIN;
 }
 
-\] {
-    return TT_RightBracket;
+{LEX_EXTENDS} {
+    return EXTENDS;
 }
 
-\( {
-    return TT_LeftParen;
+{LEX_RETURN} {
+    return RETURN;
 }
 
-\) {
-    return TT_RightParen;
+{LEX_IF} {
+    return IF;
 }
 
-\{ {
-    return TT_LeftBrace;
+{LEX_ELSE} {
+    return ELSE;
 }
 
-\} {
-    return TT_RightBrace;
+{LEX_WHILE} {
+    return WHILE;
 }
 
-return {
-    return TT_Return;
+{LEX_SOUT} {
+    return SOUT;
 }
 
-if {
-    return TT_If;
+{LEX_LENGTH} {
+    return LENGTH;
 }
 
-System\.out\.println {
-    return TT_Print;
+{LEX_NEW} {
+    return NEW;
 }
 
-String {
-    return TT_String;
+{LEX_THIS} {
+    return THIS;
 }
 
-new {
-    return TT_New;
+{LEX_STRING} {
+    return STRING;
 }
 
-\. {
-    return TT_Dot;
+{LEX_BOOLEAN} {
+    return BOOLEAN;
 }
 
-; {
-    return TT_Semicolon;
+{LEX_INT} {
+    return INT;
 }
 
-extends {
-    return TT_Extends;
+{LEX_OR} { return OR; }
+
+{LEX_AND} { return AND; }
+
+{LEX_ID} {
+    // we have to copy because we can't rely on text not changing underneath us:
+    yylval.sval = strdup( yytext ); // this approach can produce memory leaks if the memory is not freed manually
+    return ID;
 }
 
-length {
-    return TT_Length;
+[\n\t\r ] {}
+
+{LEX_COMMENT} {
+    // ++lineNum;
+};
+
+[!%\(\)*+,-./;<=\[\]\{\}] { return yytext[0]; }
+
+<<EOF>> {
+    return EOF;
 }
 
-else {
-    return TT_Else;
-}
-
-while {
-    return TT_While;
-}
-
-boolean {
-    return TT_Boolean;
-}
-
-true {
-    return TT_True;
-}
-
-false {
-    return TT_False;
-}
-
-this {
-    return TT_This;
-}
-
-int {
-    return TT_Int;
-}
-
-! {
-    return TT_Bang;
-}
-
-&& {
-    return TT_And;
-}
-
-\< {
-    return TT_Less;
-}
-
-\+ {
-    return TT_Plus;
-}
-
-- {
-    return TT_Minus;;
-}
-
-\* {
-    return TT_Star;
-}
-
-= {
-    return TT_Assignment;
-}
-
-, {
-    return TT_Comma;
-}
-
-[a-zA-Z_][a-zA-Z_0-9]* {
-    yylval.IdentifierToken_ = new std::string{yytext};
-    return TT_Identifier;
-}
-
-\/\/.* {
-}
-
-. {
-    yyerror(parserArgs, "");
-}
-
+.                ;
 %%
