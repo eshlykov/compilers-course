@@ -16,7 +16,7 @@ Everything connected to AST (Abstract Syntax Tree) lies in [ast](src/ast).
 
 Everything connected to IRT (Intermediate Representation Tree) lies in [irt](src/irt).
 
-### CT
+### CG
 
 Everything connected to CG (Code Generation) lies in [cg](src/cg).
 
