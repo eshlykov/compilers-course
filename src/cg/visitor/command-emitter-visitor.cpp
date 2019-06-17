@@ -58,7 +58,7 @@ void CommandEmitterVisitor::Visit(const CallFunctionCommand* command) {
 
   for (auto it = arguments.rbegin(); it != arguments.rend(); ++it) {
     (*it)->Accept(this);
-    code_.push_back(AssemblyCommand("push", {lastRegisterValue_}));
+    code_.push_back(AssemblyCommand("push " + lastRegisterValue_, {lastRegisterValue_}));
   }
 
   code_.push_back(AssemblyCommand("call " + command->Function(), {}));
@@ -87,7 +87,8 @@ void CommandEmitterVisitor::Visit(const TempExpression* expression) {
 
   auto pos = tempToRegister_.find(tempValue);
   if (pos == tempToRegister_.end()) {
-    tempToRegister_[tempValue] = AssemblyCommand::NewRegister();
+    code_.push_back(AssemblyCommand(tempValue, {}));
+    tempToRegister_[tempValue] = AssemblyCommand::NewRegister(code_);
   }
 
   lastRegisterValue_ = tempToRegister_[tempValue];
@@ -102,7 +103,7 @@ void CommandEmitterVisitor::Visit(const AddCommand* expression) {
   rightOperand->Accept(this);
   std::string rightRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   code_.push_back(AssemblyCommand("mov " + resultRegister + ", " + leftRegister,
                                   {leftRegister, resultRegister}));
@@ -120,7 +121,7 @@ void CommandEmitterVisitor::Visit(const AddConstCommand* passedExpression) {
   expression->Accept(this);
   std::string expressionRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   code_.push_back(
       AssemblyCommand("mov " + resultRegister + ", " + expressionRegister,
@@ -141,7 +142,7 @@ void CommandEmitterVisitor::Visit(const SubCommand* expression) {
   rightOperand->Accept(this);
   std::string rightRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   code_.push_back(AssemblyCommand("mov " + resultRegister + ", " + leftRegister,
                                   {leftRegister, resultRegister}));
@@ -159,7 +160,7 @@ void CommandEmitterVisitor::Visit(const SubConstCommand* passedExpression) {
   expression->Accept(this);
   std::string expressionRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   code_.push_back(
       AssemblyCommand("mov " + resultRegister + ", " + expressionRegister,
@@ -180,13 +181,13 @@ void CommandEmitterVisitor::Visit(const MultCommand* expression) {
   rightOperand->Accept(this);
   std::string rightRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   // http://www.felixcloutier.com/x86/MUL.html
-  code_.push_back(AssemblyCommand("mov al " + leftRegister, {leftRegister}));
-  code_.push_back(AssemblyCommand("div " + rightRegister, {rightRegister}));
+  code_.push_back(AssemblyCommand("mov rax, " + leftRegister, {leftRegister}));
+  code_.push_back(AssemblyCommand("mul " + rightRegister, {rightRegister}));
   code_.push_back(
-      AssemblyCommand("mov " + resultRegister + ", ax", {resultRegister}));
+      AssemblyCommand("mov " + resultRegister + ", rax", {resultRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
@@ -200,19 +201,19 @@ void CommandEmitterVisitor::Visit(const DivCommand* expression) {
   rightOperand->Accept(this);
   std::string rightRegister = lastRegisterValue_;
 
-  std::string resultRegister = AssemblyCommand::NewRegister();
+  std::string resultRegister = AssemblyCommand::NewRegister(code_);
 
   // http://www.felixcloutier.com/x86/DIV.html
-  code_.push_back(AssemblyCommand("mov ax, " + leftRegister, {leftRegister}));
+  code_.push_back(AssemblyCommand("mov rax, " + leftRegister, {leftRegister}));
   code_.push_back(AssemblyCommand("div " + rightRegister, {rightRegister}));
   code_.push_back(
-      AssemblyCommand("mov " + resultRegister + ", al", {resultRegister}));
+      AssemblyCommand("mov " + resultRegister + ", rax", {resultRegister}));
 
   lastRegisterValue_ = resultRegister;
 }
 
 void CommandEmitterVisitor::Visit(const NullExpression* expression) {
-  std::string reg = AssemblyCommand::NewRegister();
+  std::string reg = AssemblyCommand::NewRegister(code_);
 
   code_.push_back(AssemblyCommand("mov " + reg + ", $0", {reg}));
 
@@ -226,7 +227,7 @@ void CommandEmitterVisitor::Visit(const LoadCommand* expression) {
   expr->Accept(this);
   std::string lastRegister = lastRegisterValue_;
 
-  std::string addressRegister = AssemblyCommand::NewRegister();
+  std::string addressRegister = AssemblyCommand::NewRegister(code_);
   code_.push_back(
       AssemblyCommand("mov " + addressRegister + ", " + lastRegister,
                       {addressRegister, lastRegister}));
@@ -252,7 +253,7 @@ void CommandEmitterVisitor::Visit(const StoreCommand* expression) {
   source->Accept(this);
   std::string sourceRegister = lastRegisterValue_;
 
-  std::string addressRegister = AssemblyCommand::NewRegister();
+  std::string addressRegister = AssemblyCommand::NewRegister(code_);
   code_.push_back(
       AssemblyCommand("mov " + addressRegister + ", " + destinationRegister,
                       {addressRegister, destinationRegister}));
